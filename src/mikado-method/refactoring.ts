@@ -1,6 +1,8 @@
 
-export type Refactoring = {
-    id: string
+// eslint-disable-next-line max-classes-per-file
+export class Refactoring {
+    constructor(private id: string) {
+    }
 }
 
 export interface Refactorings {
@@ -15,7 +17,7 @@ export class InMemoryRefactorings implements Refactorings {
 
     // eslint-disable-next-line class-methods-use-this
     get(id: string): Refactoring {
-        return {id};
+        return new Refactoring(id);
     }
 }
 
