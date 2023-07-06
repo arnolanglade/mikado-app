@@ -1,6 +1,20 @@
-import {InMemoryRefactorings, Refactoring, startRefactoring, UnknownRefactoring} from '@/mikado-method/refactoring';
+import {
+  InMemoryRefactorings,
+  Prerequisite,
+  Refactoring,
+  startRefactoring,
+  UnknownRefactoring
+} from '@/mikado-method/refactoring';
 
-const aRefactoring = (state: {id: string}) => new Refactoring(state.id)
+const aRefactoring = (state: Partial<{id: string, goal: string, prerequisites: Prerequisite[]}>) => {
+  const newState = {
+    id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+    goal: 'Refactor this class',
+    prerequisites: [],
+    ...state
+  }
+  return new Refactoring(newState.id, newState.goal, newState.prerequisites)
+}
 
 describe('Refactoring', () => {
   it('starts a refactoring', () => {

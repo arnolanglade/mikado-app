@@ -1,10 +1,16 @@
+// eslint-disable-next-line max-classes-per-file
+export class Prerequisite {
+
+}
 
 // eslint-disable-next-line max-classes-per-file
 export class Refactoring {
-    constructor(private id: string) {
-    }
+    constructor(
+        private id: string,
+        private goal: string,
+        private prerequisites: Prerequisite[] = []
+    ) {}
 
-    // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
     identifyBy(id: string): boolean {
         return id === this.id
     }
@@ -45,5 +51,5 @@ export type StartRefactoringProps = {
 }
 
 export const startRefactoring = (refactorings: Refactorings) => (startRefactoringProps: StartRefactoringProps) => {
-    refactorings.add(new Refactoring(startRefactoringProps.refactoringId))
+    refactorings.add(new Refactoring(startRefactoringProps.refactoringId, 'Refactor this class', []))
 };
