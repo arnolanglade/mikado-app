@@ -6,7 +6,7 @@ export class Refactoring {
 
     // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
     identifyBy(id: string): boolean {
-        return true
+        return id === this.id
     }
 }
 
