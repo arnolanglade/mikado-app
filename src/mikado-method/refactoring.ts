@@ -10,6 +10,9 @@ export class Refactoring {
     }
 }
 
+export class UnknownRefactoring extends Error {
+}
+
 export interface Refactorings {
     get(id: string): Refactoring
     add(refactoring: Refactoring): void
@@ -19,8 +22,14 @@ export class InMemoryRefactorings implements Refactorings {
     constructor(private refactorings: Refactoring[] = []) {}
 
     get(id: string): Refactoring {
-        return this.refactorings
-            .filter(refactoring => refactoring.identifyBy(id))[0];
+        const matchingRefactoring = this.refactorings
+            .filter(refactoring => refactoring.identifyBy(id));
+
+        if (matchingRefactoring.length !== 1) {
+            throw new UnknownRefactoring()
+        }
+
+        return matchingRefactoring[0]
     }
 
     add(refactoring: Refactoring): void {

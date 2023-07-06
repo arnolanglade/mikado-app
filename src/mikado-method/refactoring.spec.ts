@@ -1,4 +1,4 @@
-import {InMemoryRefactorings, Refactoring, startRefactoring} from '@/mikado-method/refactoring';
+import {InMemoryRefactorings, Refactoring, startRefactoring, UnknownRefactoring} from '@/mikado-method/refactoring';
 
 describe('Refactoring', () => {
   it('starts a refactoring', () => {
@@ -36,5 +36,13 @@ describe('Refactorings', () => {
 
     expect(refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
         .toEqual(new Refactoring('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'));
+  });
+
+  it('raises an error if the given id does not match an existing refactoring', () => {
+    const refactorings = new InMemoryRefactorings([new Refactoring('51bb1ce3-d1cf-4d32-9d10-8eea626f4784')]);
+
+
+    expect(() => refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
+        .toThrow(UnknownRefactoring);
   });
 });
