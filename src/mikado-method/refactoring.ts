@@ -19,18 +19,19 @@ export class InMemoryRefactorings implements Refactorings {
     constructor(private refactorings: Refactoring[] = []) {}
 
     get(id: string): Refactoring {
-        return new Refactoring(id);
+        return this.refactorings
+            .filter(refactoring => refactoring.identifyBy(id))[0];
     }
 
     add(refactoring: Refactoring): void {
-        this.refactorings = [...this.refactorings ,refactoring]
+        this.refactorings = [...this.refactorings, refactoring]
     }
 }
 
 export type StartRefactoringProps = {
+    refactoringId: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const startRefactoring = (refactoring: Refactorings) => (startRefactoringProps: StartRefactoringProps) => {
-
+export const startRefactoring = (refactorings: Refactorings) => (startRefactoringProps: StartRefactoringProps) => {
+    refactorings.add(new Refactoring(startRefactoringProps.refactoringId))
 };
