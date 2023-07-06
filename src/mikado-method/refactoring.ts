@@ -11,13 +11,14 @@ export interface Refactorings {
 }
 
 export class InMemoryRefactorings implements Refactorings {
-    // eslint-disable-next-line class-methods-use-this
+    constructor(private refactorings: Refactoring[] = []) {}
+
     get(id: string): Refactoring {
         return new Refactoring(id);
     }
 
-    // eslint-disable-next-line class-methods-use-this,@typescript-eslint/no-unused-vars
     add(refactoring: Refactoring): void {
+        this.refactorings = [...this.refactorings ,refactoring]
     }
 }
 
