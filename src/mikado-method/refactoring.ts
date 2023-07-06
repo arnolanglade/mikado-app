@@ -11,6 +11,9 @@ export class Refactoring {
 }
 
 export class UnknownRefactoring extends Error {
+    static fromId(id: string) {
+        return new UnknownRefactoring(`The refactoring with the id ${id} does not exist`)
+    }
 }
 
 export interface Refactorings {
@@ -26,7 +29,7 @@ export class InMemoryRefactorings implements Refactorings {
             .filter(refactoring => refactoring.identifyBy(id));
 
         if (matchingRefactoring.length !== 1) {
-            throw new UnknownRefactoring()
+            throw UnknownRefactoring.fromId(id)
         }
 
         return matchingRefactoring[0]

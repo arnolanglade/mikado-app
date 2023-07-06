@@ -43,6 +43,6 @@ describe('Refactorings', () => {
 
 
     expect(() => refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
-        .toThrow(UnknownRefactoring);
+        .toThrow(new UnknownRefactoring('The refactoring with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist'));
   });
 });
