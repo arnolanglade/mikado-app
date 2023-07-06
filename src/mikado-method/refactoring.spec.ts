@@ -19,10 +19,17 @@ const aRefactoring = (state: Partial<{id: string, goal: string, prerequisites: P
 describe('Refactoring', () => {
   it('starts a refactoring', () => {
     const refactorings = new InMemoryRefactorings();
-    startRefactoring(refactorings)({refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784'})
+    startRefactoring(refactorings)({
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: 'Rework that part'
+    })
 
     expect(refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
-        .toEqual(aRefactoring({id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784'}));
+        .toEqual(aRefactoring({
+          id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+          goal: 'Rework that part',
+          prerequisites: []
+        }));
   });
 });
 

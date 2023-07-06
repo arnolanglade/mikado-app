@@ -48,8 +48,9 @@ export class InMemoryRefactorings implements Refactorings {
 
 export type StartRefactoringProps = {
     refactoringId: string
+    goal: string
 }
 
 export const startRefactoring = (refactorings: Refactorings) => (startRefactoringProps: StartRefactoringProps) => {
-    refactorings.add(new Refactoring(startRefactoringProps.refactoringId, 'Refactor this class', []))
+    refactorings.add(new Refactoring(startRefactoringProps.refactoringId, startRefactoringProps.goal, []))
 };
