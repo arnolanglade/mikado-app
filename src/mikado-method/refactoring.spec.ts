@@ -16,7 +16,7 @@ const aRefactoring = (state: Partial<{id: string, goal: string, prerequisites: P
   return new Refactoring(newState.id, newState.goal, newState.prerequisites)
 }
 
-describe('Refactoring', () => {
+describe('Refactoring use cases', () => {
   it('starts a refactoring', () => {
     const refactorings = new InMemoryRefactorings();
     startRefactoring(refactorings)({
@@ -48,6 +48,16 @@ describe('Refactoring', () => {
       expect(refactoring.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
           .toEqual(false);
     });
+  });
+
+  it('builds a refactoring object without prerequisite when we start a refactoring', () => {
+    const refactoring = Refactoring.start('51bb1ce3-d1cf-4d32-9d10-8eea626f4784', 'Rework that part');
+
+    expect(refactoring).toEqual(aRefactoring({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: 'Rework that part',
+      prerequisites: []
+    }));
   });
 });
 

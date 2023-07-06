@@ -11,6 +11,10 @@ export class Refactoring {
         private prerequisites: Prerequisite[] = []
     ) {}
 
+    static start(id: string, goal: string) {
+        return new Refactoring(id, goal, [])
+    }
+
     identifyBy(id: string): boolean {
         return id === this.id
     }
@@ -52,5 +56,5 @@ export type StartRefactoringProps = {
 }
 
 export const startRefactoring = (refactorings: Refactorings) => (startRefactoringProps: StartRefactoringProps) => {
-    refactorings.add(new Refactoring(startRefactoringProps.refactoringId, startRefactoringProps.goal, []))
+    refactorings.add(Refactoring.start(startRefactoringProps.refactoringId, startRefactoringProps.goal))
 };
