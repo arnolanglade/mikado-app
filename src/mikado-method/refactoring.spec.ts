@@ -1,4 +1,5 @@
 import {
+  Goal,
   InMemoryRefactorings,
   Prerequisite,
   Refactoring,
@@ -30,6 +31,12 @@ describe('Refactoring use cases', () => {
           goal: 'Rework that part',
           prerequisites: []
         }));
+  });
+});
+
+describe('Goal', () => {
+  it('cannot build a gaol with an empty label', () => {
+    expect(() => new Goal('')).toThrow(new Error('The label goal cannot be empty'));
   });
 });
 

@@ -1,9 +1,14 @@
 // eslint-disable-next-line max-classes-per-file
-export class Prerequisite {
+export class Prerequisite {}
 
+export class Goal {
+    constructor(private goal: string) {
+        if (goal === '') {
+            throw new Error('The label goal cannot be empty')
+        }
+    }
 }
 
-// eslint-disable-next-line max-classes-per-file
 export class Refactoring {
     constructor(
         private id: string,
