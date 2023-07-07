@@ -12,12 +12,12 @@ export class Goal {
 export class Refactoring {
     constructor(
         private id: string,
-        private goal: string,
+        private goal: Goal,
         private prerequisites: Prerequisite[] = []
     ) {}
 
     static start(id: string, goal: string) {
-        return new Refactoring(id, goal, [])
+        return new Refactoring(id, new Goal(goal), [])
     }
 
     identifyBy(id: string): boolean {

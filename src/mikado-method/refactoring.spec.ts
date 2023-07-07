@@ -14,7 +14,7 @@ const aRefactoring = (state: Partial<{id: string, goal: string, prerequisites: P
     prerequisites: [],
     ...state
   }
-  return new Refactoring(newState.id, newState.goal, newState.prerequisites)
+  return new Refactoring(newState.id, new Goal(newState.goal), newState.prerequisites)
 }
 
 describe('Refactoring use cases', () => {
