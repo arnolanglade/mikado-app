@@ -18,7 +18,7 @@ const aRefactoring = (state: Partial<{id: string, goal: string, prerequisites: P
 }
 
 describe('Refactoring use cases', () => {
-  it('starts a refactoring', () => {
+  test('The developer starts a refactoring', () => {
     const refactorings = new InMemoryRefactorings();
     startRefactoring(refactorings)({
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
@@ -32,11 +32,16 @@ describe('Refactoring use cases', () => {
           prerequisites: []
         }));
   });
-});
 
-describe('Goal', () => {
-  it('cannot build a gaol with an empty label', () => {
-    expect(() => new Goal('')).toThrow(new Error('The label goal cannot be empty'));
+  test('The developer need to provide a goal to start a refactoring', () => {
+    const refactorings = new InMemoryRefactorings();
+
+    expect(() => {
+      startRefactoring(refactorings)({
+        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        goal: ''
+      })
+    }).toThrow(new Error('The label goal cannot be empty'));
   });
 });
 
