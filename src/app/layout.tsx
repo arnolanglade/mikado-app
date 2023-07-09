@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import { ServiceContainerProvider } from '@/app/lib/service-container/ServiceContainerContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,9 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ServiceContainerProvider>
-          {children}
-        </ServiceContainerProvider>
+        {children}
       </body>
     </html>
   );
