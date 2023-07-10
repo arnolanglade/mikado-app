@@ -1,29 +1,25 @@
 'use client';
 
-import React, { FormEvent, useRef } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
-import styles from './page.module.css';
 import { post } from '@/lib/http-client';
+import StartRefactoringForm from '@/refactoring/component/start-refactoring-form';
+import styles from './page.module.css';
 
 export default function StartRefactoring() {
   const router = useRouter();
-  const goalInput = useRef<HTMLInputElement>(null);
 
-  const startRefactoring = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const startRefactoring = async (goal: string) => {
     await post('/api/refactoring', {
-      goal: goalInput.current?.value,
+      goal,
     });
+
     router.push('/refactoring');
   };
 
   return (
     <div className={styles.dashboard}>
-      <form onSubmit={startRefactoring}>
-        <input required ref={goalInput} />
-        <button type="submit">Start refactoring</button>
-      </form>
+      <StartRefactoringForm onSubmit={startRefactoring} />
     </div>
   );
 }
