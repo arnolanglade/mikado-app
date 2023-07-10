@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.6
       - name: Install Vercel CLI
         run: pnpm install --global vercel@canary
       - name: Pull Vercel Environment Information
