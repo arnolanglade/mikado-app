@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.6.6
   run-test:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.6
       - name: Install dependencies
         run: pnpm install
       - name: Check lint issue
@@ -28,6 +28,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.6.6
       - name: Install Vercel CLI
         run: pnpm install --global vercel@canary
       - name: Pull Vercel Environment Information
