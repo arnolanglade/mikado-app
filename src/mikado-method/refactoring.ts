@@ -2,64 +2,64 @@
 export class Prerequisite {}
 
 export class Goal {
-    constructor(private goal: string) {
-        if (goal === '') {
-            throw new Error('The label goal cannot be empty')
-        }
+  constructor(private goal: string) {
+    if (goal === '') {
+      throw new Error('The label goal cannot be empty');
     }
+  }
 }
 
 export class Refactoring {
-    constructor(
-        private id: string,
-        private goal: Goal,
-        private prerequisites: Prerequisite[] = []
-    ) {}
+  constructor(
+    private id: string,
+    private goal: Goal,
+    private prerequisites: Prerequisite[] = [],
+  ) {}
 
-    static start(id: string, goal: string) {
-        return new Refactoring(id, new Goal(goal), [])
-    }
+  static start(id: string, goal: string) {
+    return new Refactoring(id, new Goal(goal), []);
+  }
 
-    identifyBy(id: string): boolean {
-        return id === this.id
-    }
+  identifyBy(id: string): boolean {
+    return id === this.id;
+  }
 }
 
 export class UnknownRefactoring extends Error {
-    static fromId(id: string) {
-        return new UnknownRefactoring(`The refactoring with the id ${id} does not exist`)
-    }
+  static fromId(id: string) {
+    return new UnknownRefactoring(`The refactoring with the id ${id} does not exist`);
+  }
 }
 
 export interface Refactorings {
-    get(id: string): Refactoring
-    add(refactoring: Refactoring): void
+  get(id: string): Refactoring
+  add(refactoring: Refactoring): void
 }
 
 export class InMemoryRefactorings implements Refactorings {
-    constructor(private refactorings: Refactoring[] = []) {}
+  constructor(private refactorings: Refactoring[] = []) {}
 
-    get(id: string): Refactoring {
-        const matchingRefactoring = this.refactorings
-            .filter(refactoring => refactoring.identifyBy(id));
+  get(id: string): Refactoring {
+    const matchingRefactoring = this.refactorings
+      .filter((refactoring) => refactoring.identifyBy(id));
 
-        if (matchingRefactoring.length !== 1) {
-            throw UnknownRefactoring.fromId(id)
-        }
-
-        return matchingRefactoring[0]
+    if (matchingRefactoring.length !== 1) {
+      throw UnknownRefactoring.fromId(id);
     }
 
-    add(refactoring: Refactoring): void {
-        this.refactorings = [...this.refactorings, refactoring]
-    }
+    return matchingRefactoring[0];
+  }
+
+  add(refactoring: Refactoring): void {
+    this.refactorings = [...this.refactorings, refactoring];
+  }
 }
 
 export type StartRefactoringProps = {
-    refactoringId: string
-    goal: string
-}
+  refactoringId: string
+  goal: string
+};
 
 export const startRefactoring = (refactorings: Refactorings) => (startRefactoringProps: StartRefactoringProps) => {
-    refactorings.add(Refactoring.start(startRefactoringProps.refactoringId, startRefactoringProps.goal))
+  refactorings.add(Refactoring.start(startRefactoringProps.refactoringId, startRefactoringProps.goal));
 };
