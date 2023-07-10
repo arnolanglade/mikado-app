@@ -2,26 +2,10 @@
 
 import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
-import { container, ServiceContainerProvider } from '@/lib/service-container-context';
-import { ReactElement } from 'react';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { HttpClient } from '@/lib/http-client';
-
-const aServiceContainer = (services: Partial<typeof container> = {}): typeof container => ({
-  ...container,
-  ...services,
-});
-
-const createWrapper = (serviceContainer: Partial<typeof container> = {}) => function Wrapper(
-  { children }: { children: ReactElement },
-) {
-  return (
-    <ServiceContainerProvider overriddenContainer={aServiceContainer(serviceContainer)}>
-      {children}
-    </ServiceContainerProvider>
-  );
-};
+import { createWrapper } from '@/lib/test-utils';
 
 describe('useRefactoring', () => {
   test('The developer starts a refactoring', async () => {
