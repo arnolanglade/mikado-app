@@ -3,6 +3,7 @@
 import React, { FormEvent, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
+import { post } from '@/lib/http-client';
 
 export default function StartRefactoring() {
   const router = useRouter();
@@ -11,15 +12,8 @@ export default function StartRefactoring() {
   const startRefactoring = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await fetch('/api/refactoring', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        goal: goalInput.current?.value,
-      }),
+    await post('/api/refactoring', {
+      goal: goalInput.current?.value,
     });
     router.push('/refactoring');
   };
