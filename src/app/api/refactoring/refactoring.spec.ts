@@ -2,10 +2,10 @@ import {
   Goal,
   InMemoryRefactorings,
   Prerequisite,
-  Refactoring,
   startRefactoring,
   UnknownRefactoring,
-} from '@/mikado-method/refactoring';
+  Refactoring,
+} from '@/app/api/refactoring/refactoring';
 
 const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: Prerequisite[] }>) => {
   const newState = {
