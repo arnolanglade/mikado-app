@@ -1,4 +1,4 @@
-name: Production Deployment
+name: Production deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -14,11 +14,11 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8.6.6
-      - name: install dependencies
+      - name: Install dependencies
         run: pnpm install
-      - name: Run lint check
+      - name: Check lint issues
         run: pnpm lint
-      - name: Run unit test
+      - name: Run unit tests
         run: pnpm test
       - name: Install Vercel CLI
         run: pnpm install --global vercel@canary
