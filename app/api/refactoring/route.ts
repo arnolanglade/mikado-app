@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { InMemoryRefactorings, startRefactoring } from '@/mikado-method/refactoring';
 import { v4 as uuidv4 } from 'uuid';
+import { InMemoryRefactorings, startRefactoring } from '@/api/refactoring/refactoring';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {
