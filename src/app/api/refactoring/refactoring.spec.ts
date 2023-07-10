@@ -5,7 +5,7 @@ import {
   startRefactoring,
   UnknownRefactoring,
   Refactoring,
-} from '@/app/api/refactoring/refactoring';
+} from '@/api/refactoring/refactoring';
 
 const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: Prerequisite[] }>) => {
   const newState = {
