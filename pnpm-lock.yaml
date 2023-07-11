@@ -8,6 +8,9 @@ dependencies:
   '@vercel/analytics':
     specifier: ^1.0.1
     version: 1.0.1
+  intl-messageformat:
+    specifier: ^10.5.0
+    version: 10.5.0
   next:
     specifier: 13.4.8
     version: 13.4.8(@babel/core@7.22.6)(react-dom@18.2.0)(react@18.2.0)
