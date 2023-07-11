@@ -3,7 +3,7 @@ import {
   render, renderHook, screen, act,
 } from '@testing-library/react';
 import { Translation, useIntl } from '@/lib/i18n/intl-provider';
-import { createWrapper } from '@/lib/test-utils';
+import { createWrapper } from '@/test/test-utils';
 
 describe('Intl module', () => {
   it('switches translations depending on a given locale', () => {

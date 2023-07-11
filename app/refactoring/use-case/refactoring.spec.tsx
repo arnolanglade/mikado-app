@@ -3,24 +3,8 @@
 import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import { jest } from '@jest/globals';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import httpClient, { HttpClient } from '@/lib/http-client';
-import { createWrapper } from '@/lib/test-utils';
-
-const aHttpClient = (client: Partial<HttpClient>): HttpClient => ({
-  post: jest.fn() as jest.Mocked<typeof httpClient.post>,
-  get: jest.fn() as jest.Mocked<typeof httpClient.get>,
-  ...client,
-});
-const aRouter = (router: Partial<AppRouterInstance>): AppRouterInstance => ({
-  back: jest.fn(),
-  forward: jest.fn(),
-  refresh: jest.fn(),
-  push: jest.fn(),
-  replace: jest.fn(),
-  prefetch: jest.fn(),
-  ...router,
-});
+import httpClient from '@/lib/http-client';
+import { aHttpClient, aRouter, createWrapper } from '@/test/test-utils';
 
 describe('useRefactoring', () => {
   test('The developer starts a refactoring', async () => {
