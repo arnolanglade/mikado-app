@@ -27,9 +27,14 @@ describe('useRefactoring', () => {
   test('The developer is notified when the refactoring starts', async () => {
     const success = jest.fn();
     const { result } = renderHook(useRefactoring, {
-      wrapper: createWrapper({
-        httpClient: aHttpClient(), useRouter: aRouter(), useNotification: aNotifier({ success }),
-      }),
+      wrapper: createWrapper(
+        {
+          httpClient: aHttpClient(), useRouter: aRouter(), useNotification: aNotifier({ success }),
+        },
+        {
+          'refactoring.notification.success': 'The refactoring has been started',
+        },
+      ),
     });
 
     await act(() => result.current.startRefactoring('Refactor method'));
