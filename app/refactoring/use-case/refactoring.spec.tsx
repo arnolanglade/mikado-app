@@ -7,12 +7,12 @@ import httpClient from '@/lib/http-client';
 import { aHttpClient, aRouter, createWrapper } from '@/test/test-utils';
 
 describe('useRefactoring', () => {
-  test('The developer starts a refactoring', async () => {
+  test('The developer provide a goal to start a refactoring', async () => {
     const post = jest.fn() as jest.Mocked<typeof httpClient.post>;
     const push = jest.fn();
     const { result } = renderHook(useRefactoring, {
       wrapper: createWrapper({
-        httpClient: (aHttpClient({ post })), useRouter: () => (aRouter({ push })),
+        httpClient: aHttpClient({ post }), useRouter: aRouter({ push }),
       }),
     });
 
