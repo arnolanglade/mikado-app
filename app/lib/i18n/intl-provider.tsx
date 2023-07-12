@@ -13,10 +13,14 @@ export type Translations = Record<string, string>;
 const translationEn: Translations = {
   test: 'test en',
   'refactoring.start': 'Start refactoring',
+  'refactoring.notification.error': 'Something went wrong',
+  'refactoring.notification.success': 'The refactoring has been started',
 };
 const translationFr: Translations = {
   test: 'test fr',
   'refactoring.start': 'Start refactoring',
+  'refactoring.notification.error': 'Something went wrong',
+  'refactoring.notification.success': 'The refactoring has been started',
 };
 
 type HookValues = Record<string, string | FormatXMLElementFn<string, string>>;
