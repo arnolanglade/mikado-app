@@ -4,7 +4,9 @@ import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import { jest } from '@jest/globals';
 import httpClient from '@/lib/http-client';
-import { aHttpClient, aRouter, createWrapper } from '@/test/test-utils';
+import {
+  aHttpClient, aNotifier, aRouter, createWrapper,
+} from '@/test/test-utils';
 
 describe('useRefactoring', () => {
   test('The developer provide a goal to start a refactoring', async () => {
@@ -20,5 +22,18 @@ describe('useRefactoring', () => {
 
     expect(post).toHaveBeenCalledWith('/api/refactoring', { goal: 'Refactor method' });
     expect(push).toHaveBeenCalledWith('/refactoring');
+  });
+
+  test('The developer is notified when the refactoring starts', async () => {
+    const success = jest.fn();
+    const { result } = renderHook(useRefactoring, {
+      wrapper: createWrapper({
+        httpClient: aHttpClient(), useRouter: aRouter(), useNotification: aNotifier({ success }),
+      }),
+    });
+
+    await act(() => result.current.startRefactoring('Refactor method'));
+
+    expect(success).toHaveBeenCalledWith('The refactoring has been started');
   });
 });

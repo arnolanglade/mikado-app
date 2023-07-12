@@ -5,6 +5,7 @@ import httpClient, { HttpClient } from '@/lib/http-client';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import AppRouter from 'next/dist/client/components/app-router';
+import { UseNotification } from '@/lib/notification';
 
 const aServiceContainer = (services: Partial<typeof container> = {}): typeof container => ({
   ...container,
@@ -26,11 +27,13 @@ export const createWrapper = (
 
   );
 };
+
 export const aHttpClient = (client: Partial<HttpClient> = {}): HttpClient => ({
   post: jest.fn() as jest.Mocked<typeof httpClient.post>,
   get: jest.fn() as jest.Mocked<typeof httpClient.get>,
   ...client,
 });
+
 export const aRouter = (router: Partial<AppRouterInstance> = {}) => (): AppRouterInstance => ({
   back: jest.fn(),
   forward: jest.fn(),
@@ -39,4 +42,10 @@ export const aRouter = (router: Partial<AppRouterInstance> = {}) => (): AppRoute
   replace: jest.fn(),
   prefetch: jest.fn(),
   ...router,
+});
+
+export const aNotifier = (notifier: Partial<UseNotification> = {}) => (): UseNotification => ({
+  success: jest.fn(),
+  error: jest.fn(),
+  ...notifier,
 });

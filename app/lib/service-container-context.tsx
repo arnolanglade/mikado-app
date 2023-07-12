@@ -6,15 +6,18 @@ import React, {
 import httpClient, { HttpClient } from '@/lib/http-client';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useRouter } from 'next/navigation';
+import { useNotification, UseNotificationHook } from '@/lib/notification';
 
 export type ServiceContainer = {
   httpClient: HttpClient,
   useRouter: () => AppRouterInstance
+  useNotification: UseNotificationHook
 };
 
 export const container: ServiceContainer = {
   httpClient,
   useRouter,
+  useNotification,
 };
 
 export const ServiceContainerContext = createContext<ServiceContainer>({} as ServiceContainer);
