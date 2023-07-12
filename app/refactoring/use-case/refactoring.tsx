@@ -10,12 +10,16 @@ export default function useRefactoring() {
   const { translation } = useIntl();
 
   const startRefactoring = async (goal: string) => {
-    await post('/api/refactoring', {
-      goal,
-    });
+    try {
+      await post('/api/refactoring', {
+        goal,
+      });
 
-    notifier.success(translation('refactoring.notification.success'));
-    router.push('/refactoring');
+      notifier.success(translation('refactoring.notification.success'));
+      router.push('/refactoring');
+    } catch (e) {
+      notifier.error(translation('refactoring.notification.error'));
+    }
   };
 
   return {

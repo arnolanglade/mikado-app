@@ -15,7 +15,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            httpClient: aHttpClient({ post }), useRouter: aRouter(),
+            httpClient: aHttpClient({ post }),
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -33,7 +33,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            httpClient: aHttpClient(), useRouter: aRouter({ push }),
+            useRouter: aRouter({ push }),
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -51,7 +51,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            httpClient: aHttpClient(), useRouter: aRouter(), useNotification: aNotifier({ success }),
+            useNotification: aNotifier({ success }),
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -62,6 +62,24 @@ describe('useRefactoring', () => {
       await act(() => result.current.startRefactoring('Refactor method'));
 
       expect(success).toHaveBeenCalledWith('The refactoring has been started');
+    });
+
+    test('The developer is notified that something went wrong', async () => {
+      const error = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            httpClient: aHttpClient({ post: () => { throw Error(); } }), useNotification: aNotifier({ error }),
+          },
+          {
+            'refactoring.notification.error': 'Something went wrong',
+          },
+        ),
+      });
+
+      await act(() => result.current.startRefactoring('Refactor method'));
+
+      expect(error).toHaveBeenCalledWith('Something went wrong');
     });
   });
 });
