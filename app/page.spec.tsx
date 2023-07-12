@@ -9,9 +9,12 @@ describe('StartRefactoring', () => {
   test('The developer provide a goal to start a refactoring', async () => {
     const push = jest.fn();
     render(<StartRefactoring />, {
-      wrapper: createWrapper({
-        httpClient: aHttpClient(), useRouter: aRouter({ push }),
-      }),
+      wrapper: createWrapper(
+        {
+          httpClient: aHttpClient(), useRouter: aRouter({ push }),
+        },
+        { 'refactoring.start': 'Start refactoring' },
+      ),
     });
 
     await userEvent.type(screen.getByRole('textbox'), 'Refactor method');
