@@ -12,11 +12,15 @@ describe('useRefactoring', () => {
   describe('start refactoring', () => {
     test('The goal of the refactoring is saved', async () => {
       const post = jest.fn() as jest.Mocked<typeof httpClient.post>;
-      const push = jest.fn();
       const { result } = renderHook(useRefactoring, {
-        wrapper: createWrapper({
-          httpClient: aHttpClient({ post }), useRouter: aRouter({ push }),
-        }),
+        wrapper: createWrapper(
+          {
+            httpClient: aHttpClient({ post }), useRouter: aRouter(),
+          },
+          {
+            'refactoring.notification.success': 'The refactoring has been started',
+          },
+        ),
       });
 
       await act(() => result.current.startRefactoring('Refactor method'));
@@ -25,17 +29,20 @@ describe('useRefactoring', () => {
     });
 
     test('The developer is redirected to the refactoring page', async () => {
-      const post = jest.fn() as jest.Mocked<typeof httpClient.post>;
       const push = jest.fn();
       const { result } = renderHook(useRefactoring, {
-        wrapper: createWrapper({
-          httpClient: aHttpClient({ post }), useRouter: aRouter({ push }),
-        }),
+        wrapper: createWrapper(
+          {
+            httpClient: aHttpClient(), useRouter: aRouter({ push }),
+          },
+          {
+            'refactoring.notification.success': 'The refactoring has been started',
+          },
+        ),
       });
 
       await act(() => result.current.startRefactoring('Refactor method'));
 
-      expect(post).toHaveBeenCalledWith('/api/refactoring', { goal: 'Refactor method' });
       expect(push).toHaveBeenCalledWith('/refactoring');
     });
 

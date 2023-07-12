@@ -13,7 +13,10 @@ describe('StartRefactoring', () => {
         {
           httpClient: aHttpClient(), useRouter: aRouter({ push }),
         },
-        { 'refactoring.start': 'Start refactoring' },
+        {
+          'refactoring.start': 'Start refactoring',
+          'refactoring.notification.success': 'The refactoring has been started',
+        },
       ),
     });
 
