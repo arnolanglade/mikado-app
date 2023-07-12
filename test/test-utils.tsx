@@ -31,6 +31,7 @@ export const aNotifier = (notifier: Partial<UseNotification> = {}) => (): UseNot
 const aServiceContainer = (services: Partial<typeof container> = {}): typeof container => ({
   ...container,
   useRouter: aRouter(),
+  httpClient: aHttpClient(),
   ...services,
 });
 
