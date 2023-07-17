@@ -11,7 +11,11 @@ export class Goal {
     return this.goal;
   }
 }
-
+type RefactoringGraph = {
+  id: string,
+  goal: string,
+  prerequisites: Prerequisite[],
+};
 export class Refactoring {
   constructor(
     private id: string,
@@ -27,7 +31,7 @@ export class Refactoring {
     return id === this.id;
   }
 
-  render() {
+  render(): RefactoringGraph {
     return {
       id: this.id,
       goal: this.goal.toString(),
@@ -43,14 +47,14 @@ export class UnknownRefactoring extends Error {
 }
 
 export interface Refactorings {
-  get(id: string): Refactoring
+  get(id: string): Promise<Refactoring>
   add(refactoring: Refactoring): void
 }
 
 export class InMemoryRefactorings implements Refactorings {
   constructor(private refactorings: Refactoring[] = []) {}
 
-  get(id: string): Refactoring {
+  async get(id: string): Promise<Refactoring> {
     const matchingRefactoring = this.refactorings
       .filter((refactoring) => refactoring.identifyBy(id));
 
@@ -78,3 +82,10 @@ export const handleStartRefactoring = (refactorings: Refactorings) => (input: St
 };
 
 export const startRefactoring = handleStartRefactoring(inMemoryRefactoring);
+
+export const handleGetRefactoringById = (refactorings: Refactorings) => async (refactoringId: string): Promise<RefactoringGraph> => {
+  const refactoring = await refactorings.get(refactoringId);
+  return refactoring.render();
+};
+
+export const getRefactoringById = handleGetRefactoringById(inMemoryRefactoring);

@@ -1,10 +1,6 @@
 import {
-  Goal,
-  InMemoryRefactorings,
-  Prerequisite,
-  handleStartRefactoring,
-  UnknownRefactoring,
-  Refactoring,
+  Goal, InMemoryRefactorings, Prerequisite, UnknownRefactoring, Refactoring,
+  handleStartRefactoring, handleGetRefactoringById,
 } from '@/api/refactoring/refactoring';
 
 const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: Prerequisite[] }>) => {
@@ -18,14 +14,14 @@ const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: 
 };
 
 describe('Refactoring use cases', () => {
-  test('The developer starts a refactoring', () => {
+  test('The developer starts a refactoring', async () => {
     const refactorings = new InMemoryRefactorings();
     handleStartRefactoring(refactorings)({
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
     });
 
-    expect(refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'Rework that part',
@@ -42,6 +38,22 @@ describe('Refactoring use cases', () => {
         goal: '',
       });
     }).toThrow(new Error('The label goal cannot be empty'));
+  });
+
+  test('The developer get the refactoring information thanks to the id', async () => {
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: 'Rework that part',
+      prerequisites: [],
+    })]);
+
+    const getRefactoringById = handleGetRefactoringById(refactorings);
+
+    expect(await getRefactoringById('51bb1ce3-d1cf-4d32-9d10-8eea626f4784')).toEqual({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: 'Rework that part',
+      prerequisites: [],
+    });
   });
 });
 
