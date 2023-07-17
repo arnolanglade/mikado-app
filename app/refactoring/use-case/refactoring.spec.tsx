@@ -3,19 +3,21 @@
 import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import { jest } from '@jest/globals';
-import httpClient from '@/lib/http-client';
 import {
-  aHttpClient, aNotifier, aRouter, createWrapper,
+  aNotifier, aRouter, createWrapper,
 } from '@/test/test-utils';
+import refactoringApi from '@/refactoring/refactoring';
 
 describe('useRefactoring', () => {
   describe('start refactoring', () => {
     test('The goal of the refactoring is saved', async () => {
-      const post = jest.fn() as jest.Mocked<typeof httpClient.post>;
+      const start = jest.fn() as jest.Mocked<typeof refactoringApi.start>;
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            httpClient: aHttpClient({ post }),
+            refactoringApi: {
+              start,
+            },
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -25,7 +27,7 @@ describe('useRefactoring', () => {
 
       await act(() => result.current.startRefactoring('Refactor method'));
 
-      expect(post).toHaveBeenCalledWith('/api/refactoring', { goal: 'Refactor method' });
+      expect(start).toHaveBeenCalledWith('Refactor method');
     });
 
     test('The developer is redirected to the refactoring page', async () => {
@@ -34,6 +36,9 @@ describe('useRefactoring', () => {
         wrapper: createWrapper(
           {
             useRouter: aRouter({ push }),
+            refactoringApi: {
+              start: async () => '86be6200-1303-48dc-9403-fe497186a0e4',
+            },
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -43,7 +48,7 @@ describe('useRefactoring', () => {
 
       await act(() => result.current.startRefactoring('Refactor method'));
 
-      expect(push).toHaveBeenCalledWith('/refactoring');
+      expect(push).toHaveBeenCalledWith('/refactoring/86be6200-1303-48dc-9403-fe497186a0e4');
     });
 
     test('The developer is notified that everything went well', async () => {
@@ -51,6 +56,9 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
+            refactoringApi: {
+              start: async () => '86be6200-1303-48dc-9403-fe497186a0e4',
+            },
             useNotification: aNotifier({ success }),
           },
           {
@@ -69,7 +77,12 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            httpClient: aHttpClient({ post: () => { throw Error(); } }), useNotification: aNotifier({ error }),
+            refactoringApi: {
+              start: async () => {
+                throw Error();
+              },
+            },
+            useNotification: aNotifier({ error }),
           },
           {
             'refactoring.notification.error': 'Something went wrong',

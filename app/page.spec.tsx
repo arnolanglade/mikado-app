@@ -2,16 +2,19 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import StartRefactoring from '@/page';
-import { aHttpClient, aRouter, createWrapper } from '@/test/test-utils';
+import { aRouter, createWrapper } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 
-describe('StartRefactoring', () => {
-  test('The developer provide a goal to start a refactoring', async () => {
+describe('StartRefactoring Page', () => {
+  test('The developer provides a goal to start a refactoring', async () => {
     const push = jest.fn();
     render(<StartRefactoring />, {
       wrapper: createWrapper(
         {
-          httpClient: aHttpClient(), useRouter: aRouter({ push }),
+          refactoringApi: {
+            start: async () => '86be6200-1303-48dc-9403-fe497186a0e4',
+          },
+          useRouter: aRouter({ push }),
         },
         {
           'refactoring.start': 'Start refactoring',
@@ -23,6 +26,6 @@ describe('StartRefactoring', () => {
     await userEvent.type(screen.getByRole('textbox'), 'Refactor method');
     await userEvent.click(screen.getByText('Start refactoring'));
 
-    expect(push).toHaveBeenCalledWith('/refactoring');
+    expect(push).toHaveBeenCalledWith('/refactoring/86be6200-1303-48dc-9403-fe497186a0e4');
   });
 });
