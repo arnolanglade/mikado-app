@@ -40,7 +40,7 @@ export class Refactoring {
   }
 
   addPrerequisite(label: string) {
-    this.prerequisites = [...this.prerequisites, { label: 'Change that' }];
+    this.prerequisites = [...this.prerequisites, { label }];
   }
 
   render(): RefactoringGraph {
