@@ -48,7 +48,7 @@ export class UnknownRefactoring extends Error {
 
 export interface Refactorings {
   get(id: string): Promise<Refactoring>
-  add(refactoring: Refactoring): void
+  add(refactoring: Refactoring): Promise<void>
 }
 
 export class InMemoryRefactorings implements Refactorings {
@@ -65,7 +65,7 @@ export class InMemoryRefactorings implements Refactorings {
     return matchingRefactoring[0];
   }
 
-  add(refactoring: Refactoring): void {
+  async add(refactoring: Refactoring): Promise<void> {
     this.refactorings = [...this.refactorings, refactoring];
   }
 }
@@ -77,8 +77,8 @@ export type StartRefactoring = {
   goal: string
 };
 
-export const handleStartRefactoring = (refactorings: Refactorings) => (input: StartRefactoring) => {
-  refactorings.add(Refactoring.start(input.refactoringId, input.goal));
+export const handleStartRefactoring = (refactorings: Refactorings) => async (input: StartRefactoring) => {
+  await refactorings.add(Refactoring.start(input.refactoringId, input.goal));
 };
 
 export const startRefactoring = handleStartRefactoring(inMemoryRefactoring);

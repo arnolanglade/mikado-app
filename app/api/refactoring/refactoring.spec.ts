@@ -104,7 +104,7 @@ describe('Refactorings', () => {
   it('persists a refactoring', async () => {
     const refactorings = new InMemoryRefactorings();
 
-    refactorings.add(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
+    await refactorings.add(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));

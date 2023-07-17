@@ -6,6 +6,6 @@ import { startRefactoring } from '@/api/refactoring/refactoring';
 export async function POST(request: NextRequest) {
   const userInput = await request.json();
   const refactoringId = uuidv4();
-  startRefactoring({ ...userInput, refactoringId });
+  await startRefactoring({ ...userInput, refactoringId });
   return NextResponse.json({ refactoringId });
 }
