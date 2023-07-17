@@ -2,7 +2,7 @@ import {
   Goal,
   InMemoryRefactorings,
   Prerequisite,
-  startRefactoring,
+  handleStartRefactoring,
   UnknownRefactoring,
   Refactoring,
 } from '@/api/refactoring/refactoring';
@@ -20,7 +20,7 @@ const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', () => {
     const refactorings = new InMemoryRefactorings();
-    startRefactoring(refactorings)({
+    handleStartRefactoring(refactorings)({
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
     });
@@ -37,7 +37,7 @@ describe('Refactoring use cases', () => {
     const refactorings = new InMemoryRefactorings();
 
     expect(() => {
-      startRefactoring(refactorings)({
+      handleStartRefactoring(refactorings)({
         refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: '',
       });
