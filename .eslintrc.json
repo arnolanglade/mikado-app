@@ -8,6 +8,7 @@
   },
   "rules": {
     "max-len": ["error", { "code": 130 }],
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "max-classes-per-file": "off"
   }
 }
