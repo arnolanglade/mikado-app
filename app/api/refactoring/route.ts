@@ -5,6 +5,7 @@ import { InMemoryRefactorings, startRefactoring } from '@/api/refactoring/refact
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {
   const userInput = await request.json();
-  startRefactoring(new InMemoryRefactorings())({ ...userInput, refactoringId: uuidv4() });
-  return NextResponse.json({ status: 'success' });
+  const refactoringId = uuidv4();
+  startRefactoring(new InMemoryRefactorings())({ ...userInput, refactoringId });
+  return NextResponse.json({ refactoringId });
 }
