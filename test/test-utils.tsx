@@ -4,6 +4,12 @@ import IntlProvider, { Translations } from '@/lib/i18n/intl-provider';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
+import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
+
+export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
+  start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
+  ...api,
+});
 
 export const aRouter = (router: Partial<AppRouterInstance> = {}) => (): AppRouterInstance => ({
   back: jest.fn(),

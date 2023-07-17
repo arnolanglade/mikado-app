@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import { jest } from '@jest/globals';
 import {
-  aNotifier, aRouter, createWrapper,
+  aNotifier, aRefactoringApi, aRouter, createWrapper,
 } from '@/test/test-utils';
 import refactoringApi from '@/refactoring/refactoring';
 
@@ -15,9 +15,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: {
-              start,
-            },
+            refactoringApi: aRefactoringApi({ start }),
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -36,9 +34,7 @@ describe('useRefactoring', () => {
         wrapper: createWrapper(
           {
             useRouter: aRouter({ push }),
-            refactoringApi: {
-              start: async () => '86be6200-1303-48dc-9403-fe497186a0e4',
-            },
+            refactoringApi: aRefactoringApi({ start: async () => '86be6200-1303-48dc-9403-fe497186a0e4' }),
           },
           {
             'refactoring.notification.success': 'The refactoring has been started',
@@ -56,9 +52,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: {
-              start: async () => '86be6200-1303-48dc-9403-fe497186a0e4',
-            },
+            refactoringApi: aRefactoringApi({ start: async () => '86be6200-1303-48dc-9403-fe497186a0e4' }),
             useNotification: aNotifier({ success }),
           },
           {
@@ -77,11 +71,11 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: {
+            refactoringApi: aRefactoringApi({
               start: async () => {
                 throw Error();
               },
-            },
+            }),
             useNotification: aNotifier({ error }),
           },
           {
