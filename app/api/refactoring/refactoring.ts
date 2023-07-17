@@ -46,6 +46,7 @@ export class UnknownRefactoring extends Error {
   }
 }
 
+// Todo: Export for the frontend, do we need to duplicate?
 export interface Refactorings {
   get(id: string): Promise<Refactoring>
   add(refactoring: Refactoring): Promise<void>
@@ -70,7 +71,8 @@ export class InMemoryRefactorings implements Refactorings {
   }
 }
 
-const inMemoryRefactoring = new InMemoryRefactorings();
+// Todo: Export for the testing purpose
+export const inMemoryRefactoring = new InMemoryRefactorings();
 
 export type StartRefactoring = {
   refactoringId: string
