@@ -9,6 +9,7 @@ import { Goal, Prerequisite, Refactoring } from '@/api/refactoring/refactoring';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
+  addPrerequisite: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisite>,
   ...api,
 });
 
