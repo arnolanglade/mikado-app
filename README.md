@@ -4,7 +4,10 @@ First, install the project:
 
 ```bash
 git clone git@github.com:arnolanglade/mikado-method.git
+
+volta setup
 pnpm setup
+pnpm install
 ```
 
 Then, run the development server:
