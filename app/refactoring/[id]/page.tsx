@@ -7,11 +7,9 @@ export default async function Refactoring({ params: { id } }: { params: { id: st
 
   return (
     <div className={styles.dashboard}>
-      The refactoring
-      {' '}
-      { refactoring.goal }
-      {' '}
-      has started!
+      <div className={styles.refactoringGoal}>
+        { refactoring.goal }
+      </div>
     </div>
   );
 }

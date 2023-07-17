@@ -4,3 +4,8 @@
     justify-content: center;
     height: 100vh;
 }
+
+.refactoringGoal {
+    border: 1px solid #000000;
+    padding: 10px;
+}
