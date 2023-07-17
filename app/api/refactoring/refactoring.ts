@@ -107,6 +107,8 @@ export const handleStartRefactoring = (refactorings: Refactorings) => async (inp
   await refactorings.add(Refactoring.start(input.refactoringId, input.goal));
 };
 
+export const startRefactoring = handleStartRefactoring(inMemoryRefactoring);
+
 export type AddPrerequisiteToRefactoring = {
   prerequisiteId: string
   refactoringId: string
@@ -119,7 +121,7 @@ export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) =
   await refactorings.add(refactoring);
 };
 
-export const startRefactoring = handleStartRefactoring(inMemoryRefactoring);
+export const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(inMemoryRefactoring);
 
 export const handleGetRefactoringById = (refactorings: Refactorings) => async (refactoringId: string): Promise<RefactoringGraph> => {
   const refactoring = await refactorings.get(refactoringId);
