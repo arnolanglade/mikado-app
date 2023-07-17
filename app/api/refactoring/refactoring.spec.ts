@@ -40,7 +40,7 @@ describe('Refactoring use cases', () => {
     await handleAddPrerequisiteToRefactoring(refactorings)({
       prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-      prerequisite: 'Change that',
+      label: 'Change that',
     });
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))

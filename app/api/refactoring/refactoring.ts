@@ -110,12 +110,12 @@ export const handleStartRefactoring = (refactorings: Refactorings) => async (inp
 export type AddPrerequisiteToRefactoring = {
   prerequisiteId: string
   refactoringId: string
-  prerequisite: string
+  label: string
 };
 
 export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) => async (input: AddPrerequisiteToRefactoring) => {
   const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.addPrerequisite(input.prerequisiteId, input.prerequisite);
+  refactoring.addPrerequisite(input.prerequisiteId, input.label);
   refactorings.add(refactoring);
 };
 
