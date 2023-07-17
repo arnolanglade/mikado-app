@@ -71,6 +71,21 @@ describe('Refactoring', () => {
       prerequisites: [],
     }));
   });
+
+  it('turns a refactoring into a format used by the UI to render it', () => {
+    const refactoring = aRefactoring({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: 'My goal',
+      prerequisites: [],
+    });
+
+    expect(refactoring.render())
+      .toEqual({
+        id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        goal: 'My goal',
+        prerequisites: [],
+      });
+  });
 });
 
 describe('Refactorings', () => {

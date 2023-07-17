@@ -6,6 +6,10 @@ export class Goal {
       throw new Error('The label goal cannot be empty');
     }
   }
+
+  toString() {
+    return this.goal;
+  }
 }
 
 export class Refactoring {
@@ -21,6 +25,14 @@ export class Refactoring {
 
   identifyBy(id: string): boolean {
     return id === this.id;
+  }
+
+  render() {
+    return {
+      id: this.id,
+      goal: this.goal.toString(),
+      prerequisites: this.prerequisites,
+    };
   }
 }
 
