@@ -38,6 +38,7 @@ describe('Refactoring use cases', () => {
     })]);
 
     await handleAddPrerequisiteToRefactoring(refactorings)({
+      prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       prerequisite: 'Change that',
     });
@@ -45,7 +46,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-        prerequisites: [{ label: 'Change that' }],
+        prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that' }],
       }));
   });
 
@@ -67,6 +68,16 @@ describe('Refactoring use cases', () => {
 });
 
 describe('Refactoring', () => {
+  it('builds a refactoring object without prerequisite when we start a refactoring', () => {
+    const refactoring = Refactoring.start('51bb1ce3-d1cf-4d32-9d10-8eea626f4784', 'Rework that part');
+
+    expect(refactoring).toEqual(aRefactoring({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: 'Rework that part',
+      prerequisites: [],
+    }));
+  });
+
   describe('identifyBy', () => {
     it('says yes if the given id match the refactoring id', () => {
       const refactoring = aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
@@ -99,13 +110,15 @@ describe('Refactoring', () => {
     });
   });
 
-  it('builds a refactoring object without prerequisite when we start a refactoring', () => {
-    const refactoring = Refactoring.start('51bb1ce3-d1cf-4d32-9d10-8eea626f4784', 'Rework that part');
+  it('adds a prerequisite to a refactoring', () => {
+    const refactoring = aRefactoring({
+      prerequisites: [],
+    });
+
+    refactoring.addPrerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
 
     expect(refactoring).toEqual(aRefactoring({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-      goal: 'Rework that part',
-      prerequisites: [],
+      prerequisites: [{ prerequisiteId: '608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that' }],
     }));
   });
 

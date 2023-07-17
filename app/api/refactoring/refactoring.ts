@@ -1,4 +1,5 @@
 export type Prerequisite = {
+  prerequisiteId: string
   label: string
 };
 
@@ -39,8 +40,8 @@ export class Refactoring {
     return refactoring.id === this.id;
   }
 
-  addPrerequisite(label: string) {
-    this.prerequisites = [...this.prerequisites, { label }];
+  addPrerequisite(prerequisiteId: string, label: string) {
+    this.prerequisites = [...this.prerequisites, { prerequisiteId, label }];
   }
 
   render(): RefactoringGraph {
@@ -107,13 +108,14 @@ export const handleStartRefactoring = (refactorings: Refactorings) => async (inp
 };
 
 export type AddPrerequisiteToRefactoring = {
+  prerequisiteId: string
   refactoringId: string
   prerequisite: string
 };
 
 export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) => async (input: AddPrerequisiteToRefactoring) => {
   const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.addPrerequisite(input.prerequisite);
+  refactoring.addPrerequisite(input.prerequisiteId, input.prerequisite);
   refactorings.add(refactoring);
 };
 
