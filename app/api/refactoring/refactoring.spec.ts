@@ -101,19 +101,19 @@ describe('Refactoring', () => {
 });
 
 describe('Refactorings', () => {
-  it('persists a refactoring', () => {
+  it('persists a refactoring', async () => {
     const refactorings = new InMemoryRefactorings();
 
     refactorings.add(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
 
-    expect(refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
   });
 
-  it('raises an error if the given id does not match an existing refactoring', () => {
+  it('raises an error if the given id does not match an existing refactoring', async () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })]);
 
-    expect(() => refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae')).toThrow(
+    await expect(refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae')).rejects.toThrow(
       new UnknownRefactoring('The refactoring with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist'),
     );
   });
