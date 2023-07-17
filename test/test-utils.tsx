@@ -1,16 +1,9 @@
 import { container, ServiceContainerProvider } from '@/lib/service-container-context';
 import { ReactElement } from 'react';
 import IntlProvider, { Translations } from '@/lib/i18n/intl-provider';
-import httpClient, { HttpClient } from '@/lib/http-client';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
-
-export const aHttpClient = (client: Partial<HttpClient> = {}): HttpClient => ({
-  post: jest.fn() as jest.Mocked<typeof httpClient.post>,
-  get: jest.fn() as jest.Mocked<typeof httpClient.get>,
-  ...client,
-});
 
 export const aRouter = (router: Partial<AppRouterInstance> = {}) => (): AppRouterInstance => ({
   back: jest.fn(),
@@ -31,7 +24,6 @@ export const aNotifier = (notifier: Partial<UseNotification> = {}) => (): UseNot
 const aServiceContainer = (services: Partial<typeof container> = {}): typeof container => ({
   ...container,
   useRouter: aRouter(),
-  httpClient: aHttpClient(),
   ...services,
 });
 
