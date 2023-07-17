@@ -46,7 +46,7 @@ export default function IntlProvider(
   };
 
   return (
-    <SwitchLanguageContext.Provider value={React.useMemo(() => ({ switchLanguage, locale }), [])}>
+    <SwitchLanguageContext.Provider value={React.useMemo(() => ({ switchLanguage, locale }), [locale])}>
       <BaseIntlProvider
         // TODO should work with Partial<Translations>
         messages={{ ...translations[locale], ...(overriddenTranslations as Translations) }}
