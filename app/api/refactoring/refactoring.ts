@@ -1,4 +1,6 @@
-export class Prerequisite {}
+export type Prerequisite = {
+  label: string
+};
 
 export class Goal {
   constructor(private goal: string) {
@@ -11,14 +13,16 @@ export class Goal {
     return this.goal;
   }
 }
+
 type RefactoringGraph = {
   id: string,
   goal: string,
   prerequisites: Prerequisite[],
 };
+
 export class Refactoring {
   constructor(
-    private id: string,
+    public readonly id: string,
     private goal: Goal,
     private prerequisites: Prerequisite[] = [],
   ) {}
@@ -29,6 +33,10 @@ export class Refactoring {
 
   identifyBy(id: string): boolean {
     return id === this.id;
+  }
+
+  addPrerequisite(label: string) {
+    this.prerequisites = [...this.prerequisites, { label: 'Change that' }];
   }
 
   render(): RefactoringGraph {
@@ -67,7 +75,12 @@ export class InMemoryRefactorings implements Refactorings {
   }
 
   async add(refactoring: Refactoring): Promise<void> {
-    this.refactorings = [...this.refactorings, refactoring];
+    this.refactorings = this.refactorings.map((currentRefactoring) => {
+      if (currentRefactoring.identifyBy(refactoring.id)) {
+        return refactoring;
+      }
+      return currentRefactoring;
+    });
   }
 }
 
@@ -81,6 +94,17 @@ export type StartRefactoring = {
 
 export const handleStartRefactoring = (refactorings: Refactorings) => async (input: StartRefactoring) => {
   await refactorings.add(Refactoring.start(input.refactoringId, input.goal));
+};
+
+export type AddPrerequisiteToRefactoring = {
+  refactoringId: string
+  prerequisite: string
+};
+
+export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) => async (input: AddPrerequisiteToRefactoring) => {
+  const refactoring = await refactorings.get(input.refactoringId);
+  refactoring.addPrerequisite(input.prerequisite);
+  refactorings.add(refactoring);
 };
 
 export const startRefactoring = handleStartRefactoring(inMemoryRefactoring);

@@ -1,13 +1,13 @@
 import {
   InMemoryRefactorings, UnknownRefactoring, Refactoring,
-  handleStartRefactoring, handleGetRefactoringById,
+  handleStartRefactoring, handleGetRefactoringById, handleAddPrerequisiteToRefactoring,
 } from '@/api/refactoring/refactoring';
 import { aRefactoring } from '@/test/test-utils';
 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
     const refactorings = new InMemoryRefactorings();
-    handleStartRefactoring(refactorings)({
+    await handleStartRefactoring(refactorings)({
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
     });
@@ -20,7 +20,7 @@ describe('Refactoring use cases', () => {
       }));
   });
 
-  test('The developer need to provide a goal to start a refactoring', () => {
+  test('The developer needs to provide a goal to start a refactoring', () => {
     const refactorings = new InMemoryRefactorings();
 
     const startRefactoring = handleStartRefactoring(refactorings);
@@ -31,7 +31,25 @@ describe('Refactoring use cases', () => {
     })).rejects.toEqual(new Error('The label goal cannot be empty'));
   });
 
-  test('The developer get the refactoring information thanks to the id', async () => {
+  test('The developer adds a prerequisite to a refactoring', async () => {
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      prerequisites: [],
+    })]);
+
+    await handleAddPrerequisiteToRefactoring(refactorings)({
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      prerequisite: 'Change that',
+    });
+
+    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+      .toEqual(aRefactoring({
+        id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        prerequisites: [{ label: 'Change that' }],
+      }));
+  });
+
+  test('The developer gets the refactoring information thanks to the id', async () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
