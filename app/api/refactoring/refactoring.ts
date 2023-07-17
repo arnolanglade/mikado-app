@@ -89,7 +89,7 @@ export class InMemoryRefactorings implements Refactorings {
       return currentRefactoring;
     });
 
-    if (isRefactoringFound === false) {
+    if (!isRefactoringFound) {
       this.refactorings = [...this.refactorings, refactoring];
     }
   }
