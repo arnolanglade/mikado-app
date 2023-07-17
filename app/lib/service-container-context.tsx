@@ -26,7 +26,7 @@ export const useServiceContainer = () => useContext(ServiceContainerContext);
 
 export function ServiceContainerProvider(
   {
-    overriddenContainer,
+    overriddenContainer = {},
     children,
   }: {
     overriddenContainer?: Partial<ServiceContainer>,
@@ -44,7 +44,3 @@ export function ServiceContainerProvider(
     </ServiceContainerContext.Provider>
   );
 }
-
-ServiceContainerProvider.defaultProps = {
-  overriddenContainer: {},
-};

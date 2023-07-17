@@ -59,10 +59,6 @@ export default function IntlProvider(
   );
 }
 
-IntlProvider.defaultProps = {
-  overriddenTranslations: {},
-};
-
 export type Intl = {
   locale: string,
   translations: Record<string, string> | Record<string, MessageFormatElement[]>,
@@ -86,10 +82,6 @@ export const useIntl = () : Intl => {
 
 type ComponentValues = Record<string, string | FormatXMLElementFn<ReactNode, ReactNode>>;
 
-export function Translation({ id, values }: { id: string, values?: ComponentValues }) {
+export function Translation({ id, values = {} }: { id: string, values?: ComponentValues }) {
   return <FormattedMessage id={id} values={values} />;
 }
-
-Translation.defaultProps = {
-  values: {},
-};
