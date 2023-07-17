@@ -22,7 +22,7 @@ type RefactoringGraph = {
 
 export class Refactoring {
   constructor(
-    public readonly id: string,
+    private id: string,
     private goal: Goal,
     private prerequisites: Prerequisite[] = [],
   ) {}
@@ -33,6 +33,10 @@ export class Refactoring {
 
   identifyBy(id: string): boolean {
     return id === this.id;
+  }
+
+  equals(refactoring: Refactoring): boolean {
+    return refactoring.id === this.id;
   }
 
   addPrerequisite(label: string) {
@@ -75,12 +79,18 @@ export class InMemoryRefactorings implements Refactorings {
   }
 
   async add(refactoring: Refactoring): Promise<void> {
+    let isRefactoringFound = false;
     this.refactorings = this.refactorings.map((currentRefactoring) => {
-      if (currentRefactoring.identifyBy(refactoring.id)) {
+      if (currentRefactoring.equals(refactoring)) {
+        isRefactoringFound = true;
         return refactoring;
       }
       return currentRefactoring;
     });
+
+    if (isRefactoringFound === false) {
+      this.refactorings = [...this.refactorings, refactoring];
+    }
   }
 }
 
