@@ -1,17 +1,8 @@
 import {
-  Goal, InMemoryRefactorings, Prerequisite, UnknownRefactoring, Refactoring,
+  InMemoryRefactorings, UnknownRefactoring, Refactoring,
   handleStartRefactoring, handleGetRefactoringById,
 } from '@/api/refactoring/refactoring';
-
-const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: Prerequisite[] }>) => {
-  const newState = {
-    id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
-    goal: 'Refactor this class',
-    prerequisites: [],
-    ...state,
-  };
-  return new Refactoring(newState.id, new Goal(newState.goal), newState.prerequisites);
-};
+import { aRefactoring } from '@/test/test-utils';
 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
@@ -32,12 +23,12 @@ describe('Refactoring use cases', () => {
   test('The developer need to provide a goal to start a refactoring', () => {
     const refactorings = new InMemoryRefactorings();
 
-    expect(() => {
-      handleStartRefactoring(refactorings)({
-        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-        goal: '',
-      });
-    }).toThrow(new Error('The label goal cannot be empty'));
+    const startRefactoring = handleStartRefactoring(refactorings);
+
+    expect(startRefactoring({
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      goal: '',
+    })).rejects.toEqual(new Error('The label goal cannot be empty'));
   });
 
   test('The developer get the refactoring information thanks to the id', async () => {

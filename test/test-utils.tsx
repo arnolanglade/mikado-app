@@ -5,6 +5,7 @@ import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
+import { Goal, Prerequisite, Refactoring } from '@/api/refactoring/refactoring';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
@@ -46,4 +47,14 @@ export const createWrapper = (
       </ServiceContainerProvider>
     </IntlProvider>
   );
+};
+
+export const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: Prerequisite[] }>) => {
+  const newState = {
+    id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+    goal: 'Refactor this class',
+    prerequisites: [],
+    ...state,
+  };
+  return new Refactoring(newState.id, new Goal(newState.goal), newState.prerequisites);
 };
