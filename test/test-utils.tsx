@@ -7,6 +7,7 @@ import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import { Goal, Prerequisite, Refactoring } from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
+import translationEn from '@/lib/i18n/translation/en';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,

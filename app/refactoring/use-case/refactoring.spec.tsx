@@ -17,9 +17,6 @@ describe('useRefactoring', () => {
           {
             refactoringApi: aRefactoringApi({ start }),
           },
-          {
-            'refactoring.notification.success': 'The refactoring has been started',
-          },
         ),
       });
 
@@ -35,9 +32,6 @@ describe('useRefactoring', () => {
           {
             useRouter: aRouter({ push }),
             refactoringApi: aRefactoringApi({ start: async () => '86be6200-1303-48dc-9403-fe497186a0e4' }),
-          },
-          {
-            'refactoring.notification.success': 'The refactoring has been started',
           },
         ),
       });
@@ -55,9 +49,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ start: async () => '86be6200-1303-48dc-9403-fe497186a0e4' }),
             useNotification: aNotifier({ success }),
           },
-          {
-            'refactoring.notification.success': 'The refactoring has been started',
-          },
+          { 'refactoring.notification.success': 'The refactoring has been started' },
         ),
       });
 
@@ -78,9 +70,7 @@ describe('useRefactoring', () => {
             }),
             useNotification: aNotifier({ error }),
           },
-          {
-            'refactoring.notification.error': 'Something went wrong',
-          },
+          { 'refactoring.notification.error': 'Something went wrong' },
         ),
       });
 
@@ -96,7 +86,6 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           { refactoringApi: aRefactoringApi({ addPrerequisite }) },
-          { 'refactoring.notification.error': 'Something went wrong' },
         ),
       });
 
