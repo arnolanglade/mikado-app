@@ -17,12 +17,18 @@ const translationEn: Translations = {
   'refactoring.start': 'Start refactoring',
   'refactoring.notification.error': 'Something went wrong',
   'refactoring.notification.success': 'The refactoring has been started',
+  'refactoring.prerequisite.add': 'Add prerequisite',
+  'refactoring.prerequisite.notification.success': 'The prerequisite has been added',
+  'refactoring.prerequisite.notification.error': 'Something went wrong',
 };
 const translationFr: Translations = {
   test: 'test fr',
   'refactoring.start': 'Start refactoring',
   'refactoring.notification.error': 'Something went wrong',
   'refactoring.notification.success': 'The refactoring has been started',
+  'refactoring.prerequisite.add': 'Add prerequisite',
+  'refactoring.prerequisite.notification.success': 'The prerequisite has been added',
+  'refactoring.prerequisite.notification.error': 'Something went wrong',
 };
 
 type HookValues = Record<string, string | FormatXMLElementFn<string, string>>;

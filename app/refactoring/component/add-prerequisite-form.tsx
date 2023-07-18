@@ -15,7 +15,7 @@ export default function AddPrerequisiteForm({ onSubmit }: { onSubmit: (label: st
     <form onSubmit={addPrerequisite}>
       <input required ref={prerequisiteLabel} type="text" />
       <button type="submit" aria-label="add prerequisite">
-        <Translation id="refactoring.add-prerequisite" />
+        <Translation id="refactoring.prerequisite.add" />
       </button>
     </form>
   );
