@@ -1,5 +1,5 @@
 import {
-  InMemoryRefactorings, UnknownRefactoring, Refactoring,
+  InMemoryRefactorings, UnknownRefactoring, Refactoring, Label,
   handleStartRefactoring, handleGetRefactoringById, handleAddPrerequisiteToRefactoring, Prerequisite,
 } from '@/api/refactoring/refactoring';
 import { aRefactoring } from '@/test/test-utils';
@@ -28,7 +28,7 @@ describe('Refactoring use cases', () => {
     expect(startRefactoring({
       refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: '',
-    })).rejects.toEqual(new Error('The label goal cannot be empty'));
+    })).rejects.toEqual(new Error('The goal cannot be empty'));
   });
 
   test('The developer adds a prerequisite to a refactoring', async () => {
@@ -46,8 +46,23 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-        prerequisites: [new Prerequisite('5608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that')],
+        prerequisites: [new Prerequisite('5608a2791-1625-4a63-916f-ab59e1f6c4ed', new Label('Change that'))],
       }));
+  });
+
+  test('The developer needs to provide a label to add a prerequisite', () => {
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      prerequisites: [],
+    })]);
+
+    const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(refactorings);
+
+    expect(addPrerequisiteToRefactoring({
+      prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      label: '',
+    })).rejects.toEqual(new Error('The label cannot be empty'));
   });
 
   test('The developer gets the refactoring information thanks to the id', async () => {
@@ -118,7 +133,7 @@ describe('Refactoring', () => {
     refactoring.addPrerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
 
     expect(refactoring).toEqual(aRefactoring({
-      prerequisites: [new Prerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that')],
+      prerequisites: [new Prerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', new Label('Change that'))],
     }));
   });
 

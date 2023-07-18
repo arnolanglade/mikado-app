@@ -1,7 +1,15 @@
+export class Label {
+  constructor(private label: string) {
+    if (label === '') {
+      throw new Error('The label cannot be empty');
+    }
+  }
+}
+
 export class Prerequisite {
   constructor(
     private prerequisiteId: string,
-    private label: string,
+    private label: Label,
   ) {
   }
 }
@@ -9,7 +17,7 @@ export class Prerequisite {
 export class Goal {
   constructor(private goal: string) {
     if (goal === '') {
-      throw new Error('The label goal cannot be empty');
+      throw new Error('The goal cannot be empty');
     }
   }
 
@@ -45,7 +53,7 @@ export class Refactoring {
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
-    this.prerequisites = [...this.prerequisites, new Prerequisite(prerequisiteId, label)];
+    this.prerequisites = [...this.prerequisites, new Prerequisite(prerequisiteId, new Label(label))];
   }
 
   render(): RefactoringGraph {
