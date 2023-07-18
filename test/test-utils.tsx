@@ -1,11 +1,12 @@
 import { container, ServiceContainerProvider } from '@/lib/service-container-context';
 import { ReactElement } from 'react';
-import IntlProvider, { Translations } from '@/lib/i18n/intl-provider';
+import IntlProvider from '@/lib/i18n/intl-provider';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import { Goal, Prerequisite, Refactoring } from '@/api/refactoring/refactoring';
+import { Translations } from '@/lib/i18n/translation';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
