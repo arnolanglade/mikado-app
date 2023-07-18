@@ -15,7 +15,8 @@ export class Goal {
   }
 }
 
-type RefactoringGraph = {
+// Todo: used in the front end
+export type RefactoringGraph = {
   id: string,
   goal: string,
   prerequisites: Prerequisite[],
