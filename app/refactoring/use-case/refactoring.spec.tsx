@@ -89,4 +89,67 @@ describe('useRefactoring', () => {
       expect(error).toHaveBeenCalledWith('Something went wrong');
     });
   });
+
+  describe('add prerequisite', () => {
+    test('The prerequisite is saved', async () => {
+      const addPrerequisite = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisite>;
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          { refactoringApi: aRefactoringApi({ addPrerequisite }) },
+          { 'refactoring.notification.error': 'Something went wrong' },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisite(
+        '86be6200-1303-48dc-9403-fe497186a0e4',
+        'Do this',
+      ));
+
+      expect(addPrerequisite).toHaveBeenCalledWith('86be6200-1303-48dc-9403-fe497186a0e4', 'Do this');
+    });
+
+    test('The developer is notified that everything went well', async () => {
+      const success = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ addPrerequisite: async () => 'f446e9e6-08b7-4a5b-bc37-50606f421806' }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisite(
+        '86be6200-1303-48dc-9403-fe497186a0e4',
+        'Do this',
+      ));
+
+      expect(success).toHaveBeenCalledWith('The prerequisite has been added');
+    });
+
+    test('The developer is notified that something went wrong', async () => {
+      const error = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({
+              addPrerequisite: async () => {
+                throw Error();
+              },
+            }),
+            useNotification: aNotifier({ error }),
+          },
+          { 'refactoring.prerequisite.notification.error': 'Something went wrong' },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisite(
+        '86be6200-1303-48dc-9403-fe497186a0e4',
+        'Do this',
+      ));
+
+      expect(error).toHaveBeenCalledWith('Something went wrong');
+    });
+  });
 });

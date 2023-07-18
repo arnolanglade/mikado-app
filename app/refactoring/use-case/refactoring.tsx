@@ -19,7 +19,17 @@ export default function useRefactoring() {
     }
   };
 
+  const addPrerequisite = async (refactoringId: string, label: string) => {
+    try {
+      await refactoringApi.addPrerequisite(refactoringId, label);
+      notifier.success(translation('refactoring.prerequisite.notification.success'));
+    } catch (e) {
+      notifier.error(translation('refactoring.prerequisite.notification.error'));
+    }
+  };
+
   return {
     startRefactoring,
+    addPrerequisite,
   };
 }
