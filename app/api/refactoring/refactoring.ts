@@ -1,7 +1,10 @@
-export type Prerequisite = {
-  prerequisiteId: string
-  label: string
-};
+export class Prerequisite {
+  constructor(
+    private prerequisiteId: string,
+    private label: string,
+  ) {
+  }
+}
 
 export class Goal {
   constructor(private goal: string) {
@@ -42,7 +45,7 @@ export class Refactoring {
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
-    this.prerequisites = [...this.prerequisites, { prerequisiteId, label }];
+    this.prerequisites = [...this.prerequisites, new Prerequisite(prerequisiteId, label)];
   }
 
   render(): RefactoringGraph {
