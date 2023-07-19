@@ -23,6 +23,7 @@ export default function useRefactoring() {
     try {
       await refactoringApi.addPrerequisite(refactoringId, label);
       notifier.success(translation('refactoring.prerequisite.notification.success'));
+      router.refresh();
     } catch (e) {
       notifier.error(translation('refactoring.prerequisite.notification.error'));
     }

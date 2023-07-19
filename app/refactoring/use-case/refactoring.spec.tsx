@@ -97,6 +97,26 @@ describe('useRefactoring', () => {
       expect(addPrerequisite).toHaveBeenCalledWith('86be6200-1303-48dc-9403-fe497186a0e4', 'Do this');
     });
 
+    test('The refactoring graph is refresh after adding a prerequisite', async () => {
+      const refresh = jest.fn();
+
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ addPrerequisite: async () => 'f446e9e6-08b7-4a5b-bc37-50606f421806' }),
+            useRouter: aRouter({ refresh }),
+          },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisite(
+        '86be6200-1303-48dc-9403-fe497186a0e4',
+        'Do this',
+      ));
+
+      expect(refresh).toHaveBeenCalled();
+    });
+
     test('The developer is notified that everything went well', async () => {
       const success = jest.fn();
       const { result } = renderHook(useRefactoring, {
