@@ -4,11 +4,22 @@ export class Label {
       throw new Error('The label cannot be empty');
     }
   }
+
+  toString() {
+    return this.label;
+  }
 }
 
 export enum Status {
   TODO,
 }
+
+// Todo: used in the front end
+type PrerequisiteGraph = {
+  prerequisiteId: string,
+  label: string,
+  status: Status,
+};
 
 export class Prerequisite {
   constructor(
@@ -16,6 +27,14 @@ export class Prerequisite {
     private label: Label,
     private status: Status,
   ) {
+  }
+
+  render(): PrerequisiteGraph {
+    return {
+      prerequisiteId: this.prerequisiteId,
+      label: this.label.toString(),
+      status: this.status,
+    };
   }
 }
 
@@ -35,7 +54,7 @@ export class Goal {
 export type RefactoringGraph = {
   id: string,
   goal: string,
-  prerequisites: Prerequisite[],
+  prerequisites: PrerequisiteGraph[],
 };
 
 export class Refactoring {
@@ -65,7 +84,7 @@ export class Refactoring {
     return {
       id: this.id,
       goal: this.goal.toString(),
-      prerequisites: this.prerequisites,
+      prerequisites: this.prerequisites.map((prerequisite) => prerequisite.render()),
     };
   }
 }

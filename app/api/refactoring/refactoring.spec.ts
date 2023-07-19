@@ -150,14 +150,22 @@ describe('Refactoring', () => {
     const refactoring = aRefactoring({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'My goal',
-      prerequisites: [],
+      prerequisites: [{
+        prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
+        label: 'Do this',
+        status: Status.TODO,
+      }],
     });
 
     expect(refactoring.render())
       .toEqual({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'My goal',
-        prerequisites: [],
+        prerequisites: [{
+          prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
+          label: 'Do this',
+          status: Status.TODO,
+        }],
       });
   });
 });
