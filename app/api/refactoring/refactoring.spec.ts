@@ -46,7 +46,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-        prerequisites: [new Prerequisite('5608a2791-1625-4a63-916f-ab59e1f6c4ed', new Label('Change that'))],
+        prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that' }],
       }));
   });
 
@@ -133,7 +133,7 @@ describe('Refactoring', () => {
     refactoring.addPrerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
 
     expect(refactoring).toEqual(aRefactoring({
-      prerequisites: [new Prerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', new Label('Change that'))],
+      prerequisites: [{ prerequisiteId: '608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that' }],
     }));
   });
 

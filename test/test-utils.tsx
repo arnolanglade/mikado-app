@@ -5,7 +5,9 @@ import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
-import { Goal, Prerequisite, Refactoring } from '@/api/refactoring/refactoring';
+import {
+  Goal, Label, Prerequisite, Refactoring,
+} from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
 import translationEn from '@/lib/i18n/translation/en';
 
@@ -52,12 +54,18 @@ export const createWrapper = (
   );
 };
 
-export const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: Prerequisite[] }>) => {
+export const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: { prerequisiteId: string, label: string }[] }>) => {
   const newState = {
     id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
     goal: 'Refactor this class',
     prerequisites: [],
     ...state,
   };
-  return new Refactoring(newState.id, new Goal(newState.goal), newState.prerequisites);
+  return new Refactoring(
+    newState.id,
+    new Goal(newState.goal),
+    newState.prerequisites.map(
+      (prerequisite) => new Prerequisite(prerequisite.prerequisiteId, new Label(prerequisite.label)),
+    ),
+  );
 };
