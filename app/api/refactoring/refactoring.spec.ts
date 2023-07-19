@@ -1,6 +1,11 @@
 import {
-  InMemoryRefactorings, UnknownRefactoring, Refactoring, Label,
-  handleStartRefactoring, handleGetRefactoringById, handleAddPrerequisiteToRefactoring, Prerequisite,
+  handleAddPrerequisiteToRefactoring,
+  handleGetRefactoringById,
+  handleStartRefactoring,
+  InMemoryRefactorings,
+  Refactoring,
+  Status,
+  UnknownRefactoring,
 } from '@/api/refactoring/refactoring';
 import { aRefactoring } from '@/test/test-utils';
 
@@ -31,7 +36,7 @@ describe('Refactoring use cases', () => {
     })).rejects.toEqual(new Error('The goal cannot be empty'));
   });
 
-  test('The developer adds a prerequisite to a refactoring', async () => {
+  test('The developer adds a prerequisite to a refactoring (its status is todo)', async () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       prerequisites: [],
@@ -46,7 +51,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-        prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that' }],
+        prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
       }));
   });
 
@@ -125,7 +130,7 @@ describe('Refactoring', () => {
     });
   });
 
-  it('adds a prerequisite to a refactoring', () => {
+  it('adds a prerequisite to a refactoring (its status is todo)', () => {
     const refactoring = aRefactoring({
       prerequisites: [],
     });
@@ -133,7 +138,11 @@ describe('Refactoring', () => {
     refactoring.addPrerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
 
     expect(refactoring).toEqual(aRefactoring({
-      prerequisites: [{ prerequisiteId: '608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that' }],
+      prerequisites: [{
+        prerequisiteId: '608a2791-1625-4a63-916f-ab59e1f6c4ed',
+        label: 'Change that',
+        status: Status.TODO,
+      }],
     }));
   });
 

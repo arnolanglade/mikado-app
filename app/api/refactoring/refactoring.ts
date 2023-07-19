@@ -6,10 +6,15 @@ export class Label {
   }
 }
 
+export enum Status {
+  TODO,
+}
+
 export class Prerequisite {
   constructor(
     private prerequisiteId: string,
     private label: Label,
+    private status: Status,
   ) {
   }
 }
@@ -53,7 +58,7 @@ export class Refactoring {
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
-    this.prerequisites = [...this.prerequisites, new Prerequisite(prerequisiteId, new Label(label))];
+    this.prerequisites = [...this.prerequisites, new Prerequisite(prerequisiteId, new Label(label), Status.TODO)];
   }
 
   render(): RefactoringGraph {

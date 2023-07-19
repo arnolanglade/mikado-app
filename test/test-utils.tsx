@@ -6,7 +6,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import {
-  Goal, Label, Prerequisite, Refactoring,
+  Goal, Label, Prerequisite, Refactoring, Status,
 } from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
 import translationEn from '@/lib/i18n/translation/en';
@@ -54,7 +54,17 @@ export const createWrapper = (
   );
 };
 
-export const aRefactoring = (state: Partial<{ id: string, goal: string, prerequisites: { prerequisiteId: string, label: string }[] }>) => {
+type RefactoringState = {
+  id: string
+  goal: string
+  prerequisites: {
+    prerequisiteId: string
+    label: string
+    status: Status
+  }[]
+};
+
+export const aRefactoring = (state: Partial<RefactoringState>) => {
   const newState = {
     id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
     goal: 'Refactor this class',
@@ -65,7 +75,11 @@ export const aRefactoring = (state: Partial<{ id: string, goal: string, prerequi
     newState.id,
     new Goal(newState.goal),
     newState.prerequisites.map(
-      (prerequisite) => new Prerequisite(prerequisite.prerequisiteId, new Label(prerequisite.label)),
+      (prerequisite) => new Prerequisite(
+        prerequisite.prerequisiteId,
+        new Label(prerequisite.label),
+        Status.TODO,
+      ),
     ),
   );
 };
