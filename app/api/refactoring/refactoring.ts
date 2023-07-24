@@ -13,6 +13,7 @@ export class Label {
 export enum Status {
   TODO,
   EXPERIMENTING,
+  DONE,
 }
 
 // Todo: used in the front end
@@ -36,6 +37,10 @@ export class Prerequisite {
 
   changeStatus(newStatus: Status): void {
     this.status = newStatus;
+  }
+
+  hasStatus(status: Status): boolean {
+    return this.status === status;
   }
 
   render(): PrerequisiteGraph {
@@ -88,6 +93,10 @@ export class Refactoring {
   startExperimentation(prerequisiteId: string) {
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
+        if (!prerequisite.hasStatus(Status.TODO)) {
+          throw new Error('You can only start an experimentation an a todo prerequisite');
+        }
+
         prerequisite.changeStatus(Status.EXPERIMENTING);
         return prerequisite;
       }

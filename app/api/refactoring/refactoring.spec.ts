@@ -1,7 +1,12 @@
 import {
-  handleAddPrerequisiteToRefactoring, handleGetRefactoringById, handleStartExperimentation,
+  handleAddPrerequisiteToRefactoring,
+  handleGetRefactoringById,
+  handleStartExperimentation,
   handleStartRefactoring,
-  InMemoryRefactorings, Refactoring, Status, UnknownRefactoring,
+  InMemoryRefactorings,
+  Refactoring,
+  Status,
+  UnknownRefactoring,
 } from '@/api/refactoring/refactoring';
 import { aRefactoring } from '@/test/test-utils';
 
@@ -102,6 +107,25 @@ describe('Refactoring use cases', () => {
         refactoringId,
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
       }));
+  });
+
+  test.each([
+    Status.EXPERIMENTING,
+    Status.DONE,
+  ])('The developer gets an error when an experimentation is started on a %s prerequisite', async (status) => {
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      refactoringId,
+      prerequisites: [{ prerequisiteId, status }],
+    })]);
+
+    const startExperimentation = handleStartExperimentation(refactorings);
+
+    expect(startExperimentation({
+      refactoringId,
+      prerequisiteId,
+    })).rejects.toEqual(new Error('You can only start an experimentation an a todo prerequisite'));
   });
 });
 
