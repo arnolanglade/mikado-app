@@ -32,15 +32,16 @@ describe('Refactoring use cases', () => {
     })).rejects.toEqual(new Error('The goal cannot be empty'));
   });
 
-  test('The developer adds a prerequisite to a refactoring (its status is todo)', async () => {
+  test('The developer adds a todo prerequisite to a refactoring', async () => {
     const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
       prerequisites: [],
     })]);
 
     await handleAddPrerequisiteToRefactoring(refactorings)({
-      prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
+      prerequisiteId,
       refactoringId,
       label: 'Change that',
     });
@@ -48,7 +49,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         refactoringId,
-        prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
+        prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
       }));
   });
 
