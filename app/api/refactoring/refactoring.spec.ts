@@ -7,15 +7,16 @@ import { aRefactoring } from '@/test/test-utils';
 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
     const refactorings = new InMemoryRefactorings();
     await handleStartRefactoring(refactorings)({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
       goal: 'Rework that part',
     });
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
-        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        refactoringId,
         goal: 'Rework that part',
       }));
   });
@@ -32,34 +33,36 @@ describe('Refactoring use cases', () => {
   });
 
   test('The developer adds a prerequisite to a refactoring (its status is todo)', async () => {
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
       prerequisites: [],
     })]);
 
     await handleAddPrerequisiteToRefactoring(refactorings)({
       prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
       label: 'Change that',
     });
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
-        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        refactoringId,
         prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
       }));
   });
 
   test('The developer needs to provide a label to add a prerequisite', () => {
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
     })]);
 
     const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(refactorings);
 
     expect(addPrerequisiteToRefactoring({
       prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
       label: '',
     })).rejects.toEqual(new Error('The label cannot be empty'));
   });
@@ -103,10 +106,11 @@ describe('Refactoring use cases', () => {
 
 describe('Refactoring', () => {
   it('builds a refactoring object without prerequisite when we start a refactoring', () => {
-    const refactoring = Refactoring.start('51bb1ce3-d1cf-4d32-9d10-8eea626f4784', 'Rework that part');
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const refactoring = Refactoring.start(refactoringId, 'Rework that part');
 
     expect(refactoring).toEqual(aRefactoring({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
       goal: 'Rework that part',
       prerequisites: [],
     }));
@@ -114,9 +118,10 @@ describe('Refactoring', () => {
 
   describe('identifyBy', () => {
     it('says yes if the given id match the refactoring id', () => {
-      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+      const refactoring = aRefactoring({ refactoringId });
 
-      expect(refactoring.identifyBy('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+      expect(refactoring.identifyBy(refactoringId))
         .toEqual(true);
     });
 
@@ -130,9 +135,10 @@ describe('Refactoring', () => {
 
   describe('equals', () => {
     it('says yes if the given refactoring object equals this one', () => {
-      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+      const refactoring = aRefactoring({ refactoringId });
 
-      expect(refactoring.equals(aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })))
+      expect(refactoring.equals(aRefactoring({ refactoringId })))
         .toEqual(true);
     });
 
@@ -203,12 +209,13 @@ describe('Refactoring', () => {
 
 describe('Refactorings', () => {
   it('persists a refactoring', async () => {
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
     const refactorings = new InMemoryRefactorings();
 
-    await refactorings.add(aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
+    await refactorings.add(aRefactoring({ refactoringId }));
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
-      .toEqual(aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
+      .toEqual(aRefactoring({ refactoringId }));
   });
 
   it('raises an error if the given id does not match an existing refactoring', async () => {
