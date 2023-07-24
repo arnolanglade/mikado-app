@@ -8,7 +8,10 @@ export default function AddPrerequisiteForm({ onSubmit }: { onSubmit: (label: st
 
   const addPrerequisite = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(prerequisiteLabel.current?.value!);
+    if (prerequisiteLabel.current) {
+      onSubmit(prerequisiteLabel.current?.value!);
+      prerequisiteLabel.current.value = '';
+    }
   };
 
   return (

@@ -12,7 +12,7 @@ describe('AddPrerequisiteForm', () => {
     render(<AddPrerequisiteForm onSubmit={onSubmit} />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.add-prerequisite': 'Add prerequisite' },
+        { 'refactoring.prerequisite.add': 'Add prerequisite' },
       ),
     });
 
@@ -20,5 +20,20 @@ describe('AddPrerequisiteForm', () => {
     await userEvent.click(screen.getByText('Add prerequisite'));
 
     expect(onSubmit).toHaveBeenCalledWith('Refactor method');
+  });
+
+  test('The input value is reset after submitting the form', async () => {
+    render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
+      wrapper: createWrapper(
+        {},
+        { 'refactoring.prerequisite.add': 'Add prerequisite' },
+      ),
+    });
+    const prerequisiteInput = screen.getByRole<HTMLInputElement>('textbox');
+
+    await userEvent.type(screen.getByRole('textbox'), 'Refactor method');
+    await userEvent.click(screen.getByText('Add prerequisite'));
+
+    expect(prerequisiteInput.value).toBe('');
   });
 });
