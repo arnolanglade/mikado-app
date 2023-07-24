@@ -162,6 +162,23 @@ describe('Refactoring', () => {
     }));
   });
 
+  it('start an experimentation on a todo prerequisite', () => {
+    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const refactoring = aRefactoring({
+      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+    });
+
+    refactoring.startExperimentation(prerequisiteId);
+
+    expect(refactoring).toEqual(aRefactoring({
+      prerequisites: [{
+        prerequisiteId,
+        label: 'Change that',
+        status: Status.EXPERIMENTING,
+      }],
+    }));
+  });
+
   it('turns a refactoring into a format used by the UI to render it', () => {
     const refactoring = aRefactoring({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',

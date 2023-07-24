@@ -30,6 +30,14 @@ export class Prerequisite {
   ) {
   }
 
+  identifyBy(prerequisiteId: string): boolean {
+    return prerequisiteId === this.prerequisiteId;
+  }
+
+  changeStatus(newStatus: Status): void {
+    this.status = newStatus;
+  }
+
   render(): PrerequisiteGraph {
     return {
       prerequisiteId: this.prerequisiteId,
@@ -78,7 +86,14 @@ export class Refactoring {
   }
 
   startExperimentation(prerequisiteId: string) {
-    this.prerequisites = [new Prerequisite(prerequisiteId, new Label('Change that'), Status.EXPERIMENTING)];
+    this.prerequisites = this.prerequisites.map((prerequisite) => {
+      if (prerequisite.identifyBy(prerequisiteId)) {
+        prerequisite.changeStatus(Status.EXPERIMENTING);
+        return prerequisite;
+      }
+
+      return prerequisite;
+    });
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
