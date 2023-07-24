@@ -17,7 +17,6 @@ describe('Refactoring use cases', () => {
       .toEqual(aRefactoring({
         id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'Rework that part',
-        prerequisites: [],
       }));
   });
 
@@ -54,7 +53,6 @@ describe('Refactoring use cases', () => {
   test('The developer needs to provide a label to add a prerequisite', () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-      prerequisites: [],
     })]);
 
     const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(refactorings);
@@ -87,7 +85,7 @@ describe('Refactoring use cases', () => {
     const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
     const refactorings = new InMemoryRefactorings([aRefactoring({
       id: refactoringId,
-      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+      prerequisites: [{ prerequisiteId, status: Status.TODO }],
     })]);
 
     await handleStartExperimentation(refactorings)({
@@ -98,7 +96,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         id: refactoringId,
-        prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.EXPERIMENTING }],
+        prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
       }));
   });
 });
