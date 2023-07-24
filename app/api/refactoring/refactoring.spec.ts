@@ -68,7 +68,7 @@ describe('Refactoring use cases', () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
-      prerequisites: [],
+      prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
     })]);
 
     const getRefactoringById = handleGetRefactoringById(refactorings);
@@ -76,7 +76,7 @@ describe('Refactoring use cases', () => {
     expect(await getRefactoringById('51bb1ce3-d1cf-4d32-9d10-8eea626f4784')).toEqual({
       id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
-      prerequisites: [],
+      prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
     });
   });
 
