@@ -17,6 +17,16 @@ export default function RefactoringDashboard({ refactoring }: { refactoring: Ref
         { refactoring.goal }
         <AddPrerequisiteForm onSubmit={submitPrerequisite} />
       </div>
+      {refactoring.prerequisites.map(
+        (prerequisite) => (
+          <div
+            className={styles.prerequisite}
+            key={prerequisite.prerequisiteId}
+          >
+            {prerequisite.label}
+          </div>
+        ),
+      )}
     </div>
   );
 }

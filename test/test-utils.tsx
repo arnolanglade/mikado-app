@@ -6,10 +6,9 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import {
-  Goal, Label, Prerequisite, Refactoring, Status,
+  Goal, Label, Prerequisite, Refactoring, RefactoringGraph, Status,
 } from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
-import translationEn from '@/lib/i18n/translation/en';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
@@ -54,6 +53,7 @@ export const createWrapper = (
   );
 };
 
+// Todo: do we need this type, should we use RefactoringGraph?
 type RefactoringState = {
   id: string
   goal: string
@@ -83,3 +83,10 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
     ),
   );
 };
+
+export const aRefactoringGraph = (graph: Partial<RefactoringGraph>): RefactoringGraph => ({
+  id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+  goal: 'Refactor this class',
+  prerequisites: [],
+  ...graph,
+});

@@ -2,16 +2,15 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { createWrapper } from '@/test/test-utils';
+import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
 import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';
+import { Status } from '@/api/refactoring/refactoring';
 
 describe('RefactoringDashboard', () => {
-  test('The developer sees the refactoring graph thanks to its id', async () => {
-    render(<RefactoringDashboard refactoring={{
-      id: '86be6200-1303-48dc-9403-fe497186a0e4',
+  test('The developer sees the goal of the refactoring', async () => {
+    render(<RefactoringDashboard refactoring={aRefactoringGraph({
       goal: 'Refactor this method',
-      prerequisites: [],
-    }}
+    })}
     />, {
       wrapper: createWrapper(
         {},
@@ -20,5 +19,22 @@ describe('RefactoringDashboard', () => {
     });
 
     expect(screen.getByText('Refactor this method')).toBeInTheDocument();
+  });
+
+  test('The developer sees the prerequisite of the refactoring', async () => {
+    render(<RefactoringDashboard refactoring={aRefactoringGraph({
+      prerequisites: [
+        {
+          prerequisiteId: '44abee80-8630-4077-9f14-f31dca577d7d',
+          label: 'Do this',
+          status: Status.TODO,
+        },
+      ],
+    })}
+    />, {
+      wrapper: createWrapper(),
+    });
+
+    expect(screen.getByText('Do this')).toBeInTheDocument();
   });
 });
