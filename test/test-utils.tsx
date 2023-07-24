@@ -55,7 +55,7 @@ export const createWrapper = (
 };
 
 type RefactoringState = {
-  id: string
+  refactoringId: string
   goal: string
   prerequisites: Partial<{
     prerequisiteId: string
@@ -66,13 +66,13 @@ type RefactoringState = {
 
 export const aRefactoring = (state: Partial<RefactoringState>) => {
   const newState = {
-    id: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+    refactoringId: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
     goal: 'Refactor this class',
     prerequisites: [],
     ...state,
   };
   return new Refactoring(
-    newState.id,
+    newState.refactoringId,
     new Goal(newState.goal),
     newState.prerequisites.map(
       (prerequisite) => new Prerequisite(

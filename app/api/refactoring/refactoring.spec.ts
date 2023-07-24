@@ -15,7 +15,7 @@ describe('Refactoring use cases', () => {
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
-        id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'Rework that part',
       }));
   });
@@ -33,7 +33,7 @@ describe('Refactoring use cases', () => {
 
   test('The developer adds a prerequisite to a refactoring (its status is todo)', async () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       prerequisites: [],
     })]);
 
@@ -45,14 +45,14 @@ describe('Refactoring use cases', () => {
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
-        id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
       }));
   });
 
   test('The developer needs to provide a label to add a prerequisite', () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
     })]);
 
     const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(refactorings);
@@ -66,7 +66,7 @@ describe('Refactoring use cases', () => {
 
   test('The developer gets the refactoring information thanks to the id', async () => {
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
       prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
     })]);
@@ -84,7 +84,7 @@ describe('Refactoring use cases', () => {
     const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
     const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      id: refactoringId,
+      refactoringId,
       prerequisites: [{ prerequisiteId, status: Status.TODO }],
     })]);
 
@@ -95,7 +95,7 @@ describe('Refactoring use cases', () => {
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
-        id: refactoringId,
+        refactoringId,
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
       }));
   });
@@ -106,7 +106,7 @@ describe('Refactoring', () => {
     const refactoring = Refactoring.start('51bb1ce3-d1cf-4d32-9d10-8eea626f4784', 'Rework that part');
 
     expect(refactoring).toEqual(aRefactoring({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
       prerequisites: [],
     }));
@@ -114,14 +114,14 @@ describe('Refactoring', () => {
 
   describe('identifyBy', () => {
     it('says yes if the given id match the refactoring id', () => {
-      const refactoring = aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
       expect(refactoring.identifyBy('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
         .toEqual(true);
     });
 
     it('says no if the given id does not match the refactoring id', () => {
-      const refactoring = aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
       expect(refactoring.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
         .toEqual(false);
@@ -130,16 +130,16 @@ describe('Refactoring', () => {
 
   describe('equals', () => {
     it('says yes if the given refactoring object equals this one', () => {
-      const refactoring = aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
-      expect(refactoring.equals(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })))
+      expect(refactoring.equals(aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })))
         .toEqual(true);
     });
 
     it('says no if the given refactoring object does not equals this one', () => {
-      const refactoring = aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
-      expect(refactoring.equals(aRefactoring({ id: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
+      expect(refactoring.equals(aRefactoring({ refactoringId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
         .toEqual(false);
     });
   });
@@ -179,7 +179,7 @@ describe('Refactoring', () => {
 
   it('turns a refactoring into a format used by the UI to render it', () => {
     const refactoring = aRefactoring({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'My goal',
       prerequisites: [{
         prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
@@ -205,14 +205,14 @@ describe('Refactorings', () => {
   it('persists a refactoring', async () => {
     const refactorings = new InMemoryRefactorings();
 
-    await refactorings.add(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
+    await refactorings.add(aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
 
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
-      .toEqual(aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
+      .toEqual(aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }));
   });
 
   it('raises an error if the given id does not match an existing refactoring', async () => {
-    const refactorings = new InMemoryRefactorings([aRefactoring({ id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })]);
+    const refactorings = new InMemoryRefactorings([aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })]);
 
     await expect(refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae')).rejects.toThrow(
       new UnknownRefactoring('The refactoring with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist'),
