@@ -9,6 +9,7 @@ import {
   Goal, Label, Prerequisite, Refactoring, RefactoringGraph, Status,
 } from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
+import { v4 as uuidv4 } from 'uuid';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
@@ -53,15 +54,14 @@ export const createWrapper = (
   );
 };
 
-// Todo: do we need this type, should we use RefactoringGraph?
 type RefactoringState = {
   id: string
   goal: string
-  prerequisites: {
+  prerequisites: Partial<{
     prerequisiteId: string
     label: string
     status: Status
-  }[]
+  }>[]
 };
 
 export const aRefactoring = (state: Partial<RefactoringState>) => {
@@ -76,9 +76,9 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
     new Goal(newState.goal),
     newState.prerequisites.map(
       (prerequisite) => new Prerequisite(
-        prerequisite.prerequisiteId,
-        new Label(prerequisite.label),
-        prerequisite.status,
+        prerequisite.prerequisiteId ?? uuidv4(),
+        new Label(prerequisite.label ?? 'Do that'),
+        prerequisite.status ?? Status.TODO,
       ),
     ),
   );
