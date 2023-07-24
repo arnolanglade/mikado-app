@@ -12,6 +12,7 @@ export class Label {
 
 export enum Status {
   TODO,
+  EXPERIMENTING,
 }
 
 // Todo: used in the front end
@@ -74,6 +75,10 @@ export class Refactoring {
 
   equals(refactoring: Refactoring): boolean {
     return refactoring.id === this.id;
+  }
+
+  startExperimentation(prerequisiteId: string) {
+    this.prerequisites = [new Prerequisite(prerequisiteId, new Label('Change that'), Status.EXPERIMENTING)];
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
@@ -165,3 +170,16 @@ export const handleGetRefactoringById = (refactorings: Refactorings) => async (r
 };
 
 export const getRefactoringById = handleGetRefactoringById(inMemoryRefactoring);
+
+export type StartExperimentation = {
+  prerequisiteId: string
+  refactoringId: string
+};
+
+export const handleStartExperimentation = (refactorings: Refactorings) => async (input: StartExperimentation): Promise<void> => {
+  const refactoring = await refactorings.get(input.refactoringId);
+  refactoring.startExperimentation(input.prerequisiteId);
+  await refactorings.add(refactoring);
+};
+
+export const startExperimentation = handleGetRefactoringById(inMemoryRefactoring);

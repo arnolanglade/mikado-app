@@ -78,7 +78,7 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
       (prerequisite) => new Prerequisite(
         prerequisite.prerequisiteId,
         new Label(prerequisite.label),
-        Status.TODO,
+        prerequisite.status,
       ),
     ),
   );

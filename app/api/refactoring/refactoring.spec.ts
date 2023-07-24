@@ -1,11 +1,7 @@
 import {
-  handleAddPrerequisiteToRefactoring,
-  handleGetRefactoringById,
+  handleAddPrerequisiteToRefactoring, handleGetRefactoringById, handleStartExperimentation,
   handleStartRefactoring,
-  InMemoryRefactorings,
-  Refactoring,
-  Status,
-  UnknownRefactoring,
+  InMemoryRefactorings, Refactoring, Status, UnknownRefactoring,
 } from '@/api/refactoring/refactoring';
 import { aRefactoring } from '@/test/test-utils';
 
@@ -84,6 +80,26 @@ describe('Refactoring use cases', () => {
       goal: 'Rework that part',
       prerequisites: [],
     });
+  });
+
+  test('The developer starts an experimentation on a todo prerequisite', async () => {
+    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      id: refactoringId,
+      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+    })]);
+
+    await handleStartExperimentation(refactorings)({
+      refactoringId,
+      prerequisiteId,
+    });
+
+    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+      .toEqual(aRefactoring({
+        id: refactoringId,
+        prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.EXPERIMENTING }],
+      }));
   });
 });
 
