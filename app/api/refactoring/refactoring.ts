@@ -1,3 +1,16 @@
+export interface Clock {
+  now(): Date
+}
+
+export class InMemoryClock implements Clock {
+  constructor(private date: string) {
+  }
+
+  now(): Date {
+    return new Date(this.date);
+  }
+}
+
 export class Label {
   constructor(private label: string) {
     if (label === '') {
@@ -43,7 +56,7 @@ export class Prerequisite {
     return prerequisiteId === this.prerequisiteId;
   }
 
-  start(startedAt?: Date): void {
+  start(startedAt: Date): void {
     this.status = Status.EXPERIMENTING;
     this.startedAt = startedAt;
   }
@@ -99,7 +112,7 @@ export class Refactoring {
     return refactoring.id === this.id;
   }
 
-  startExperimentation(prerequisiteId: string, startedAt?: Date) {
+  startExperimentation(prerequisiteId: string, startedAt: Date) {
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
         if (!prerequisite.hasStatus(Status.TODO)) {
@@ -209,9 +222,9 @@ export type StartExperimentation = {
   refactoringId: string
 };
 
-export const handleStartExperimentation = (refactorings: Refactorings) => async (input: StartExperimentation): Promise<void> => {
+export const handleStartExperimentation = (refactorings: Refactorings, clock: Clock) => async (input: StartExperimentation): Promise<void> => {
   const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.startExperimentation(input.prerequisiteId);
+  refactoring.startExperimentation(input.prerequisiteId, clock.now());
   await refactorings.add(refactoring);
 };
 

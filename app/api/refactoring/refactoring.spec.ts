@@ -2,7 +2,7 @@ import {
   handleAddPrerequisiteToRefactoring,
   handleGetRefactoringById,
   handleStartExperimentation,
-  handleStartRefactoring,
+  handleStartRefactoring, InMemoryClock,
   InMemoryRefactorings,
   Refactoring,
   Status,
@@ -96,8 +96,9 @@ describe('Refactoring use cases', () => {
       refactoringId,
       prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
     })]);
+    const clock = new InMemoryClock('2023-07-25T10:24:00');
 
-    await handleStartExperimentation(refactorings)({
+    await handleStartExperimentation(refactorings, clock)({
       refactoringId,
       prerequisiteId,
     });
@@ -105,7 +106,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
       .toEqual(aRefactoring({
         refactoringId,
-        prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
+        prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING, startedAt: '2023-07-25T10:24:00' }],
       }));
   });
 
@@ -119,8 +120,9 @@ describe('Refactoring use cases', () => {
       refactoringId,
       prerequisites: [{ prerequisiteId, status }],
     })]);
+    const clock = new InMemoryClock('2023-07-25T10:24:00');
 
-    const startExperimentation = handleStartExperimentation(refactorings);
+    const startExperimentation = handleStartExperimentation(refactorings, clock);
 
     expect(startExperimentation({
       refactoringId,
