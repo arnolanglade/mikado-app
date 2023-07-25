@@ -28,6 +28,7 @@ export class Prerequisite {
     private prerequisiteId: string,
     private label: Label,
     private status: Status,
+    private startedAt?: Date,
   ) {
   }
 
@@ -42,8 +43,8 @@ export class Prerequisite {
     return prerequisiteId === this.prerequisiteId;
   }
 
-  changeStatus(newStatus: Status): void {
-    this.status = newStatus;
+  start(): void {
+    this.status = Status.EXPERIMENTING;
   }
 
   hasStatus(status: Status): boolean {
@@ -104,7 +105,7 @@ export class Refactoring {
           throw new Error('You can only start an experimentation an a todo prerequisite');
         }
 
-        prerequisite.changeStatus(Status.EXPERIMENTING);
+        prerequisite.start();
         return prerequisite;
       }
 
