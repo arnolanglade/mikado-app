@@ -31,6 +31,13 @@ export class Prerequisite {
   ) {
   }
 
+  static new(
+    prerequisiteId: string,
+    label: Label,
+  ) {
+    return new Prerequisite(prerequisiteId, label, Status.TODO);
+  }
+
   identifyBy(prerequisiteId: string): boolean {
     return prerequisiteId === this.prerequisiteId;
   }
@@ -106,7 +113,7 @@ export class Refactoring {
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
-    this.prerequisites = [...this.prerequisites, new Prerequisite(prerequisiteId, new Label(label), Status.TODO)];
+    this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, new Label(label))];
   }
 
   render(): RefactoringGraph {
