@@ -43,8 +43,9 @@ export class Prerequisite {
     return prerequisiteId === this.prerequisiteId;
   }
 
-  start(): void {
+  start(startedAt?: Date): void {
     this.status = Status.EXPERIMENTING;
+    this.startedAt = startedAt;
   }
 
   hasStatus(status: Status): boolean {
@@ -98,14 +99,14 @@ export class Refactoring {
     return refactoring.id === this.id;
   }
 
-  startExperimentation(prerequisiteId: string) {
+  startExperimentation(prerequisiteId: string, startedAt?: Date) {
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
         if (!prerequisite.hasStatus(Status.TODO)) {
           throw new Error('You can only start an experimentation an a todo prerequisite');
         }
 
-        prerequisite.start();
+        prerequisite.start(startedAt);
         return prerequisite;
       }
 

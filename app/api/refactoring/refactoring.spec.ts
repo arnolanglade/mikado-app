@@ -94,7 +94,7 @@ describe('Refactoring use cases', () => {
     const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
-      prerequisites: [{ prerequisiteId, status: Status.TODO }],
+      prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
     })]);
 
     await handleStartExperimentation(refactorings)({
@@ -194,16 +194,19 @@ describe('Refactoring', () => {
   it('start an experimentation on a todo prerequisite', () => {
     const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
     const refactoring = aRefactoring({
-      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+      prerequisites: [{
+        prerequisiteId, label: 'Change that', status: Status.TODO, startedAt: undefined,
+      }],
     });
 
-    refactoring.startExperimentation(prerequisiteId);
+    refactoring.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00'));
 
     expect(refactoring).toEqual(aRefactoring({
       prerequisites: [{
         prerequisiteId,
         label: 'Change that',
         status: Status.EXPERIMENTING,
+        startedAt: '2023-07-25T10:24:00',
       }],
     }));
   });

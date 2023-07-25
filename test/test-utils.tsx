@@ -61,6 +61,7 @@ type RefactoringState = {
     prerequisiteId: string
     label: string
     status: Status
+    startedAt: string
   }>[]
 };
 
@@ -79,6 +80,7 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
         prerequisite.prerequisiteId ?? uuidv4(),
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
+        prerequisite.startedAt ? new Date(prerequisite.startedAt) : undefined,
       ),
     ),
   );
