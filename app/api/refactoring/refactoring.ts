@@ -11,6 +11,13 @@ export class InMemoryClock implements Clock {
   }
 }
 
+export class SystemClock implements Clock {
+  // eslint-disable-next-line class-methods-use-this
+  now(): Date {
+    return new Date();
+  }
+}
+
 export class Label {
   constructor(private label: string) {
     if (label === '') {
@@ -228,4 +235,4 @@ export const handleStartExperimentation = (refactorings: Refactorings, clock: Cl
   await refactorings.add(refactoring);
 };
 
-export const startExperimentation = handleGetRefactoringById(inMemoryRefactoring);
+export const startExperimentation = handleStartExperimentation(inMemoryRefactoring, new SystemClock());
