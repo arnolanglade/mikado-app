@@ -11,9 +11,14 @@ import { jest } from '@jest/globals';
 import refactoringApi from '@/refactoring/refactoring';
 
 describe('RefactoringDashboard', () => {
-  test('The developer sees the goal of the refactoring', async () => {
+  test('The developer sees the refactoring with its prerequisites', async () => {
     render(<RefactoringDashboard refactoring={aRefactoringGraph({
       goal: 'Refactor this method',
+      prerequisites: [
+        {
+          label: 'Do this',
+        },
+      ],
     })}
     />, {
       wrapper: createWrapper(
@@ -23,22 +28,6 @@ describe('RefactoringDashboard', () => {
     });
 
     expect(screen.getByText('Refactor this method')).toBeInTheDocument();
-  });
-
-  test('The developer sees the prerequisite of the refactoring', async () => {
-    render(<RefactoringDashboard refactoring={aRefactoringGraph({
-      prerequisites: [
-        {
-          prerequisiteId: '44abee80-8630-4077-9f14-f31dca577d7d',
-          label: 'Do this',
-          status: Status.TODO,
-        },
-      ],
-    })}
-    />, {
-      wrapper: createWrapper(),
-    });
-
     expect(screen.getByText('Do this')).toBeInTheDocument();
   });
 
