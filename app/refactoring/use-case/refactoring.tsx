@@ -30,6 +30,7 @@ export default function useRefactoring() {
   };
   const startExperimentation = async (refactoringId: string, prerequisiteId: string) => {
     await refactoringApi.startExperimentation(refactoringId, prerequisiteId);
+    notifier.success(translation('refactoring.prerequisite.start.notification.success'));
   };
 
   return {

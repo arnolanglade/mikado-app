@@ -180,5 +180,27 @@ describe('useRefactoring', () => {
 
       expect(startExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
     });
+
+    test('The developer is notified that everything went well', async () => {
+      const success = jest.fn();
+      const refactoringId = '86be6200-1303-48dc-9403-fe497186a0e4';
+      const prerequisiteId = '0764d621-ff5f-44be-ad1c-ba37a9808a5b';
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ startExperimentation: async () => {} }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.prerequisite.start.notification.success': 'The experimentation has been started' },
+        ),
+      });
+
+      await act(() => result.current.startExperimentation(
+        refactoringId,
+        prerequisiteId,
+      ));
+
+      expect(success).toHaveBeenCalledWith('The experimentation has been started');
+    });
   });
 });
