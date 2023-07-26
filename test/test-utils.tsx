@@ -87,9 +87,22 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
   );
 };
 
-export const aRefactoringGraph = (graph: Partial<RefactoringGraph>): RefactoringGraph => ({
-  refactoringId: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
-  goal: 'Refactor this class',
-  prerequisites: [],
-  ...graph,
+type RefactoringGraphState = {
+  refactoringId: string
+  goal: string
+  prerequisites: Partial<{
+    prerequisiteId: string
+    label: string
+    status: Status
+  }>[]
+};
+
+export const aRefactoringGraph = (graph: Partial<RefactoringGraphState>): RefactoringGraph => ({
+  refactoringId: graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+  goal: graph.goal ?? 'Refactor this class',
+  prerequisites: graph.prerequisites?.map((prerequisite) => ({
+    prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
+    label: prerequisite.label ?? 'Do this',
+    status: prerequisite.status ?? Status.TODO,
+  })) ?? [],
 });
