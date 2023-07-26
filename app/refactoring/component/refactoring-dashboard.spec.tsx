@@ -23,7 +23,7 @@ describe('RefactoringDashboard', () => {
     />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.add-prerequisite': 'Add prerequisite' },
+        { 'refactoring.prerequisite.start.button': 'Start experimentation' },
       ),
     });
 
