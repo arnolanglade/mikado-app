@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import { RefactoringGraph } from '@/api/refactoring/refactoring';
+import { RefactoringGraph, Status } from '@/api/refactoring/refactoring';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
+import { Translation } from '@/lib/i18n/intl-provider';
 
 export default function RefactoringDashboard({ refactoring }: { refactoring: RefactoringGraph }) {
   const { addPrerequisite, startExperimentation } = useRefactoring();
@@ -24,12 +25,15 @@ export default function RefactoringDashboard({ refactoring }: { refactoring: Ref
             key={prerequisite.prerequisiteId}
           >
             {prerequisite.label}
+            { prerequisite.status === Status.TODO && (
             <button
               type="button"
               onClick={() => startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
             >
               Start experimentation
+              <Translation id="refactoring.prerequisite.start.button" />
             </button>
+            )}
           </div>
         ),
       )}

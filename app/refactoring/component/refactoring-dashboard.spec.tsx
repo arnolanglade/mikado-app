@@ -53,4 +53,25 @@ describe('RefactoringDashboard', () => {
 
     expect(startExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
   });
+
+  test.each([
+    Status.EXPERIMENTING,
+    Status.DONE,
+  ])('The start experimentation button is hidden for a %s prerequisite', async (status: Status) => {
+    render(<RefactoringDashboard refactoring={aRefactoringGraph({
+      prerequisites: [
+        {
+          status,
+        },
+      ],
+    })}
+    />, {
+      wrapper: createWrapper(
+        {},
+        { 'refactoring.prerequisite.start.button': 'Start experimentation' },
+      ),
+    });
+
+    expect(screen.queryByText('Start experimentation')).not.toBeInTheDocument();
+  });
 });

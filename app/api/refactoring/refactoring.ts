@@ -31,9 +31,9 @@ export class Label {
 }
 
 export enum Status {
-  TODO,
-  EXPERIMENTING,
-  DONE,
+  TODO = 'todo',
+  EXPERIMENTING = 'experimenting',
+  DONE = 'done',
 }
 
 // Todo: used in the front end
