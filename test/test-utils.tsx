@@ -14,6 +14,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
   addPrerequisite: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisite>,
+  startExperimentation: jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>,
   ...api,
 });
 
