@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 describe('useRefactoring', () => {
   describe('start refactoring', () => {
-    test('The goal of the refactoring is saved', async () => {
+    test('The developer starts a refactoring', async () => {
       const start = jest.fn() as jest.Mocked<typeof refactoringApi.start>;
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
@@ -28,18 +28,19 @@ describe('useRefactoring', () => {
 
     test('The developer is redirected to the refactoring page', async () => {
       const push = jest.fn();
+      const refactoringId = uuidv4();
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
             useRouter: aRouter({ push }),
-            refactoringApi: aRefactoringApi({ start: async () => '86be6200-1303-48dc-9403-fe497186a0e4' }),
+            refactoringApi: aRefactoringApi({ start: async () => refactoringId }),
           },
         ),
       });
 
       await act(() => result.current.startRefactoring('Refactor method'));
 
-      expect(push).toHaveBeenCalledWith('/refactoring/86be6200-1303-48dc-9403-fe497186a0e4');
+      expect(push).toHaveBeenCalledWith(`/refactoring/${refactoringId}`);
     });
 
     test('The developer is notified that everything went well', async () => {
@@ -47,7 +48,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ start: async () => '86be6200-1303-48dc-9403-fe497186a0e4' }),
+            refactoringApi: aRefactoringApi({ start: async () => uuidv4() }),
             useNotification: aNotifier({ success }),
           },
           { 'refactoring.notification.success': 'The refactoring has been started' },
@@ -82,8 +83,10 @@ describe('useRefactoring', () => {
   });
 
   describe('add prerequisite', () => {
-    test('The prerequisite is saved', async () => {
+    test('The developer add a prerequisite', async () => {
       const addPrerequisite = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisite>;
+      const refactoringId = uuidv4();
+      const prerequisiteLabel = 'Do that';
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           { refactoringApi: aRefactoringApi({ addPrerequisite }) },
@@ -91,11 +94,11 @@ describe('useRefactoring', () => {
       });
 
       await act(() => result.current.addPrerequisite(
-        '86be6200-1303-48dc-9403-fe497186a0e4',
-        'Do this',
+        refactoringId,
+        prerequisiteLabel,
       ));
 
-      expect(addPrerequisite).toHaveBeenCalledWith('86be6200-1303-48dc-9403-fe497186a0e4', 'Do this');
+      expect(addPrerequisite).toHaveBeenCalledWith(refactoringId, prerequisiteLabel);
     });
 
     test('The refactoring graph is refresh after adding a prerequisite', async () => {
@@ -104,14 +107,14 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisite: async () => 'f446e9e6-08b7-4a5b-bc37-50606f421806' }),
+            refactoringApi: aRefactoringApi({ addPrerequisite: async () => uuidv4() }),
             useRouter: aRouter({ refresh }),
           },
         ),
       });
 
       await act(() => result.current.addPrerequisite(
-        '86be6200-1303-48dc-9403-fe497186a0e4',
+        uuidv4(),
         'Do this',
       ));
 
@@ -123,7 +126,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisite: async () => 'f446e9e6-08b7-4a5b-bc37-50606f421806' }),
+            refactoringApi: aRefactoringApi({ addPrerequisite: async () => uuidv4() }),
             useNotification: aNotifier({ success }),
           },
           { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
@@ -131,7 +134,7 @@ describe('useRefactoring', () => {
       });
 
       await act(() => result.current.addPrerequisite(
-        '86be6200-1303-48dc-9403-fe497186a0e4',
+        uuidv4(),
         'Do this',
       ));
 
@@ -155,7 +158,7 @@ describe('useRefactoring', () => {
       });
 
       await act(() => result.current.addPrerequisite(
-        '86be6200-1303-48dc-9403-fe497186a0e4',
+        uuidv4(),
         'Do this',
       ));
 
@@ -166,8 +169,8 @@ describe('useRefactoring', () => {
   describe('start experimentation', () => {
     test('The developer starts an experimentation', async () => {
       const startExperimentation = jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>;
-      const refactoringId = '86be6200-1303-48dc-9403-fe497186a0e4';
-      const prerequisiteId = '0764d621-ff5f-44be-ad1c-ba37a9808a5b';
+      const refactoringId = uuidv4();
+      const prerequisiteId = uuidv4();
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           { refactoringApi: aRefactoringApi({ startExperimentation }) },
@@ -184,8 +187,6 @@ describe('useRefactoring', () => {
 
     test('The developer is notified that everything went well', async () => {
       const success = jest.fn();
-      const refactoringId = '86be6200-1303-48dc-9403-fe497186a0e4';
-      const prerequisiteId = '0764d621-ff5f-44be-ad1c-ba37a9808a5b';
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
@@ -197,8 +198,8 @@ describe('useRefactoring', () => {
       });
 
       await act(() => result.current.startExperimentation(
-        refactoringId,
-        prerequisiteId,
+        uuidv4(),
+        uuidv4(),
       ));
 
       expect(success).toHaveBeenCalledWith('The experimentation has started');
