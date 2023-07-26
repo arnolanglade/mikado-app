@@ -221,6 +221,7 @@ describe('Refactoring', () => {
         prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
         label: 'Do this',
         status: Status.TODO,
+        startedAt: '2023-07-25T10:24:00',
       }],
     });
 
@@ -232,6 +233,7 @@ describe('Refactoring', () => {
           prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
           label: 'Do this',
           status: Status.TODO,
+          startedAt: '2023-07-25T08:24:00.000Z',
         }],
       });
   });

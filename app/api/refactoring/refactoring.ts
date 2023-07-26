@@ -41,6 +41,7 @@ type PrerequisiteGraph = {
   prerequisiteId: string,
   label: string,
   status: Status,
+  startedAt?: string,
 };
 
 export class Prerequisite {
@@ -77,6 +78,7 @@ export class Prerequisite {
       prerequisiteId: this.prerequisiteId,
       label: this.label.toString(),
       status: this.status,
+      startedAt: this.startedAt?.toISOString(),
     };
   }
 }

@@ -94,6 +94,7 @@ type RefactoringGraphState = {
     prerequisiteId: string
     label: string
     status: Status
+    startedAt: string
   }>[]
 };
 
@@ -104,5 +105,6 @@ export const aRefactoringGraph = (graph: Partial<RefactoringGraphState>): Refact
     prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
     label: prerequisite.label ?? 'Do this',
     status: prerequisite.status ?? Status.TODO,
+    startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
   })) ?? [],
 });
