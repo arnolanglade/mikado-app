@@ -46,7 +46,10 @@ describe('RefactoringDashboard', () => {
       ],
     })}
     />, {
-      wrapper: createWrapper({ refactoringApi: aRefactoringApi({ startExperimentation }) }),
+      wrapper: createWrapper(
+        { refactoringApi: aRefactoringApi({ startExperimentation }) },
+        { 'refactoring.prerequisite.start.button': 'Start experimentation' },
+      ),
     });
 
     await userEvent.click(screen.getByText('Start experimentation'));

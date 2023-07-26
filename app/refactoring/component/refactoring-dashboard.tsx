@@ -30,7 +30,6 @@ export default function RefactoringDashboard({ refactoring }: { refactoring: Ref
               type="button"
               onClick={() => startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
             >
-              Start experimentation
               <Translation id="refactoring.prerequisite.start.button" />
             </button>
             )}
