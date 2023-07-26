@@ -95,7 +95,7 @@ export class Goal {
 
 // Todo: used in the front end
 export type RefactoringGraph = {
-  id: string,
+  refactoringId: string,
   goal: string,
   prerequisites: PrerequisiteGraph[],
 };
@@ -140,7 +140,7 @@ export class Refactoring {
 
   render(): RefactoringGraph {
     return {
-      id: this.id,
+      refactoringId: this.id,
       goal: this.goal.toString(),
       prerequisites: this.prerequisites.map((prerequisite) => prerequisite.render()),
     };

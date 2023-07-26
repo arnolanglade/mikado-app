@@ -47,7 +47,7 @@ describe('RefactoringDashboard', () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
     render(<RefactoringDashboard refactoring={aRefactoringGraph({
-      id: refactoringId,
+      refactoringId,
       prerequisites: [
         {
           prerequisiteId,

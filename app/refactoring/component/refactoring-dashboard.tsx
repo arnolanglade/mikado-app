@@ -9,7 +9,7 @@ import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 export default function RefactoringDashboard({ refactoring }: { refactoring: RefactoringGraph }) {
   const { addPrerequisite, startExperimentation } = useRefactoring();
 
-  const submitPrerequisite = (label: string) => addPrerequisite(refactoring.id, label);
+  const submitPrerequisite = (label: string) => addPrerequisite(refactoring.refactoringId, label);
 
   return (
     <div className={styles.dashboard}>
@@ -26,7 +26,7 @@ export default function RefactoringDashboard({ refactoring }: { refactoring: Ref
             {prerequisite.label}
             <button
               type="button"
-              onClick={() => startExperimentation(refactoring.id, prerequisite.prerequisiteId)}
+              onClick={() => startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
             >
               Start experimentation
             </button>

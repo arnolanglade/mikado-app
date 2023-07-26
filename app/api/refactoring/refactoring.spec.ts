@@ -83,7 +83,7 @@ describe('Refactoring use cases', () => {
     const getRefactoringById = handleGetRefactoringById(refactorings);
 
     expect(await getRefactoringById('51bb1ce3-d1cf-4d32-9d10-8eea626f4784')).toEqual({
-      id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
       goal: 'Rework that part',
       prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
     });
@@ -226,7 +226,7 @@ describe('Refactoring', () => {
 
     expect(refactoring.render())
       .toEqual({
-        id: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'My goal',
         prerequisites: [{
           prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
