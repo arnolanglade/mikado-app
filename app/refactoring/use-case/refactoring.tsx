@@ -28,8 +28,12 @@ export default function useRefactoring() {
       notifier.error(translation('refactoring.prerequisite.notification.error'));
     }
   };
+  const startExperimentation = async (refactoringId: string, prerequisiteId: string) => {
+    await refactoringApi.startExperimentation(refactoringId, prerequisiteId);
+  };
 
   return {
+    startExperimentation,
     startRefactoring,
     addPrerequisite,
   };

@@ -161,4 +161,24 @@ describe('useRefactoring', () => {
       expect(error).toHaveBeenCalledWith('Something went wrong');
     });
   });
+
+  describe('start experimentation', () => {
+    test('The developer starts an experimentation', async () => {
+      const startExperimentation = jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>;
+      const refactoringId = '86be6200-1303-48dc-9403-fe497186a0e4';
+      const prerequisiteId = '0764d621-ff5f-44be-ad1c-ba37a9808a5b';
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          { refactoringApi: aRefactoringApi({ startExperimentation }) },
+        ),
+      });
+
+      await act(() => result.current.startExperimentation(
+        refactoringId,
+        prerequisiteId,
+      ));
+
+      expect(startExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
+    });
+  });
 });

@@ -3,6 +3,7 @@ import httpClient from '@/lib/http-client';
 export type RefactoringApi = {
   start: (goal: string) => Promise<string>
   addPrerequisite: (refactoringId: string, label: string) => Promise<string>
+  startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<void>
 };
 
 const refactoringApi: RefactoringApi = {
@@ -18,6 +19,12 @@ const refactoringApi: RefactoringApi = {
     );
     const { prerequisiteId } = await response.json();
     return prerequisiteId;
+  },
+  startExperimentation: async (refactoringId: string, prerequisiteId: string) => {
+    await httpClient.post(
+      `/api/refactoring/${refactoringId}/prerequisite/start`,
+      { refactoringId, prerequisiteId },
+    );
   },
 };
 
