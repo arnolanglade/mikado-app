@@ -7,6 +7,7 @@ import {
   aNotifier, aRefactoringApi, aRouter, createWrapper,
 } from '@/test/test-utils';
 import refactoringApi from '@/refactoring/refactoring';
+import { v4 as uuidv4 } from 'uuid';
 
 describe('useRefactoring', () => {
   describe('start refactoring', () => {
@@ -201,6 +202,30 @@ describe('useRefactoring', () => {
       ));
 
       expect(success).toHaveBeenCalledWith('The experimentation has been started');
+    });
+
+    test('The developer is notified that something went wrong', async () => {
+      const error = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({
+              startExperimentation: async () => {
+                throw Error();
+              },
+            }),
+            useNotification: aNotifier({ error }),
+          },
+          { 'refactoring.prerequisite.start.notification.error': 'Something went wrong' },
+        ),
+      });
+
+      await act(() => result.current.startExperimentation(
+        uuidv4(),
+        uuidv4(),
+      ));
+
+      expect(error).toHaveBeenCalledWith('Something went wrong');
     });
   });
 });
