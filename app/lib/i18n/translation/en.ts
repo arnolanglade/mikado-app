@@ -8,5 +8,7 @@ const translationEn: Translations = {
   'refactoring.prerequisite.add': 'Add prerequisite',
   'refactoring.prerequisite.notification.success': 'The prerequisite has been added',
   'refactoring.prerequisite.notification.error': 'Something went wrong',
+  'refactoring.prerequisite.start.notification.success': 'The experimentation has started',
+  'refactoring.prerequisite.start.notification.error': 'Something went wrong',
 };
 export default translationEn;

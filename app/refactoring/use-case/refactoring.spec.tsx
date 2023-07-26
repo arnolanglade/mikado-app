@@ -192,7 +192,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ startExperimentation: async () => {} }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.prerequisite.start.notification.success': 'The experimentation has been started' },
+          { 'refactoring.prerequisite.start.notification.success': 'The experimentation has started' },
         ),
       });
 
@@ -201,7 +201,7 @@ describe('useRefactoring', () => {
         prerequisiteId,
       ));
 
-      expect(success).toHaveBeenCalledWith('The experimentation has been started');
+      expect(success).toHaveBeenCalledWith('The experimentation has started');
     });
 
     test('The developer is notified that something went wrong', async () => {
