@@ -2,24 +2,26 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { aRefactoringApi, aRefactoringGraph, createWrapper } from '@/test/test-utils';
+import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
 import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';
 import { Status } from '@/api/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
-import refactoringApi from '@/refactoring/refactoring';
 
 describe('RefactoringDashboard', () => {
   test('The developer sees the refactoring with its prerequisites', async () => {
-    render(<RefactoringDashboard refactoring={aRefactoringGraph({
-      goal: 'Refactor this method',
-      prerequisites: [
-        {
-          label: 'Do this',
-        },
-      ],
-    })}
+    render(<RefactoringDashboard
+      refactoring={aRefactoringGraph({
+        goal: 'Refactor this method',
+        prerequisites: [
+          {
+            label: 'Do this',
+          },
+        ],
+      })}
+      onStartExperimentation={jest.fn()}
+      onAddPrerequisite={jest.fn()}
     />, {
       wrapper: createWrapper(
         {},
@@ -32,22 +34,25 @@ describe('RefactoringDashboard', () => {
   });
 
   test('The developer starts an experimentation on a todo prerequisite', async () => {
-    const startExperimentation = jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>;
+    const startExperimentation = jest.fn();
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
-    render(<RefactoringDashboard refactoring={aRefactoringGraph({
-      refactoringId,
-      prerequisites: [
-        {
-          prerequisiteId,
-          label: 'Do this',
-          status: Status.TODO,
-        },
-      ],
-    })}
+    render(<RefactoringDashboard
+      refactoring={aRefactoringGraph({
+        refactoringId,
+        prerequisites: [
+          {
+            prerequisiteId,
+            label: 'Do this',
+            status: Status.TODO,
+          },
+        ],
+      })}
+      onStartExperimentation={startExperimentation}
+      onAddPrerequisite={jest.fn()}
     />, {
       wrapper: createWrapper(
-        { refactoringApi: aRefactoringApi({ startExperimentation }) },
+        {},
         { 'refactoring.prerequisite.start.button': 'Start experimentation' },
       ),
     });
@@ -61,13 +66,12 @@ describe('RefactoringDashboard', () => {
     Status.EXPERIMENTING,
     Status.DONE,
   ])('The start experimentation button is hidden for a %s prerequisite', async (status: Status) => {
-    render(<RefactoringDashboard refactoring={aRefactoringGraph({
-      prerequisites: [
-        {
-          status,
-        },
-      ],
-    })}
+    render(<RefactoringDashboard
+      refactoring={aRefactoringGraph({
+        prerequisites: [{ status }],
+      })}
+      onStartExperimentation={jest.fn()}
+      onAddPrerequisite={jest.fn()}
     />, {
       wrapper: createWrapper(
         {},

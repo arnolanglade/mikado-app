@@ -1,14 +1,14 @@
 import React from 'react';
 import { getRefactoringById } from '@/api/refactoring/refactoring';
-import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';
+import Page from '@/refactoring/component/refactoring-page';
 import styles from './page.module.css';
 
-export default async function Refactoring({ params: { id } }: { params: { id: string } }) {
+export default async function RefactoringPage({ params: { id } }: { params: { id: string } }) {
   const refactoring = (await getRefactoringById(id));
 
   return (
     <div className={styles.dashboard}>
-      <RefactoringDashboard refactoring={refactoring} />
+      <Page refactoring={refactoring} />
     </div>
   );
 }
