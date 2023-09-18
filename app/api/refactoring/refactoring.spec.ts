@@ -182,7 +182,7 @@ describe('Refactoring', () => {
       prerequisites: [],
     });
 
-    refactoring.addPrerequisite('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
+    refactoring.addPrerequisiteToRefactoring('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
 
     expect(refactoring).toEqual(aRefactoring({
       prerequisites: [{

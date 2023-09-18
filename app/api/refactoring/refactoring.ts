@@ -145,7 +145,7 @@ export class Refactoring {
     });
   }
 
-  addPrerequisite(prerequisiteId: string, label: string) {
+  addPrerequisiteToRefactoring(prerequisiteId: string, label: string) {
     this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, new Label(label))];
   }
 
@@ -222,7 +222,7 @@ export type AddPrerequisiteToRefactoring = {
 
 export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) => async (input: AddPrerequisiteToRefactoring) => {
   const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.addPrerequisite(input.prerequisiteId, input.label);
+  refactoring.addPrerequisiteToRefactoring(input.prerequisiteId, input.label);
   await refactorings.add(refactoring);
 };
 
