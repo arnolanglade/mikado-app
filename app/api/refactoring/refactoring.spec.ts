@@ -13,14 +13,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const refactoringId = uuidv4();
     const refactorings = new InMemoryRefactorings();
     await handleStartRefactoring(refactorings)({
       refactoringId,
       goal: 'Rework that part',
     });
 
-    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+    expect(await refactorings.get(refactoringId))
       .toEqual(aRefactoring({
         refactoringId,
         goal: 'Rework that part',
@@ -33,14 +33,14 @@ describe('Refactoring use cases', () => {
     const startRefactoring = handleStartRefactoring(refactorings);
 
     expect(startRefactoring({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId: uuidv4(),
       goal: '',
     })).rejects.toEqual(new Error('The goal cannot be empty'));
   });
 
   test('The developer adds a todo prerequisite to a refactoring', async () => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
-    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
       prerequisites: [],
@@ -52,7 +52,7 @@ describe('Refactoring use cases', () => {
       label: 'Change that',
     });
 
-    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+    expect(await refactorings.get(refactoringId))
       .toEqual(aRefactoring({
         refactoringId,
         prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
@@ -60,7 +60,7 @@ describe('Refactoring use cases', () => {
   });
 
   test('The developer needs to provide a label to add a prerequisite', () => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const refactoringId = uuidv4();
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
     })]);
@@ -68,31 +68,33 @@ describe('Refactoring use cases', () => {
     const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(refactorings);
 
     expect(addPrerequisiteToRefactoring({
-      prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed',
+      prerequisiteId: uuidv4(),
       refactoringId,
       label: '',
     })).rejects.toEqual(new Error('The label cannot be empty'));
   });
 
   test('The developer gets the refactoring information thanks to the id', async () => {
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
     const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+      refactoringId,
       goal: 'Rework that part',
-      prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
+      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
     })]);
 
     const getRefactoringById = handleGetRefactoringById(refactorings);
 
-    expect(await getRefactoringById('51bb1ce3-d1cf-4d32-9d10-8eea626f4784')).toEqual({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+    expect(await getRefactoringById(refactoringId)).toEqual({
+      refactoringId,
       goal: 'Rework that part',
-      prerequisites: [{ prerequisiteId: '5608a2791-1625-4a63-916f-ab59e1f6c4ed', label: 'Change that', status: Status.TODO }],
+      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
     });
   });
 
   test('The developer starts an experimentation on a todo prerequisite', async () => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
-    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
       prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
@@ -104,7 +106,7 @@ describe('Refactoring use cases', () => {
       prerequisiteId,
     });
 
-    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+    expect(await refactorings.get(refactoringId))
       .toEqual(aRefactoring({
         refactoringId,
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING, startedAt: '2023-07-25T10:24:00' }],
@@ -115,8 +117,8 @@ describe('Refactoring use cases', () => {
     Status.EXPERIMENTING,
     Status.DONE,
   ])('The developer gets an error when an experimentation is started on a %s prerequisite', async (status) => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
-    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
       prerequisites: [{ prerequisiteId, status }],
@@ -134,7 +136,7 @@ describe('Refactoring use cases', () => {
 
 describe('Refactoring', () => {
   it('builds a refactoring object without prerequisite when we start a refactoring', () => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const refactoringId = uuidv4();
     const refactoring = Refactoring.start(refactoringId, 'Rework that part');
 
     expect(refactoring).toEqual(aRefactoring({
@@ -146,7 +148,7 @@ describe('Refactoring', () => {
 
   describe('identifyBy', () => {
     it('says yes if the given id match the refactoring id', () => {
-      const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+      const refactoringId = uuidv4();
       const refactoring = aRefactoring({ refactoringId });
 
       expect(refactoring.identifyBy(refactoringId))
@@ -163,7 +165,7 @@ describe('Refactoring', () => {
 
   describe('equals', () => {
     it('says yes if the given refactoring object equals this one', () => {
-      const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+      const refactoringId = uuidv4();
       const refactoring = aRefactoring({ refactoringId });
 
       expect(refactoring.equals(aRefactoring({ refactoringId })))
@@ -179,15 +181,16 @@ describe('Refactoring', () => {
   });
 
   it('adds a prerequisite to a refactoring (its status is todo)', () => {
+    const prerequisiteId = uuidv4();
     const refactoring = aRefactoring({
       prerequisites: [],
     });
 
-    refactoring.addPrerequisiteToRefactoring('608a2791-1625-4a63-916f-ab59e1f6c4ed', 'Change that');
+    refactoring.addPrerequisiteToRefactoring(prerequisiteId, 'Change that');
 
     expect(refactoring).toEqual(aRefactoring({
       prerequisites: [{
-        prerequisiteId: '608a2791-1625-4a63-916f-ab59e1f6c4ed',
+        prerequisiteId,
         label: 'Change that',
         status: Status.TODO,
       }],
@@ -220,7 +223,7 @@ describe('Refactoring', () => {
   });
 
   it('start an experimentation on a todo prerequisite', () => {
-    const prerequisiteId = '5608a2791-1625-4a63-916f-ab59e1f6c4ed';
+    const prerequisiteId = uuidv4();
     const refactoring = aRefactoring({
       prerequisites: [{
         prerequisiteId, label: 'Change that', status: Status.TODO, startedAt: undefined,
@@ -267,12 +270,12 @@ describe('Refactoring', () => {
 
 describe('Refactorings', () => {
   it('persists a refactoring', async () => {
-    const refactoringId = '51bb1ce3-d1cf-4d32-9d10-8eea626f4784';
+    const refactoringId = uuidv4();
     const refactorings = new InMemoryRefactorings();
 
     await refactorings.add(aRefactoring({ refactoringId }));
 
-    expect(await refactorings.get('51bb1ce3-d1cf-4d32-9d10-8eea626f4784'))
+    expect(await refactorings.get(refactoringId))
       .toEqual(aRefactoring({ refactoringId }));
   });
 
