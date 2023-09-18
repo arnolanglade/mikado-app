@@ -49,6 +49,7 @@ export class Prerequisite {
     private prerequisiteId: string,
     private label: Label,
     private status: Status,
+    private parentId?: string,
     private startedAt?: Date,
   ) {
   }
@@ -58,6 +59,14 @@ export class Prerequisite {
     label: Label,
   ) {
     return new Prerequisite(prerequisiteId, label, Status.TODO);
+  }
+
+  static withParent(
+    prerequisiteId: string,
+    parentId: string,
+    label: Label,
+  ) {
+    return new Prerequisite(prerequisiteId, label, Status.TODO, parentId);
   }
 
   identifyBy(prerequisiteId: string): boolean {
