@@ -53,7 +53,7 @@ export class Prerequisite {
   ) {
   }
 
-  static new(
+  static withoutParent(
     prerequisiteId: string,
     label: Label,
   ) {
@@ -137,7 +137,7 @@ export class Refactoring {
   }
 
   addPrerequisite(prerequisiteId: string, label: string) {
-    this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, new Label(label))];
+    this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, new Label(label))];
   }
 
   render(): RefactoringGraph {
