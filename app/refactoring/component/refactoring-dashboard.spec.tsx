@@ -21,7 +21,7 @@ describe('RefactoringDashboard', () => {
         ],
       })}
       onStartExperimentation={jest.fn()}
-      onAddPrerequisite={jest.fn()}
+      onAddPrerequisiteToRefactoring={jest.fn()}
     />, {
       wrapper: createWrapper(
         {},
@@ -40,7 +40,7 @@ describe('RefactoringDashboard', () => {
     render(<RefactoringDashboard
       refactoring={aRefactoringGraph({ refactoringId, prerequisites: [] })}
       onStartExperimentation={onAddPrerequisite}
-      onAddPrerequisite={onAddPrerequisite}
+      onAddPrerequisiteToRefactoring={onAddPrerequisite}
     />, {
       wrapper: createWrapper(
         {},
@@ -66,7 +66,7 @@ describe('RefactoringDashboard', () => {
         ],
       })}
       onStartExperimentation={onStartExperimentation}
-      onAddPrerequisite={jest.fn()}
+      onAddPrerequisiteToRefactoring={jest.fn()}
     />, {
       wrapper: createWrapper(
         {},
@@ -88,7 +88,7 @@ describe('RefactoringDashboard', () => {
         prerequisites: [{ status }],
       })}
       onStartExperimentation={jest.fn()}
-      onAddPrerequisite={jest.fn()}
+      onAddPrerequisiteToRefactoring={jest.fn()}
     />, {
       wrapper: createWrapper(
         {},

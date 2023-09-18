@@ -19,7 +19,7 @@ export default function useRefactoring() {
     }
   };
 
-  const addPrerequisite = async (refactoringId: string, label: string) => {
+  const addPrerequisiteToRefactoring = async (refactoringId: string, label: string) => {
     try {
       await refactoringApi.addPrerequisite(refactoringId, label);
       notifier.success(translation('refactoring.prerequisite.notification.success'));
@@ -41,6 +41,6 @@ export default function useRefactoring() {
   return {
     startExperimentation,
     startRefactoring,
-    addPrerequisite,
+    addPrerequisiteToRefactoring,
   };
 }

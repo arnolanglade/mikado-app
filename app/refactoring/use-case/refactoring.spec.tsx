@@ -85,7 +85,7 @@ describe('useRefactoring', () => {
         ),
       });
 
-      await act(() => result.current.addPrerequisite(
+      await act(() => result.current.addPrerequisiteToRefactoring(
         refactoringId,
         prerequisiteLabel,
       ));
@@ -106,7 +106,7 @@ describe('useRefactoring', () => {
         ),
       });
 
-      await act(() => result.current.addPrerequisite(
+      await act(() => result.current.addPrerequisiteToRefactoring(
         uuidv4(),
         'Do this',
       ));
@@ -130,7 +130,7 @@ describe('useRefactoring', () => {
         ),
       });
 
-      await act(() => result.current.addPrerequisite(
+      await act(() => result.current.addPrerequisiteToRefactoring(
         uuidv4(),
         'Do this',
       ));

@@ -9,15 +9,15 @@ import { Translation } from '@/lib/i18n/intl-provider';
 export default function RefactoringDashboard(
   {
     refactoring,
-    onAddPrerequisite,
+    onAddPrerequisiteToRefactoring,
     onStartExperimentation,
   }: {
     refactoring: RefactoringGraph,
-    onAddPrerequisite: (refactoringId: string, label: string) => void,
+    onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
     onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
   },
 ) {
-  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisite(refactoring.refactoringId, label);
+  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.refactoringId, label);
   const startExperimentation = (refactoringId: string, prerequisiteId: string) => () => onStartExperimentation(refactoringId, prerequisiteId);
 
   return (
