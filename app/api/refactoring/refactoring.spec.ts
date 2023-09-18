@@ -1,8 +1,10 @@
 import {
+  handleAddPrerequisiteToPrerequisite,
   handleAddPrerequisiteToRefactoring,
   handleGetRefactoringById,
   handleStartExperimentation,
-  handleStartRefactoring, InMemoryClock,
+  handleStartRefactoring,
+  InMemoryClock,
   InMemoryRefactorings,
   Refactoring,
   Status,
@@ -38,7 +40,7 @@ describe('Refactoring use cases', () => {
     })).rejects.toEqual(new Error('The goal cannot be empty'));
   });
 
-  test('The developer adds a todo prerequisite to a refactoring', async () => {
+  test('The developer adds a prerequisite to a refactoring', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
@@ -73,6 +75,36 @@ describe('Refactoring use cases', () => {
       refactoringId,
       label: '',
     })).rejects.toEqual(new Error('The label cannot be empty'));
+  });
+
+  test('The developer adds a prerequisite to a prerequisite', async () => {
+    const refactoringId = uuidv4();
+    const existingPrerequisiteId = uuidv4();
+    const prerequisiteId = uuidv4();
+    const label = 'Change that';
+    const existingPrerequisite = { prerequisiteId: existingPrerequisiteId, status: Status.EXPERIMENTING };
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      refactoringId,
+      prerequisites: [existingPrerequisite],
+    })]);
+
+    await handleAddPrerequisiteToPrerequisite(refactorings)({
+      refactoringId,
+      prerequisiteId,
+      parentId: existingPrerequisiteId,
+      label,
+    });
+
+    expect(await refactorings.get(refactoringId))
+      .toEqual(aRefactoring({
+        refactoringId,
+        prerequisites: [
+          existingPrerequisite,
+          {
+            prerequisiteId, parentId: existingPrerequisiteId, label, status: Status.TODO,
+          },
+        ],
+      }));
   });
 
   test('The developer gets the refactoring information thanks to the id', async () => {

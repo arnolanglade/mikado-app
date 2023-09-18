@@ -232,6 +232,21 @@ export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) =
 
 export const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(inMemoryRefactoring);
 
+export type AddPrerequisiteToPrerequisite = {
+  refactoringId: string
+  prerequisiteId: string
+  parentId: string
+  label: string
+};
+
+export const handleAddPrerequisiteToPrerequisite = (refactorings: Refactorings) => async (input: AddPrerequisiteToPrerequisite) => {
+  const refactoring = await refactorings.get(input.refactoringId);
+  refactoring.addPrerequisiteToPrerequisite(input.prerequisiteId, input.parentId, input.label);
+  await refactorings.add(refactoring);
+};
+
+export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(inMemoryRefactoring);
+
 export const handleGetRefactoringById = (refactorings: Refactorings) => async (refactoringId: string): Promise<RefactoringGraph> => {
   const refactoring = await refactorings.get(refactoringId);
   return refactoring.render();
