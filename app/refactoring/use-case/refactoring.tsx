@@ -38,9 +38,14 @@ export default function useRefactoring() {
     }
   };
 
+  const addPrerequisiteToPrerequisite = async (refactoringId: string, prerequisiteId: string, label: string) => {
+
+  };
+
   return {
     startExperimentation,
     startRefactoring,
     addPrerequisiteToRefactoring,
+    addPrerequisiteToPrerequisite,
   };
 }

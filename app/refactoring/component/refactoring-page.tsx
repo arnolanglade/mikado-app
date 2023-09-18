@@ -8,13 +8,14 @@ import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard'
 export default function Page({ refactoring }: {
   refactoring: RefactoringGraph
 }) {
-  const { addPrerequisiteToRefactoring, startExperimentation } = useRefactoring();
+  const { addPrerequisiteToRefactoring, addPrerequisiteToPrerequisite, startExperimentation } = useRefactoring();
 
   return (
     <RefactoringDashboard
       refactoring={refactoring}
       onAddPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
       onStartExperimentation={startExperimentation}
+      onAddPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
     />
   );
 }

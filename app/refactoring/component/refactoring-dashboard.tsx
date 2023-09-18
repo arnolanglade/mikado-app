@@ -11,13 +11,16 @@ export default function RefactoringDashboard(
     refactoring,
     onAddPrerequisiteToRefactoring,
     onStartExperimentation,
+    onAddPrerequisiteToPrerequisite,
   }: {
     refactoring: RefactoringGraph,
     onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
     onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
+    onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
   },
 ) {
   const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.refactoringId, label);
+  const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(refactoring.refactoringId, prerequisiteId, label);
   const startExperimentation = (refactoringId: string, prerequisiteId: string) => () => onStartExperimentation(refactoringId, prerequisiteId);
 
   return (
@@ -26,24 +29,27 @@ export default function RefactoringDashboard(
         { refactoring.goal }
         <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />
       </div>
-      {refactoring.prerequisites.map(
-        (prerequisite) => (
-          <div
-            className={styles.prerequisite}
-            key={prerequisite.prerequisiteId}
-          >
-            {prerequisite.label}
-            { prerequisite.status === Status.TODO && (
-            <button
-              type="button"
-              onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
+      <div data-testid="prerequisites">
+        {refactoring.prerequisites.map(
+          (prerequisite) => (
+            <div
+              className={styles.prerequisite}
+              key={prerequisite.prerequisiteId}
             >
-              <Translation id="refactoring.prerequisite.start.button" />
-            </button>
-            )}
-          </div>
-        ),
-      )}
+              { prerequisite.label }
+              { prerequisite.status === Status.TODO && (
+                <button
+                  type="button"
+                  onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
+                >
+                  <Translation id="refactoring.prerequisite.start.button" />
+                </button>
+              )}
+              <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)} />
+            </div>
+          ),
+        )}
+      </div>
     </div>
   );
 }
