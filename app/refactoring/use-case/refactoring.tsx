@@ -32,6 +32,7 @@ export default function useRefactoring() {
     try {
       await refactoringApi.startExperimentation(refactoringId, prerequisiteId);
       notifier.success(translation('refactoring.prerequisite.start.notification.success'));
+      router.refresh();
     } catch (e) {
       notifier.error(translation('refactoring.prerequisite.start.notification.error'));
     }

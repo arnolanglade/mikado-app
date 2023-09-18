@@ -185,6 +185,25 @@ describe('useRefactoring', () => {
       expect(startExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
     });
 
+    test('The refactoring graph is refresh after starting an experimentation', async () => {
+      const refresh = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ startExperimentation: async () => {} }),
+            useRouter: aRouter({ refresh }),
+          },
+        ),
+      });
+
+      await act(() => result.current.startExperimentation(
+        uuidv4(),
+        uuidv4(),
+      ));
+
+      expect(refresh).toHaveBeenCalled();
+    });
+
     test('The developer is notified that everything went well', async () => {
       const success = jest.fn();
       const { result } = renderHook(useRefactoring, {
