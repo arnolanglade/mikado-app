@@ -165,6 +165,27 @@ describe('useRefactoring', () => {
       expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(refactoringId, prerequisiteId, prerequisiteLabel);
       expect(success).toHaveBeenCalledWith('The prerequisite has been added');
     });
+
+    test('The refactoring graph is refresh after adding a prerequisite', async () => {
+      const refresh = jest.fn();
+
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => uuidv4() }),
+            useRouter: aRouter({ refresh }),
+          },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisiteToPrerequisite(
+        uuidv4(),
+        uuidv4(),
+        'Do this',
+      ));
+
+      expect(refresh).toHaveBeenCalled();
+    });
   });
 
   describe('start experimentation', () => {
