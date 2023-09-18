@@ -11,19 +11,23 @@ import { v4 as uuidv4 } from 'uuid';
 
 describe('useRefactoring', () => {
   describe('start refactoring', () => {
-    test('The developer starts a refactoring', async () => {
+    test('The developer is notified after starting a refactoring that everything went well', async () => {
+      const success = jest.fn();
       const start = jest.fn() as jest.Mocked<typeof refactoringApi.start>;
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
             refactoringApi: aRefactoringApi({ start }),
+            useNotification: aNotifier({ success }),
           },
+          { 'refactoring.notification.success': 'The refactoring has been started' },
         ),
       });
 
       await act(() => result.current.startRefactoring('Refactor method'));
 
       expect(start).toHaveBeenCalledWith('Refactor method');
+      expect(success).toHaveBeenCalledWith('The refactoring has been started');
     });
 
     test('The developer is redirected to the refactoring page', async () => {
@@ -41,23 +45,6 @@ describe('useRefactoring', () => {
       await act(() => result.current.startRefactoring('Refactor method'));
 
       expect(push).toHaveBeenCalledWith(`/refactoring/${refactoringId}`);
-    });
-
-    test('The developer is notified that everything went well', async () => {
-      const success = jest.fn();
-      const { result } = renderHook(useRefactoring, {
-        wrapper: createWrapper(
-          {
-            refactoringApi: aRefactoringApi({ start: async () => uuidv4() }),
-            useNotification: aNotifier({ success }),
-          },
-          { 'refactoring.notification.success': 'The refactoring has been started' },
-        ),
-      });
-
-      await act(() => result.current.startRefactoring('Refactor method'));
-
-      expect(success).toHaveBeenCalledWith('The refactoring has been started');
     });
 
     test('The developer is notified that something went wrong', async () => {
