@@ -22,7 +22,7 @@ const refactoringApi: RefactoringApi = {
   },
   startExperimentation: async (refactoringId: string, prerequisiteId: string) => {
     await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite/start`,
+      `/api/refactoring/${refactoringId}/prerequisite/start-experimentation`,
       { refactoringId, prerequisiteId },
     );
   },
