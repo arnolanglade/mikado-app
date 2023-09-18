@@ -186,6 +186,31 @@ describe('useRefactoring', () => {
 
       expect(refresh).toHaveBeenCalled();
     });
+
+    test('The developer is notified that something went wrong', async () => {
+      const error = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({
+              addPrerequisiteToPrerequisite: async () => {
+                throw Error();
+              },
+            }),
+            useNotification: aNotifier({ error }),
+          },
+          { 'refactoring.prerequisite.notification.error': 'Something went wrong' },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisiteToPrerequisite(
+        uuidv4(),
+        uuidv4(),
+        'Do this',
+      ));
+
+      expect(error).toHaveBeenCalledWith('Something went wrong');
+    });
   });
 
   describe('start experimentation', () => {
