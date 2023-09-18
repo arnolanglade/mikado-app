@@ -22,7 +22,7 @@ export default function RefactoringDashboard(
 
   return (
     <div className={styles.dashboard}>
-      <div className={styles.refactoringGoal}>
+      <div className={styles.refactoringGoal} data-testid="refactoring">
         { refactoring.goal }
         <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />
       </div>
