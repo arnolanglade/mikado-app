@@ -2,7 +2,7 @@ import httpClient from '@/lib/http-client';
 
 export type RefactoringApi = {
   start: (goal: string) => Promise<string>
-  addPrerequisite: (refactoringId: string, label: string) => Promise<string>
+  addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<string>
   addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<string>
   startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<void>
 };
@@ -13,9 +13,9 @@ const refactoringApi: RefactoringApi = {
     const { refactoringId } = await response.json();
     return refactoringId;
   },
-  addPrerequisite: async (refactoringId: string, label: string) => {
+  addPrerequisiteToRefactoring: async (refactoringId: string, label: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}//prerequisite/add/refactoring`,
+      `/api/refactoring/${refactoringId}/prerequisite/add-to-refactoring`,
       { refactoringId, label },
     );
     const { prerequisiteId } = await response.json();
@@ -29,7 +29,7 @@ const refactoringApi: RefactoringApi = {
   },
   addPrerequisiteToPrerequisite: async (refactoringId: string, prerequisiteId: string, label: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite/add/prerequisite`,
+      `/api/refactoring/${refactoringId}/prerequisite/add-to-prerequisite`,
       { refactoringId, prerequisiteId, label },
     );
     const { newPrerequisiteId } = await response.json();

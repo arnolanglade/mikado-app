@@ -21,7 +21,7 @@ export default function useRefactoring() {
 
   const addPrerequisiteToRefactoring = async (refactoringId: string, label: string) => {
     try {
-      await refactoringApi.addPrerequisite(refactoringId, label);
+      await refactoringApi.addPrerequisiteToRefactoring(refactoringId, label);
       notifier.success(translation('refactoring.prerequisite.notification.success'));
       router.refresh();
     } catch (e) {
