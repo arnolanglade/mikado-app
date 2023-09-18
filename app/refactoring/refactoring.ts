@@ -15,7 +15,7 @@ const refactoringApi: RefactoringApi = {
   },
   addPrerequisite: async (refactoringId: string, label: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite`,
+      `/api/refactoring/${refactoringId}//prerequisite/add/refactoring`,
       { refactoringId, label },
     );
     const { prerequisiteId } = await response.json();
@@ -29,7 +29,7 @@ const refactoringApi: RefactoringApi = {
   },
   addPrerequisiteToPrerequisite: async (refactoringId: string, prerequisiteId: string, label: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}/add-prerequisite-to-prerequisite`,
+      `/api/refactoring/${refactoringId}/prerequisite/add/prerequisite`,
       { refactoringId, prerequisiteId, label },
     );
     const { newPrerequisiteId } = await response.json();
