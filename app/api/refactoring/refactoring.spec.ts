@@ -9,6 +9,7 @@ import {
   UnknownRefactoring,
 } from '@/api/refactoring/refactoring';
 import { aRefactoring } from '@/test/test-utils';
+import { v4 as uuidv4 } from 'uuid';
 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
@@ -190,6 +191,31 @@ describe('Refactoring', () => {
         label: 'Change that',
         status: Status.TODO,
       }],
+    }));
+  });
+
+  it('adds a prerequisite to an existing one (its status is todo)', () => {
+    const prerequisiteId = uuidv4();
+    const parentId = uuidv4();
+    const label = 'Change that';
+    const existingPrerequisite = {
+      prerequisiteId, status: Status.EXPERIMENTING,
+    };
+    const refactoring = aRefactoring({
+      prerequisites: [existingPrerequisite],
+    });
+
+    refactoring.addPrerequisiteToPrerequisite(prerequisiteId, parentId, label);
+
+    expect(refactoring).toEqual(aRefactoring({
+      prerequisites: [
+        existingPrerequisite,
+        {
+          prerequisiteId,
+          parentId,
+          label,
+          status: Status.TODO,
+        }],
     }));
   });
 

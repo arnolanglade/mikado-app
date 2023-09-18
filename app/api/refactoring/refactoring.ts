@@ -149,6 +149,10 @@ export class Refactoring {
     this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, new Label(label))];
   }
 
+  addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string) {
+    this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, parentId, new Label(label))];
+  }
+
   render(): RefactoringGraph {
     return {
       refactoringId: this.id,
