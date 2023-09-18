@@ -33,7 +33,7 @@ describe('RefactoringDashboard', () => {
     expect(screen.getByText('Do this')).toBeInTheDocument();
   });
 
-  test('The onAddPrerequisite callback when a developer add a prerequisite to a refactoring', async () => {
+  test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
     const onAddPrerequisite = jest.fn();
     const refactoringId = uuidv4();
     const label = 'Refactor method';
@@ -54,7 +54,7 @@ describe('RefactoringDashboard', () => {
     expect(onAddPrerequisite).toHaveBeenCalledWith(refactoringId, label);
   });
 
-  test('The onStartExperimentation callback when a developer starts an experimentation on a todo prerequisite', async () => {
+  test('The onStartExperimentation callback is called when a developer starts an experimentation', async () => {
     const onStartExperimentation = jest.fn();
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
