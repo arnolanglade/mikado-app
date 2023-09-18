@@ -45,7 +45,8 @@ export default function RefactoringDashboard(
                   <Translation id="refactoring.prerequisite.start.button" />
                 </button>
               )}
-              <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)} />
+              { prerequisite.status === Status.EXPERIMENTING
+                  && <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)} />}
             </div>
           ),
         )}

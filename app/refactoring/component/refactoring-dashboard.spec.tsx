@@ -103,7 +103,7 @@ describe('RefactoringDashboard', () => {
     expect(screen.queryByText('Start experimentation')).not.toBeInTheDocument();
   });
 
-  test.only('The addPrerequisiteToPrerequisite callback is called whe a developer adds a prerequisite to an existing one', async () => {
+  test('The addPrerequisiteToPrerequisite callback is called whe a developer adds a prerequisite to an existing one', async () => {
     const addPrerequisiteToPrerequisite = jest.fn();
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
@@ -129,5 +129,27 @@ describe('RefactoringDashboard', () => {
     await userEvent.click(within(screen.getByTestId('prerequisites')).getByText('Add prerequisite'));
 
     expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(refactoringId, prerequisiteId, label);
+  });
+
+  test.each([
+    Status.TODO,
+    Status.DONE,
+  ])('The start add prerequisite form is hidden for a %s prerequisite', async (status: Status) => {
+    render(
+      <RefactoringDashboard
+        refactoring={aRefactoringGraph({ prerequisites: [{ status }] })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+      />,
+      {
+        wrapper: createWrapper(
+          {},
+          { 'refactoring.prerequisite.add': 'Add prerequisite' },
+        ),
+      },
+    );
+
+    expect(within(screen.getByTestId('prerequisites')).queryByText('Add prerequisite')).not.toBeInTheDocument();
   });
 });
