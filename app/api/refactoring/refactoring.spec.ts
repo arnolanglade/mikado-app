@@ -41,6 +41,7 @@ describe('Refactoring use cases', () => {
   test('The developer adds a todo prerequisite to a refactoring', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
+    const label = 'Change that';
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
       prerequisites: [],
@@ -49,13 +50,13 @@ describe('Refactoring use cases', () => {
     await handleAddPrerequisiteToRefactoring(refactorings)({
       prerequisiteId,
       refactoringId,
-      label: 'Change that',
+      label,
     });
 
     expect(await refactorings.get(refactoringId))
       .toEqual(aRefactoring({
         refactoringId,
-        prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+        prerequisites: [{ prerequisiteId, label, status: Status.TODO }],
       }));
   });
 
@@ -77,18 +78,21 @@ describe('Refactoring use cases', () => {
   test('The developer gets the refactoring information thanks to the id', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
+    const goal = 'Rework that part';
+    const label = 'Change that';
+    const status = Status.TODO;
     const refactorings = new InMemoryRefactorings([aRefactoring({
       refactoringId,
-      goal: 'Rework that part',
-      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+      goal,
+      prerequisites: [{ prerequisiteId, label, status }],
     })]);
 
     const getRefactoringById = handleGetRefactoringById(refactorings);
 
     expect(await getRefactoringById(refactoringId)).toEqual({
       refactoringId,
-      goal: 'Rework that part',
-      prerequisites: [{ prerequisiteId, label: 'Change that', status: Status.TODO }],
+      goal,
+      prerequisites: [{ prerequisiteId, label, status }],
     });
   });
 
@@ -137,11 +141,12 @@ describe('Refactoring use cases', () => {
 describe('Refactoring', () => {
   it('builds a refactoring object without prerequisite when we start a refactoring', () => {
     const refactoringId = uuidv4();
-    const refactoring = Refactoring.start(refactoringId, 'Rework that part');
+    const goal = 'Rework that part';
+    const refactoring = Refactoring.start(refactoringId, goal);
 
     expect(refactoring).toEqual(aRefactoring({
       refactoringId,
-      goal: 'Rework that part',
+      goal,
       prerequisites: [],
     }));
   });
@@ -182,16 +187,17 @@ describe('Refactoring', () => {
 
   it('adds a prerequisite to a refactoring (its status is todo)', () => {
     const prerequisiteId = uuidv4();
+    const label = 'Change that';
     const refactoring = aRefactoring({
       prerequisites: [],
     });
 
-    refactoring.addPrerequisiteToRefactoring(prerequisiteId, 'Change that');
+    refactoring.addPrerequisiteToRefactoring(prerequisiteId, label);
 
     expect(refactoring).toEqual(aRefactoring({
       prerequisites: [{
         prerequisiteId,
-        label: 'Change that',
+        label,
         status: Status.TODO,
       }],
     }));
@@ -201,9 +207,7 @@ describe('Refactoring', () => {
     const prerequisiteId = uuidv4();
     const parentId = uuidv4();
     const label = 'Change that';
-    const existingPrerequisite = {
-      prerequisiteId, status: Status.EXPERIMENTING,
-    };
+    const existingPrerequisite = { prerequisiteId };
     const refactoring = aRefactoring({
       prerequisites: [existingPrerequisite],
     });
@@ -226,7 +230,7 @@ describe('Refactoring', () => {
     const prerequisiteId = uuidv4();
     const refactoring = aRefactoring({
       prerequisites: [{
-        prerequisiteId, label: 'Change that', status: Status.TODO, startedAt: undefined,
+        prerequisiteId, status: Status.TODO, startedAt: undefined,
       }],
     });
 
@@ -235,7 +239,6 @@ describe('Refactoring', () => {
     expect(refactoring).toEqual(aRefactoring({
       prerequisites: [{
         prerequisiteId,
-        label: 'Change that',
         status: Status.EXPERIMENTING,
         startedAt: '2023-07-25T10:24:00',
       }],
@@ -280,10 +283,14 @@ describe('Refactorings', () => {
   });
 
   it('raises an error if the given id does not match an existing refactoring', async () => {
-    const refactorings = new InMemoryRefactorings([aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' })]);
+    const refactorings = new InMemoryRefactorings([
+      aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }),
+    ]);
 
     await expect(refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae')).rejects.toThrow(
-      new UnknownRefactoring('The refactoring with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist'),
+      new UnknownRefactoring(
+        'The refactoring with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist',
+      ),
     );
   });
 });
