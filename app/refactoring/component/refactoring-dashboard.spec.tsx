@@ -34,7 +34,7 @@ describe('RefactoringDashboard', () => {
   });
 
   test('The developer starts an experimentation on a todo prerequisite', async () => {
-    const startExperimentation = jest.fn();
+    const onStartExperimentation = jest.fn();
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
     render(<RefactoringDashboard
@@ -43,12 +43,11 @@ describe('RefactoringDashboard', () => {
         prerequisites: [
           {
             prerequisiteId,
-            label: 'Do this',
             status: Status.TODO,
           },
         ],
       })}
-      onStartExperimentation={startExperimentation}
+      onStartExperimentation={onStartExperimentation}
       onAddPrerequisite={jest.fn()}
     />, {
       wrapper: createWrapper(
@@ -59,7 +58,7 @@ describe('RefactoringDashboard', () => {
 
     await userEvent.click(screen.getByText('Start experimentation'));
 
-    expect(startExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
+    expect(onStartExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
   });
 
   test.each([
