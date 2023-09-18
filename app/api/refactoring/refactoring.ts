@@ -130,7 +130,7 @@ export class Refactoring {
     return refactoring.id === this.id;
   }
 
-  startExperimentation(prerequisiteId: string, startedAt: Date) {
+  startExperimentation(prerequisiteId: string, startedAt: Date): void {
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
         if (!prerequisite.hasStatus(Status.TODO)) {
@@ -145,11 +145,11 @@ export class Refactoring {
     });
   }
 
-  addPrerequisiteToRefactoring(prerequisiteId: string, label: string) {
+  addPrerequisiteToRefactoring(prerequisiteId: string, label: string): void {
     this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, new Label(label))];
   }
 
-  addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string) {
+  addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
     this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, parentId, new Label(label))];
   }
 
