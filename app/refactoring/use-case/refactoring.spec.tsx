@@ -83,13 +83,18 @@ describe('useRefactoring', () => {
   });
 
   describe('add prerequisite', () => {
-    test('The developer add a prerequisite', async () => {
+    test('The developer is notified after adding a prerequisite that everything went well', async () => {
       const addPrerequisite = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisite>;
+      const success = jest.fn();
       const refactoringId = uuidv4();
       const prerequisiteLabel = 'Do that';
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
-          { refactoringApi: aRefactoringApi({ addPrerequisite }) },
+          {
+            refactoringApi: aRefactoringApi({ addPrerequisite }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
         ),
       });
 
@@ -99,6 +104,7 @@ describe('useRefactoring', () => {
       ));
 
       expect(addPrerequisite).toHaveBeenCalledWith(refactoringId, prerequisiteLabel);
+      expect(success).toHaveBeenCalledWith('The prerequisite has been added');
     });
 
     test('The refactoring graph is refresh after adding a prerequisite', async () => {
@@ -119,26 +125,6 @@ describe('useRefactoring', () => {
       ));
 
       expect(refresh).toHaveBeenCalled();
-    });
-
-    test('The developer is notified that everything went well', async () => {
-      const success = jest.fn();
-      const { result } = renderHook(useRefactoring, {
-        wrapper: createWrapper(
-          {
-            refactoringApi: aRefactoringApi({ addPrerequisite: async () => uuidv4() }),
-            useNotification: aNotifier({ success }),
-          },
-          { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
-        ),
-      });
-
-      await act(() => result.current.addPrerequisite(
-        uuidv4(),
-        'Do this',
-      ));
-
-      expect(success).toHaveBeenCalledWith('The prerequisite has been added');
     });
 
     test('The developer is notified that something went wrong', async () => {
@@ -167,13 +153,19 @@ describe('useRefactoring', () => {
   });
 
   describe('start experimentation', () => {
-    test('The developer starts an experimentation', async () => {
-      const startExperimentation = jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>;
+    test('The developer is notified after starting an experimentation that everything went well', async () => {
+      const success = jest.fn();
       const refactoringId = uuidv4();
       const prerequisiteId = uuidv4();
+      const startExperimentation = jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>;
+
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
-          { refactoringApi: aRefactoringApi({ startExperimentation }) },
+          {
+            refactoringApi: aRefactoringApi({ startExperimentation }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.prerequisite.start.notification.success': 'The experimentation has started' },
         ),
       });
 
@@ -183,6 +175,7 @@ describe('useRefactoring', () => {
       ));
 
       expect(startExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
+      expect(success).toHaveBeenCalledWith('The experimentation has started');
     });
 
     test('The refactoring graph is refresh after starting an experimentation', async () => {
@@ -202,26 +195,6 @@ describe('useRefactoring', () => {
       ));
 
       expect(refresh).toHaveBeenCalled();
-    });
-
-    test('The developer is notified that everything went well', async () => {
-      const success = jest.fn();
-      const { result } = renderHook(useRefactoring, {
-        wrapper: createWrapper(
-          {
-            refactoringApi: aRefactoringApi({ startExperimentation: async () => {} }),
-            useNotification: aNotifier({ success }),
-          },
-          { 'refactoring.prerequisite.start.notification.success': 'The experimentation has started' },
-        ),
-      });
-
-      await act(() => result.current.startExperimentation(
-        uuidv4(),
-        uuidv4(),
-      ));
-
-      expect(success).toHaveBeenCalledWith('The experimentation has started');
     });
 
     test('The developer is notified that something went wrong', async () => {
