@@ -69,7 +69,7 @@ describe('useRefactoring', () => {
     });
   });
 
-  describe('add prerequisite', () => {
+  describe('add prerequisite to a refactoring', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
       const addPrerequisite = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisite>;
       const success = jest.fn();
@@ -136,6 +136,34 @@ describe('useRefactoring', () => {
       ));
 
       expect(error).toHaveBeenCalledWith('Something went wrong');
+    });
+  });
+
+  describe('add prerequisite to a prerequisite', () => {
+    test('The developer is notified after adding a prerequisite that everything went well', async () => {
+      const addPrerequisiteToPrerequisite = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToPrerequisite>;
+      const success = jest.fn();
+      const refactoringId = uuidv4();
+      const prerequisiteId = uuidv4();
+      const prerequisiteLabel = 'Do that';
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
+        ),
+      });
+
+      await act(() => result.current.addPrerequisiteToPrerequisite(
+        refactoringId,
+        prerequisiteId,
+        prerequisiteLabel,
+      ));
+
+      expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(refactoringId, prerequisiteId, prerequisiteLabel);
+      expect(success).toHaveBeenCalledWith('The prerequisite has been added');
     });
   });
 
