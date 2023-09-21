@@ -56,17 +56,17 @@ export class Prerequisite {
 
   static withoutParent(
     prerequisiteId: string,
-    label: Label,
+    label: string,
   ) {
-    return new Prerequisite(prerequisiteId, label, Status.TODO);
+    return new Prerequisite(prerequisiteId, new Label(label), Status.TODO);
   }
 
   static withParent(
     prerequisiteId: string,
     parentId: string,
-    label: Label,
+    label: string,
   ) {
-    return new Prerequisite(prerequisiteId, label, Status.TODO, parentId);
+    return new Prerequisite(prerequisiteId, new Label(label), Status.TODO, parentId);
   }
 
   identifyBy(prerequisiteId: string): boolean {
@@ -146,11 +146,11 @@ export class Refactoring {
   }
 
   addPrerequisiteToRefactoring(prerequisiteId: string, label: string): void {
-    this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, new Label(label))];
+    this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, label)];
   }
 
   addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
-    this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, parentId, new Label(label))];
+    this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, parentId, label)];
   }
 
   commitChanges(prerequisiteId: string): void {
