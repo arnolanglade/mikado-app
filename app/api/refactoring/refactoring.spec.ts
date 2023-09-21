@@ -30,17 +30,6 @@ describe('Refactoring use cases', () => {
       }));
   });
 
-  test('The developer needs to provide a goal to start a refactoring', () => {
-    const refactorings = new InMemoryRefactorings();
-
-    const startRefactoring = handleStartRefactoring(refactorings);
-
-    expect(startRefactoring({
-      refactoringId: uuidv4(),
-      goal: '',
-    })).rejects.toEqual(new Error('The goal cannot be empty'));
-  });
-
   test('The developer adds a prerequisite to a refactoring', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
@@ -213,7 +202,7 @@ describe('Refactoring use cases', () => {
 });
 
 describe('Refactoring', () => {
-  it('builds a refactoring object without prerequisite when we start a refactoring', () => {
+  it('creates a refactoring without any prerequisite when a refactoring is started', () => {
     const refactoringId = uuidv4();
     const goal = 'Rework that part';
     const refactoring = Refactoring.start(refactoringId, goal);
@@ -225,38 +214,9 @@ describe('Refactoring', () => {
     }));
   });
 
-  describe('identifyBy', () => {
-    it('says yes if the given id match the refactoring id', () => {
-      const refactoringId = uuidv4();
-      const refactoring = aRefactoring({ refactoringId });
-
-      expect(refactoring.identifyBy(refactoringId))
-        .toEqual(true);
-    });
-
-    it('says no if the given id does not match the refactoring id', () => {
-      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
-
-      expect(refactoring.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
-        .toEqual(false);
-    });
-  });
-
-  describe('equals', () => {
-    it('says yes if the given refactoring object equals this one', () => {
-      const refactoringId = uuidv4();
-      const refactoring = aRefactoring({ refactoringId });
-
-      expect(refactoring.equals(aRefactoring({ refactoringId })))
-        .toEqual(true);
-    });
-
-    it('says no if the given refactoring object does not equals this one', () => {
-      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
-
-      expect(refactoring.equals(aRefactoring({ refactoringId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
-        .toEqual(false);
-    });
+  it('cannot create a refactoring if a goal is not provided', () => {
+    expect(() => Refactoring.start(uuidv4(), ''))
+      .toThrow(new Error('The goal cannot be empty'));
   });
 
   it('adds a prerequisite to a refactoring (its status is todo)', () => {
@@ -358,6 +318,40 @@ describe('Refactoring', () => {
           startedAt: '2023-07-25T08:24:00.000Z',
         }],
       });
+  });
+
+  describe('identifyBy', () => {
+    it('says yes if the given id match the refactoring id', () => {
+      const refactoringId = uuidv4();
+      const refactoring = aRefactoring({ refactoringId });
+
+      expect(refactoring.identifyBy(refactoringId))
+        .toEqual(true);
+    });
+
+    it('says no if the given id does not match the refactoring id', () => {
+      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+
+      expect(refactoring.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
+        .toEqual(false);
+    });
+  });
+
+  describe('equals', () => {
+    it('says yes if the given refactoring object equals this one', () => {
+      const refactoringId = uuidv4();
+      const refactoring = aRefactoring({ refactoringId });
+
+      expect(refactoring.equals(aRefactoring({ refactoringId })))
+        .toEqual(true);
+    });
+
+    it('says no if the given refactoring object does not equals this one', () => {
+      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+
+      expect(refactoring.equals(aRefactoring({ refactoringId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
+        .toEqual(false);
+    });
   });
 });
 
