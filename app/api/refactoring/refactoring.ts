@@ -79,8 +79,14 @@ export class Prerequisite {
     );
   }
 
-  done() {
-    this.status = Status.DONE;
+  done(): Prerequisite {
+    return new Prerequisite(
+      this.prerequisiteId,
+      this.label,
+      Status.DONE,
+      this.parentId,
+      this.startedAt,
+    );
   }
 
   identifyBy(prerequisiteId: string): boolean {
@@ -168,8 +174,7 @@ export class Refactoring {
           throw new Error('Chances can only be committed on a experimenting prerequisite');
         }
 
-        prerequisite.done();
-        return prerequisite;
+        return prerequisite.done();
       }
 
       return prerequisite;
