@@ -222,16 +222,14 @@ describe('Refactoring', () => {
     }));
   });
 
-  it('raises an error if a prerequisite is added with an empty label', () => {
-    const refactoring = aRefactoring({
-      prerequisites: [],
-    });
+  it('raises an error if a prerequisite is added to refactoring with an empty label', () => {
+    const refactoring = aRefactoring({});
 
     expect(() => refactoring.addPrerequisiteToRefactoring(uuidv4(), ''))
       .toThrow(new Error('The label cannot be empty'));
   });
 
-  it('adds a prerequisite to an existing one (its status is todo)', () => {
+  it('adds a prerequisite to an existing prerequisite (its status is todo)', () => {
     const prerequisiteId = uuidv4();
     const parentId = uuidv4();
     const label = 'Change that';
@@ -252,6 +250,13 @@ describe('Refactoring', () => {
           status: Status.TODO,
         }],
     }));
+  });
+
+  it('raises an error if a prerequisite is added to existing prerequisite with an empty label', () => {
+    const refactoring = aRefactoring({});
+
+    expect(() => refactoring.addPrerequisiteToPrerequisite(uuidv4(), uuidv4(), ''))
+      .toThrow(new Error('The label cannot be empty'));
   });
 
   it('commits a change after finishing an experimentation', () => {
