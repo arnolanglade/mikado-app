@@ -104,25 +104,6 @@ describe('Refactoring use cases', () => {
       }));
   });
 
-  test.each([
-    Status.TODO,
-    Status.DONE,
-  ])('An error is raised when a developer try to commit changes to a "%s" prerequisite', async (status) => {
-    const refactoringId = uuidv4();
-    const prerequisiteId = uuidv4();
-    const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId,
-      prerequisites: [{ prerequisiteId, status }],
-    })]);
-
-    const commitChange = handleCommitChanges(refactorings);
-
-    await expect(commitChange({
-      refactoringId,
-      prerequisiteId,
-    })).rejects.toEqual(new Error('Chances can only be committed on a experimenting prerequisite'));
-  });
-
   test('The developer gets the refactoring information thanks to the id', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
@@ -273,6 +254,19 @@ describe('Refactoring', () => {
         status: Status.DONE,
       }],
     }));
+  });
+
+  it.each([
+    Status.TODO,
+    Status.DONE,
+  ])('raises an error if changes are committed to a "%s" prerequisite', async (status) => {
+    const prerequisiteId = uuidv4();
+    const refactoring = aRefactoring({
+      prerequisites: [{ prerequisiteId, status }],
+    });
+
+    expect(() => refactoring.commitChanges(prerequisiteId))
+      .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
   });
 
   it('start an experimentation on a todo prerequisite', () => {
