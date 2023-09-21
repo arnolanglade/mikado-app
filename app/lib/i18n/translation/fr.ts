@@ -11,6 +11,8 @@ const translationFr: Translations = {
   'refactoring.prerequisite.start.notification.success': 'The experimentation has started',
   'refactoring.prerequisite.start.notification.error': 'Something went wrong',
   'refactoring.prerequisite.start.button': 'Start experimentation',
+  'refactoring.prerequisite.commit-changes': 'Commit changes',
+  'refactoring.prerequisite.notification.commit-changes.success': 'Changes committed',
 };
 
 export default translationFr;
