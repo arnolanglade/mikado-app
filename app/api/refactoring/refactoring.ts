@@ -78,6 +78,10 @@ export class Prerequisite {
     this.startedAt = startedAt;
   }
 
+  done() {
+    this.status = Status.DONE;
+  }
+
   hasStatus(status: Status): boolean {
     return this.status === status;
   }
@@ -154,7 +158,14 @@ export class Refactoring {
   }
 
   commitChanges(prerequisiteId: string): void {
-    this.prerequisites = [new Prerequisite(prerequisiteId, new Label('Do that'), Status.DONE)];
+    this.prerequisites = this.prerequisites.map((prerequisite) => {
+      if (prerequisite.identifyBy(prerequisiteId)) {
+        prerequisite.done();
+        return prerequisite;
+      }
+
+      return prerequisite;
+    });
   }
 
   render(): RefactoringGraph {

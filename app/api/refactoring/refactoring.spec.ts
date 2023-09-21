@@ -281,6 +281,22 @@ describe('Refactoring', () => {
     }));
   });
 
+  it('commits a change after finishing an experimentation', () => {
+    const prerequisiteId = uuidv4();
+    const refactoring = aRefactoring({
+      prerequisites: [{ prerequisiteId }],
+    });
+
+    refactoring.commitChanges(prerequisiteId);
+
+    expect(refactoring).toEqual(aRefactoring({
+      prerequisites: [{
+        prerequisiteId,
+        status: Status.DONE,
+      }],
+    }));
+  });
+
   it('start an experimentation on a todo prerequisite', () => {
     const prerequisiteId = uuidv4();
     const refactoring = aRefactoring({
