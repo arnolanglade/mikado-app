@@ -16,6 +16,7 @@ export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringA
   addPrerequisiteToRefactoring: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToRefactoring>,
   addPrerequisiteToPrerequisite: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToPrerequisite>,
   startExperimentation: jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>,
+  commitChanges: jest.fn() as jest.Mocked<typeof refactoringApi.commitChanges>,
   ...api,
 });
 
