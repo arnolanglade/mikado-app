@@ -52,21 +52,6 @@ describe('Refactoring use cases', () => {
       }));
   });
 
-  test('The developer needs to provide a label to add a prerequisite', () => {
-    const refactoringId = uuidv4();
-    const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId,
-    })]);
-
-    const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(refactorings);
-
-    expect(addPrerequisiteToRefactoring({
-      prerequisiteId: uuidv4(),
-      refactoringId,
-      label: '',
-    })).rejects.toEqual(new Error('The label cannot be empty'));
-  });
-
   test('The developer adds a prerequisite to a prerequisite', async () => {
     const refactoringId = uuidv4();
     const existingPrerequisiteId = uuidv4();
@@ -214,7 +199,7 @@ describe('Refactoring', () => {
     }));
   });
 
-  it('cannot create a refactoring if a goal is not provided', () => {
+  it('raises an error if a refactoring is created with an empty goal', () => {
     expect(() => Refactoring.start(uuidv4(), ''))
       .toThrow(new Error('The goal cannot be empty'));
   });
@@ -235,6 +220,15 @@ describe('Refactoring', () => {
         status: Status.TODO,
       }],
     }));
+  });
+
+  it('raises an error if a prerequisite is added with an empty label', () => {
+    const refactoring = aRefactoring({
+      prerequisites: [],
+    });
+
+    expect(() => refactoring.addPrerequisiteToRefactoring(uuidv4(), ''))
+      .toThrow(new Error('The label cannot be empty'));
   });
 
   it('adds a prerequisite to an existing one (its status is todo)', () => {
