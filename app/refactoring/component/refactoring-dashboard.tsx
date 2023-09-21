@@ -45,7 +45,7 @@ export default function RefactoringDashboard(
                   type="button"
                   onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
                 >
-                  <Translation id="refactoring.prerequisite.start.button" />
+                  <Translation id="prerequisite.start-experimentation" />
                 </button>
               )}
               { prerequisite.status === Status.EXPERIMENTING && (
@@ -55,7 +55,7 @@ export default function RefactoringDashboard(
                   type="button"
                   onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
                 >
-                  <Translation id="refactoring.prerequisite.commit-changes" />
+                  <Translation id="prerequisite.commit-changes" />
                 </button>
               </>
               )}

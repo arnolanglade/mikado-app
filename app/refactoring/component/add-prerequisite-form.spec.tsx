@@ -12,7 +12,7 @@ describe('AddPrerequisiteForm', () => {
     render(<AddPrerequisiteForm onSubmit={onSubmit} />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.prerequisite.add': 'Add prerequisite' },
+        { 'prerequisite.add': 'Add prerequisite' },
       ),
     });
 
@@ -26,7 +26,7 @@ describe('AddPrerequisiteForm', () => {
     render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.prerequisite.add': 'Add prerequisite' },
+        { 'prerequisite.add': 'Add prerequisite' },
       ),
     });
     const prerequisiteInput = screen.getByRole<HTMLInputElement>('textbox');

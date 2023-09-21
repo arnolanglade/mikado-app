@@ -27,7 +27,7 @@ describe('RefactoringDashboard', () => {
     />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.prerequisite.start.button': 'Start experimentation' },
+        { 'prerequisite.start-experimentation': 'Start experimentation' },
       ),
     });
 
@@ -48,7 +48,7 @@ describe('RefactoringDashboard', () => {
     />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.prerequisite.add"': 'Add prerequisite' },
+        { 'prerequisite.add"': 'Add prerequisite' },
       ),
     });
 
@@ -76,7 +76,7 @@ describe('RefactoringDashboard', () => {
     />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.prerequisite.start.button': 'Start experimentation' },
+        { 'prerequisite.start-experimentation': 'Start experimentation' },
       ),
     });
 
@@ -101,8 +101,8 @@ describe('RefactoringDashboard', () => {
       wrapper: createWrapper(
         {},
         {
-          'refactoring.prerequisite.start.button': 'Start experimentation',
-          'refactoring.prerequisite.commit-changes': 'Commit changes',
+          'prerequisite.start-experimentation': 'Start experimentation',
+          'prerequisite.commit-changes': 'Commit changes',
         },
       ),
     });
@@ -130,8 +130,8 @@ describe('RefactoringDashboard', () => {
       wrapper: createWrapper(
         { },
         {
-          'refactoring.prerequisite.add': 'Add prerequisite',
-          'refactoring.prerequisite.commit-changes': 'Commit changes',
+          'prerequisite.add': 'Add prerequisite',
+          'prerequisite.commit-changes': 'Commit changes',
         },
       ),
     });
@@ -157,7 +157,7 @@ describe('RefactoringDashboard', () => {
       {
         wrapper: createWrapper(
           {},
-          { 'refactoring.prerequisite.add': 'Add prerequisite' },
+          { 'prerequisite.add': 'Add prerequisite' },
         ),
       },
     );
@@ -183,7 +183,7 @@ describe('RefactoringDashboard', () => {
     />, {
       wrapper: createWrapper(
         { },
-        { 'refactoring.prerequisite.commit-changes': 'Commit changes' },
+        { 'prerequisite.commit-changes': 'Commit changes' },
       ),
     });
 
@@ -208,8 +208,8 @@ describe('RefactoringDashboard', () => {
         wrapper: createWrapper(
           {},
           {
-            'refactoring.prerequisite.add': 'Add prerequisite',
-            'refactoring.prerequisite.commit-changes': 'Commit changes',
+            'prerequisite.add': 'Add prerequisite',
+            'prerequisite.commit-changes': 'Commit changes',
           },
         ),
       },

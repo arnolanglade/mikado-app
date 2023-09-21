@@ -20,7 +20,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ start }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.notification.success': 'The refactoring has been started' },
+          { 'refactoring.notification.success.start': 'The refactoring has been started' },
         ),
       });
 
@@ -59,7 +59,7 @@ describe('useRefactoring', () => {
             }),
             useNotification: aNotifier({ error }),
           },
-          { 'refactoring.notification.error': 'Something went wrong' },
+          { 'notification.error': 'Something went wrong' },
         ),
       });
 
@@ -81,7 +81,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoring }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
+          { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
         ),
       });
 
@@ -126,7 +126,7 @@ describe('useRefactoring', () => {
             }),
             useNotification: aNotifier({ error }),
           },
-          { 'refactoring.prerequisite.notification.error': 'Something went wrong' },
+          { 'notification.error': 'Something went wrong' },
         ),
       });
 
@@ -152,7 +152,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.prerequisite.notification.success': 'The prerequisite has been added' },
+          { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
         ),
       });
 
@@ -199,7 +199,7 @@ describe('useRefactoring', () => {
             }),
             useNotification: aNotifier({ error }),
           },
-          { 'refactoring.prerequisite.notification.error': 'Something went wrong' },
+          { 'notification.error': 'Something went wrong' },
         ),
       });
 
@@ -226,7 +226,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ startExperimentation }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.prerequisite.start.notification.success': 'The experimentation has started' },
+          { 'prerequisite.notification.start-experimentation.success': 'The experimentation has started' },
         ),
       });
 
@@ -270,7 +270,7 @@ describe('useRefactoring', () => {
             }),
             useNotification: aNotifier({ error }),
           },
-          { 'refactoring.prerequisite.start.notification.error': 'Something went wrong' },
+          { 'notification.error': 'Something went wrong' },
         ),
       });
 
@@ -296,7 +296,7 @@ describe('useRefactoring', () => {
             refactoringApi: aRefactoringApi({ commitChanges }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.prerequisite.notification.success': 'Changes committed' },
+          { 'prerequisite.notification.add-prerequisite.success': 'Changes committed' },
         ),
       });
 
@@ -340,7 +340,7 @@ describe('useRefactoring', () => {
             }),
             useNotification: aNotifier({ error }),
           },
-          { 'refactoring.prerequisite.start.notification.error': 'Something went wrong' },
+          { 'notification.error': 'Something went wrong' },
         ),
       });
 
