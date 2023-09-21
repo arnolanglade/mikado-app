@@ -48,10 +48,16 @@ export default function useRefactoring() {
     }
   };
 
+  const commitChanges = async (refactoringId: string, prerequisiteId: string) => {
+    await refactoringApi.commitChanges(refactoringId, prerequisiteId);
+    notifier.success(translation('refactoring.prerequisite.notification.success'));
+  };
+
   return {
     startExperimentation,
     startRefactoring,
     addPrerequisiteToRefactoring,
     addPrerequisiteToPrerequisite,
+    commitChanges,
   };
 }

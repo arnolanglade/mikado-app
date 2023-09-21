@@ -282,4 +282,31 @@ describe('useRefactoring', () => {
       expect(error).toHaveBeenCalledWith('Something went wrong');
     });
   });
+
+  describe('commit changes', () => {
+    test('The developer is notified after commit changes that everything went well', async () => {
+      const success = jest.fn();
+      const refactoringId = uuidv4();
+      const prerequisiteId = uuidv4();
+      const commitChanges = jest.fn() as jest.Mocked<typeof refactoringApi.commitChanges>;
+
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ commitChanges }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.prerequisite.notification.success': 'Changes committed' },
+        ),
+      });
+
+      await act(() => result.current.commitChanges(
+        refactoringId,
+        prerequisiteId,
+      ));
+
+      expect(commitChanges).toHaveBeenCalledWith(refactoringId, prerequisiteId);
+      expect(success).toHaveBeenCalledWith('Changes committed');
+    });
+  });
 });
