@@ -145,26 +145,6 @@ describe('Refactoring use cases', () => {
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING, startedAt: '2023-07-25T10:24:00' }],
       }));
   });
-
-  test.each([
-    Status.EXPERIMENTING,
-    Status.DONE,
-  ])('The developer gets an error when an experimentation is started on a %s prerequisite', async (status) => {
-    const refactoringId = uuidv4();
-    const prerequisiteId = uuidv4();
-    const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId,
-      prerequisites: [{ prerequisiteId, status }],
-    })]);
-    const clock = new InMemoryClock('2023-07-25T10:24:00');
-
-    const startExperimentation = handleStartExperimentation(refactorings, clock);
-
-    expect(startExperimentation({
-      refactoringId,
-      prerequisiteId,
-    })).rejects.toEqual(new Error('You can only start an experimentation an a todo prerequisite'));
-  });
 });
 
 describe('Refactoring', () => {
@@ -240,6 +220,40 @@ describe('Refactoring', () => {
       .toThrow(new Error('The label cannot be empty'));
   });
 
+  it('start an experimentation on a todo prerequisite', () => {
+    const prerequisiteId = uuidv4();
+    const refactoring = aRefactoring({
+      prerequisites: [{
+        prerequisiteId, status: Status.TODO, startedAt: undefined,
+      }],
+    });
+
+    refactoring.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00'));
+
+    expect(refactoring).toEqual(aRefactoring({
+      prerequisites: [{
+        prerequisiteId,
+        status: Status.EXPERIMENTING,
+        startedAt: '2023-07-25T10:24:00',
+      }],
+    }));
+  });
+
+  test.each([
+    Status.EXPERIMENTING,
+    Status.DONE,
+  ])('raises an error if  an experimentation is started on a "%s" prerequisite', async (status) => {
+    const prerequisiteId = uuidv4();
+    const refactoring = aRefactoring({
+      prerequisites: [{
+        prerequisiteId, status, startedAt: undefined,
+      }],
+    });
+
+    expect(() => refactoring.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00')))
+      .toThrow(new Error('You can only start an experimentation an a todo prerequisite'));
+  });
+
   it('commits a change after finishing an experimentation', () => {
     const prerequisiteId = uuidv4();
     const refactoring = aRefactoring({
@@ -267,25 +281,6 @@ describe('Refactoring', () => {
 
     expect(() => refactoring.commitChanges(prerequisiteId))
       .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
-  });
-
-  it('start an experimentation on a todo prerequisite', () => {
-    const prerequisiteId = uuidv4();
-    const refactoring = aRefactoring({
-      prerequisites: [{
-        prerequisiteId, status: Status.TODO, startedAt: undefined,
-      }],
-    });
-
-    refactoring.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00'));
-
-    expect(refactoring).toEqual(aRefactoring({
-      prerequisites: [{
-        prerequisiteId,
-        status: Status.EXPERIMENTING,
-        startedAt: '2023-07-25T10:24:00',
-      }],
-    }));
   });
 
   it('turns a refactoring into a format used by the UI to render it', () => {
