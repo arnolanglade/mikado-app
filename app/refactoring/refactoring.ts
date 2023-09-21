@@ -16,7 +16,7 @@ const refactoringApi: RefactoringApi = {
   },
   addPrerequisiteToRefactoring: async (refactoringId: string, label: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite/add-to-refactoring`,
+      '/api/refactoring/prerequisite/add-to-refactoring',
       { refactoringId, label },
     );
     const { prerequisiteId } = await response.json();
@@ -24,13 +24,13 @@ const refactoringApi: RefactoringApi = {
   },
   startExperimentation: async (refactoringId: string, prerequisiteId: string) => {
     await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite/start-experimentation`,
+      '/api/refactoring/prerequisite/start-experimentation',
       { refactoringId, prerequisiteId },
     );
   },
   addPrerequisiteToPrerequisite: async (refactoringId: string, prerequisiteId: string, label: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite/add-to-prerequisite`,
+      '/api/refactoring/prerequisite/add-to-prerequisite',
       { refactoringId, prerequisiteId, label },
     );
     const { newPrerequisiteId } = await response.json();
@@ -38,7 +38,7 @@ const refactoringApi: RefactoringApi = {
   },
   commitChanges: async (refactoringId: string, prerequisiteId: string) => {
     const response = await httpClient.post(
-      `/api/refactoring/${refactoringId}/prerequisite/commit-changes`,
+      '/api/refactoring/prerequisite/commit-changes',
       { refactoringId, prerequisiteId },
     );
     const { newPrerequisiteId } = await response.json();
