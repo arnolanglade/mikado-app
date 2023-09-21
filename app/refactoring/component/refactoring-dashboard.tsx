@@ -12,16 +12,19 @@ export default function RefactoringDashboard(
     onAddPrerequisiteToRefactoring,
     onStartExperimentation,
     onAddPrerequisiteToPrerequisite,
+    onCommitChanges,
   }: {
     refactoring: RefactoringGraph,
     onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
     onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
     onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
+    onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
   },
 ) {
   const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.refactoringId, label);
   const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(refactoring.refactoringId, prerequisiteId, label);
   const startExperimentation = (refactoringId: string, prerequisiteId: string) => () => onStartExperimentation(refactoringId, prerequisiteId);
+  const commitChanges = (refactoringId: string, prerequisiteId: string) => () => onCommitChanges(refactoringId, prerequisiteId);
 
   return (
     <div className={styles.dashboard}>
@@ -45,8 +48,17 @@ export default function RefactoringDashboard(
                   <Translation id="refactoring.prerequisite.start.button" />
                 </button>
               )}
-              { prerequisite.status === Status.EXPERIMENTING
-                  && <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)} />}
+              { prerequisite.status === Status.EXPERIMENTING && (
+              <>
+                <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)} />
+                <button
+                  type="button"
+                  onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
+                >
+                  <Translation id="refactoring.prerequisite.commit-changes" />
+                </button>
+              </>
+              )}
             </div>
           ),
         )}
