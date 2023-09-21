@@ -69,17 +69,22 @@ export class Prerequisite {
     return new Prerequisite(prerequisiteId, new Label(label), Status.TODO, parentId);
   }
 
-  identifyBy(prerequisiteId: string): boolean {
-    return prerequisiteId === this.prerequisiteId;
-  }
-
-  start(startedAt: Date): void {
-    this.status = Status.EXPERIMENTING;
-    this.startedAt = startedAt;
+  start(startedAt: Date): Prerequisite {
+    return new Prerequisite(
+      this.prerequisiteId,
+      this.label,
+      Status.EXPERIMENTING,
+      this.parentId,
+      startedAt,
+    );
   }
 
   done() {
     this.status = Status.DONE;
+  }
+
+  identifyBy(prerequisiteId: string): boolean {
+    return prerequisiteId === this.prerequisiteId;
   }
 
   hasStatus(status: Status): boolean {
@@ -141,8 +146,7 @@ export class Refactoring {
           throw new Error('You can only start an experimentation an a todo prerequisite');
         }
 
-        prerequisite.start(startedAt);
-        return prerequisite;
+        return prerequisite.start(startedAt);
       }
 
       return prerequisite;
