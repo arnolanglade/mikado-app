@@ -327,5 +327,29 @@ describe('useRefactoring', () => {
 
       expect(refresh).toHaveBeenCalled();
     });
+
+    test('The developer is notified that something went wrong', async () => {
+      const error = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({
+              commitChanges: async () => {
+                throw Error();
+              },
+            }),
+            useNotification: aNotifier({ error }),
+          },
+          { 'refactoring.prerequisite.start.notification.error': 'Something went wrong' },
+        ),
+      });
+
+      await act(() => result.current.commitChanges(
+        uuidv4(),
+        uuidv4(),
+      ));
+
+      expect(error).toHaveBeenCalledWith('Something went wrong');
+    });
   });
 });
