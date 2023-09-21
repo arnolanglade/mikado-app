@@ -308,5 +308,24 @@ describe('useRefactoring', () => {
       expect(commitChanges).toHaveBeenCalledWith(refactoringId, prerequisiteId);
       expect(success).toHaveBeenCalledWith('Changes committed');
     });
+
+    test('The refactoring graph is refresh after committing changes', async () => {
+      const refresh = jest.fn();
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ commitChanges: async () => {} }),
+            useRouter: aRouter({ refresh }),
+          },
+        ),
+      });
+
+      await act(() => result.current.commitChanges(
+        uuidv4(),
+        uuidv4(),
+      ));
+
+      expect(refresh).toHaveBeenCalled();
+    });
   });
 });
