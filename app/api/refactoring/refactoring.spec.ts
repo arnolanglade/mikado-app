@@ -52,6 +52,27 @@ describe('Refactoring use cases', () => {
       }));
   });
 
+  test('The developer starts an experimentation on a todo prerequisite', async () => {
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      refactoringId,
+      prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
+    })]);
+    const clock = new InMemoryClock('2023-07-25T10:24:00');
+
+    await handleStartExperimentation(refactorings, clock)({
+      refactoringId,
+      prerequisiteId,
+    });
+
+    expect(await refactorings.get(refactoringId))
+      .toEqual(aRefactoring({
+        refactoringId,
+        prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING, startedAt: '2023-07-25T10:24:00' }],
+      }));
+  });
+
   test('The developer adds a prerequisite to a prerequisite', async () => {
     const refactoringId = uuidv4();
     const existingPrerequisiteId = uuidv4();
@@ -123,27 +144,6 @@ describe('Refactoring use cases', () => {
       goal,
       prerequisites: [{ prerequisiteId, label, status }],
     });
-  });
-
-  test('The developer starts an experimentation on a todo prerequisite', async () => {
-    const refactoringId = uuidv4();
-    const prerequisiteId = uuidv4();
-    const refactorings = new InMemoryRefactorings([aRefactoring({
-      refactoringId,
-      prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
-    })]);
-    const clock = new InMemoryClock('2023-07-25T10:24:00');
-
-    await handleStartExperimentation(refactorings, clock)({
-      refactoringId,
-      prerequisiteId,
-    });
-
-    expect(await refactorings.get(refactoringId))
-      .toEqual(aRefactoring({
-        refactoringId,
-        prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING, startedAt: '2023-07-25T10:24:00' }],
-      }));
   });
 });
 
