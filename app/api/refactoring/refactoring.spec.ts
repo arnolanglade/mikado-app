@@ -1,6 +1,7 @@
 import {
+  addPrerequisiteToPrerequisite,
   handleAddPrerequisiteToPrerequisite,
-  handleAddPrerequisiteToRefactoring,
+  handleAddPrerequisiteToRefactoring, handleCommitChanges,
   handleGetRefactoringById,
   handleStartExperimentation,
   handleStartRefactoring,
@@ -104,6 +105,28 @@ describe('Refactoring use cases', () => {
             prerequisiteId, parentId: existingPrerequisiteId, label, status: Status.TODO,
           },
         ],
+      }));
+  });
+
+  test('The developer commits a change when the prerequisite is finished', async () => {
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      refactoringId,
+      prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
+    })]);
+
+    await handleCommitChanges(refactorings)({
+      refactoringId,
+      prerequisiteId,
+    });
+
+    expect(await refactorings.get(refactoringId))
+      .toEqual(aRefactoring({
+        refactoringId,
+        prerequisites: [{
+          prerequisiteId, status: Status.DONE,
+        }],
       }));
   });
 

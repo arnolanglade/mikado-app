@@ -153,6 +153,10 @@ export class Refactoring {
     this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, parentId, new Label(label))];
   }
 
+  commitChanges(prerequisiteId: string): void {
+    this.prerequisites = [new Prerequisite(prerequisiteId, new Label('Do that'), Status.DONE)];
+  }
+
   render(): RefactoringGraph {
     return {
       refactoringId: this.id,
@@ -251,6 +255,19 @@ export const handleGetRefactoringById = (refactorings: Refactorings) => async (r
   const refactoring = await refactorings.get(refactoringId);
   return refactoring.render();
 };
+
+export type CommitChanges = {
+  refactoringId: string
+  prerequisiteId: string
+};
+
+export const handleCommitChanges = (refactorings: Refactorings) => async (input: CommitChanges) => {
+  const refactoring = await refactorings.get(input.refactoringId);
+  refactoring.commitChanges(input.prerequisiteId);
+  await refactorings.add(refactoring);
+};
+
+export const commitChanges = handleCommitChanges(inMemoryRefactoring);
 
 export const getRefactoringById = handleGetRefactoringById(inMemoryRefactoring);
 
