@@ -1,7 +1,7 @@
 import {
-  addPrerequisiteToPrerequisite,
   handleAddPrerequisiteToPrerequisite,
-  handleAddPrerequisiteToRefactoring, handleCommitChanges,
+  handleAddPrerequisiteToRefactoring,
+  handleCommitChanges,
   handleGetRefactoringById,
   handleStartExperimentation,
   handleStartRefactoring,
@@ -128,6 +128,25 @@ describe('Refactoring use cases', () => {
           prerequisiteId, status: Status.DONE,
         }],
       }));
+  });
+
+  test.each([
+    Status.TODO,
+    Status.DONE,
+  ])('An error is raised when a developer try to commit changes to a "%s" prerequisite', async (status) => {
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
+    const refactorings = new InMemoryRefactorings([aRefactoring({
+      refactoringId,
+      prerequisites: [{ prerequisiteId, status }],
+    })]);
+
+    const commitChange = handleCommitChanges(refactorings);
+
+    await expect(commitChange({
+      refactoringId,
+      prerequisiteId,
+    })).rejects.toEqual(new Error('Chances can only be committed on a experimenting prerequisite'));
   });
 
   test('The developer gets the refactoring information thanks to the id', async () => {
@@ -284,7 +303,7 @@ describe('Refactoring', () => {
   it('commits a change after finishing an experimentation', () => {
     const prerequisiteId = uuidv4();
     const refactoring = aRefactoring({
-      prerequisites: [{ prerequisiteId }],
+      prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
     });
 
     refactoring.commitChanges(prerequisiteId);

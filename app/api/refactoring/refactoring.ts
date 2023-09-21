@@ -160,6 +160,10 @@ export class Refactoring {
   commitChanges(prerequisiteId: string): void {
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
+        if (!prerequisite.hasStatus(Status.EXPERIMENTING)) {
+          throw new Error('Chances can only be committed on a experimenting prerequisite');
+        }
+
         prerequisite.done();
         return prerequisite;
       }
