@@ -288,5 +288,28 @@ describe('RefactoringDashboard', () => {
         ).getByText((content) => content.includes('Done')),
       ).toBeInTheDocument();
     });
+
+    test('A "done" notice is hidden when the refactoring is a WIP', async () => {
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({
+          done: false,
+        })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(
+          {},
+          { 'prerequisite.done': 'Done' },
+        ),
+      });
+
+      expect(
+        within(
+          screen.getByTestId('refactoring'),
+        ).queryByText((content) => content.includes('Done')),
+      ).not.toBeInTheDocument();
+    });
   });
 });
