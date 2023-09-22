@@ -11,7 +11,7 @@ export default function useRefactoring() {
 
   const startRefactoring = async (goal: string) => {
     try {
-      const refactoringId = await refactoringApi.start(goal);
+      const { refactoringId } = await refactoringApi.start(goal);
       notifier.success(translation('refactoring.notification.success.start'));
       router.push(`/refactoring/${refactoringId}`);
     } catch (e) {
