@@ -218,54 +218,56 @@ describe('RefactoringDashboard', () => {
     expect(within(screen.getByTestId('prerequisites')).queryByText('Commit changes')).not.toBeInTheDocument();
   });
 
-  test('A notification is displayed when the prerequisite is done', async () => {
-    render(<RefactoringDashboard
-      refactoring={aRefactoringGraph({
-        refactoringId: uuidv4(),
-        prerequisites: [{ status: Status.DONE }],
-      })}
-      onStartExperimentation={jest.fn()}
-      onAddPrerequisiteToRefactoring={jest.fn()}
-      onAddPrerequisiteToPrerequisite={jest.fn()}
-      onCommitChanges={jest.fn()}
-    />, {
-      wrapper: createWrapper(
-        { },
-        { 'prerequisite.done': 'Done' },
-      ),
+  describe('"done" notice', () => {
+    test('A "done" notice is displayed when the prerequisite is done', async () => {
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({
+          refactoringId: uuidv4(),
+          prerequisites: [{ status: Status.DONE }],
+        })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(
+          { },
+          { 'prerequisite.done': 'Done' },
+        ),
+      });
+
+      expect(
+        within(
+          screen.getByTestId('prerequisites'),
+        ).getByText((content) => content.includes('Done')),
+      ).toBeInTheDocument();
     });
 
-    expect(
-      within(
-        screen.getByTestId('prerequisites'),
-      ).getByText((content) => content.includes('Done')),
-    ).toBeInTheDocument();
-  });
+    test.each([
+      Status.TODO,
+      Status.EXPERIMENTING,
+    ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status: Status) => {
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({
+          refactoringId: uuidv4(),
+          prerequisites: [{ status }],
+        })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(
+          { },
+          { 'prerequisite.done': 'Done' },
+        ),
+      });
 
-  test.each([
-    Status.TODO,
-    Status.EXPERIMENTING,
-  ])('A notification is hidden when the prerequisite status is "%s"', async (status: Status) => {
-    render(<RefactoringDashboard
-      refactoring={aRefactoringGraph({
-        refactoringId: uuidv4(),
-        prerequisites: [{ status }],
-      })}
-      onStartExperimentation={jest.fn()}
-      onAddPrerequisiteToRefactoring={jest.fn()}
-      onAddPrerequisiteToPrerequisite={jest.fn()}
-      onCommitChanges={jest.fn()}
-    />, {
-      wrapper: createWrapper(
-        { },
-        { 'prerequisite.done': 'Done' },
-      ),
+      expect(
+        within(
+          screen.getByTestId('prerequisites'),
+        ).queryByText((content) => content.includes('Done')),
+      ).not.toBeInTheDocument();
     });
-
-    expect(
-      within(
-        screen.getByTestId('prerequisites'),
-      ).queryByText((content) => content.includes('Done')),
-    ).not.toBeInTheDocument();
   });
 });
