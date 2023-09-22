@@ -217,4 +217,28 @@ describe('RefactoringDashboard', () => {
 
     expect(within(screen.getByTestId('prerequisites')).queryByText('Commit changes')).not.toBeInTheDocument();
   });
+
+  test('A notification is displayed when the prerequisite is done', async () => {
+    render(<RefactoringDashboard
+      refactoring={aRefactoringGraph({
+        refactoringId: uuidv4(),
+        prerequisites: [{ status: Status.DONE }],
+      })}
+      onStartExperimentation={jest.fn()}
+      onAddPrerequisiteToRefactoring={jest.fn()}
+      onAddPrerequisiteToPrerequisite={jest.fn()}
+      onCommitChanges={jest.fn()}
+    />, {
+      wrapper: createWrapper(
+        { },
+        { 'prerequisite.done': 'Done' },
+      ),
+    });
+
+    expect(
+      within(
+        screen.getByTestId('prerequisites'),
+      ).getByText((content) => content.includes('Done')),
+    ).toBeInTheDocument();
+  });
 });

@@ -39,7 +39,11 @@ export default function RefactoringDashboard(
               className={styles.prerequisite}
               key={prerequisite.prerequisiteId}
             >
-              { prerequisite.label }
+              <p>
+                { prerequisite.label }
+                -
+                <Translation id="prerequisite.done" />
+              </p>
               { prerequisite.status === Status.TODO && (
                 <button
                   type="button"
