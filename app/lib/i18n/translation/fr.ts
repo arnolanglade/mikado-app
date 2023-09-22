@@ -11,6 +11,7 @@ const translationFr: Translations = {
   'prerequisite.start-experimentation': 'Start experimentation',
   'prerequisite.commit-changes': 'Commit changes',
   'prerequisite.notification.success.commit-changes': 'Changes committed',
+  'prerequisite.done': 'Done',
 };
 
 export default translationFr;
