@@ -1,14 +1,15 @@
+# Mikado method
+
 ## Miro
 
-link: https://miro.com/app/board/uXjVMkSYTDY=/?share_link_id=518210024492
+Link: https://miro.com/app/board/uXjVMkSYTDY=/?share_link_id=518210024492
 
-## Getting Started
+## Run the app with the development env
 
 First, install the project:
 
 ```bash
 git clone git@github.com:arnolanglade/mikado-method.git
-
 volta setup
 pnpm setup
 pnpm install
@@ -21,3 +22,39 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Run the app with the production env 
+
+```bash
+pnpm build
+pnpm start
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+
+## Run tests
+
+Run unit tests
+
+```bash
+pnpm test
+```
+
+Run linting tool
+
+```bash
+pnpm lint
+```
+
+Check typescript issues
+
+```bash
+pnpm tsc
+```
+
+Run all tests
+
+```bash
+pnpm tests
+```
