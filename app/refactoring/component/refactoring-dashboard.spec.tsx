@@ -102,7 +102,6 @@ describe('RefactoringDashboard', () => {
         {},
         {
           'prerequisite.start-experimentation': 'Start experimentation',
-          'prerequisite.commit-changes': 'Commit changes',
         },
       ),
     });
@@ -131,7 +130,6 @@ describe('RefactoringDashboard', () => {
         { },
         {
           'prerequisite.add': 'Add prerequisite',
-          'prerequisite.commit-changes': 'Commit changes',
         },
       ),
     });
