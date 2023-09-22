@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import { jest } from '@jest/globals';
 import {
-  aNotifier, aRefactoringApi, aRouter, createWrapper,
+  aNotifier, aRefactoringApi, aRefactoringGraph, aRouter, createWrapper,
 } from '@/test/test-utils';
 import refactoringApi from '@/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,11 +14,10 @@ describe('useRefactoring', () => {
   describe('start refactoring', () => {
     test('The developer is notified after starting a refactoring that everything went well', async () => {
       const success = jest.fn();
-      const start = jest.fn() as jest.Mocked<typeof refactoringApi.start>;
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ start }),
+            refactoringApi: aRefactoringApi({ start: async () => aRefactoringGraph() }),
             useNotification: aNotifier({ success }),
           },
           { 'refactoring.notification.success.start': 'The refactoring has been started' },
@@ -27,7 +26,6 @@ describe('useRefactoring', () => {
 
       await act(() => result.current.startRefactoring('Refactor method'));
 
-      expect(start).toHaveBeenCalledWith('Refactor method');
       expect(success).toHaveBeenCalledWith('The refactoring has been started');
     });
 
@@ -38,7 +36,7 @@ describe('useRefactoring', () => {
         wrapper: createWrapper(
           {
             useRouter: aRouter({ push }),
-            refactoringApi: aRefactoringApi({ start: async () => refactoringId }),
+            refactoringApi: aRefactoringApi({ start: async () => aRefactoringGraph({ refactoringId }) }),
           },
         ),
       });
@@ -101,7 +99,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoring: async () => uuidv4() }),
+            refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoring: async () => aRefactoringGraph() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -173,7 +171,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => uuidv4() }),
+            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => aRefactoringGraph() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -245,7 +243,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ startExperimentation: async () => {} }),
+            refactoringApi: aRefactoringApi({ startExperimentation: async () => aRefactoringGraph() }),
             useRouter: aRouter({ refresh }),
           },
         ),

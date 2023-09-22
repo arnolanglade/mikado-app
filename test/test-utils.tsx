@@ -106,7 +106,7 @@ type RefactoringGraphState = {
   }>[]
 };
 
-export const aRefactoringGraph = (graph: Partial<RefactoringGraphState>): RefactoringGraph => ({
+export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): RefactoringGraph => ({
   refactoringId: graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   goal: graph.goal ?? 'Refactor this class',
   done: graph.done ?? false,
