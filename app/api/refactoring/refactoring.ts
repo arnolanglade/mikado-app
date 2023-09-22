@@ -121,9 +121,10 @@ export class Goal {
 
 // Todo: used in the front end
 export type RefactoringGraph = {
-  refactoringId: string,
-  goal: string,
-  prerequisites: PrerequisiteGraph[],
+  refactoringId: string
+  goal: string
+  done: boolean
+  prerequisites: PrerequisiteGraph[]
 };
 
 export class Refactoring {
@@ -185,6 +186,7 @@ export class Refactoring {
     return {
       refactoringId: this.id,
       goal: this.goal.toString(),
+      done: this.done,
       prerequisites: this.prerequisites.map((prerequisite) => prerequisite.render()),
     };
   }
