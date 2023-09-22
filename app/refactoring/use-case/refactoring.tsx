@@ -50,8 +50,12 @@ export default function useRefactoring() {
 
   const commitChanges = async (refactoringId: string, prerequisiteId: string) => {
     try {
-      await refactoringApi.commitChanges(refactoringId, prerequisiteId);
-      notifier.success(translation('prerequisite.notification.success.commit-changes'));
+      const refactoring = await refactoringApi.commitChanges(refactoringId, prerequisiteId);
+      if (refactoring.done) {
+        notifier.success(translation('refactoring.done'));
+      } else {
+        notifier.success(translation('prerequisite.notification.success.commit-changes'));
+      }
       router.refresh();
     } catch (e) {
       notifier.error(translation('notification.error'));

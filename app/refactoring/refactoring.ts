@@ -1,11 +1,12 @@
 import httpClient from '@/lib/http-client';
+import { RefactoringGraph } from '@/api/refactoring/refactoring';
 
 export type RefactoringApi = {
   start: (goal: string) => Promise<string>
   addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<string>
   startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<void>
   addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<string>
-  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<void>
+  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<RefactoringGraph>
 };
 
 const refactoringApi: RefactoringApi = {
@@ -41,8 +42,7 @@ const refactoringApi: RefactoringApi = {
       '/api/refactoring/prerequisite/commit-changes',
       { refactoringId, prerequisiteId },
     );
-    const { newPrerequisiteId } = await response.json();
-    return newPrerequisiteId;
+    return response.json();
   },
 };
 

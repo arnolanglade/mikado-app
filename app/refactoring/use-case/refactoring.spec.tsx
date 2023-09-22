@@ -8,6 +8,7 @@ import {
 } from '@/test/test-utils';
 import refactoringApi from '@/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
+import { RefactoringGraph } from '@/api/refactoring/refactoring';
 
 describe('useRefactoring', () => {
   describe('start refactoring', () => {
@@ -288,12 +289,11 @@ describe('useRefactoring', () => {
       const success = jest.fn();
       const refactoringId = uuidv4();
       const prerequisiteId = uuidv4();
-      const commitChanges = jest.fn() as jest.Mocked<typeof refactoringApi.commitChanges>;
 
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => ({ done: false }) as RefactoringGraph }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'Changes committed' },
@@ -305,8 +305,28 @@ describe('useRefactoring', () => {
         prerequisiteId,
       ));
 
-      expect(commitChanges).toHaveBeenCalledWith(refactoringId, prerequisiteId);
       expect(success).toHaveBeenCalledWith('Changes committed');
+    });
+
+    test('The developer is notified after commit changes that the refactoring is done', async () => {
+      const success = jest.fn();
+
+      const { result } = renderHook(useRefactoring, {
+        wrapper: createWrapper(
+          {
+            refactoringApi: aRefactoringApi({ commitChanges: async () => ({ done: true }) as RefactoringGraph }),
+            useNotification: aNotifier({ success }),
+          },
+          { 'refactoring.done': 'Refactoring done' },
+        ),
+      });
+
+      await act(() => result.current.commitChanges(
+        uuidv4(),
+        uuidv4(),
+      ));
+
+      expect(success).toHaveBeenCalledWith('Refactoring done');
     });
 
     test('The refactoring graph is refresh after committing changes', async () => {
@@ -314,7 +334,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => {} }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => ({}) as RefactoringGraph }),
             useRouter: aRouter({ refresh }),
           },
         ),
