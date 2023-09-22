@@ -137,14 +137,6 @@ export class Refactoring {
     return new Refactoring(id, new Goal(goal), []);
   }
 
-  identifyBy(id: string): boolean {
-    return id === this.id;
-  }
-
-  equals(refactoring: Refactoring): boolean {
-    return refactoring.id === this.id;
-  }
-
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
@@ -187,6 +179,14 @@ export class Refactoring {
       goal: this.goal.toString(),
       prerequisites: this.prerequisites.map((prerequisite) => prerequisite.render()),
     };
+  }
+
+  identifyBy(id: string): boolean {
+    return id === this.id;
+  }
+
+  equals(refactoring: Refactoring): boolean {
+    return refactoring.id === this.id;
   }
 }
 
