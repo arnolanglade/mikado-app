@@ -42,7 +42,7 @@ export default function RefactoringDashboard(
               <p>
                 { prerequisite.label }
                 -
-                <Translation id="prerequisite.done" />
+                { prerequisite.status === Status.DONE && <Translation id="prerequisite.done" /> }
               </p>
               { prerequisite.status === Status.TODO && (
                 <button
