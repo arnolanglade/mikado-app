@@ -130,11 +130,12 @@ export class Refactoring {
   constructor(
     private id: string,
     private goal: Goal,
+    private done: boolean,
     private prerequisites: Prerequisite[] = [],
   ) {}
 
   static start(id: string, goal: string) {
-    return new Refactoring(id, new Goal(goal), []);
+    return new Refactoring(id, new Goal(goal), false, []);
   }
 
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
@@ -160,6 +161,7 @@ export class Refactoring {
   }
 
   commitChanges(prerequisiteId: string): void {
+    let done = true;
     this.prerequisites = this.prerequisites.map((prerequisite) => {
       if (prerequisite.identifyBy(prerequisiteId)) {
         if (!prerequisite.hasStatus(Status.EXPERIMENTING)) {
@@ -169,8 +171,14 @@ export class Refactoring {
         return prerequisite.done();
       }
 
+      if (!prerequisite.hasStatus(Status.DONE)) {
+        done = false;
+      }
+
       return prerequisite;
     });
+
+    this.done = done;
   }
 
   render(): RefactoringGraph {

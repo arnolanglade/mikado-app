@@ -119,6 +119,7 @@ describe('Refactoring use cases', () => {
     expect(await refactorings.get(refactoringId))
       .toEqual(aRefactoring({
         refactoringId,
+        done: true,
         prerequisites: [{
           prerequisiteId, status: Status.DONE,
         }],
@@ -254,58 +255,82 @@ describe('Refactoring', () => {
       .toThrow(new Error('You can only start an experimentation an a todo prerequisite'));
   });
 
-  it('commits a change after finishing an experimentation', () => {
-    const prerequisiteId = uuidv4();
-    const refactoring = aRefactoring({
-      prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
+  describe('commit changes', () => {
+    it('commits a change after finishing an experimentation', () => {
+      const prerequisiteId = uuidv4();
+      const todoPrerequisite = { prerequisiteId: uuidv4(), status: Status.TODO };
+      const refactoring = aRefactoring({
+        prerequisites: [
+          { prerequisiteId, status: Status.EXPERIMENTING },
+          todoPrerequisite,
+        ],
+      });
+
+      refactoring.commitChanges(prerequisiteId);
+
+      expect(refactoring).toEqual(aRefactoring({
+        done: false,
+        prerequisites: [
+          { prerequisiteId, status: Status.DONE },
+          todoPrerequisite,
+        ],
+      }));
     });
 
-    refactoring.commitChanges(prerequisiteId);
+    it('finishes the refactoring after committing the last changes', () => {
+      const prerequisiteId = uuidv4();
+      const refactoring = aRefactoring({
+        prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
+      });
 
-    expect(refactoring).toEqual(aRefactoring({
-      prerequisites: [{
-        prerequisiteId,
-        status: Status.DONE,
-      }],
-    }));
-  });
+      refactoring.commitChanges(prerequisiteId);
 
-  it.each([
-    Status.TODO,
-    Status.DONE,
-  ])('raises an error if changes are committed to a "%s" prerequisite', async (status) => {
-    const prerequisiteId = uuidv4();
-    const refactoring = aRefactoring({
-      prerequisites: [{ prerequisiteId, status }],
+      expect(refactoring).toEqual(aRefactoring({
+        done: true,
+        prerequisites: [{
+          prerequisiteId,
+          status: Status.DONE,
+        }],
+      }));
     });
 
-    expect(() => refactoring.commitChanges(prerequisiteId))
-      .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
-  });
+    it.each([
+      Status.TODO,
+      Status.DONE,
+    ])('raises an error if changes are committed to a "%s" prerequisite', async (status) => {
+      const prerequisiteId = uuidv4();
+      const refactoring = aRefactoring({
+        prerequisites: [{ prerequisiteId, status }],
+      });
 
-  it('turns a refactoring into a format used by the UI to render it', () => {
-    const refactoring = aRefactoring({
-      refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-      goal: 'My goal',
-      prerequisites: [{
-        prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
-        label: 'Do this',
-        status: Status.TODO,
-        startedAt: '2023-07-25T10:24:00',
-      }],
+      expect(() => refactoring.commitChanges(prerequisiteId))
+        .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
     });
 
-    expect(refactoring.render())
-      .toEqual({
+    it('turns a refactoring into a format used by the UI to render it', () => {
+      const refactoring = aRefactoring({
         refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'My goal',
         prerequisites: [{
           prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
           label: 'Do this',
           status: Status.TODO,
-          startedAt: '2023-07-25T08:24:00.000Z',
+          startedAt: '2023-07-25T10:24:00',
         }],
       });
+
+      expect(refactoring.render())
+        .toEqual({
+          refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+          goal: 'My goal',
+          prerequisites: [{
+            prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
+            label: 'Do this',
+            status: Status.TODO,
+            startedAt: '2023-07-25T08:24:00.000Z',
+          }],
+        });
+    });
   });
 
   describe('identifyBy', () => {
