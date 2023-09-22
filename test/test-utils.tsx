@@ -97,6 +97,7 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
 type RefactoringGraphState = {
   refactoringId: string
   goal: string
+  done: false
   prerequisites: Partial<{
     prerequisiteId: string
     label: string
@@ -108,6 +109,7 @@ type RefactoringGraphState = {
 export const aRefactoringGraph = (graph: Partial<RefactoringGraphState>): RefactoringGraph => ({
   refactoringId: graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   goal: graph.goal ?? 'Refactor this class',
+  done: graph.done ?? false,
   prerequisites: graph.prerequisites?.map((prerequisite) => ({
     prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
     label: prerequisite.label ?? 'Do this',
