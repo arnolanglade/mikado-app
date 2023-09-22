@@ -97,7 +97,7 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
 type RefactoringGraphState = {
   refactoringId: string
   goal: string
-  done: false
+  done: boolean
   prerequisites: Partial<{
     prerequisiteId: string
     label: string

@@ -30,6 +30,8 @@ export default function RefactoringDashboard(
     <div className={styles.dashboard}>
       <div className={styles.refactoringGoal} data-testid="refactoring">
         { refactoring.goal }
+        {' '}
+        Done
         <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />
       </div>
       <div data-testid="prerequisites">

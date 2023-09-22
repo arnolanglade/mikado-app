@@ -216,7 +216,7 @@ describe('RefactoringDashboard', () => {
     expect(within(screen.getByTestId('prerequisites')).queryByText('Commit changes')).not.toBeInTheDocument();
   });
 
-  describe('"done" notice', () => {
+  describe('prerequisite "done" notice', () => {
     test('A "done" notice is displayed when the prerequisite is done', async () => {
       render(<RefactoringDashboard
         refactoring={aRefactoringGraph({
@@ -266,6 +266,27 @@ describe('RefactoringDashboard', () => {
           screen.getByTestId('prerequisites'),
         ).queryByText((content) => content.includes('Done')),
       ).not.toBeInTheDocument();
+    });
+  });
+  describe('refactoring "done" notice', () => {
+    test('A "done" notice is displayed when the refactoring is done', async () => {
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({
+          done: true,
+        })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(),
+      });
+
+      expect(
+        within(
+          screen.getByTestId('refactoring'),
+        ).getByText((content) => content.includes('Done')),
+      ).toBeInTheDocument();
     });
   });
 });
