@@ -31,8 +31,7 @@ export default function RefactoringDashboard(
       <div className={styles.refactoringGoal} data-testid="refactoring">
         { refactoring.goal }
         {' '}
-        { refactoring.done && <Translation id="prerequisite.done" /> }
-        <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />
+        { refactoring.done ? <Translation id="prerequisite.done" /> : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} /> }
       </div>
       <div data-testid="prerequisites">
         {refactoring.prerequisites.map(

@@ -35,27 +35,67 @@ describe('RefactoringDashboard', () => {
     expect(screen.getByText('Do this')).toBeInTheDocument();
   });
 
-  test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
-    const onAddPrerequisiteToRefactoring = jest.fn();
-    const refactoringId = uuidv4();
-    const label = 'Refactor method';
-    render(<RefactoringDashboard
-      refactoring={aRefactoringGraph({ refactoringId, prerequisites: [] })}
-      onStartExperimentation={jest.fn()}
-      onAddPrerequisiteToRefactoring={onAddPrerequisiteToRefactoring}
-      onAddPrerequisiteToPrerequisite={jest.fn()}
-      onCommitChanges={jest.fn()}
-    />, {
-      wrapper: createWrapper(
-        {},
-        { 'prerequisite.add"': 'Add prerequisite' },
-      ),
+  describe('add prerequisite to a refactoring', () => {
+    test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
+      const onAddPrerequisiteToRefactoring = jest.fn();
+      const refactoringId = uuidv4();
+      const label = 'Refactor method';
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({ refactoringId, prerequisites: [] })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={onAddPrerequisiteToRefactoring}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(
+          {},
+          { 'prerequisite.add"': 'Add prerequisite' },
+        ),
+      });
+
+      await userEvent.type(within(screen.getByTestId('refactoring')).getByRole('textbox'), label);
+      await userEvent.click(screen.getByText('Add prerequisite'));
+
+      expect(onAddPrerequisiteToRefactoring).toHaveBeenCalledWith(refactoringId, label);
     });
 
-    await userEvent.type(within(screen.getByTestId('refactoring')).getByRole('textbox'), label);
-    await userEvent.click(screen.getByText('Add prerequisite'));
+    test('The prerequisite addition form is displayed while the refactoring is not finished', async () => {
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({
+          done: false,
+        })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(
+          {},
+          { 'prerequisite.add': 'Add prerequisite' },
+        ),
+      });
 
-    expect(onAddPrerequisiteToRefactoring).toHaveBeenCalledWith(refactoringId, label);
+      expect(screen.getByText('Add prerequisite')).toBeInTheDocument();
+    });
+
+    test('The prerequisite addition form is hidden when the refactoring is finished', async () => {
+      render(<RefactoringDashboard
+        refactoring={aRefactoringGraph({
+          done: true,
+        })}
+        onStartExperimentation={jest.fn()}
+        onAddPrerequisiteToRefactoring={jest.fn()}
+        onAddPrerequisiteToPrerequisite={jest.fn()}
+        onCommitChanges={jest.fn()}
+      />, {
+        wrapper: createWrapper(
+          {},
+          { 'prerequisite.add': 'Add prerequisite' },
+        ),
+      });
+
+      expect(screen.queryByText('Add prerequisite')).not.toBeInTheDocument();
+    });
   });
 
   test('The onStartExperimentation callback is called when a developer starts an experimentation', async () => {
