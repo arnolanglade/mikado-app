@@ -17,6 +17,11 @@ describe('mapResponseToRefactoringGraph', () => {
         prerequisites: [],
       }),
       { addPrerequisiteToRefactoring },
+      {
+        onStartExperimentation: jest.fn(),
+        onAddPrerequisiteToPrerequisite: jest.fn(),
+        onCommitChanges: jest.fn(),
+      },
     );
 
     expect(refactoringGraph).toEqual([
@@ -32,19 +37,29 @@ describe('mapResponseToRefactoringGraph', () => {
   it('turns prerequisite into refactoring graph node', async () => {
     const label = 'label';
     const prerequisiteId = 'prerequisiteId';
+    const onStartExperimentation = jest.fn();
+    const onAddPrerequisiteToPrerequisite = jest.fn();
+    const onCommitChanges = jest.fn();
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aRefactoringGraph({
         prerequisites: [{ prerequisiteId, label }],
       }),
       { addPrerequisiteToRefactoring: jest.fn() },
+      {
+        onStartExperimentation,
+        onAddPrerequisiteToPrerequisite,
+        onCommitChanges,
+      },
     )[1];
 
     expect(refactoringGraph).toEqual(
       {
         id: prerequisiteId,
         type: 'prerequisite',
-        data: { label },
+        data: {
+          label, onStartExperimentation, onAddPrerequisiteToPrerequisite, onCommitChanges,
+        },
         position: { x: 0, y: 0 },
       },
     );

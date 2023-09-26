@@ -23,6 +23,11 @@ type RefactoringGraph = Node[];
 export const mapResponseToRefactoringGraph = (
   refactoringGraph: Refactoring,
   refactoringActions: { addPrerequisiteToRefactoring: (label: string) => void },
+  prerequisiteActions: {
+    onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
+    onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
+    onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
+  },
 ): RefactoringGraph => {
   const refactoringNode: Node = {
     id: refactoringGraph.refactoringId,
@@ -34,7 +39,7 @@ export const mapResponseToRefactoringGraph = (
   const prerequisiteNodes = refactoringGraph.prerequisites.map((prerequisite): Node => ({
     id: prerequisite.prerequisiteId,
     type: 'prerequisite',
-    data: { label: prerequisite.label },
+    data: { label: prerequisite.label, ...prerequisiteActions },
     position: { x: 0, y: 0 },
   }));
 
