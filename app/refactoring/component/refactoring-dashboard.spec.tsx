@@ -1,13 +1,14 @@
 'use client';
 
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
-import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
-import RefactoringDashboard, { RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
+import { render, screen } from '@testing-library/react';
+import { aPrerequisiteGraph, aRefactoringGraph, createWrapper } from '@/test/test-utils';
+import { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
 import { Status } from '@/api/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
+import { Mock } from 'jest-mock';
 
 describe('RefactoringDashboard', () => {
   describe('RefactoringNode', () => {
@@ -96,20 +97,13 @@ describe('RefactoringDashboard', () => {
   describe('PrerequisiteNode', () => {
     describe('start experimentation', () => {
       test('The onStartExperimentation callback is called when a developer starts an experimentation', async () => {
-        const onStartExperimentation = jest.fn();
-        const refactoringId = uuidv4();
+        const onStartExperimentation: Mock<() => () => void> = jest.fn();
         const prerequisiteId = uuidv4();
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            refactoringId,
-            prerequisites: [
-              { prerequisiteId, status: Status.TODO },
-            ],
-          })}
-          onStartExperimentation={onStartExperimentation}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<PrerequisiteNode
+          prerequisite={aPrerequisiteGraph({ prerequisiteId, status: Status.TODO })}
+          startExperimentation={onStartExperimentation}
+          addPrerequisiteToPrerequisite={() => jest.fn()}
+          commitChanges={() => jest.fn()}
         />, {
           wrapper: createWrapper(
             {},
@@ -119,21 +113,18 @@ describe('RefactoringDashboard', () => {
 
         await userEvent.click(screen.getByText('Start experimentation'));
 
-        expect(onStartExperimentation).toHaveBeenCalledWith(refactoringId, prerequisiteId);
+        expect(onStartExperimentation).toHaveBeenCalledWith(prerequisiteId);
       });
 
       test.each([
         Status.EXPERIMENTING,
         Status.DONE,
       ])('The start experimentation button is hidden for a %s prerequisite', async (status: Status) => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            prerequisites: [{ status }],
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<PrerequisiteNode
+          prerequisite={aPrerequisiteGraph({ status })}
+          startExperimentation={() => jest.fn()}
+          addPrerequisiteToPrerequisite={() => jest.fn()}
+          commitChanges={() => jest.fn()}
         />, {
           wrapper: createWrapper(
             {},
@@ -150,33 +141,23 @@ describe('RefactoringDashboard', () => {
     describe('add prerequisite to prerequisite', () => {
       test('The addPrerequisiteToPrerequisite callback is called when a developer adds a prerequisite to an existing one', async () => {
         const addPrerequisiteToPrerequisite = jest.fn();
-        const refactoringId = uuidv4();
         const prerequisiteId = uuidv4();
         const label = 'Change that';
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            refactoringId,
-            prerequisites: [
-              { prerequisiteId, status: Status.EXPERIMENTING },
-            ],
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
-          onCommitChanges={jest.fn()}
+        render(<PrerequisiteNode
+          prerequisite={aPrerequisiteGraph({ prerequisiteId, status: Status.EXPERIMENTING })}
+          startExperimentation={() => jest.fn()}
+          addPrerequisiteToPrerequisite={() => addPrerequisiteToPrerequisite}
+          commitChanges={() => jest.fn()}
         />, {
-          wrapper: createWrapper(
-            { },
-            {
-              'prerequisite.add': 'Add prerequisite',
-            },
-          ),
+          wrapper: createWrapper({}, {
+            'prerequisite.add': 'Add prerequisite',
+          }),
         });
 
-        await userEvent.type(within(screen.getByTestId('prerequisites')).getByRole('textbox'), label);
-        await userEvent.click(within(screen.getByTestId('prerequisites')).getByText('Add prerequisite'));
+        await userEvent.type(screen.getByRole('textbox'), label);
+        await userEvent.click(screen.getByText('Add prerequisite'));
 
-        expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(refactoringId, prerequisiteId, label);
+        expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(label);
       });
 
       test.each([
@@ -184,51 +165,41 @@ describe('RefactoringDashboard', () => {
         Status.DONE,
       ])('The start add prerequisite form is hidden for a %s prerequisite', async (status: Status) => {
         render(
-          <RefactoringDashboard
-            refactoring={aRefactoringGraph({ prerequisites: [{ status }] })}
-            onStartExperimentation={jest.fn()}
-            onAddPrerequisiteToRefactoring={jest.fn()}
-            onAddPrerequisiteToPrerequisite={jest.fn()}
-            onCommitChanges={jest.fn()}
+          <PrerequisiteNode
+            prerequisite={aPrerequisiteGraph({ status })}
+            startExperimentation={() => jest.fn()}
+            addPrerequisiteToPrerequisite={() => jest.fn()}
+            commitChanges={() => jest.fn()}
           />,
           {
-            wrapper: createWrapper(
-              {},
-              { 'prerequisite.add': 'Add prerequisite' },
-            ),
+            wrapper: createWrapper({}, {
+              'prerequisite.add': 'Add prerequisite',
+            }),
           },
         );
 
-        expect(within(screen.getByTestId('prerequisites')).queryByText('Add prerequisite')).not.toBeInTheDocument();
+        expect(screen.queryByText('Add prerequisite')).not.toBeInTheDocument();
       });
     });
 
     describe('commit changes', () => {
       test('The commitChanges callback is called when a developer commit changes', async () => {
-        const commitChanges = jest.fn();
-        const refactoringId = uuidv4();
+        const commitChanges: Mock<() => () => void> = jest.fn();
         const prerequisiteId = uuidv4();
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            refactoringId,
-            prerequisites: [
-              { prerequisiteId, status: Status.EXPERIMENTING },
-            ],
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={commitChanges}
+        render(<PrerequisiteNode
+          prerequisite={aPrerequisiteGraph({ prerequisiteId, status: Status.EXPERIMENTING })}
+          startExperimentation={() => jest.fn()}
+          addPrerequisiteToPrerequisite={() => jest.fn()}
+          commitChanges={commitChanges}
         />, {
-          wrapper: createWrapper(
-            { },
-            { 'prerequisite.commit-changes': 'Commit changes' },
-          ),
+          wrapper: createWrapper({ }, {
+            'prerequisite.commit-changes': 'Commit changes',
+          }),
         });
 
-        await userEvent.click(within(screen.getByTestId('prerequisites')).getByText('Commit changes'));
+        await userEvent.click(screen.getByText('Commit changes'));
 
-        expect(commitChanges).toHaveBeenCalledWith(refactoringId, prerequisiteId);
+        expect(commitChanges).toHaveBeenCalledWith(prerequisiteId);
       });
 
       test.each([
@@ -236,50 +207,39 @@ describe('RefactoringDashboard', () => {
         Status.DONE,
       ])('The start commit changes button is hidden for a %s prerequisite', async (status: Status) => {
         render(
-          <RefactoringDashboard
-            refactoring={aRefactoringGraph({ prerequisites: [{ status }] })}
-            onStartExperimentation={jest.fn()}
-            onAddPrerequisiteToRefactoring={jest.fn()}
-            onAddPrerequisiteToPrerequisite={jest.fn()}
-            onCommitChanges={jest.fn()}
+          <PrerequisiteNode
+            prerequisite={aPrerequisiteGraph({ status })}
+            startExperimentation={() => jest.fn()}
+            addPrerequisiteToPrerequisite={() => jest.fn()}
+            commitChanges={() => jest.fn()}
           />,
           {
-            wrapper: createWrapper(
-              {},
-              {
-                'prerequisite.add': 'Add prerequisite',
-                'prerequisite.commit-changes': 'Commit changes',
-              },
-            ),
+            wrapper: createWrapper({}, {
+              'prerequisite.add': 'Add prerequisite',
+              'prerequisite.commit-changes': 'Commit changes',
+            }),
           },
         );
 
-        expect(within(screen.getByTestId('prerequisites')).queryByText('Commit changes')).not.toBeInTheDocument();
+        expect(screen.queryByText('Commit changes')).not.toBeInTheDocument();
       });
     });
 
     describe('"done" notice', () => {
       test('A "done" notice is displayed when the prerequisite is done', async () => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            refactoringId: uuidv4(),
-            prerequisites: [{ status: Status.DONE }],
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<PrerequisiteNode
+          prerequisite={aPrerequisiteGraph({ status: Status.DONE })}
+          startExperimentation={() => jest.fn()}
+          addPrerequisiteToPrerequisite={() => jest.fn()}
+          commitChanges={() => jest.fn()}
         />, {
-          wrapper: createWrapper(
-            { },
-            { 'prerequisite.done': 'Done' },
-          ),
+          wrapper: createWrapper({}, {
+            'prerequisite.done': 'Done',
+          }),
         });
 
         expect(
-          within(
-            screen.getByTestId('prerequisites'),
-          ).getByText((content) => content.includes('Done')),
+          screen.getByText((content) => content.includes('Done')),
         ).toBeInTheDocument();
       });
 
@@ -287,15 +247,11 @@ describe('RefactoringDashboard', () => {
         Status.TODO,
         Status.EXPERIMENTING,
       ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status: Status) => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            refactoringId: uuidv4(),
-            prerequisites: [{ status }],
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<PrerequisiteNode
+          prerequisite={aPrerequisiteGraph({ status })}
+          startExperimentation={() => jest.fn()}
+          addPrerequisiteToPrerequisite={() => jest.fn()}
+          commitChanges={() => jest.fn()}
         />, {
           wrapper: createWrapper(
             { },
@@ -304,9 +260,7 @@ describe('RefactoringDashboard', () => {
         });
 
         expect(
-          within(
-            screen.getByTestId('prerequisites'),
-          ).queryByText((content) => content.includes('Done')),
+          screen.queryByText((content) => content.includes('Done')),
         ).not.toBeInTheDocument();
       });
     });
