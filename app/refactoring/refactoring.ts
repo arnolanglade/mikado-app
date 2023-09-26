@@ -19,7 +19,7 @@ type Node = {
 
 type RefactoringGraph = Node[];
 
-export const mapRefactoringGraphToNodes = (refactoringGraph: Refactoring): RefactoringGraph => {
+export const mapResponseToRefactoringGraph = (refactoringGraph: Refactoring): RefactoringGraph => {
   const refactoringNode: Node = {
     id: refactoringGraph.refactoringId,
     type: 'refactoring',

@@ -1,7 +1,7 @@
-import { mapRefactoringGraphToNodes } from '@/refactoring/refactoring';
+import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
 import { aRefactoringGraph } from '@/test/test-utils';
 
-describe('mapReafactoringGraphToNodes', () => {
+describe('mapResponseToRefactoringGraph', () => {
   it('turns refactoring info into the first node of the refactoring graph', async () => {
     const goal = 'goal';
     const refactoringId = 'refactoringId';
@@ -13,7 +13,7 @@ describe('mapReafactoringGraphToNodes', () => {
       prerequisites: [],
     };
 
-    expect(mapRefactoringGraphToNodes(refactoringGraph)).toEqual([
+    expect(mapResponseToRefactoringGraph(refactoringGraph)).toEqual([
       {
         id: refactoringId,
         type: 'refactoring',
@@ -31,7 +31,7 @@ describe('mapReafactoringGraphToNodes', () => {
       prerequisites: [{ prerequisiteId, label }],
     });
 
-    expect(mapRefactoringGraphToNodes(refactoringGraph)[1]).toEqual(
+    expect(mapResponseToRefactoringGraph(refactoringGraph)[1]).toEqual(
       {
         id: prerequisiteId,
         type: 'prerequisite',
@@ -49,7 +49,7 @@ describe('mapReafactoringGraphToNodes', () => {
       ],
     });
 
-    const nodes = mapRefactoringGraphToNodes(refactoringGraph);
+    const nodes = mapResponseToRefactoringGraph(refactoringGraph);
 
     expect(nodes[1].position).toEqual({ x: 0, y: 100 });
     expect(nodes[2].position).toEqual({ x: 0, y: 200 });
