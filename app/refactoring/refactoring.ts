@@ -1,5 +1,5 @@
 import httpClient from '@/lib/http-client';
-import { RefactoringGraph as Refactoring } from '@/api/refactoring/refactoring';
+import { getRefactoringById, RefactoringGraph as Refactoring } from '@/api/refactoring/refactoring';
 
 type RefactoringData = {
   label: string,
@@ -38,6 +38,7 @@ export const mapRefactoringGraphToNodes = (refactoringGraph: Refactoring): Refac
 };
 
 export type RefactoringApi = {
+  getById: (id: string) => Promise<Refactoring>
   start: (goal: string) => Promise<Refactoring>
   addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<Refactoring>
   startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<Refactoring>
@@ -46,6 +47,7 @@ export type RefactoringApi = {
 };
 
 const refactoringApi: RefactoringApi = {
+  getById: async (id: string) => getRefactoringById(id),
   start: async (goal: string) => {
     const response = await httpClient.post('/api/refactoring', { goal });
     return response.json();
