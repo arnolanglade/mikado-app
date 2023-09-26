@@ -320,6 +320,7 @@ describe('Refactoring', () => {
           label: 'Do this',
           status: Status.TODO,
           startedAt: '2023-07-25T10:24:00.000Z',
+          parentId: 'fce08bae-3c28-4d9b-afe9-9ff920605d32',
         }],
       });
 
@@ -333,6 +334,7 @@ describe('Refactoring', () => {
             label: 'Do this',
             status: Status.TODO,
             startedAt: '2023-07-25T10:24:00.000Z',
+            parentId: 'fce08bae-3c28-4d9b-afe9-9ff920605d32',
           }],
         });
     });
