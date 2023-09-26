@@ -31,7 +31,7 @@ export const mapResponseToRefactoringGraph = (refactoringGraph: Refactoring): Re
     id: prerequisite.prerequisiteId,
     type: 'prerequisite',
     data: { label: prerequisite.label },
-    position: { x: 0, y: (index + 1) * 100 },
+    position: { x: 0, y: 0 },
   }));
 
   return [refactoringNode, ...prerequisiteNodes];
