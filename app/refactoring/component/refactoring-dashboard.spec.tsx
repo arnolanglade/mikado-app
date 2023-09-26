@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { aPrerequisiteGraph, aRefactoringGraph, createWrapper } from '@/test/test-utils';
-import { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
+import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
 import { Status } from '@/api/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
@@ -11,6 +11,31 @@ import { jest } from '@jest/globals';
 import { Mock } from 'jest-mock';
 
 describe('RefactoringDashboard', () => {
+  test('The developer sees the refactoring with its prerequisites', async () => {
+    render(<RefactoringDashboard
+      refactoring={aRefactoringGraph({
+        goal: 'Refactor this method',
+        prerequisites: [
+          { label: 'Do this' },
+          { label: 'Do that' },
+        ],
+      })}
+      onStartExperimentation={jest.fn()}
+      onAddPrerequisiteToRefactoring={jest.fn()}
+      onAddPrerequisiteToPrerequisite={jest.fn()}
+      onCommitChanges={jest.fn()}
+    />, {
+      wrapper: createWrapper(
+        {},
+        { 'prerequisite.start-experimentation': 'Start experimentation' },
+      ),
+    });
+
+    expect(screen.getByText('Refactor this method')).toBeInTheDocument();
+    expect(screen.getByText('Do this')).toBeInTheDocument();
+    expect(screen.getByText('Do that')).toBeInTheDocument();
+  });
+
   describe('RefactoringNode', () => {
     describe('Add prerequisite to a refactoring', () => {
       test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
