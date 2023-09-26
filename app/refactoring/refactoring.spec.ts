@@ -3,7 +3,7 @@ import { aRefactoringGraph } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 
 describe('mapResponseToRefactoringGraph', () => {
-  it('turns refactoring info into the first node of the refactoring graph', async () => {
+  test('the first node of the refactoring graph contains the refactoring information', async () => {
     const goal = 'goal';
     const refactoringId = 'refactoringId';
     const done = false;
@@ -34,7 +34,7 @@ describe('mapResponseToRefactoringGraph', () => {
     ]);
   });
 
-  it('turns prerequisite into refactoring graph node', async () => {
+  test('the next nodes contains the prerequisite information', async () => {
     const label = 'label';
     const prerequisiteId = 'prerequisiteId';
     const onStartExperimentation = jest.fn();
