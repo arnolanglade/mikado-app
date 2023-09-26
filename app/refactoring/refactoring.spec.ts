@@ -36,7 +36,7 @@ describe('mapReafactoringGraphToNodes', () => {
         id: prerequisiteId,
         type: 'prerequisite',
         data: { label },
-        position: { x: 0, y: 0 },
+        position: { x: 0, y: 100 },
       },
     );
   });
