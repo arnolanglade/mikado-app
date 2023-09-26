@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
-import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';
+import RefactoringDashboard, { RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
 import { Status } from '@/api/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
@@ -11,17 +11,14 @@ import { jest } from '@jest/globals';
 
 describe('RefactoringDashboard', () => {
   describe('RefactoringNode', () => {
-    describe('add prerequisite to a refactoring', () => {
+    describe('Add prerequisite to a refactoring', () => {
       test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
-        const onAddPrerequisiteToRefactoring = jest.fn();
+        const addPrerequisiteToRefactoring = jest.fn();
         const refactoringId = uuidv4();
         const label = 'Refactor method';
-        render(<RefactoringDashboard
+        render(<RefactoringNode
           refactoring={aRefactoringGraph({ refactoringId, prerequisites: [] })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={onAddPrerequisiteToRefactoring}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+          addPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
         />, {
           wrapper: createWrapper(
             {},
@@ -29,21 +26,16 @@ describe('RefactoringDashboard', () => {
           ),
         });
 
-        await userEvent.type(within(screen.getByTestId('refactoring')).getByRole('textbox'), label);
+        await userEvent.type(screen.getByRole('textbox'), label);
         await userEvent.click(screen.getByText('Add prerequisite'));
 
-        expect(onAddPrerequisiteToRefactoring).toHaveBeenCalledWith(refactoringId, label);
+        expect(addPrerequisiteToRefactoring).toHaveBeenCalledWith(label);
       });
 
       test('The prerequisite addition form is displayed while the refactoring is not finished', async () => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            done: false,
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<RefactoringNode
+          refactoring={aRefactoringGraph({ done: false })}
+          addPrerequisiteToRefactoring={jest.fn()}
         />, {
           wrapper: createWrapper(
             {},
@@ -55,14 +47,9 @@ describe('RefactoringDashboard', () => {
       });
 
       test('The prerequisite addition form is hidden when the refactoring is finished', async () => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            done: true,
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<RefactoringNode
+          refactoring={aRefactoringGraph({ done: true })}
+          addPrerequisiteToRefactoring={jest.fn()}
         />, {
           wrapper: createWrapper(
             {},
