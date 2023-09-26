@@ -23,7 +23,7 @@ describe('mapReafactoringGraphToNodes', () => {
     ]);
   });
 
-  it('turns prerequisite info into refactoring graph nodes', async () => {
+  it('turns prerequisite into refactoring graph node', async () => {
     const label = 'label';
     const prerequisiteId = 'prerequisiteId';
 

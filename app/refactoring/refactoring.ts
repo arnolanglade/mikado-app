@@ -1,5 +1,5 @@
 import httpClient from '@/lib/http-client';
-import { RefactoringGraph } from '@/api/refactoring/refactoring';
+import { RefactoringGraph as Refactoring } from '@/api/refactoring/refactoring';
 
 type RefactoringData = {
   label: string,
@@ -17,9 +17,9 @@ type Node = {
   position: { x: number, y: number }
 };
 
-type Nodes = Node[];
+type RefactoringGraph = Node[];
 
-export const mapRefactoringGraphToNodes = (refactoringGraph: RefactoringGraph): Nodes => {
+export const mapRefactoringGraphToNodes = (refactoringGraph: Refactoring): RefactoringGraph => {
   const refactoringNode: Node = {
     id: refactoringGraph.refactoringId,
     type: 'refactoring',
@@ -38,11 +38,11 @@ export const mapRefactoringGraphToNodes = (refactoringGraph: RefactoringGraph): 
 };
 
 export type RefactoringApi = {
-  start: (goal: string) => Promise<RefactoringGraph>
-  addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<RefactoringGraph>
-  startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<RefactoringGraph>
-  addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<RefactoringGraph>
-  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<RefactoringGraph>
+  start: (goal: string) => Promise<Refactoring>
+  addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<Refactoring>
+  startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<Refactoring>
+  addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<Refactoring>
+  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<Refactoring>
 };
 
 const refactoringApi: RefactoringApi = {
