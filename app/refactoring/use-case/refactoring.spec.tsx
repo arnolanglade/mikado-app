@@ -291,7 +291,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => ({ done: false }) as RefactoringGraph }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => aRefactoringGraph({ done: false }) }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'Changes committed' },
@@ -312,7 +312,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => ({ done: true }) as RefactoringGraph }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => aRefactoringGraph({ done: true }) }),
             useNotification: aNotifier({ success }),
           },
           { 'refactoring.done': 'Refactoring done' },
@@ -332,7 +332,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => ({}) as RefactoringGraph }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => aRefactoringGraph() }),
             useRouter: aRouter({ refresh }),
           },
         ),
