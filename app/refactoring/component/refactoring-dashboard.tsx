@@ -6,6 +6,23 @@ import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
 
+function RefactoringNode({
+  refactoring,
+  addPrerequisiteToRefactoring,
+}: {
+  refactoring: RefactoringGraph,
+  addPrerequisiteToRefactoring: (label: string) => void
+}) {
+  return (
+    <div className={styles.refactoringGoal} data-testid="refactoring">
+      {refactoring.goal}
+      {' '}
+      {refactoring.done ? <Translation id="prerequisite.done" />
+        : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />}
+    </div>
+  );
+}
+
 export default function RefactoringDashboard(
   {
     refactoring,
@@ -28,11 +45,7 @@ export default function RefactoringDashboard(
 
   return (
     <div className={styles.dashboard}>
-      <div className={styles.refactoringGoal} data-testid="refactoring">
-        { refactoring.goal }
-        {' '}
-        { refactoring.done ? <Translation id="prerequisite.done" /> : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} /> }
-      </div>
+      <RefactoringNode refactoring={refactoring} addPrerequisiteToRefactoring={addPrerequisiteToRefactoring} />
       <div data-testid="prerequisites">
         {refactoring.prerequisites.map(
           (prerequisite) => (
@@ -41,11 +54,11 @@ export default function RefactoringDashboard(
               key={prerequisite.prerequisiteId}
             >
               <p>
-                { prerequisite.label }
+                {prerequisite.label}
                 {' '}
-                { prerequisite.status === Status.DONE && <Translation id="prerequisite.done" /> }
+                {prerequisite.status === Status.DONE && <Translation id="prerequisite.done" />}
               </p>
-              { prerequisite.status === Status.TODO && (
+              {prerequisite.status === Status.TODO && (
                 <button
                   type="button"
                   onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
@@ -53,16 +66,18 @@ export default function RefactoringDashboard(
                   <Translation id="prerequisite.start-experimentation" />
                 </button>
               )}
-              { prerequisite.status === Status.EXPERIMENTING && (
-              <>
-                <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)} />
-                <button
-                  type="button"
-                  onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
-                >
-                  <Translation id="prerequisite.commit-changes" />
-                </button>
-              </>
+              {prerequisite.status === Status.EXPERIMENTING && (
+                <>
+                  <AddPrerequisiteForm
+                    onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)}
+                  />
+                  <button
+                    type="button"
+                    onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
+                  >
+                    <Translation id="prerequisite.commit-changes" />
+                  </button>
+                </>
               )}
             </div>
           ),
