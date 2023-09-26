@@ -6,12 +6,13 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import {
-  Goal, Label, Prerequisite, Refactoring, RefactoringGraph, Status,
+  Goal, Label, Prerequisite, PrerequisiteGraph, Refactoring, RefactoringGraph, Status,
 } from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
+  getById: jest.fn() as jest.Mocked<typeof refactoringApi.getById>,
   start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
   addPrerequisiteToRefactoring: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToRefactoring>,
   addPrerequisiteToPrerequisite: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToPrerequisite>,
@@ -94,16 +95,18 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
   );
 };
 
+type PrerequisiteGraphState = {
+  prerequisiteId: string
+  label: string
+  status: Status
+  startedAt: string
+};
+
 type RefactoringGraphState = {
   refactoringId: string
   goal: string
   done: boolean
-  prerequisites: Partial<{
-    prerequisiteId: string
-    label: string
-    status: Status
-    startedAt: string
-  }>[]
+  prerequisites: Partial<PrerequisiteGraphState>[]
 };
 
 export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): RefactoringGraph => ({
@@ -116,4 +119,11 @@ export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): R
     status: prerequisite.status ?? Status.TODO,
     startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
   })) ?? [],
+});
+
+export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteGraphState> = {}): PrerequisiteGraph => ({
+  prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
+  label: prerequisite.label ?? 'Do this',
+  status: prerequisite.status ?? Status.TODO,
+  startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
 });
