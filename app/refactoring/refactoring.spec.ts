@@ -1,11 +1,13 @@
 import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
 import { aRefactoringGraph } from '@/test/test-utils';
+import { jest } from '@jest/globals';
 
 describe('mapResponseToRefactoringGraph', () => {
   it('turns refactoring info into the first node of the refactoring graph', async () => {
     const goal = 'goal';
     const refactoringId = 'refactoringId';
     const done = false;
+    const addPrerequisiteToRefactoring = jest.fn();
     const refactoringGraph = {
       refactoringId,
       goal,
@@ -13,11 +15,11 @@ describe('mapResponseToRefactoringGraph', () => {
       prerequisites: [],
     };
 
-    expect(mapResponseToRefactoringGraph(refactoringGraph)).toEqual([
+    expect(mapResponseToRefactoringGraph(refactoringGraph, { addPrerequisiteToRefactoring })).toEqual([
       {
         id: refactoringId,
         type: 'refactoring',
-        data: { label: goal, done },
+        data: { label: goal, done, addPrerequisiteToRefactoring },
         position: { x: 0, y: 0 },
       },
     ]);
@@ -31,7 +33,7 @@ describe('mapResponseToRefactoringGraph', () => {
       prerequisites: [{ prerequisiteId, label }],
     });
 
-    expect(mapResponseToRefactoringGraph(refactoringGraph)[1]).toEqual(
+    expect(mapResponseToRefactoringGraph(refactoringGraph, { addPrerequisiteToRefactoring: jest.fn() })[1]).toEqual(
       {
         id: prerequisiteId,
         type: 'prerequisite',

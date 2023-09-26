@@ -4,6 +4,7 @@ import { getRefactoringById, RefactoringGraph as Refactoring } from '@/api/refac
 type RefactoringData = {
   label: string,
   done: boolean
+  addPrerequisiteToRefactoring: (label: string) => void
 };
 
 type PrerequisiteData = {
@@ -19,15 +20,18 @@ type Node = {
 
 type RefactoringGraph = Node[];
 
-export const mapResponseToRefactoringGraph = (refactoringGraph: Refactoring): RefactoringGraph => {
+export const mapResponseToRefactoringGraph = (
+  refactoringGraph: Refactoring,
+  refactoringActions: { addPrerequisiteToRefactoring: (label: string) => void },
+): RefactoringGraph => {
   const refactoringNode: Node = {
     id: refactoringGraph.refactoringId,
     type: 'refactoring',
-    data: { label: refactoringGraph.goal, done: refactoringGraph.done },
+    data: { label: refactoringGraph.goal, done: refactoringGraph.done, ...refactoringActions },
     position: { x: 0, y: 0 },
   };
 
-  const prerequisiteNodes = refactoringGraph.prerequisites.map((prerequisite, index): Node => ({
+  const prerequisiteNodes = refactoringGraph.prerequisites.map((prerequisite): Node => ({
     id: prerequisite.prerequisiteId,
     type: 'prerequisite',
     data: { label: prerequisite.label },
