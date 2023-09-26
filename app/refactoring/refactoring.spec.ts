@@ -8,14 +8,18 @@ describe('mapResponseToRefactoringGraph', () => {
     const refactoringId = 'refactoringId';
     const done = false;
     const addPrerequisiteToRefactoring = jest.fn();
-    const refactoringGraph = {
-      refactoringId,
-      goal,
-      done,
-      prerequisites: [],
-    };
 
-    expect(mapResponseToRefactoringGraph(refactoringGraph, { addPrerequisiteToRefactoring })).toEqual([
+    const refactoringGraph = mapResponseToRefactoringGraph(
+      aRefactoringGraph({
+        refactoringId,
+        goal,
+        done,
+        prerequisites: [],
+      }),
+      { addPrerequisiteToRefactoring },
+    );
+
+    expect(refactoringGraph).toEqual([
       {
         id: refactoringId,
         type: 'refactoring',
@@ -29,11 +33,14 @@ describe('mapResponseToRefactoringGraph', () => {
     const label = 'label';
     const prerequisiteId = 'prerequisiteId';
 
-    const refactoringGraph = aRefactoringGraph({
-      prerequisites: [{ prerequisiteId, label }],
-    });
+    const refactoringGraph = mapResponseToRefactoringGraph(
+      aRefactoringGraph({
+        prerequisites: [{ prerequisiteId, label }],
+      }),
+      { addPrerequisiteToRefactoring: jest.fn() },
+    )[1];
 
-    expect(mapResponseToRefactoringGraph(refactoringGraph, { addPrerequisiteToRefactoring: jest.fn() })[1]).toEqual(
+    expect(refactoringGraph).toEqual(
       {
         id: prerequisiteId,
         type: 'prerequisite',
