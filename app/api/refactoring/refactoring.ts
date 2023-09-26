@@ -37,7 +37,7 @@ export enum Status {
 }
 
 // Todo: used in the front end
-type PrerequisiteGraph = {
+export type PrerequisiteGraph = {
   prerequisiteId: string,
   label: string,
   status: Status,

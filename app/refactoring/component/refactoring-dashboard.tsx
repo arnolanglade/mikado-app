@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { RefactoringGraph, Status } from '@/api/refactoring/refactoring';
+import { PrerequisiteGraph, RefactoringGraph, Status } from '@/api/refactoring/refactoring';
 import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
@@ -24,19 +24,19 @@ function RefactoringNode({
 }
 
 function PrerequisiteNode({
-  refactoring,
+  prerequisites,
   startExperimentation,
   addPrerequisiteToPrerequisite,
   commitChanges,
 } : {
-  refactoring: RefactoringGraph,
-  startExperimentation: (refactoringId: string, prerequisiteId: string) => () => void,
+  prerequisites: PrerequisiteGraph[]
+  startExperimentation: (prerequisiteId: string) => () => void,
   addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
-  commitChanges: (refactoringId: string, prerequisiteId: string) => () => void,
+  commitChanges: (prerequisiteId: string) => () => void,
 }) {
   return (
     <div data-testid="prerequisites">
-      {refactoring.prerequisites.map(
+      {prerequisites.map(
         (prerequisite) => (
           <div
             className={styles.prerequisite}
@@ -50,7 +50,7 @@ function PrerequisiteNode({
             {prerequisite.status === Status.TODO && (
             <button
               type="button"
-              onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
+              onClick={startExperimentation(prerequisite.prerequisiteId)}
             >
               <Translation id="prerequisite.start-experimentation" />
             </button>
@@ -62,7 +62,7 @@ function PrerequisiteNode({
               />
               <button
                 type="button"
-                onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
+                onClick={commitChanges(prerequisite.prerequisiteId)}
               >
                 <Translation id="prerequisite.commit-changes" />
               </button>
@@ -75,25 +75,23 @@ function PrerequisiteNode({
   );
 }
 
-export default function RefactoringDashboard(
-  {
-    refactoring,
-    onAddPrerequisiteToRefactoring,
-    onStartExperimentation,
-    onAddPrerequisiteToPrerequisite,
-    onCommitChanges,
-  }: {
-    refactoring: RefactoringGraph,
-    onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
-    onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
-    onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
-    onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
-  },
-) {
+export default function RefactoringDashboard({
+  refactoring,
+  onAddPrerequisiteToRefactoring,
+  onStartExperimentation,
+  onAddPrerequisiteToPrerequisite,
+  onCommitChanges,
+}: {
+  refactoring: RefactoringGraph,
+  onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
+  onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
+  onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
+  onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
+}) {
   const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.refactoringId, label);
   const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(refactoring.refactoringId, prerequisiteId, label);
-  const startExperimentation = (refactoringId: string, prerequisiteId: string) => () => onStartExperimentation(refactoringId, prerequisiteId);
-  const commitChanges = (refactoringId: string, prerequisiteId: string) => () => onCommitChanges(refactoringId, prerequisiteId);
+  const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(refactoring.refactoringId, prerequisiteId);
+  const commitChanges = (prerequisiteId: string) => () => onCommitChanges(refactoring.refactoringId, prerequisiteId);
 
   return (
     <div className={styles.dashboard}>
@@ -102,7 +100,7 @@ export default function RefactoringDashboard(
         addPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
       />
       <PrerequisiteNode
-        refactoring={refactoring}
+        prerequisites={refactoring.prerequisites}
         startExperimentation={startExperimentation}
         addPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
         commitChanges={commitChanges}
