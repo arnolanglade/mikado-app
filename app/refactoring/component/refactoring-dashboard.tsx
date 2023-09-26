@@ -23,7 +23,7 @@ export function RefactoringNode({
   );
 }
 
-function PrerequisiteNode({
+export function PrerequisiteNode({
   prerequisite,
   startExperimentation,
   addPrerequisiteToPrerequisite,

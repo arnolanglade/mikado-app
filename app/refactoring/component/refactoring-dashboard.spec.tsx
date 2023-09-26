@@ -63,34 +63,22 @@ describe('RefactoringDashboard', () => {
 
     describe('"done" notice', () => {
       test('A "done" notice is displayed when the refactoring is done', async () => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            done: true,
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<RefactoringNode
+          refactoring={aRefactoringGraph({ done: true })}
+          addPrerequisiteToRefactoring={jest.fn()}
         />, {
           wrapper: createWrapper(),
         });
 
         expect(
-          within(
-            screen.getByTestId('refactoring'),
-          ).getByText((content) => content.includes('Done')),
+          screen.getByText((content) => content.includes('Done')),
         ).toBeInTheDocument();
       });
 
       test('A "done" notice is hidden when the refactoring is a WIP', async () => {
-        render(<RefactoringDashboard
-          refactoring={aRefactoringGraph({
-            done: false,
-          })}
-          onStartExperimentation={jest.fn()}
-          onAddPrerequisiteToRefactoring={jest.fn()}
-          onAddPrerequisiteToPrerequisite={jest.fn()}
-          onCommitChanges={jest.fn()}
+        render(<RefactoringNode
+          refactoring={aRefactoringGraph({ done: false })}
+          addPrerequisiteToRefactoring={jest.fn()}
         />, {
           wrapper: createWrapper(
             {},
@@ -99,9 +87,7 @@ describe('RefactoringDashboard', () => {
         });
 
         expect(
-          within(
-            screen.getByTestId('refactoring'),
-          ).queryByText((content) => content.includes('Done')),
+          screen.queryByText((content) => content.includes('Done')),
         ).not.toBeInTheDocument();
       });
     });
