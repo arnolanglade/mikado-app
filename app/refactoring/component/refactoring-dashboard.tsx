@@ -23,6 +23,58 @@ function RefactoringNode({
   );
 }
 
+function PrerequisiteNode({
+  refactoring,
+  startExperimentation,
+  addPrerequisiteToPrerequisite,
+  commitChanges,
+} : {
+  refactoring: RefactoringGraph,
+  startExperimentation: (refactoringId: string, prerequisiteId: string) => () => void,
+  addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
+  commitChanges: (refactoringId: string, prerequisiteId: string) => () => void,
+}) {
+  return (
+    <div data-testid="prerequisites">
+      {refactoring.prerequisites.map(
+        (prerequisite) => (
+          <div
+            className={styles.prerequisite}
+            key={prerequisite.prerequisiteId}
+          >
+            <p>
+              {prerequisite.label}
+              {' '}
+              {prerequisite.status === Status.DONE && <Translation id="prerequisite.done" />}
+            </p>
+            {prerequisite.status === Status.TODO && (
+            <button
+              type="button"
+              onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
+            >
+              <Translation id="prerequisite.start-experimentation" />
+            </button>
+            )}
+            {prerequisite.status === Status.EXPERIMENTING && (
+            <>
+              <AddPrerequisiteForm
+                onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)}
+              />
+              <button
+                type="button"
+                onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
+              >
+                <Translation id="prerequisite.commit-changes" />
+              </button>
+            </>
+            )}
+          </div>
+        ),
+      )}
+    </div>
+  );
+}
+
 export default function RefactoringDashboard(
   {
     refactoring,
@@ -45,44 +97,16 @@ export default function RefactoringDashboard(
 
   return (
     <div className={styles.dashboard}>
-      <RefactoringNode refactoring={refactoring} addPrerequisiteToRefactoring={addPrerequisiteToRefactoring} />
-      <div data-testid="prerequisites">
-        {refactoring.prerequisites.map(
-          (prerequisite) => (
-            <div
-              className={styles.prerequisite}
-              key={prerequisite.prerequisiteId}
-            >
-              <p>
-                {prerequisite.label}
-                {' '}
-                {prerequisite.status === Status.DONE && <Translation id="prerequisite.done" />}
-              </p>
-              {prerequisite.status === Status.TODO && (
-                <button
-                  type="button"
-                  onClick={startExperimentation(refactoring.refactoringId, prerequisite.prerequisiteId)}
-                >
-                  <Translation id="prerequisite.start-experimentation" />
-                </button>
-              )}
-              {prerequisite.status === Status.EXPERIMENTING && (
-                <>
-                  <AddPrerequisiteForm
-                    onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)}
-                  />
-                  <button
-                    type="button"
-                    onClick={commitChanges(refactoring.refactoringId, prerequisite.prerequisiteId)}
-                  >
-                    <Translation id="prerequisite.commit-changes" />
-                  </button>
-                </>
-              )}
-            </div>
-          ),
-        )}
-      </div>
+      <RefactoringNode
+        refactoring={refactoring}
+        addPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
+      />
+      <PrerequisiteNode
+        refactoring={refactoring}
+        startExperimentation={startExperimentation}
+        addPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
+        commitChanges={commitChanges}
+      />
     </div>
   );
 }
