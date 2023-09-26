@@ -6,10 +6,14 @@ type RefactoringData = {
   done: boolean
 };
 
+type PrerequisiteData = {
+  label: string,
+};
+
 type Node = {
   id: string,
   type: 'refactoring' | 'prerequisite',
-  data: RefactoringData,
+  data: RefactoringData | PrerequisiteData,
   position: { x: number, y: number }
 };
 
@@ -23,7 +27,14 @@ export const mapRefactoringGraphToNodes = (refactoringGraph: RefactoringGraph): 
     position: { x: 0, y: 0 },
   };
 
-  return [refactoringNode];
+  const prerequisiteNodes = refactoringGraph.prerequisites.map((prerequisite): Node => ({
+    id: prerequisite.prerequisiteId,
+    type: 'prerequisite',
+    data: { label: prerequisite.label },
+    position: { x: 0, y: 0 },
+  }));
+
+  return [refactoringNode, ...prerequisiteNodes];
 };
 
 export type RefactoringApi = {
