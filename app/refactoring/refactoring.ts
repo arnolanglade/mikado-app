@@ -1,6 +1,31 @@
 import httpClient from '@/lib/http-client';
 import { RefactoringGraph } from '@/api/refactoring/refactoring';
 
+type RefactoringData = {
+  label: string,
+  done: boolean
+};
+
+type Node = {
+  id: string,
+  type: 'refactoring' | 'prerequisite',
+  data: RefactoringData,
+  position: { x: number, y: number }
+};
+
+type Nodes = Node[];
+
+export const mapRefactoringGraphToNodes = (refactoringGraph: RefactoringGraph): Nodes => {
+  const refactoringNode: Node = {
+    id: refactoringGraph.refactoringId,
+    type: 'refactoring',
+    data: { label: refactoringGraph.goal, done: refactoringGraph.done },
+    position: { x: 0, y: 0 },
+  };
+
+  return [refactoringNode];
+};
+
 export type RefactoringApi = {
   start: (goal: string) => Promise<RefactoringGraph>
   addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<RefactoringGraph>
