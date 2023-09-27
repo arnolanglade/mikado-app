@@ -56,7 +56,7 @@ export class Prerequisite {
   ) {
   }
 
-  static withParent(
+  static new(
     prerequisiteId: string,
     parentId: string,
     label: string,
@@ -150,11 +150,11 @@ export class Refactoring {
   }
 
   addPrerequisiteToRefactoring(prerequisiteId: string, label: string): void {
-    this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, this.id, label)];
+    this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, this.id, label)];
   }
 
   addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
-    this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, parentId, label)];
+    this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, parentId, label)];
   }
 
   commitChanges(prerequisiteId: string): void {
