@@ -56,13 +56,6 @@ export class Prerequisite {
   ) {
   }
 
-  static withoutParent(
-    prerequisiteId: string,
-    label: string,
-  ) {
-    return new Prerequisite(prerequisiteId, new Label(label), Status.TODO);
-  }
-
   static withParent(
     prerequisiteId: string,
     parentId: string,
