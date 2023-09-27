@@ -6,7 +6,7 @@ import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
 import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
-import { ReactFlow } from 'reactflow';
+import { Handle, Position, ReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 export function RefactoringNode({
@@ -20,6 +20,7 @@ export function RefactoringNode({
       {' '}
       {done ? <Translation id="prerequisite.done" />
         : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />}
+      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 }
@@ -49,6 +50,7 @@ export function PrerequisiteNode({
       className={styles.prerequisite}
       key={id}
     >
+      <Handle type="target" position={Position.Top} />
       <p>
         {label}
         {' '}
@@ -75,6 +77,7 @@ export function PrerequisiteNode({
         </button>
       </>
       )}
+      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 }
@@ -97,7 +100,7 @@ export default function RefactoringDashboard({
   const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(refactoring.refactoringId, prerequisiteId);
   const commitChanges = (prerequisiteId: string) => () => onCommitChanges(refactoring.refactoringId, prerequisiteId);
 
-  const initialNodes = mapResponseToRefactoringGraph(
+  const { nodes, edges } = mapResponseToRefactoringGraph(
     refactoring,
     { addPrerequisiteToRefactoring },
     { startExperimentation, addPrerequisiteToPrerequisite, commitChanges },
@@ -111,7 +114,8 @@ export default function RefactoringDashboard({
   return (
     <div className={styles.dashboard}>
       <ReactFlow
-        nodes={initialNodes}
+        nodes={nodes}
+        edges={edges}
         nodeTypes={nodeTypes}
         fitView
       />

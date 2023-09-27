@@ -27,17 +27,20 @@ describe('mapResponseToRefactoringGraph', () => {
       },
     );
 
-    expect(refactoringGraph).toEqual([
-      {
-        id: refactoringId,
-        type: 'refactoring',
-        data: { goal, done, addPrerequisiteToRefactoring },
-        position: { x: 0, y: 0 },
-      },
-    ]);
+    expect(refactoringGraph).toEqual({
+      nodes: [
+        {
+          id: refactoringId,
+          type: 'refactoring',
+          data: { goal, done, addPrerequisiteToRefactoring },
+          position: { x: 0, y: 0 },
+        },
+      ],
+      edges: [],
+    });
   });
 
-  test('the next nodes contains the prerequisite information', async () => {
+  test('the next nodes contain the prerequisite information', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'label';
@@ -57,9 +60,9 @@ describe('mapResponseToRefactoringGraph', () => {
         addPrerequisiteToPrerequisite,
         commitChanges,
       },
-    )[1];
+    );
 
-    expect(refactoringGraph).toEqual(
+    expect(refactoringGraph.nodes[1]).toEqual(
       {
         id: prerequisiteId,
         type: 'prerequisite',
@@ -70,5 +73,59 @@ describe('mapResponseToRefactoringGraph', () => {
         position: { x: 0, y: 100 },
       },
     );
+  });
+
+  test('it computes edges between refactoring and its prerequisite children', async () => {
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
+    const otherPrerequisiteId = uuidv4();
+
+    const refactoringGraph = mapResponseToRefactoringGraph(
+      aRefactoringGraph({
+        refactoringId,
+        prerequisites: [
+          { prerequisiteId },
+          { prerequisiteId: otherPrerequisiteId },
+        ],
+      }),
+      { addPrerequisiteToRefactoring: jest.fn() },
+      {
+        startExperimentation: jest.fn() as Mock<() => () => void>,
+        addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,
+        commitChanges: jest.fn() as Mock<() => () => void>,
+      },
+    );
+
+    expect(refactoringGraph.edges).toEqual([
+      { id: `${refactoringId}-${prerequisiteId}`, source: refactoringId, target: prerequisiteId },
+      { id: `${refactoringId}-${otherPrerequisiteId}`, source: refactoringId, target: otherPrerequisiteId },
+    ]);
+  });
+
+  test('it computes edges between prerequisites and its prerequisites children', async () => {
+    const refactoringId = uuidv4();
+    const firstLevelPrerequisiteId = uuidv4();
+    const secondLevelPrerequisiteId = uuidv4();
+
+    const refactoringGraph = mapResponseToRefactoringGraph(
+      aRefactoringGraph({
+        refactoringId,
+        prerequisites: [
+          { prerequisiteId: firstLevelPrerequisiteId },
+          { prerequisiteId: secondLevelPrerequisiteId, parentId: firstLevelPrerequisiteId },
+        ],
+      }),
+      { addPrerequisiteToRefactoring: jest.fn() },
+      {
+        startExperimentation: jest.fn() as Mock<() => () => void>,
+        addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,
+        commitChanges: jest.fn() as Mock<() => () => void>,
+      },
+    ).edges;
+
+    expect(refactoringGraph).toEqual([
+      { id: `${refactoringId}-${firstLevelPrerequisiteId}`, source: refactoringId, target: firstLevelPrerequisiteId },
+      { id: `${firstLevelPrerequisiteId}-${secondLevelPrerequisiteId}`, source: firstLevelPrerequisiteId, target: secondLevelPrerequisiteId },
+    ]);
   });
 });

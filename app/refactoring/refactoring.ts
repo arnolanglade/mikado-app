@@ -22,8 +22,16 @@ type Node = {
   parentId?: string,
   position: { x: number, y: number }
 };
+type Edge = {
+  id: string,
+  source: string,
+  target: string,
+};
 
-type RefactoringGraph = Node[];
+type RefactoringGraph = {
+  nodes:Node[],
+  edges: Edge[],
+};
 
 export const mapResponseToRefactoringGraph = (
   refactoringGraph: Refactoring,
@@ -49,7 +57,16 @@ export const mapResponseToRefactoringGraph = (
     position: { x: 0, y: 100 },
   }));
 
-  return [refactoringNode, ...prerequisiteNodes];
+  const edges = refactoringGraph.prerequisites.map((prerequisite): Edge => ({
+    id: `${prerequisite.parentId}-${prerequisite.prerequisiteId}`,
+    source: prerequisite.parentId,
+    target: prerequisite.prerequisiteId,
+  }));
+
+  return {
+    nodes: [refactoringNode, ...prerequisiteNodes],
+    edges,
+  };
 };
 
 export type RefactoringApi = {
