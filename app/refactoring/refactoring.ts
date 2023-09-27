@@ -19,6 +19,7 @@ type Node = {
   id: string,
   type: 'refactoring' | 'prerequisite',
   data: RefactoringData | PrerequisiteData,
+  parentId?: string,
   position: { x: number, y: number }
 };
 
@@ -43,6 +44,7 @@ export const mapResponseToRefactoringGraph = (
   const prerequisiteNodes = refactoringGraph.prerequisites.map((prerequisite): Node => ({
     id: prerequisite.prerequisiteId,
     type: 'prerequisite',
+    parentId: prerequisite.parentId,
     data: { label: prerequisite.label, status: prerequisite.status, ...prerequisiteActions },
     position: { x: 0, y: 0 },
   }));

@@ -3,6 +3,7 @@ import { aRefactoringGraph } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 import { Status } from '@/api/refactoring/refactoring';
 import { Mock } from 'jest-mock';
+import { v4 as uuidv4 } from 'uuid';
 
 describe('mapResponseToRefactoringGraph', () => {
   test('the first node of the refactoring graph contains the refactoring information', async () => {
@@ -37,8 +38,9 @@ describe('mapResponseToRefactoringGraph', () => {
   });
 
   test('the next nodes contains the prerequisite information', async () => {
+    const refactoringId = uuidv4();
+    const prerequisiteId = uuidv4();
     const label = 'label';
-    const prerequisiteId = 'prerequisiteId';
     const startExperimentation: Mock<() => () => void> = jest.fn();
     const addPrerequisiteToPrerequisite: Mock<() => (label: string) => void> = jest.fn();
     const commitChanges: Mock<() => () => void> = jest.fn();
@@ -46,6 +48,7 @@ describe('mapResponseToRefactoringGraph', () => {
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aRefactoringGraph({
+        refactoringId,
         prerequisites: [{ prerequisiteId, label, status }],
       }),
       { addPrerequisiteToRefactoring: jest.fn() },
@@ -60,6 +63,7 @@ describe('mapResponseToRefactoringGraph', () => {
       {
         id: prerequisiteId,
         type: 'prerequisite',
+        parentId: refactoringId,
         data: {
           label, status, startExperimentation, addPrerequisiteToPrerequisite, commitChanges,
         },
