@@ -2,13 +2,17 @@ import httpClient from '@/lib/http-client';
 import { getRefactoringById, RefactoringGraph as Refactoring } from '@/api/refactoring/refactoring';
 
 type RefactoringData = {
-  label: string,
+  goal: string,
   done: boolean
   addPrerequisiteToRefactoring: (label: string) => void
 };
 
 type PrerequisiteData = {
   label: string,
+  status: 'experimenting' | 'done' | 'todo',
+  startExperimentation: (prerequisiteId: string) => () => void,
+  addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
+  commitChanges: (prerequisiteId: string) => () => void,
 };
 
 type Node = {
@@ -24,22 +28,22 @@ export const mapResponseToRefactoringGraph = (
   refactoringGraph: Refactoring,
   refactoringActions: { addPrerequisiteToRefactoring: (label: string) => void },
   prerequisiteActions: {
-    onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
-    onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
-    onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
+    startExperimentation: (prerequisiteId: string) => () => void,
+    addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
+    commitChanges: (prerequisiteId: string) => () => void,
   },
 ): RefactoringGraph => {
   const refactoringNode: Node = {
     id: refactoringGraph.refactoringId,
     type: 'refactoring',
-    data: { label: refactoringGraph.goal, done: refactoringGraph.done, ...refactoringActions },
+    data: { goal: refactoringGraph.goal, done: refactoringGraph.done, ...refactoringActions },
     position: { x: 0, y: 0 },
   };
 
   const prerequisiteNodes = refactoringGraph.prerequisites.map((prerequisite): Node => ({
     id: prerequisite.prerequisiteId,
     type: 'prerequisite',
-    data: { label: prerequisite.label, ...prerequisiteActions },
+    data: { label: prerequisite.label, status: prerequisite.status, ...prerequisiteActions },
     position: { x: 0, y: 0 },
   }));
 

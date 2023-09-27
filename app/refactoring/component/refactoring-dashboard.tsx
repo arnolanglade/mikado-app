@@ -1,65 +1,75 @@
 'use client';
 
 import React from 'react';
-import { PrerequisiteGraph, RefactoringGraph, Status } from '@/api/refactoring/refactoring';
+import { RefactoringGraph, Status } from '@/api/refactoring/refactoring';
 import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
+import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
+import { ReactFlow } from 'reactflow';
+import 'reactflow/dist/style.css';
 
 export function RefactoringNode({
-  refactoring,
-  addPrerequisiteToRefactoring,
-}: {
-  refactoring: RefactoringGraph,
-  addPrerequisiteToRefactoring: (label: string) => void
+  data: { goal, done, addPrerequisiteToRefactoring },
+} : {
+  data: { goal: string, done: boolean, addPrerequisiteToRefactoring: (label: string) => void },
 }) {
   return (
     <div className={styles.refactoringGoal} data-testid="refactoring">
-      {refactoring.goal}
+      {goal}
       {' '}
-      {refactoring.done ? <Translation id="prerequisite.done" />
+      {done ? <Translation id="prerequisite.done" />
         : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />}
     </div>
   );
 }
 
 export function PrerequisiteNode({
-  prerequisite,
-  startExperimentation,
-  addPrerequisiteToPrerequisite,
-  commitChanges,
-} : {
-  prerequisite: PrerequisiteGraph
-  startExperimentation: (prerequisiteId: string) => () => void,
-  addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
-  commitChanges: (prerequisiteId: string) => () => void,
+  id,
+  data: {
+    label,
+    status,
+    startExperimentation,
+    addPrerequisiteToPrerequisite,
+    commitChanges,
+  },
+}: {
+  id: string,
+  data: {
+    label: string,
+    status: 'experimenting' | 'done' | 'todo',
+
+    startExperimentation: (prerequisiteId: string) => () => void,
+    addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
+    commitChanges: (prerequisiteId: string) => () => void,
+  }
 }) {
   return (
     <div
       className={styles.prerequisite}
-      key={prerequisite.prerequisiteId}
+      key={id}
     >
       <p>
-        {prerequisite.label}
+        {label}
         {' '}
-        {prerequisite.status === Status.DONE && <Translation id="prerequisite.done" />}
+        {status === Status.DONE && <Translation id="prerequisite.done" />}
       </p>
-      {prerequisite.status === Status.TODO && (
+      {status === Status.TODO && (
       <button
         type="button"
-        onClick={startExperimentation(prerequisite.prerequisiteId)}
+        onClick={startExperimentation(id)}
       >
         <Translation id="prerequisite.start-experimentation" />
       </button>
       )}
-      {prerequisite.status === Status.EXPERIMENTING && (
+      {status === Status.EXPERIMENTING && (
       <>
         <AddPrerequisiteForm
-          onSubmit={addPrerequisiteToPrerequisite(prerequisite.prerequisiteId)}
+          onSubmit={addPrerequisiteToPrerequisite(id)}
         />
         <button
           type="button"
-          onClick={commitChanges(prerequisite.prerequisiteId)}
+          onClick={commitChanges(id)}
         >
           <Translation id="prerequisite.commit-changes" />
         </button>
@@ -87,25 +97,24 @@ export default function RefactoringDashboard({
   const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(refactoring.refactoringId, prerequisiteId);
   const commitChanges = (prerequisiteId: string) => () => onCommitChanges(refactoring.refactoringId, prerequisiteId);
 
+  const initialNodes = mapResponseToRefactoringGraph(
+    refactoring,
+    { addPrerequisiteToRefactoring },
+    { startExperimentation, addPrerequisiteToPrerequisite, commitChanges },
+  );
+
+  const nodeTypes = {
+    prerequisite: PrerequisiteNode,
+    refactoring: RefactoringNode,
+  };
+
   return (
     <div className={styles.dashboard}>
-      <RefactoringNode
-        refactoring={refactoring}
-        addPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
+      <ReactFlow
+        nodes={initialNodes}
+        nodeTypes={nodeTypes}
+        fitView
       />
-      <div data-testid="prerequisites">
-        {refactoring.prerequisites.map(
-          (prerequisite) => (
-            <PrerequisiteNode
-              key={prerequisite.prerequisiteId}
-              prerequisite={prerequisite}
-              startExperimentation={startExperimentation}
-              addPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
-              commitChanges={commitChanges}
-            />
-          ),
-        )}
-      </div>
     </div>
   );
 }

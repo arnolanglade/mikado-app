@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { aPrerequisiteGraph, aRefactoringGraph, createWrapper } from '@/test/test-utils';
+import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
 import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
 import { Status } from '@/api/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
@@ -40,11 +40,9 @@ describe('RefactoringDashboard', () => {
     describe('Add prerequisite to a refactoring', () => {
       test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
         const addPrerequisiteToRefactoring = jest.fn();
-        const refactoringId = uuidv4();
         const label = 'Refactor method';
         render(<RefactoringNode
-          refactoring={aRefactoringGraph({ refactoringId, prerequisites: [] })}
-          addPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
+          data={{ goal: 'goal', done: false, addPrerequisiteToRefactoring }}
         />, {
           wrapper: createWrapper(
             {},
@@ -60,8 +58,7 @@ describe('RefactoringDashboard', () => {
 
       test('The prerequisite addition form is displayed while the refactoring is not finished', async () => {
         render(<RefactoringNode
-          refactoring={aRefactoringGraph({ done: false })}
-          addPrerequisiteToRefactoring={jest.fn()}
+          data={{ goal: 'goal', done: false, addPrerequisiteToRefactoring: jest.fn() }}
         />, {
           wrapper: createWrapper(
             {},
@@ -74,8 +71,7 @@ describe('RefactoringDashboard', () => {
 
       test('The prerequisite addition form is hidden when the refactoring is finished', async () => {
         render(<RefactoringNode
-          refactoring={aRefactoringGraph({ done: true })}
-          addPrerequisiteToRefactoring={jest.fn()}
+          data={{ goal: 'goal', done: true, addPrerequisiteToRefactoring: jest.fn() }}
         />, {
           wrapper: createWrapper(
             {},
@@ -90,8 +86,7 @@ describe('RefactoringDashboard', () => {
     describe('"done" notice', () => {
       test('A "done" notice is displayed when the refactoring is done', async () => {
         render(<RefactoringNode
-          refactoring={aRefactoringGraph({ done: true })}
-          addPrerequisiteToRefactoring={jest.fn()}
+          data={{ goal: 'goal', done: true, addPrerequisiteToRefactoring: jest.fn() }}
         />, {
           wrapper: createWrapper(),
         });
@@ -103,8 +98,7 @@ describe('RefactoringDashboard', () => {
 
       test('A "done" notice is hidden when the refactoring is a WIP', async () => {
         render(<RefactoringNode
-          refactoring={aRefactoringGraph({ done: false })}
-          addPrerequisiteToRefactoring={jest.fn()}
+          data={{ goal: 'goal', done: false, addPrerequisiteToRefactoring: jest.fn() }}
         />, {
           wrapper: createWrapper(
             {},
@@ -125,10 +119,14 @@ describe('RefactoringDashboard', () => {
         const onStartExperimentation: Mock<() => () => void> = jest.fn();
         const prerequisiteId = uuidv4();
         render(<PrerequisiteNode
-          prerequisite={aPrerequisiteGraph({ prerequisiteId, status: Status.TODO })}
-          startExperimentation={onStartExperimentation}
-          addPrerequisiteToPrerequisite={() => jest.fn()}
-          commitChanges={() => jest.fn()}
+          id={prerequisiteId}
+          data={{
+            label: 'Do this',
+            status: Status.TODO,
+            startExperimentation: onStartExperimentation,
+            addPrerequisiteToPrerequisite: () => jest.fn(),
+            commitChanges: () => jest.fn(),
+          }}
         />, {
           wrapper: createWrapper(
             {},
@@ -146,10 +144,14 @@ describe('RefactoringDashboard', () => {
         Status.DONE,
       ])('The start experimentation button is hidden for a %s prerequisite', async (status: Status) => {
         render(<PrerequisiteNode
-          prerequisite={aPrerequisiteGraph({ status })}
-          startExperimentation={() => jest.fn()}
-          addPrerequisiteToPrerequisite={() => jest.fn()}
-          commitChanges={() => jest.fn()}
+          id={uuidv4()}
+          data={{
+            label: 'Do this',
+            status,
+            startExperimentation: () => jest.fn(),
+            addPrerequisiteToPrerequisite: () => jest.fn(),
+            commitChanges: () => jest.fn(),
+          }}
         />, {
           wrapper: createWrapper(
             {},
@@ -169,10 +171,14 @@ describe('RefactoringDashboard', () => {
         const prerequisiteId = uuidv4();
         const label = 'Change that';
         render(<PrerequisiteNode
-          prerequisite={aPrerequisiteGraph({ prerequisiteId, status: Status.EXPERIMENTING })}
-          startExperimentation={() => jest.fn()}
-          addPrerequisiteToPrerequisite={() => addPrerequisiteToPrerequisite}
-          commitChanges={() => jest.fn()}
+          id={prerequisiteId}
+          data={{
+            label: 'Do this',
+            status: Status.EXPERIMENTING,
+            startExperimentation: () => jest.fn(),
+            addPrerequisiteToPrerequisite: () => addPrerequisiteToPrerequisite,
+            commitChanges: () => jest.fn(),
+          }}
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.add': 'Add prerequisite',
@@ -191,10 +197,15 @@ describe('RefactoringDashboard', () => {
       ])('The start add prerequisite form is hidden for a %s prerequisite', async (status: Status) => {
         render(
           <PrerequisiteNode
-            prerequisite={aPrerequisiteGraph({ status })}
-            startExperimentation={() => jest.fn()}
-            addPrerequisiteToPrerequisite={() => jest.fn()}
-            commitChanges={() => jest.fn()}
+            id={uuidv4()}
+            data={{
+              label: 'Do this',
+              status,
+              startExperimentation: () => jest.fn(),
+              addPrerequisiteToPrerequisite: () => jest.fn(),
+              commitChanges: () => jest.fn(),
+            }}
+
           />,
           {
             wrapper: createWrapper({}, {
@@ -212,10 +223,14 @@ describe('RefactoringDashboard', () => {
         const commitChanges: Mock<() => () => void> = jest.fn();
         const prerequisiteId = uuidv4();
         render(<PrerequisiteNode
-          prerequisite={aPrerequisiteGraph({ prerequisiteId, status: Status.EXPERIMENTING })}
-          startExperimentation={() => jest.fn()}
-          addPrerequisiteToPrerequisite={() => jest.fn()}
-          commitChanges={commitChanges}
+          id={prerequisiteId}
+          data={{
+            label: 'Do this',
+            status: Status.EXPERIMENTING,
+            startExperimentation: () => jest.fn(),
+            addPrerequisiteToPrerequisite: () => jest.fn(),
+            commitChanges,
+          }}
         />, {
           wrapper: createWrapper({ }, {
             'prerequisite.commit-changes': 'Commit changes',
@@ -233,10 +248,14 @@ describe('RefactoringDashboard', () => {
       ])('The start commit changes button is hidden for a %s prerequisite', async (status: Status) => {
         render(
           <PrerequisiteNode
-            prerequisite={aPrerequisiteGraph({ status })}
-            startExperimentation={() => jest.fn()}
-            addPrerequisiteToPrerequisite={() => jest.fn()}
-            commitChanges={() => jest.fn()}
+            id={uuidv4()}
+            data={{
+              label: 'Do this',
+              status,
+              startExperimentation: () => jest.fn(),
+              addPrerequisiteToPrerequisite: () => jest.fn(),
+              commitChanges: () => jest.fn(),
+            }}
           />,
           {
             wrapper: createWrapper({}, {
@@ -253,10 +272,14 @@ describe('RefactoringDashboard', () => {
     describe('"done" notice', () => {
       test('A "done" notice is displayed when the prerequisite is done', async () => {
         render(<PrerequisiteNode
-          prerequisite={aPrerequisiteGraph({ status: Status.DONE })}
-          startExperimentation={() => jest.fn()}
-          addPrerequisiteToPrerequisite={() => jest.fn()}
-          commitChanges={() => jest.fn()}
+          id={uuidv4()}
+          data={{
+            label: 'Do this',
+            status: Status.DONE,
+            startExperimentation: () => jest.fn(),
+            addPrerequisiteToPrerequisite: () => jest.fn(),
+            commitChanges: () => jest.fn(),
+          }}
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.done': 'Done',
@@ -273,10 +296,14 @@ describe('RefactoringDashboard', () => {
         Status.EXPERIMENTING,
       ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status: Status) => {
         render(<PrerequisiteNode
-          prerequisite={aPrerequisiteGraph({ status })}
-          startExperimentation={() => jest.fn()}
-          addPrerequisiteToPrerequisite={() => jest.fn()}
-          commitChanges={() => jest.fn()}
+          id={uuidv4()}
+          data={{
+            label: 'Do this',
+            status,
+            startExperimentation: () => jest.fn(),
+            addPrerequisiteToPrerequisite: () => jest.fn(),
+            commitChanges: () => jest.fn(),
+          }}
         />, {
           wrapper: createWrapper(
             { },

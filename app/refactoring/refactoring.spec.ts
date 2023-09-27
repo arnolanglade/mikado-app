@@ -1,6 +1,8 @@
 import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
 import { aRefactoringGraph } from '@/test/test-utils';
 import { jest } from '@jest/globals';
+import { Status } from '@/api/refactoring/refactoring';
+import { Mock } from 'jest-mock';
 
 describe('mapResponseToRefactoringGraph', () => {
   test('the first node of the refactoring graph contains the refactoring information', async () => {
@@ -18,9 +20,9 @@ describe('mapResponseToRefactoringGraph', () => {
       }),
       { addPrerequisiteToRefactoring },
       {
-        onStartExperimentation: jest.fn(),
-        onAddPrerequisiteToPrerequisite: jest.fn(),
-        onCommitChanges: jest.fn(),
+        startExperimentation: jest.fn(),
+        addPrerequisiteToPrerequisite: jest.fn(),
+        commitChanges: jest.fn(),
       },
     );
 
@@ -28,7 +30,7 @@ describe('mapResponseToRefactoringGraph', () => {
       {
         id: refactoringId,
         type: 'refactoring',
-        data: { label: goal, done, addPrerequisiteToRefactoring },
+        data: { goal, done, addPrerequisiteToRefactoring },
         position: { x: 0, y: 0 },
       },
     ]);
@@ -37,19 +39,20 @@ describe('mapResponseToRefactoringGraph', () => {
   test('the next nodes contains the prerequisite information', async () => {
     const label = 'label';
     const prerequisiteId = 'prerequisiteId';
-    const onStartExperimentation = jest.fn();
-    const onAddPrerequisiteToPrerequisite = jest.fn();
-    const onCommitChanges = jest.fn();
+    const startExperimentation: Mock<() => () => void> = jest.fn();
+    const addPrerequisiteToPrerequisite: Mock<() => (label: string) => void> = jest.fn();
+    const commitChanges: Mock<() => () => void> = jest.fn();
+    const status = Status.TODO;
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aRefactoringGraph({
-        prerequisites: [{ prerequisiteId, label }],
+        prerequisites: [{ prerequisiteId, label, status }],
       }),
       { addPrerequisiteToRefactoring: jest.fn() },
       {
-        onStartExperimentation,
-        onAddPrerequisiteToPrerequisite,
-        onCommitChanges,
+        startExperimentation,
+        addPrerequisiteToPrerequisite,
+        commitChanges,
       },
     )[1];
 
@@ -58,7 +61,7 @@ describe('mapResponseToRefactoringGraph', () => {
         id: prerequisiteId,
         type: 'prerequisite',
         data: {
-          label, onStartExperimentation, onAddPrerequisiteToPrerequisite, onCommitChanges,
+          label, status, startExperimentation, addPrerequisiteToPrerequisite, commitChanges,
         },
         position: { x: 0, y: 0 },
       },
