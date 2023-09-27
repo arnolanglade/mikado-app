@@ -20,9 +20,9 @@ describe('mapResponseToRefactoringGraph', () => {
       }),
       { addPrerequisiteToRefactoring },
       {
-        startExperimentation: jest.fn(),
-        addPrerequisiteToPrerequisite: jest.fn(),
-        commitChanges: jest.fn(),
+        startExperimentation: jest.fn() as Mock<() => () => void>,
+        addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,
+        commitChanges: jest.fn() as Mock<() => () => void>,
       },
     );
 
