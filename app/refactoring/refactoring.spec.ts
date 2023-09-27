@@ -67,7 +67,7 @@ describe('mapResponseToRefactoringGraph', () => {
         data: {
           label, status, startExperimentation, addPrerequisiteToPrerequisite, commitChanges,
         },
-        position: { x: 0, y: 0 },
+        position: { x: 0, y: 100 },
       },
     );
   });
