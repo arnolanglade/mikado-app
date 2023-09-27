@@ -119,7 +119,7 @@ export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): R
     label: prerequisite.label ?? 'Do this',
     status: prerequisite.status ?? Status.TODO,
     startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
-    parentId: prerequisite.parentId ?? graph.refactoringId,
+    parentId: prerequisite.parentId ?? graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   })) ?? [],
 });
 
