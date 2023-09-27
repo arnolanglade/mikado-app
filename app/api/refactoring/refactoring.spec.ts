@@ -146,7 +146,9 @@ describe('Refactoring use cases', () => {
       refactoringId,
       goal,
       done,
-      prerequisites: [{ prerequisiteId, label, status }],
+      prerequisites: [{
+        prerequisiteId, label, status, parentId: refactoringId, startedAt: undefined,
+      }],
     });
   });
 });
@@ -170,19 +172,23 @@ describe('Refactoring', () => {
   });
 
   it('adds a prerequisite to a refactoring (its status is todo)', () => {
+    const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
     const refactoring = aRefactoring({
+      refactoringId,
       prerequisites: [],
     });
 
     refactoring.addPrerequisiteToRefactoring(prerequisiteId, label);
 
     expect(refactoring).toEqual(aRefactoring({
+      refactoringId,
       prerequisites: [{
         prerequisiteId,
         label,
         status: Status.TODO,
+        parentId: refactoringId,
       }],
     }));
   });

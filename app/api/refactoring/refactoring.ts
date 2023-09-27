@@ -157,7 +157,7 @@ export class Refactoring {
   }
 
   addPrerequisiteToRefactoring(prerequisiteId: string, label: string): void {
-    this.prerequisites = [...this.prerequisites, Prerequisite.withoutParent(prerequisiteId, label)];
+    this.prerequisites = [...this.prerequisites, Prerequisite.withParent(prerequisiteId, this.id, label)];
   }
 
   addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {

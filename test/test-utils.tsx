@@ -88,7 +88,7 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
         prerequisite.prerequisiteId ?? uuidv4(),
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
-        prerequisite.parentId,
+        prerequisite.parentId ?? newState.refactoringId,
         prerequisite.startedAt ? new Date(prerequisite.startedAt) : undefined,
       ),
     ),
@@ -100,6 +100,7 @@ type PrerequisiteGraphState = {
   label: string
   status: Status
   startedAt: string
+  parentId?: string
 };
 
 type RefactoringGraphState = {
