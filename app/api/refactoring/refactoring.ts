@@ -43,7 +43,7 @@ export type PrerequisiteGraph = {
   label: string,
   status: Status,
   startedAt?: string,
-  parentId?: string,
+  parentId: string,
 };
 
 export class Prerequisite {
@@ -51,7 +51,7 @@ export class Prerequisite {
     private prerequisiteId: string,
     private label: Label,
     private status: Status,
-    private parentId?: string,
+    private parentId: string,
     private startedAt?: Date,
   ) {
   }

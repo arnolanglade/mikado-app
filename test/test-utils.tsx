@@ -100,7 +100,7 @@ type PrerequisiteGraphState = {
   label: string
   status: Status
   startedAt: string
-  parentId?: string
+  parentId: string
 };
 
 type RefactoringGraphState = {
@@ -119,6 +119,7 @@ export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): R
     label: prerequisite.label ?? 'Do this',
     status: prerequisite.status ?? Status.TODO,
     startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
+    parentId: prerequisite.parentId ?? graph.refactoringId,
   })) ?? [],
 });
 
@@ -127,4 +128,5 @@ export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteGraphState>
   label: prerequisite.label ?? 'Do this',
   status: prerequisite.status ?? Status.TODO,
   startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
+  parentId: prerequisite.parentId ?? uuidv4(),
 });
