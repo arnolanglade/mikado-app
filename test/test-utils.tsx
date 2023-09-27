@@ -10,6 +10,7 @@ import {
 } from '@/api/refactoring/refactoring';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
+import { ReactFlowProvider } from 'reactflow';
 
 export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
   getById: jest.fn() as jest.Mocked<typeof refactoringApi.getById>,
@@ -50,11 +51,13 @@ export const createWrapper = (
   { children }: { children: ReactElement },
 ) {
   return (
-    <IntlProvider overriddenTranslations={translations}>
-      <ServiceContainerProvider overriddenContainer={aServiceContainer(serviceContainer)}>
-        {children}
-      </ServiceContainerProvider>
-    </IntlProvider>
+    <ReactFlowProvider>
+      <IntlProvider overriddenTranslations={translations}>
+        <ServiceContainerProvider overriddenContainer={aServiceContainer(serviceContainer)}>
+          {children}
+        </ServiceContainerProvider>
+      </IntlProvider>
+    </ReactFlowProvider>
   );
 };
 
