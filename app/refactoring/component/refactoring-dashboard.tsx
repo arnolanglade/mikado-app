@@ -15,9 +15,8 @@ export function RefactoringNode({
   data: { goal: string, done: boolean, addPrerequisiteToRefactoring: (label: string) => void },
 }) {
   return (
-    <div className={styles.refactoringGoal} data-testid="refactoring">
-      {goal}
-      {' '}
+    <div className={styles.refactoringGoal}>
+      <p>{goal}</p>
       {done ? <Translation id="prerequisite.done" />
         : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />}
       <Handle type="source" position={Position.Bottom} />
@@ -39,7 +38,6 @@ export function PrerequisiteNode({
   data: {
     label: string,
     status: 'experimenting' | 'done' | 'todo',
-
     startExperimentation: (prerequisiteId: string) => () => void,
     addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
     commitChanges: (prerequisiteId: string) => () => void,
