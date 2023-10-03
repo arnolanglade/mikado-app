@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getRefactoringById, startExperimentation } from '@/api/refactoring/refactoring';
+import { getRefactoringById, startExperimentation } from '@/api/refactoring/mikako-graph';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {

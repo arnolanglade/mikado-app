@@ -1,6 +1,6 @@
 'use client';
 
-import { RefactoringGraph } from '@/api/refactoring/refactoring';
+import { RefactoringGraph } from '@/api/refactoring/mikako-graph';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import React from 'react';
 import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';

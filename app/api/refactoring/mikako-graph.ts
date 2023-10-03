@@ -123,7 +123,7 @@ export type RefactoringGraph = {
   prerequisites: PrerequisiteGraph[]
 };
 
-export class Refactoring {
+export class MikakoGraph {
   constructor(
     private id: string,
     private goal: Goal,
@@ -132,7 +132,7 @@ export class Refactoring {
   ) {}
 
   static start(id: string, goal: string) {
-    return new Refactoring(id, new Goal(goal), false, []);
+    return new MikakoGraph(id, new Goal(goal), false, []);
   }
 
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
@@ -191,7 +191,7 @@ export class Refactoring {
     return id === this.id;
   }
 
-  equals(refactoring: Refactoring): boolean {
+  equals(refactoring: MikakoGraph): boolean {
     return refactoring.id === this.id;
   }
 }
@@ -204,14 +204,14 @@ export class UnknownRefactoring extends Error {
 
 // Todo: Export for the frontend, do we need to duplicate?
 export interface Refactorings {
-  get(id: string): Promise<Refactoring>
-  add(refactoring: Refactoring): Promise<void>
+  get(id: string): Promise<MikakoGraph>
+  add(refactoring: MikakoGraph): Promise<void>
 }
 
 export class InMemoryRefactorings implements Refactorings {
-  constructor(private refactorings: Refactoring[] = []) {}
+  constructor(private refactorings: MikakoGraph[] = []) {}
 
-  async get(id: string): Promise<Refactoring> {
+  async get(id: string): Promise<MikakoGraph> {
     const matchingRefactoring = this.refactorings
       .filter((refactoring) => refactoring.identifyBy(id));
 
@@ -222,7 +222,7 @@ export class InMemoryRefactorings implements Refactorings {
     return matchingRefactoring[0];
   }
 
-  async add(refactoring: Refactoring): Promise<void> {
+  async add(refactoring: MikakoGraph): Promise<void> {
     let isRefactoringFound = false;
     this.refactorings = this.refactorings.map((currentRefactoring) => {
       if (currentRefactoring.equals(refactoring)) {
@@ -247,7 +247,7 @@ export type StartRefactoring = {
 };
 
 export const handleStartRefactoring = (refactorings: Refactorings) => async (input: StartRefactoring) => {
-  await refactorings.add(Refactoring.start(input.refactoringId, input.goal));
+  await refactorings.add(MikakoGraph.start(input.refactoringId, input.goal));
 };
 
 export const startRefactoring = handleStartRefactoring(inMemoryRefactoring);

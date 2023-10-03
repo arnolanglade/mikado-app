@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   addPrerequisiteToPrerequisite, getRefactoringById,
-} from '@/api/refactoring/refactoring';
+} from '@/api/refactoring/mikako-graph';
 import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line import/prefer-default-export

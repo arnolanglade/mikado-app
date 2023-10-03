@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { commitChanges, getRefactoringById } from '@/api/refactoring/refactoring';
+import { commitChanges, getRefactoringById } from '@/api/refactoring/mikako-graph';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {

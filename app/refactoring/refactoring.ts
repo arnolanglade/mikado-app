@@ -1,5 +1,5 @@
 import httpClient from '@/lib/http-client';
-import { getRefactoringById, RefactoringGraph as Refactoring } from '@/api/refactoring/refactoring';
+import { getRefactoringById, RefactoringGraph as Refactoring } from '@/api/refactoring/mikako-graph';
 
 type RefactoringData = {
   goal: string,

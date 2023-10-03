@@ -4,7 +4,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
 import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
-import { Status } from '@/api/refactoring/refactoring';
+import { Status } from '@/api/refactoring/mikako-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';

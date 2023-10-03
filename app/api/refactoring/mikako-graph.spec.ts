@@ -7,10 +7,10 @@ import {
   handleStartRefactoring,
   InMemoryClock,
   InMemoryRefactorings,
-  Refactoring,
+  MikakoGraph,
   Status,
   UnknownRefactoring,
-} from '@/api/refactoring/refactoring';
+} from '@/api/refactoring/mikako-graph';
 import { aRefactoring } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -157,7 +157,7 @@ describe('Refactoring', () => {
   it('creates a refactoring without any prerequisite when a refactoring is started', () => {
     const refactoringId = uuidv4();
     const goal = 'Rework that part';
-    const refactoring = Refactoring.start(refactoringId, goal);
+    const refactoring = MikakoGraph.start(refactoringId, goal);
 
     expect(refactoring).toEqual(aRefactoring({
       refactoringId,
@@ -167,7 +167,7 @@ describe('Refactoring', () => {
   });
 
   it('raises an error if a refactoring is created with an empty goal', () => {
-    expect(() => Refactoring.start(uuidv4(), ''))
+    expect(() => MikakoGraph.start(uuidv4(), ''))
       .toThrow(new Error('The goal cannot be empty'));
   });
 
