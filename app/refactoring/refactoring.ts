@@ -86,7 +86,7 @@ const refactoringApi: RefactoringApi = {
   },
   addPrerequisiteToRefactoring: async (refactoringId: string, label: string) => {
     const response = await httpClient.post(
-      '/api/refactoring/prerequisite/add-to-refactoring',
+      '/api/refactoring/prerequisite/add-to-mikado-graph',
       { refactoringId, label },
     );
     return response.json();
