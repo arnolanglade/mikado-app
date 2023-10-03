@@ -4,7 +4,7 @@ import IntlProvider from '@/lib/i18n/intl-provider';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
-import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
+import refactoringApi, { RefactoringApi } from '@/refactoring/mikado-graph';
 import {
   Goal, Label, Prerequisite, PrerequisiteView, MikakoGraph, MikadoGraphView, Status,
 } from '@/api/mikado-graph/mikako-graph';

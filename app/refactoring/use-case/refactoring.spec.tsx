@@ -6,7 +6,7 @@ import { jest } from '@jest/globals';
 import {
   aNotifier, aRefactoringApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
-import refactoringApi from '@/refactoring/refactoring';
+import refactoringApi from '@/refactoring/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('useRefactoring', () => {

@@ -1,4 +1,4 @@
-import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
+import { mapResponseToRefactoringGraph } from '@/refactoring/mikado-graph';
 import { aMikadoGraphView } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 import { Status } from '@/api/mikado-graph/mikako-graph';

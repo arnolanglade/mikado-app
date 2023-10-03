@@ -6,7 +6,7 @@ import React, {
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useRouter } from 'next/navigation';
 import { useNotification, UseNotificationHook } from '@/lib/notification';
-import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
+import refactoringApi, { RefactoringApi } from '@/refactoring/mikado-graph';
 
 export type ServiceContainer = {
   refactoringApi: RefactoringApi,
