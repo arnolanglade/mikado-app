@@ -61,7 +61,7 @@ export const createWrapper = (
   );
 };
 
-type RefactoringState = {
+type MikadaGraphState = {
   mikadoGraphId: string
   goal: string
   done: boolean
@@ -74,7 +74,7 @@ type RefactoringState = {
   }>[]
 };
 
-export const aRefactoring = (state: Partial<RefactoringState>) => {
+export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
   const newState = {
     mikadoGraphId: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
     done: false,
