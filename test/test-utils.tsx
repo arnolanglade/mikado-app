@@ -12,7 +12,7 @@ import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';
 
-export const aRefactoringApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
+export const aMikadoGraphApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
   getById: jest.fn() as jest.Mocked<typeof mikadoGraphApi.getById>,
   start: jest.fn() as jest.Mocked<typeof mikadoGraphApi.start>,
   addPrerequisiteToMikadoGraph: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>,
@@ -107,14 +107,14 @@ type PrerequisiteViewState = {
 };
 
 type MikadoGraphViewState = {
-  refactoringId: string
+  mikadoGraphId: string
   goal: string
   done: boolean
   prerequisites: Partial<PrerequisiteViewState>[]
 };
 
 export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): MikadoGraphView => ({
-  mikadoGraphId: graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+  mikadoGraphId: graph.mikadoGraphId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   goal: graph.goal ?? 'Refactor this class',
   done: graph.done ?? false,
   prerequisites: graph.prerequisites?.map((prerequisite) => ({
@@ -122,7 +122,7 @@ export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): Mik
     label: prerequisite.label ?? 'Do this',
     status: prerequisite.status ?? Status.TODO,
     startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
-    parentId: prerequisite.parentId ?? graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+    parentId: prerequisite.parentId ?? graph.mikadoGraphId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   })) ?? [],
 });
 

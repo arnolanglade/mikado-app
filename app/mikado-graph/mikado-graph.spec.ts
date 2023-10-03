@@ -14,7 +14,7 @@ describe('mapResponseToRefactoringGraph', () => {
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aMikadoGraphView({
-        refactoringId,
+        mikadoGraphId: refactoringId,
         goal,
         done,
         prerequisites: [],
@@ -51,10 +51,10 @@ describe('mapResponseToRefactoringGraph', () => {
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aMikadoGraphView({
-        refactoringId,
+        mikadoGraphId: refactoringId,
         prerequisites: [{ prerequisiteId, label, status }],
       }),
-      { addPrerequisiteToMikadoGraph: jest.fn() },
+      { addPrerequisiteToRefactoring: jest.fn() },
       {
         startExperimentation,
         addPrerequisiteToPrerequisite,
@@ -82,13 +82,13 @@ describe('mapResponseToRefactoringGraph', () => {
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aMikadoGraphView({
-        refactoringId,
+        mikadoGraphId: refactoringId,
         prerequisites: [
           { prerequisiteId },
           { prerequisiteId: otherPrerequisiteId },
         ],
       }),
-      { addPrerequisiteToMikadoGraph: jest.fn() },
+      { addPrerequisiteToRefactoring: jest.fn() },
       {
         startExperimentation: jest.fn() as Mock<() => () => void>,
         addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,
@@ -109,13 +109,13 @@ describe('mapResponseToRefactoringGraph', () => {
 
     const refactoringGraph = mapResponseToRefactoringGraph(
       aMikadoGraphView({
-        refactoringId,
+        mikadoGraphId: refactoringId,
         prerequisites: [
           { prerequisiteId: firstLevelPrerequisiteId },
           { prerequisiteId: secondLevelPrerequisiteId, parentId: firstLevelPrerequisiteId },
         ],
       }),
-      { addPrerequisiteToMikadoGraph: jest.fn() },
+      { addPrerequisiteToRefactoring: jest.fn() },
       {
         startExperimentation: jest.fn() as Mock<() => () => void>,
         addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,

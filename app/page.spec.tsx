@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import StartRefactoring from '@/page';
 import {
-  aRefactoringApi, aMikadoGraphView, aRouter, createWrapper,
+  aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 
@@ -13,9 +13,9 @@ describe('StartRefactoring Page', () => {
     render(<StartRefactoring />, {
       wrapper: createWrapper(
         {
-          mikadoGraphApi: aRefactoringApi({
+          mikadoGraphApi: aMikadoGraphApi({
             start: async () => aMikadoGraphView({
-              refactoringId: '86be6200-1303-48dc-9403-fe497186a0e4',
+              mikadoGraphId: '86be6200-1303-48dc-9403-fe497186a0e4',
             }),
           }),
           useRouter: aRouter({ push }),
