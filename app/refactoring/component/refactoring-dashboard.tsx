@@ -93,10 +93,10 @@ export default function RefactoringDashboard({
   onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
   onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
 }) {
-  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.refactoringId, label);
-  const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(refactoring.refactoringId, prerequisiteId, label);
-  const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(refactoring.refactoringId, prerequisiteId);
-  const commitChanges = (prerequisiteId: string) => () => onCommitChanges(refactoring.refactoringId, prerequisiteId);
+  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.mikadoGraphId, label);
+  const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(refactoring.mikadoGraphId, prerequisiteId, label);
+  const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(refactoring.mikadoGraphId, prerequisiteId);
+  const commitChanges = (prerequisiteId: string) => () => onCommitChanges(refactoring.mikadoGraphId, prerequisiteId);
 
   const { nodes, edges } = mapResponseToRefactoringGraph(
     refactoring,

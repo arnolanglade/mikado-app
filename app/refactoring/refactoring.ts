@@ -43,7 +43,7 @@ export const mapResponseToRefactoringGraph = (
   },
 ): RefactoringGraph => {
   const refactoringNode: Node = {
-    id: refactoringGraph.refactoringId,
+    id: refactoringGraph.mikadoGraphId,
     type: 'refactoring',
     data: { goal: refactoringGraph.goal, done: refactoringGraph.done, ...refactoringActions },
     position: { x: 0, y: 0 },

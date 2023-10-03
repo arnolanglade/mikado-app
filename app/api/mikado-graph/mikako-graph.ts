@@ -117,7 +117,7 @@ export class Goal {
 
 // Todo: used in the front end
 export type MikadoGraphView = {
-  refactoringId: string
+  mikadoGraphId: string
   goal: string
   done: boolean
   prerequisites: PrerequisiteView[]
@@ -180,7 +180,7 @@ export class MikakoGraph {
 
   render(): MikadoGraphView {
     return {
-      refactoringId: this.id,
+      mikadoGraphId: this.id,
       goal: this.goal.toString(),
       done: this.done,
       prerequisites: this.prerequisites.map((prerequisite) => prerequisite.render()),

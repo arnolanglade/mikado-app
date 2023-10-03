@@ -143,7 +143,7 @@ describe('Mikado Graph use cases', () => {
     const getMikadoGraphById = handleGetMikadoGraphById(mikadoGraphs);
 
     expect(await getMikadoGraphById(mikadoGraphId)).toEqual({
-      refactoringId: mikadoGraphId,
+      mikadoGraphId,
       goal,
       done,
       prerequisites: [{
@@ -332,7 +332,7 @@ describe('Mikado Graph', () => {
 
       expect(mikakoGraph.render())
         .toEqual({
-          refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+          mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
           goal: 'My goal',
           done: false,
           prerequisites: [{
