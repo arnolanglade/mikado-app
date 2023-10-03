@@ -15,7 +15,7 @@ import { ReactFlowProvider } from 'reactflow';
 export const aRefactoringApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
   getById: jest.fn() as jest.Mocked<typeof mikadoGraphApi.getById>,
   start: jest.fn() as jest.Mocked<typeof mikadoGraphApi.start>,
-  addPrerequisiteToRefactoringMikadoGraph: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToRefactoringMikadoGraph>,
+  addPrerequisiteToMikadoGraph: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>,
   addPrerequisiteToPrerequisite: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToPrerequisite>,
   startExperimentation: jest.fn() as jest.Mocked<typeof mikadoGraphApi.startExperimentation>,
   commitChanges: jest.fn() as jest.Mocked<typeof mikadoGraphApi.commitChanges>,

@@ -1,7 +1,7 @@
 import httpClient from '@/lib/http-client';
 import { getMikadoGraphById, MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
 
-type RefactoringData = {
+type MikadoGraphData = {
   goal: string,
   done: boolean
   addPrerequisiteToRefactoring: (label: string) => void
@@ -18,7 +18,7 @@ type PrerequisiteData = {
 type Node = {
   id: string,
   type: 'refactoring' | 'prerequisite',
-  data: RefactoringData | PrerequisiteData,
+  data: MikadoGraphData | PrerequisiteData,
   parentId?: string,
   position: { x: number, y: number }
 };
@@ -28,7 +28,7 @@ type Edge = {
   target: string,
 };
 
-type RefactoringGraph = {
+type MikadoGraph = {
   nodes:Node[],
   edges: Edge[],
 };
@@ -41,7 +41,7 @@ export const mapResponseToRefactoringGraph = (
     addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
     commitChanges: (prerequisiteId: string) => () => void,
   },
-): RefactoringGraph => {
+): MikadoGraph => {
   const refactoringNode: Node = {
     id: refactoringGraph.mikadoGraphId,
     type: 'refactoring',
@@ -72,10 +72,10 @@ export const mapResponseToRefactoringGraph = (
 export type MikadoGraphApi = {
   getById: (id: string) => Promise<MikadoGraphView>
   start: (goal: string) => Promise<MikadoGraphView>
-  addPrerequisiteToRefactoringMikadoGraph: (refactoringId: string, label: string) => Promise<MikadoGraphView>
-  startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<MikadoGraphView>
-  addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<MikadoGraphView>
-  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<MikadoGraphView>
+  addPrerequisiteToMikadoGraph: (mikadoGraphId: string, label: string) => Promise<MikadoGraphView>
+  startExperimentation: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
+  addPrerequisiteToPrerequisite: (mikadoGraphId: string, prerequisiteId: string, label: string) => Promise<MikadoGraphView>
+  commitChanges: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
 };
 
 const mikadoGraphApi: MikadoGraphApi = {
@@ -84,7 +84,7 @@ const mikadoGraphApi: MikadoGraphApi = {
     const response = await httpClient.post('/api/mikado-graph', { goal });
     return response.json();
   },
-  addPrerequisiteToRefactoringMikadoGraph: async (mikadoGraphId: string, label: string) => {
+  addPrerequisiteToMikadoGraph: async (mikadoGraphId: string, label: string) => {
     const response = await httpClient.post(
       '/api/mikado-graph/prerequisite/add-to-mikado-graph',
       { mikadoGraphId, label },

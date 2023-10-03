@@ -21,7 +21,7 @@ export default function useMikadoGraph() {
 
   const addPrerequisiteToMikadoGraph = async (mikadoGraphId: string, label: string) => {
     try {
-      await mikadoGraphApi.addPrerequisiteToRefactoringMikadoGraph(mikadoGraphId, label);
+      await mikadoGraphApi.addPrerequisiteToMikadoGraph(mikadoGraphId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
