@@ -14,8 +14,8 @@ import {
 import { aMikadoGraph } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
-describe('Refactoring use cases', () => {
-  test('The developer starts a refactoring', async () => {
+describe('Mikado Graph use cases', () => {
+  test('The developer starts a mikado graph', async () => {
     const mikadoGraphId = uuidv4();
     const mikadoGraphs = new InMemoryMikadoGraphs();
     await handleStartTask(mikadoGraphs)({
@@ -30,7 +30,7 @@ describe('Refactoring use cases', () => {
       }));
   });
 
-  test('The developer adds a prerequisite to a refactoring', async () => {
+  test('The developer adds a prerequisite to a mikado graph', async () => {
     const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
@@ -126,7 +126,7 @@ describe('Refactoring use cases', () => {
       }));
   });
 
-  test('The developer gets the refactoring information thanks to the id', async () => {
+  test('The developer gets the mikado graph information thanks to the id', async () => {
     const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const goal = 'Rework that part';
@@ -153,8 +153,8 @@ describe('Refactoring use cases', () => {
   });
 });
 
-describe('Refactoring', () => {
-  it('creates a refactoring without any prerequisite when a refactoring is started', () => {
+describe('Mikado Graph', () => {
+  it('creates a mikado graph without any prerequisite when a mikado graph is started', () => {
     const mikadoGraphId = uuidv4();
     const goal = 'Rework that part';
     const mikakoGraph = MikakoGraph.start(mikadoGraphId, goal);
@@ -166,12 +166,12 @@ describe('Refactoring', () => {
     }));
   });
 
-  it('raises an error if a refactoring is created with an empty goal', () => {
+  it('raises an error if a mikado graph is created with an empty goal', () => {
     expect(() => MikakoGraph.start(uuidv4(), ''))
       .toThrow(new Error('The goal cannot be empty'));
   });
 
-  it('adds a prerequisite to a refactoring (its status is todo)', () => {
+  it('adds a prerequisite to a mikado graph (its status is todo)', () => {
     const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
@@ -193,7 +193,7 @@ describe('Refactoring', () => {
     }));
   });
 
-  it('raises an error if a prerequisite is added to refactoring with an empty label', () => {
+  it('raises an error if a prerequisite is added to mikado graph with an empty label', () => {
     const mikakoGraph = aMikadoGraph({});
 
     expect(() => mikakoGraph.addPrerequisiteToMikadoGraph(uuidv4(), ''))
@@ -286,7 +286,7 @@ describe('Refactoring', () => {
       }));
     });
 
-    it('finishes the refactoring after committing the last changes', () => {
+    it('finishes the mikado graph after committing the last changes', () => {
       const prerequisiteId = uuidv4();
       const mikakoGraph = aMikadoGraph({
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
@@ -316,7 +316,7 @@ describe('Refactoring', () => {
         .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
     });
 
-    it('turns a refactoring into a format used by the UI to render it', () => {
+    it('turns a mikado graph into a format used by the UI to render it', () => {
       const mikakoGraph = aMikadoGraph({
         mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'My goal',
@@ -347,7 +347,7 @@ describe('Refactoring', () => {
   });
 
   describe('identifyBy', () => {
-    it('says yes if the given id match the refactoring id', () => {
+    it('says yes if the given id match the mikado graph id', () => {
       const mikadoGraphId = uuidv4();
       const mikakoGraph = aMikadoGraph({ mikadoGraphId });
 
@@ -355,7 +355,7 @@ describe('Refactoring', () => {
         .toEqual(true);
     });
 
-    it('says no if the given id does not match the refactoring id', () => {
+    it('says no if the given id does not match the mikado graph id', () => {
       const mikakoGraph = aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
       expect(mikakoGraph.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
@@ -364,7 +364,7 @@ describe('Refactoring', () => {
   });
 
   describe('equals', () => {
-    it('says yes if the given refactoring object equals this one', () => {
+    it('says yes if the given mikado graph object equals this one', () => {
       const mikadoGraphId = uuidv4();
       const mikakoGraph = aMikadoGraph({ mikadoGraphId });
 
@@ -372,7 +372,7 @@ describe('Refactoring', () => {
         .toEqual(true);
     });
 
-    it('says no if the given refactoring object does not equals this one', () => {
+    it('says no if the given mikado graph object does not equals this one', () => {
       const mikakoGraph = aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
       expect(mikakoGraph.equals(aMikadoGraph({ mikadoGraphId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
@@ -382,7 +382,7 @@ describe('Refactoring', () => {
 });
 
 describe('mikadoGraphs', () => {
-  it('persists a refactoring', async () => {
+  it('persists a mikado graph', async () => {
     const mikadoGraphId = uuidv4();
     const mikadoGraphs = new InMemoryMikadoGraphs();
 
@@ -392,7 +392,7 @@ describe('mikadoGraphs', () => {
       .toEqual(aMikadoGraph({ mikadoGraphId }));
   });
 
-  it('raises an error if the given id does not match an existing refactoring', async () => {
+  it('raises an error if the given id does not match an existing mikado graph', async () => {
     const mikadoGraphs = new InMemoryMikadoGraphs([
       aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }),
     ]);
