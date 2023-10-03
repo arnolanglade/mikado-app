@@ -6,7 +6,7 @@ import { inMemoryMikadoGraphs } from '@/api/mikado-graph/mikako-graph';
 describe('RefactoringGraph Page', () => {
   test('The developer sees the refactoring graph thanks to its id', async () => {
     await inMemoryMikadoGraphs.add(aRefactoring({
-      refactoringId: '86be6200-1303-48dc-9403-fe497186a0e4',
+      mikadoGraphId: '86be6200-1303-48dc-9403-fe497186a0e4',
       goal: 'Refactor this method',
     }));
 

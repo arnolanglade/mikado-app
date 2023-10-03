@@ -62,7 +62,7 @@ export const createWrapper = (
 };
 
 type RefactoringState = {
-  refactoringId: string
+  mikadoGraphId: string
   goal: string
   done: boolean
   prerequisites: Partial<{
@@ -76,14 +76,14 @@ type RefactoringState = {
 
 export const aRefactoring = (state: Partial<RefactoringState>) => {
   const newState = {
-    refactoringId: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+    mikadoGraphId: '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
     done: false,
     goal: 'Refactor this class',
     prerequisites: [],
     ...state,
   };
   return new MikakoGraph(
-    newState.refactoringId,
+    newState.mikadoGraphId,
     new Goal(newState.goal),
     newState.done,
     newState.prerequisites.map(
@@ -91,7 +91,7 @@ export const aRefactoring = (state: Partial<RefactoringState>) => {
         prerequisite.prerequisiteId ?? uuidv4(),
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
-        prerequisite.parentId ?? newState.refactoringId,
+        prerequisite.parentId ?? newState.mikadoGraphId,
         prerequisite.startedAt ? new Date(prerequisite.startedAt) : undefined,
       ),
     ),

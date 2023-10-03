@@ -16,84 +16,84 @@ import { v4 as uuidv4 } from 'uuid';
 
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const refactorings = new InMemoryMikadoGraphs();
     await handleStartTask(refactorings)({
-      mikadoGraphId: refactoringId,
+      mikadoGraphId,
       goal: 'Rework that part',
     });
 
-    expect(await refactorings.get(refactoringId))
+    expect(await refactorings.get(mikadoGraphId))
       .toEqual(aRefactoring({
-        refactoringId,
+        mikadoGraphId,
         goal: 'Rework that part',
       }));
   });
 
   test('The developer adds a prerequisite to a refactoring', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
     const refactorings = new InMemoryMikadoGraphs([aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       prerequisites: [],
     })]);
 
     await handleAddPrerequisiteToMikadoGraph(refactorings)({
       prerequisiteId,
-      mikadoGraphId: refactoringId,
+      mikadoGraphId,
       label,
     });
 
-    expect(await refactorings.get(refactoringId))
+    expect(await refactorings.get(mikadoGraphId))
       .toEqual(aRefactoring({
-        refactoringId,
+        mikadoGraphId,
         prerequisites: [{ prerequisiteId, label, status: Status.TODO }],
       }));
   });
 
   test('The developer starts an experimentation on a todo prerequisite', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const refactorings = new InMemoryMikadoGraphs([aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
     })]);
     const clock = new InMemoryClock('2023-07-25T10:24:00');
 
     await handleStartExperimentation(refactorings, clock)({
-      mikadoGraphId: refactoringId,
+      mikadoGraphId,
       prerequisiteId,
     });
 
-    expect(await refactorings.get(refactoringId))
+    expect(await refactorings.get(mikadoGraphId))
       .toEqual(aRefactoring({
-        refactoringId,
+        mikadoGraphId,
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING, startedAt: '2023-07-25T10:24:00' }],
       }));
   });
 
   test('The developer adds a prerequisite to a prerequisite', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const existingPrerequisiteId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
     const existingPrerequisite = { prerequisiteId: existingPrerequisiteId, status: Status.EXPERIMENTING };
     const refactorings = new InMemoryMikadoGraphs([aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       prerequisites: [existingPrerequisite],
     })]);
 
     await handleAddPrerequisiteToPrerequisite(refactorings)({
-      mikadoGraphId: refactoringId,
+      mikadoGraphId,
       prerequisiteId,
       parentId: existingPrerequisiteId,
       label,
     });
 
-    expect(await refactorings.get(refactoringId))
+    expect(await refactorings.get(mikadoGraphId))
       .toEqual(aRefactoring({
-        refactoringId,
+        mikadoGraphId,
         prerequisites: [
           existingPrerequisite,
           {
@@ -104,21 +104,21 @@ describe('Refactoring use cases', () => {
   });
 
   test('The developer commits a change when the prerequisite is finished', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const refactorings = new InMemoryMikadoGraphs([aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
     })]);
 
     await handleCommitChanges(refactorings)({
-      mikadoGraphId: refactoringId,
+      mikadoGraphId,
       prerequisiteId,
     });
 
-    expect(await refactorings.get(refactoringId))
+    expect(await refactorings.get(mikadoGraphId))
       .toEqual(aRefactoring({
-        refactoringId,
+        mikadoGraphId,
         done: true,
         prerequisites: [{
           prerequisiteId, status: Status.DONE,
@@ -127,14 +127,14 @@ describe('Refactoring use cases', () => {
   });
 
   test('The developer gets the refactoring information thanks to the id', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const goal = 'Rework that part';
     const done = false;
     const label = 'Change that';
     const status = Status.TODO;
     const refactorings = new InMemoryMikadoGraphs([aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       goal,
       done,
       prerequisites: [{ prerequisiteId, label, status }],
@@ -142,12 +142,12 @@ describe('Refactoring use cases', () => {
 
     const getRefactoringById = handleGetMikadoGraphById(refactorings);
 
-    expect(await getRefactoringById(refactoringId)).toEqual({
-      refactoringId,
+    expect(await getRefactoringById(mikadoGraphId)).toEqual({
+      refactoringId: mikadoGraphId,
       goal,
       done,
       prerequisites: [{
-        prerequisiteId, label, status, parentId: refactoringId, startedAt: undefined,
+        prerequisiteId, label, status, parentId: mikadoGraphId, startedAt: undefined,
       }],
     });
   });
@@ -155,12 +155,12 @@ describe('Refactoring use cases', () => {
 
 describe('Refactoring', () => {
   it('creates a refactoring without any prerequisite when a refactoring is started', () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const goal = 'Rework that part';
-    const refactoring = MikakoGraph.start(refactoringId, goal);
+    const refactoring = MikakoGraph.start(mikadoGraphId, goal);
 
     expect(refactoring).toEqual(aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       goal,
       prerequisites: [],
     }));
@@ -172,23 +172,23 @@ describe('Refactoring', () => {
   });
 
   it('adds a prerequisite to a refactoring (its status is todo)', () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
     const refactoring = aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       prerequisites: [],
     });
 
     refactoring.addPrerequisiteToMikadoGraph(prerequisiteId, label);
 
     expect(refactoring).toEqual(aRefactoring({
-      refactoringId,
+      mikadoGraphId,
       prerequisites: [{
         prerequisiteId,
         label,
         status: Status.TODO,
-        parentId: refactoringId,
+        parentId: mikadoGraphId,
       }],
     }));
   });
@@ -318,7 +318,7 @@ describe('Refactoring', () => {
 
     it('turns a refactoring into a format used by the UI to render it', () => {
       const refactoring = aRefactoring({
-        refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
+        mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'My goal',
         done: false,
         prerequisites: [{
@@ -348,15 +348,15 @@ describe('Refactoring', () => {
 
   describe('identifyBy', () => {
     it('says yes if the given id match the refactoring id', () => {
-      const refactoringId = uuidv4();
-      const refactoring = aRefactoring({ refactoringId });
+      const mikadoGraphId = uuidv4();
+      const refactoring = aRefactoring({ mikadoGraphId });
 
-      expect(refactoring.identifyBy(refactoringId))
+      expect(refactoring.identifyBy(mikadoGraphId))
         .toEqual(true);
     });
 
     it('says no if the given id does not match the refactoring id', () => {
-      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoring = aRefactoring({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
       expect(refactoring.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
         .toEqual(false);
@@ -365,17 +365,17 @@ describe('Refactoring', () => {
 
   describe('equals', () => {
     it('says yes if the given refactoring object equals this one', () => {
-      const refactoringId = uuidv4();
-      const refactoring = aRefactoring({ refactoringId });
+      const mikadoGraphId = uuidv4();
+      const refactoring = aRefactoring({ mikadoGraphId });
 
-      expect(refactoring.equals(aRefactoring({ refactoringId })))
+      expect(refactoring.equals(aRefactoring({ mikadoGraphId })))
         .toEqual(true);
     });
 
     it('says no if the given refactoring object does not equals this one', () => {
-      const refactoring = aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const refactoring = aRefactoring({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
-      expect(refactoring.equals(aRefactoring({ refactoringId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
+      expect(refactoring.equals(aRefactoring({ mikadoGraphId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
         .toEqual(false);
     });
   });
@@ -383,18 +383,18 @@ describe('Refactoring', () => {
 
 describe('Refactorings', () => {
   it('persists a refactoring', async () => {
-    const refactoringId = uuidv4();
+    const mikadoGraphId = uuidv4();
     const refactorings = new InMemoryMikadoGraphs();
 
-    await refactorings.add(aRefactoring({ refactoringId }));
+    await refactorings.add(aRefactoring({ mikadoGraphId }));
 
-    expect(await refactorings.get(refactoringId))
-      .toEqual(aRefactoring({ refactoringId }));
+    expect(await refactorings.get(mikadoGraphId))
+      .toEqual(aRefactoring({ mikadoGraphId }));
   });
 
   it('raises an error if the given id does not match an existing refactoring', async () => {
     const refactorings = new InMemoryMikadoGraphs([
-      aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }),
+      aRefactoring({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }),
     ]);
 
     await expect(refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae')).rejects.toThrow(
