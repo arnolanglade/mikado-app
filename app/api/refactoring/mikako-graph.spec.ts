@@ -6,7 +6,7 @@ import {
   handleStartExperimentation,
   handleStartRefactoring,
   InMemoryClock,
-  InMemoryRefactorings,
+  InMemoryMikadoGraphs,
   MikakoGraph,
   Status,
   UnknownMikadoGraph,
@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
     const refactoringId = uuidv4();
-    const refactorings = new InMemoryRefactorings();
+    const refactorings = new InMemoryMikadoGraphs();
     await handleStartRefactoring(refactorings)({
       refactoringId,
       goal: 'Rework that part',
@@ -34,7 +34,7 @@ describe('Refactoring use cases', () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
-    const refactorings = new InMemoryRefactorings([aRefactoring({
+    const refactorings = new InMemoryMikadoGraphs([aRefactoring({
       refactoringId,
       prerequisites: [],
     })]);
@@ -55,7 +55,7 @@ describe('Refactoring use cases', () => {
   test('The developer starts an experimentation on a todo prerequisite', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
-    const refactorings = new InMemoryRefactorings([aRefactoring({
+    const refactorings = new InMemoryMikadoGraphs([aRefactoring({
       refactoringId,
       prerequisites: [{ prerequisiteId, status: Status.TODO, startedAt: undefined }],
     })]);
@@ -79,7 +79,7 @@ describe('Refactoring use cases', () => {
     const prerequisiteId = uuidv4();
     const label = 'Change that';
     const existingPrerequisite = { prerequisiteId: existingPrerequisiteId, status: Status.EXPERIMENTING };
-    const refactorings = new InMemoryRefactorings([aRefactoring({
+    const refactorings = new InMemoryMikadoGraphs([aRefactoring({
       refactoringId,
       prerequisites: [existingPrerequisite],
     })]);
@@ -106,7 +106,7 @@ describe('Refactoring use cases', () => {
   test('The developer commits a change when the prerequisite is finished', async () => {
     const refactoringId = uuidv4();
     const prerequisiteId = uuidv4();
-    const refactorings = new InMemoryRefactorings([aRefactoring({
+    const refactorings = new InMemoryMikadoGraphs([aRefactoring({
       refactoringId,
       prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
     })]);
@@ -133,7 +133,7 @@ describe('Refactoring use cases', () => {
     const done = false;
     const label = 'Change that';
     const status = Status.TODO;
-    const refactorings = new InMemoryRefactorings([aRefactoring({
+    const refactorings = new InMemoryMikadoGraphs([aRefactoring({
       refactoringId,
       goal,
       done,
@@ -384,7 +384,7 @@ describe('Refactoring', () => {
 describe('Refactorings', () => {
   it('persists a refactoring', async () => {
     const refactoringId = uuidv4();
-    const refactorings = new InMemoryRefactorings();
+    const refactorings = new InMemoryMikadoGraphs();
 
     await refactorings.add(aRefactoring({ refactoringId }));
 
@@ -393,7 +393,7 @@ describe('Refactorings', () => {
   });
 
   it('raises an error if the given id does not match an existing refactoring', async () => {
-    const refactorings = new InMemoryRefactorings([
+    const refactorings = new InMemoryMikadoGraphs([
       aRefactoring({ refactoringId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' }),
     ]);
 
