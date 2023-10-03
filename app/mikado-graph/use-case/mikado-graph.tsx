@@ -2,8 +2,9 @@
 
 import { useServiceContainer } from '@/lib/service-container-context';
 import { useIntl } from '@/lib/i18n/intl-provider';
+import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
 
-export default function useMikadoGraph() {
+export function useStartTask() {
   const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
   const router = useRouter();
   const notifier = useNotification();
@@ -18,6 +19,17 @@ export default function useMikadoGraph() {
       notifier.error(translation('notification.error'));
     }
   };
+
+  return {
+    startTask,
+  };
+}
+
+export default function useMikadoGraph() {
+  const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
+  const router = useRouter();
+  const notifier = useNotification();
+  const { translation } = useIntl();
 
   const addPrerequisiteToMikadoGraph = async (mikadoGraphId: string, label: string) => {
     try {
@@ -64,7 +76,6 @@ export default function useMikadoGraph() {
 
   return {
     startExperimentation,
-    startTask,
     addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,
     commitChanges,

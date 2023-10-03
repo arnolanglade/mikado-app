@@ -15,7 +15,7 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
     <form onSubmit={startRefactoring}>
       <input required ref={goalInput} type="text" />
       <button type="submit" aria-label="start refactoring">
-        <Translation id="refactoring.start" />
+        <Translation id="mikado-graph.start" />
       </button>
     </form>
   );

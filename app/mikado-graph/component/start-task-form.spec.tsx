@@ -12,12 +12,12 @@ describe('StartTaskForm', () => {
     render(<StartTaskForm onSubmit={onSubmit} />, {
       wrapper: createWrapper(
         {},
-        { 'refactoring.start': 'Start refactoring' },
+        { 'mikado-graph.start': 'Start a task' },
       ),
     });
 
     await userEvent.type(screen.getByRole('textbox'), 'Refactor method');
-    await userEvent.click(screen.getByText('Start refactoring'));
+    await userEvent.click(screen.getByText('Start a task'));
 
     expect(onSubmit).toHaveBeenCalledWith('Refactor method');
   });

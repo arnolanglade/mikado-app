@@ -21,13 +21,13 @@ describe('StartRefactoring Page', () => {
           useRouter: aRouter({ push }),
         },
         {
-          'refactoring.start': 'Start refactoring',
+          'mikado-graph.start': 'Start a task',
         },
       ),
     });
 
     await userEvent.type(screen.getByRole('textbox'), 'Refactor method');
-    await userEvent.click(screen.getByText('Start refactoring'));
+    await userEvent.click(screen.getByText('Start a task'));
 
     expect(push).toHaveBeenCalledWith('/mikado-graph/86be6200-1303-48dc-9403-fe497186a0e4');
   });

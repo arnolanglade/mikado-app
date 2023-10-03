@@ -1,7 +1,7 @@
 'use client';
 
 import { act, renderHook } from '@testing-library/react';
-import useMikadoGraph from '@/mikado-graph/use-case/mikado-graph';
+import useMikadoGraph, { useStartTask } from '@/mikado-graph/use-case/mikado-graph';
 import { jest } from '@jest/globals';
 import {
   aNotifier, aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
@@ -9,64 +9,64 @@ import {
 import mikadoGraphApi from '@/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 
-describe('useMikadoGraph', () => {
-  describe('start task', () => {
-    test('The developer is notified after starting a mikado graph that everything went well', async () => {
-      const success = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({ start: async () => aMikadoGraphView() }),
-            useNotification: aNotifier({ success }),
-          },
-          { 'mikado-graph.notification.success.start': 'The mikado graph has been started' },
-        ),
-      });
-
-      await act(() => result.current.startTask('Refactor method'));
-
-      expect(success).toHaveBeenCalledWith('The mikado graph has been started');
+describe('start task', () => {
+  test('The developer is notified after starting a mikado graph that everything went well', async () => {
+    const success = jest.fn();
+    const { result } = renderHook(useStartTask, {
+      wrapper: createWrapper(
+        {
+          mikadoGraphApi: aMikadoGraphApi({ start: async () => aMikadoGraphView() }),
+          useNotification: aNotifier({ success }),
+        },
+        { 'mikado-graph.notification.success.start': 'The mikado graph has been started' },
+      ),
     });
 
-    test('The developer is redirected to the mikado graph page', async () => {
-      const push = jest.fn();
-      const mikadoGraphId = uuidv4();
-      const { result } = renderHook(useMikadoGraph, {
-        wrapper: createWrapper(
-          {
-            useRouter: aRouter({ push }),
-            mikadoGraphApi: aMikadoGraphApi({ start: async () => aMikadoGraphView({ mikadoGraphId }) }),
-          },
-        ),
-      });
+    await act(() => result.current.startTask('Refactor method'));
 
-      await act(() => result.current.startTask('Refactor method'));
-
-      expect(push).toHaveBeenCalledWith(`/mikado-graph/${mikadoGraphId}`);
-    });
-
-    test('The developer is notified that something went wrong', async () => {
-      const error = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({
-              start: async () => {
-                throw Error();
-              },
-            }),
-            useNotification: aNotifier({ error }),
-          },
-          { 'notification.error': 'Something went wrong' },
-        ),
-      });
-
-      await act(() => result.current.startTask('Refactor method'));
-
-      expect(error).toHaveBeenCalledWith('Something went wrong');
-    });
+    expect(success).toHaveBeenCalledWith('The mikado graph has been started');
   });
 
+  test('The developer is redirected to the mikado graph page', async () => {
+    const push = jest.fn();
+    const mikadoGraphId = uuidv4();
+    const { result } = renderHook(useStartTask, {
+      wrapper: createWrapper(
+        {
+          useRouter: aRouter({ push }),
+          mikadoGraphApi: aMikadoGraphApi({ start: async () => aMikadoGraphView({ mikadoGraphId }) }),
+        },
+      ),
+    });
+
+    await act(() => result.current.startTask('Refactor method'));
+
+    expect(push).toHaveBeenCalledWith(`/mikado-graph/${mikadoGraphId}`);
+  });
+
+  test('The developer is notified that something went wrong', async () => {
+    const error = jest.fn();
+    const { result } = renderHook(useStartTask, {
+      wrapper: createWrapper(
+        {
+          mikadoGraphApi: aMikadoGraphApi({
+            start: async () => {
+              throw Error();
+            },
+          }),
+          useNotification: aNotifier({ error }),
+        },
+        { 'notification.error': 'Something went wrong' },
+      ),
+    });
+
+    await act(() => result.current.startTask('Refactor method'));
+
+    expect(error).toHaveBeenCalledWith('Something went wrong');
+  });
+});
+
+describe('useMikadoGraph', () => {
   describe('add prerequisite to a mikado graph', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
       const addPrerequisiteToMikadoGraph = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>;
