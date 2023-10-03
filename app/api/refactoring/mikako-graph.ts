@@ -149,7 +149,7 @@ export class MikakoGraph {
     });
   }
 
-  addPrerequisiteToRefactoring(prerequisiteId: string, label: string): void {
+  addPrerequisiteToMikadoGraph(prerequisiteId: string, label: string): void {
     this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, this.id, label)];
   }
 
@@ -191,14 +191,14 @@ export class MikakoGraph {
     return id === this.id;
   }
 
-  equals(refactoring: MikakoGraph): boolean {
-    return refactoring.id === this.id;
+  equals(mikakoGraph: MikakoGraph): boolean {
+    return mikakoGraph.id === this.id;
   }
 }
 
-export class UnknownRefactoring extends Error {
+export class UnknownMikadoGraph extends Error {
   static fromId(id: string) {
-    return new UnknownRefactoring(`The refactoring with the id ${id} does not exist`);
+    return new UnknownMikadoGraph(`The mikado graph with the id ${id} does not exist`);
   }
 }
 
@@ -216,7 +216,7 @@ export class InMemoryRefactorings implements Refactorings {
       .filter((refactoring) => refactoring.identifyBy(id));
 
     if (matchingRefactoring.length !== 1) {
-      throw UnknownRefactoring.fromId(id);
+      throw UnknownMikadoGraph.fromId(id);
     }
 
     return matchingRefactoring[0];
@@ -260,7 +260,7 @@ export type AddPrerequisiteToRefactoring = {
 
 export const handleAddPrerequisiteToRefactoring = (refactorings: Refactorings) => async (input: AddPrerequisiteToRefactoring) => {
   const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.addPrerequisiteToRefactoring(input.prerequisiteId, input.label);
+  refactoring.addPrerequisiteToMikadoGraph(input.prerequisiteId, input.label);
   await refactorings.add(refactoring);
 };
 

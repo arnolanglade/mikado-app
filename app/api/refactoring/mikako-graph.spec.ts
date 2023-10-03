@@ -9,7 +9,7 @@ import {
   InMemoryRefactorings,
   MikakoGraph,
   Status,
-  UnknownRefactoring,
+  UnknownMikadoGraph,
 } from '@/api/refactoring/mikako-graph';
 import { aRefactoring } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -180,7 +180,7 @@ describe('Refactoring', () => {
       prerequisites: [],
     });
 
-    refactoring.addPrerequisiteToRefactoring(prerequisiteId, label);
+    refactoring.addPrerequisiteToMikadoGraph(prerequisiteId, label);
 
     expect(refactoring).toEqual(aRefactoring({
       refactoringId,
@@ -196,7 +196,7 @@ describe('Refactoring', () => {
   it('raises an error if a prerequisite is added to refactoring with an empty label', () => {
     const refactoring = aRefactoring({});
 
-    expect(() => refactoring.addPrerequisiteToRefactoring(uuidv4(), ''))
+    expect(() => refactoring.addPrerequisiteToMikadoGraph(uuidv4(), ''))
       .toThrow(new Error('The label cannot be empty'));
   });
 
@@ -398,8 +398,8 @@ describe('Refactorings', () => {
     ]);
 
     await expect(refactorings.get('c2e2ddf8-534b-4080-b47c-0f4536b54cae')).rejects.toThrow(
-      new UnknownRefactoring(
-        'The refactoring with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist',
+      new UnknownMikadoGraph(
+        'The mikado graph with the id c2e2ddf8-534b-4080-b47c-0f4536b54cae does not exist',
       ),
     );
   });
