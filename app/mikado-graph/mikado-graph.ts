@@ -62,10 +62,10 @@ const mikadoGraphApi: MikadoGraphApi = {
     );
     return response.json();
   },
-  addPrerequisiteToPrerequisite: async (mikadoGraphId: string, prerequisiteId: string, label: string) => {
+  addPrerequisiteToPrerequisite: async (mikadoGraphId: string, parentId: string, label: string) => {
     const response = await httpClient.post(
       '/api/mikado-graph/prerequisite/add-to-prerequisite',
-      { mikadoGraphId, prerequisiteId, label },
+      { mikadoGraphId, parentId, label },
     );
     return response.json();
   },
