@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { MikadoGraphView, Status } from '@/api/refactoring/mikako-graph';
+import { MikadoGraphView, Status } from '@/api/mikado-graph/mikako-graph';
 import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';

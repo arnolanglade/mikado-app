@@ -10,7 +10,7 @@ import {
   MikakoGraph,
   Status,
   UnknownMikadoGraph,
-} from '@/api/refactoring/mikako-graph';
+} from '@/api/mikado-graph/mikako-graph';
 import { aRefactoring } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 

@@ -1,5 +1,5 @@
 import httpClient from '@/lib/http-client';
-import { getMikadoGraphById, MikadoGraphView as Refactoring } from '@/api/refactoring/mikako-graph';
+import { getMikadoGraphById, MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
 
 type RefactoringData = {
   goal: string,
@@ -34,7 +34,7 @@ type RefactoringGraph = {
 };
 
 export const mapResponseToRefactoringGraph = (
-  refactoringGraph: Refactoring,
+  refactoringGraph: MikadoGraphView,
   refactoringActions: { addPrerequisiteToRefactoring: (label: string) => void },
   prerequisiteActions: {
     startExperimentation: (prerequisiteId: string) => () => void,
@@ -70,44 +70,44 @@ export const mapResponseToRefactoringGraph = (
 };
 
 export type RefactoringApi = {
-  getById: (id: string) => Promise<Refactoring>
-  start: (goal: string) => Promise<Refactoring>
-  addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<Refactoring>
-  startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<Refactoring>
-  addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<Refactoring>
-  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<Refactoring>
+  getById: (id: string) => Promise<MikadoGraphView>
+  start: (goal: string) => Promise<MikadoGraphView>
+  addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<MikadoGraphView>
+  startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<MikadoGraphView>
+  addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<MikadoGraphView>
+  commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<MikadoGraphView>
 };
 
 const refactoringApi: RefactoringApi = {
   getById: async (id: string) => getMikadoGraphById(id),
   start: async (goal: string) => {
-    const response = await httpClient.post('/api/refactoring', { goal });
+    const response = await httpClient.post('/api/mikado-graph', { goal });
     return response.json();
   },
   addPrerequisiteToRefactoring: async (refactoringId: string, label: string) => {
     const response = await httpClient.post(
-      '/api/refactoring/prerequisite/add-to-mikado-graph',
+      '/api/mikado-graph/prerequisite/add-to-mikado-graph',
       { refactoringId, label },
     );
     return response.json();
   },
   startExperimentation: async (refactoringId: string, prerequisiteId: string) => {
     const response = await httpClient.post(
-      '/api/refactoring/prerequisite/start-experimentation',
+      '/api/mikado-graph/prerequisite/start-experimentation',
       { refactoringId, prerequisiteId },
     );
     return response.json();
   },
   addPrerequisiteToPrerequisite: async (refactoringId: string, prerequisiteId: string, label: string) => {
     const response = await httpClient.post(
-      '/api/refactoring/prerequisite/add-to-prerequisite',
+      '/api/mikado-graph/prerequisite/add-to-prerequisite',
       { refactoringId, prerequisiteId, label },
     );
     return response.json();
   },
   commitChanges: async (refactoringId: string, prerequisiteId: string) => {
     const response = await httpClient.post(
-      '/api/refactoring/prerequisite/commit-changes',
+      '/api/mikado-graph/prerequisite/commit-changes',
       { refactoringId, prerequisiteId },
     );
     return response.json();

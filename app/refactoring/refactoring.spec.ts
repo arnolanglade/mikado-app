@@ -1,7 +1,7 @@
 import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
 import { aRefactoringGraph } from '@/test/test-utils';
 import { jest } from '@jest/globals';
-import { Status } from '@/api/refactoring/mikako-graph';
+import { Status } from '@/api/mikado-graph/mikako-graph';
 import { Mock } from 'jest-mock';
 import { v4 as uuidv4 } from 'uuid';
 

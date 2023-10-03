@@ -7,7 +7,7 @@ import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import {
   Goal, Label, Prerequisite, PrerequisiteView, MikakoGraph, MikadoGraphView, Status,
-} from '@/api/refactoring/mikako-graph';
+} from '@/api/mikado-graph/mikako-graph';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';

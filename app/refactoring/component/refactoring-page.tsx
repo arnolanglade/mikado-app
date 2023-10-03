@@ -1,6 +1,6 @@
 'use client';
 
-import { MikadoGraphView } from '@/api/refactoring/mikako-graph';
+import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import React from 'react';
 import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';
