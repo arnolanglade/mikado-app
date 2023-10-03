@@ -72,7 +72,7 @@ export const mapResponseToRefactoringGraph = (
 export type RefactoringApi = {
   getById: (id: string) => Promise<MikadoGraphView>
   start: (goal: string) => Promise<MikadoGraphView>
-  addPrerequisiteToRefactoring: (refactoringId: string, label: string) => Promise<MikadoGraphView>
+  addPrerequisiteToRefactoringMikadoGraph: (refactoringId: string, label: string) => Promise<MikadoGraphView>
   startExperimentation: (refactoringId: string, prerequisiteId: string) => Promise<MikadoGraphView>
   addPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => Promise<MikadoGraphView>
   commitChanges: (refactoringId: string, prerequisiteId: string) => Promise<MikadoGraphView>
@@ -84,7 +84,7 @@ const refactoringApi: RefactoringApi = {
     const response = await httpClient.post('/api/mikado-graph', { goal });
     return response.json();
   },
-  addPrerequisiteToRefactoring: async (mikadoGraphId: string, label: string) => {
+  addPrerequisiteToRefactoringMikadoGraph: async (mikadoGraphId: string, label: string) => {
     const response = await httpClient.post(
       '/api/mikado-graph/prerequisite/add-to-mikado-graph',
       { mikadoGraphId, label },

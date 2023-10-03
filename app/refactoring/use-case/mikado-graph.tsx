@@ -9,7 +9,7 @@ export default function useMikadoGraph() {
   const notifier = useNotification();
   const { translation } = useIntl();
 
-  const startRefactoring = async (goal: string) => {
+  const startTask = async (goal: string) => {
     try {
       const { mikadoGraphId } = await refactoringApi.start(goal);
       notifier.success(translation('refactoring.notification.success.start'));
@@ -21,7 +21,7 @@ export default function useMikadoGraph() {
 
   const addPrerequisiteToMikadoGraph = async (mikadoGraphId: string, label: string) => {
     try {
-      await refactoringApi.addPrerequisiteToRefactoring(mikadoGraphId, label);
+      await refactoringApi.addPrerequisiteToRefactoringMikadoGraph(mikadoGraphId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -64,7 +64,7 @@ export default function useMikadoGraph() {
 
   return {
     startExperimentation,
-    startRefactoring,
+    startRefactoring: startTask,
     addPrerequisiteToRefactoring: addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,
     commitChanges,
