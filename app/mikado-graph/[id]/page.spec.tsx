@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { aMikadoGraph, aRouter, createWrapper } from '@/test/test-utils';
-import RefactoringGraph from '@/refactoring/[id]/page';
+import RefactoringGraph from '@/mikado-graph/[id]/page';
 import { inMemoryMikadoGraphs } from '@/api/mikado-graph/mikako-graph';
 
 describe('RefactoringGraph Page', () => {

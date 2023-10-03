@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import StartRefactoringForm from '@/refactoring/component/start-refactoring-form';
+import StartRefactoringForm from '@/mikado-graph/component/start-refactoring-form';
 import { createWrapper } from '@/test/test-utils';
 
 describe('StartRefactoringForm', () => {

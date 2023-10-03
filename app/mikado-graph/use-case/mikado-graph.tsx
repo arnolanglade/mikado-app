@@ -13,7 +13,7 @@ export default function useMikadoGraph() {
     try {
       const { mikadoGraphId } = await mikadoGraphApi.start(goal);
       notifier.success(translation('mikado-graph.notification.success.start'));
-      router.push(`/refactoring/${mikadoGraphId}`);
+      router.push(`/mikado-graph/${mikadoGraphId}`);
     } catch (e) {
       notifier.error(translation('notification.error'));
     }

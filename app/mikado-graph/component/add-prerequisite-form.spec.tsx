@@ -4,7 +4,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { createWrapper } from '@/test/test-utils';
-import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
+import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 
 describe('AddPrerequisiteForm', () => {
   test('The onSubmit callback is called when the form is submitted', async () => {

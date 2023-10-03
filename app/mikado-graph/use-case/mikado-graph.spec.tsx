@@ -1,12 +1,12 @@
 'use client';
 
 import { act, renderHook } from '@testing-library/react';
-import useMikadoGraph from '@/refactoring/use-case/mikado-graph';
+import useMikadoGraph from '@/mikado-graph/use-case/mikado-graph';
 import { jest } from '@jest/globals';
 import {
   aNotifier, aRefactoringApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
-import mikadoGraphApi from '@/refactoring/mikado-graph';
+import mikadoGraphApi from '@/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('useMikadoGraph', () => {
@@ -42,7 +42,7 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.startTask('Refactor method'));
 
-      expect(push).toHaveBeenCalledWith(`/refactoring/${refactoringId}`);
+      expect(push).toHaveBeenCalledWith(`/mikado-graph/${refactoringId}`);
     });
 
     test('The developer is notified that something went wrong', async () => {

@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { aMikadoGraphView, createWrapper } from '@/test/test-utils';
-import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
+import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/mikado-graph/component/refactoring-dashboard';
 import { Status } from '@/api/mikado-graph/mikako-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
