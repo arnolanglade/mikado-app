@@ -5,7 +5,7 @@ import { getMikadoGraphById, startTask } from '@/api/mikado-graph/mikako-graph';
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {
   const userInput = await request.json();
-  const refactoringId = uuidv4();
-  await startTask({ ...userInput, refactoringId });
-  return NextResponse.json(await getMikadoGraphById(refactoringId));
+  const mikadoGraphId = uuidv4();
+  await startTask({ ...userInput, refactoringId: mikadoGraphId });
+  return NextResponse.json(await getMikadoGraphById(mikadoGraphId));
 }

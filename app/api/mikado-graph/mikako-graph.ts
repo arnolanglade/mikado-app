@@ -254,12 +254,12 @@ export const startTask = handleStartTask(inMemoryMikadoGraphs);
 
 export type AddPrerequisiteToMikadoGraph = {
   prerequisiteId: string
-  refactoringId: string
+  mikadoGraph: string
   label: string
 };
 
 export const handleAddPrerequisiteToMikadoGraph = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToMikadoGraph) => {
-  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  const mikakoGraph = await mikadoGraphs.get(input.mikadoGraph);
   mikakoGraph.addPrerequisiteToMikadoGraph(input.prerequisiteId, input.label);
   await mikadoGraphs.add(mikakoGraph);
 };

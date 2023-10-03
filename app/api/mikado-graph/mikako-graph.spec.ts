@@ -41,7 +41,7 @@ describe('Refactoring use cases', () => {
 
     await handleAddPrerequisiteToMikadoGraph(refactorings)({
       prerequisiteId,
-      refactoringId,
+      mikadoGraph: refactoringId,
       label,
     });
 
