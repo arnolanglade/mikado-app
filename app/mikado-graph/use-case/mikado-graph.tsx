@@ -37,7 +37,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
   dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: 'TB' });
 
-  const nodeWidth = 250;
+  const nodeWidth = 300;
   const nodeHeight = 150;
 
   const addPrerequisiteToMikadoGraph = async (label: string) => {
