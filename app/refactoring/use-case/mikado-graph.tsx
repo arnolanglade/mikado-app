@@ -3,7 +3,7 @@
 import { useServiceContainer } from '@/lib/service-container-context';
 import { useIntl } from '@/lib/i18n/intl-provider';
 
-export default function useRefactoring() {
+export default function useMikadoGraph() {
   const { refactoringApi, useRouter, useNotification } = useServiceContainer();
   const router = useRouter();
   const notifier = useNotification();
@@ -19,18 +19,18 @@ export default function useRefactoring() {
     }
   };
 
-  const addPrerequisiteToRefactoring = async (refactoringId: string, label: string) => {
+  const addPrerequisiteToMikadoGraph = async (mikadoGraphId: string, label: string) => {
     try {
-      await refactoringApi.addPrerequisiteToRefactoring(refactoringId, label);
+      await refactoringApi.addPrerequisiteToRefactoring(mikadoGraphId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
       notifier.error(translation('notification.error'));
     }
   };
-  const startExperimentation = async (refactoringId: string, prerequisiteId: string) => {
+  const startExperimentation = async (mikadoGraphId: string, prerequisiteId: string) => {
     try {
-      await refactoringApi.startExperimentation(refactoringId, prerequisiteId);
+      await refactoringApi.startExperimentation(mikadoGraphId, prerequisiteId);
       notifier.success(translation('prerequisite.notification.start-experimentation.success'));
       router.refresh();
     } catch (e) {
@@ -38,9 +38,9 @@ export default function useRefactoring() {
     }
   };
 
-  const addPrerequisiteToPrerequisite = async (refactoringId: string, prerequisiteId: string, label: string) => {
+  const addPrerequisiteToPrerequisite = async (mikadoGraphId: string, prerequisiteId: string, label: string) => {
     try {
-      await refactoringApi.addPrerequisiteToPrerequisite(refactoringId, prerequisiteId, label);
+      await refactoringApi.addPrerequisiteToPrerequisite(mikadoGraphId, prerequisiteId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -48,9 +48,9 @@ export default function useRefactoring() {
     }
   };
 
-  const commitChanges = async (refactoringId: string, prerequisiteId: string) => {
+  const commitChanges = async (mikadoGraphId: string, prerequisiteId: string) => {
     try {
-      const refactoring = await refactoringApi.commitChanges(refactoringId, prerequisiteId);
+      const refactoring = await refactoringApi.commitChanges(mikadoGraphId, prerequisiteId);
       if (refactoring.done) {
         notifier.success(translation('refactoring.done'));
       } else {
@@ -65,7 +65,7 @@ export default function useRefactoring() {
   return {
     startExperimentation,
     startRefactoring,
-    addPrerequisiteToRefactoring,
+    addPrerequisiteToRefactoring: addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,
     commitChanges,
   };

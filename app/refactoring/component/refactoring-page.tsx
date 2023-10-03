@@ -1,7 +1,7 @@
 'use client';
 
 import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
-import useRefactoring from '@/refactoring/use-case/mikado-graph';
+import useMikadoGraph from '@/refactoring/use-case/mikado-graph';
 import React from 'react';
 import RefactoringDashboard from '@/refactoring/component/refactoring-dashboard';
 
@@ -10,7 +10,7 @@ export default function Page({ refactoring }: {
 }) {
   const {
     addPrerequisiteToRefactoring, addPrerequisiteToPrerequisite, startExperimentation, commitChanges,
-  } = useRefactoring();
+  } = useMikadoGraph();
 
   return (
     <RefactoringDashboard
