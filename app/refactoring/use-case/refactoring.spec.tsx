@@ -8,7 +8,6 @@ import {
 } from '@/test/test-utils';
 import refactoringApi from '@/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
-import { RefactoringGraph } from '@/api/refactoring/refactoring';
 
 describe('useRefactoring', () => {
   describe('start refactoring', () => {
