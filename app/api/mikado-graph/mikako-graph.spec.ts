@@ -19,7 +19,7 @@ describe('Refactoring use cases', () => {
     const refactoringId = uuidv4();
     const refactorings = new InMemoryMikadoGraphs();
     await handleStartTask(refactorings)({
-      refactoringId,
+      mikadoGraphId: refactoringId,
       goal: 'Rework that part',
     });
 
@@ -41,7 +41,7 @@ describe('Refactoring use cases', () => {
 
     await handleAddPrerequisiteToMikadoGraph(refactorings)({
       prerequisiteId,
-      mikadoGraph: refactoringId,
+      mikadoGraphId: refactoringId,
       label,
     });
 
@@ -62,7 +62,7 @@ describe('Refactoring use cases', () => {
     const clock = new InMemoryClock('2023-07-25T10:24:00');
 
     await handleStartExperimentation(refactorings, clock)({
-      refactoringId,
+      mikadoGraphId: refactoringId,
       prerequisiteId,
     });
 
@@ -85,7 +85,7 @@ describe('Refactoring use cases', () => {
     })]);
 
     await handleAddPrerequisiteToPrerequisite(refactorings)({
-      refactoringId,
+      mikadoGraphId: refactoringId,
       prerequisiteId,
       parentId: existingPrerequisiteId,
       label,
@@ -112,7 +112,7 @@ describe('Refactoring use cases', () => {
     })]);
 
     await handleCommitChanges(refactorings)({
-      refactoringId,
+      mikadoGraphId: refactoringId,
       prerequisiteId,
     });
 

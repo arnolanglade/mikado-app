@@ -6,6 +6,6 @@ import { getMikadoGraphById, startTask } from '@/api/mikado-graph/mikako-graph';
 export async function POST(request: NextRequest) {
   const userInput = await request.json();
   const mikadoGraphId = uuidv4();
-  await startTask({ ...userInput, refactoringId: mikadoGraphId });
+  await startTask({ ...userInput, mikadoGraphId });
   return NextResponse.json(await getMikadoGraphById(mikadoGraphId));
 }

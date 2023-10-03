@@ -5,5 +5,5 @@ import { commitChanges, getMikadoGraphById } from '@/api/mikado-graph/mikako-gra
 export async function POST(request: NextRequest) {
   const userInput = await request.json();
   await commitChanges(userInput);
-  return NextResponse.json(await getMikadoGraphById(userInput.refactoringId));
+  return NextResponse.json(await getMikadoGraphById(userInput.mikadoGraphId));
 }

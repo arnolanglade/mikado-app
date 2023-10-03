@@ -242,24 +242,24 @@ export class InMemoryMikadoGraphs implements MikadoGraphs {
 export const inMemoryMikadoGraphs = new InMemoryMikadoGraphs();
 
 export type StartTask = {
-  refactoringId: string
+  mikadoGraphId: string
   goal: string
 };
 
 export const handleStartTask = (mikadoGraphs: MikadoGraphs) => async (input: StartTask) => {
-  await mikadoGraphs.add(MikakoGraph.start(input.refactoringId, input.goal));
+  await mikadoGraphs.add(MikakoGraph.start(input.mikadoGraphId, input.goal));
 };
 
 export const startTask = handleStartTask(inMemoryMikadoGraphs);
 
 export type AddPrerequisiteToMikadoGraph = {
   prerequisiteId: string
-  mikadoGraph: string
+  mikadoGraphId: string
   label: string
 };
 
 export const handleAddPrerequisiteToMikadoGraph = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToMikadoGraph) => {
-  const mikakoGraph = await mikadoGraphs.get(input.mikadoGraph);
+  const mikakoGraph = await mikadoGraphs.get(input.mikadoGraphId);
   mikakoGraph.addPrerequisiteToMikadoGraph(input.prerequisiteId, input.label);
   await mikadoGraphs.add(mikakoGraph);
 };
@@ -267,14 +267,14 @@ export const handleAddPrerequisiteToMikadoGraph = (mikadoGraphs: MikadoGraphs) =
 export const addPrerequisiteToMikadoGraph = handleAddPrerequisiteToMikadoGraph(inMemoryMikadoGraphs);
 
 export type AddPrerequisiteToPrerequisite = {
-  refactoringId: string
+  mikadoGraphId: string
   prerequisiteId: string
   parentId: string
   label: string
 };
 
 export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToPrerequisite) => {
-  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  const mikakoGraph = await mikadoGraphs.get(input.mikadoGraphId);
   mikakoGraph.addPrerequisiteToPrerequisite(input.prerequisiteId, input.parentId, input.label);
   await mikadoGraphs.add(mikakoGraph);
 };
@@ -282,12 +282,12 @@ export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) 
 export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(inMemoryMikadoGraphs);
 
 export type CommitChanges = {
-  refactoringId: string
+  mikadoGraphId: string
   prerequisiteId: string
 };
 
 export const handleCommitChanges = (mikadoGraphs: MikadoGraphs) => async (input: CommitChanges) => {
-  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  const mikakoGraph = await mikadoGraphs.get(input.mikadoGraphId);
   mikakoGraph.commitChanges(input.prerequisiteId);
   await mikadoGraphs.add(mikakoGraph);
 };
@@ -303,11 +303,11 @@ export const getMikadoGraphById = handleGetMikadoGraphById(inMemoryMikadoGraphs)
 
 export type StartExperimentation = {
   prerequisiteId: string
-  refactoringId: string
+  mikadoGraphId: string
 };
 
 export const handleStartExperimentation = (mikadoGraphs: MikadoGraphs, clock: Clock) => async (input: StartExperimentation): Promise<void> => {
-  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  const mikakoGraph = await mikadoGraphs.get(input.mikadoGraphId);
   mikakoGraph.startExperimentation(input.prerequisiteId, clock.now());
   await mikadoGraphs.add(mikakoGraph);
 };

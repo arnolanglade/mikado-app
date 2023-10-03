@@ -5,5 +5,5 @@ import { getMikadoGraphById, startExperimentation } from '@/api/mikado-graph/mik
 export async function POST(request: NextRequest) {
   const userInput = await request.json();
   await startExperimentation(userInput);
-  return NextResponse.json(await getMikadoGraphById(userInput.refactoringId));
+  return NextResponse.json(await getMikadoGraphById(userInput.mikadoGraphId));
 }

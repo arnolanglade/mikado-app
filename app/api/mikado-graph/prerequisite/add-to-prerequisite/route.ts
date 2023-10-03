@@ -9,5 +9,5 @@ export async function POST(request: NextRequest) {
   const userInput = await request.json();
   const prerequisiteId = uuidv4();
   await addPrerequisiteToPrerequisite({ ...userInput, prerequisiteId });
-  return NextResponse.json(await getMikadoGraphById(userInput.refactoringId));
+  return NextResponse.json(await getMikadoGraphById(userInput.mikadoGraphId));
 }
