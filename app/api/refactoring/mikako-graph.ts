@@ -38,7 +38,7 @@ export enum Status {
 }
 
 // Todo: used in the front end
-export type PrerequisiteGraph = {
+export type PrerequisiteView = {
   prerequisiteId: string,
   label: string,
   status: Status,
@@ -92,7 +92,7 @@ export class Prerequisite {
     return this.status === status;
   }
 
-  render(): PrerequisiteGraph {
+  render(): PrerequisiteView {
     return {
       prerequisiteId: this.prerequisiteId,
       label: this.label.toString(),
@@ -116,11 +116,11 @@ export class Goal {
 }
 
 // Todo: used in the front end
-export type RefactoringGraph = {
+export type MikadoGraphView = {
   refactoringId: string
   goal: string
   done: boolean
-  prerequisites: PrerequisiteGraph[]
+  prerequisites: PrerequisiteView[]
 };
 
 export class MikakoGraph {
@@ -178,7 +178,7 @@ export class MikakoGraph {
     this.done = done;
   }
 
-  render(): RefactoringGraph {
+  render(): MikadoGraphView {
     return {
       refactoringId: this.id,
       goal: this.goal.toString(),
@@ -281,7 +281,7 @@ export const handleAddPrerequisiteToPrerequisite = (refactorings: Refactorings) 
 
 export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(inMemoryRefactoring);
 
-export const handleGetRefactoringById = (refactorings: Refactorings) => async (refactoringId: string): Promise<RefactoringGraph> => {
+export const handleGetRefactoringById = (refactorings: Refactorings) => async (refactoringId: string): Promise<MikadoGraphView> => {
   const refactoring = await refactorings.get(refactoringId);
   return refactoring.render();
 };

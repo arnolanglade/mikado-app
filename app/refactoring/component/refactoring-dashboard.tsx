@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { RefactoringGraph, Status } from '@/api/refactoring/mikako-graph';
+import { MikadoGraphView, Status } from '@/api/refactoring/mikako-graph';
 import styles from '@/refactoring/[id]/page.module.css';
 import AddPrerequisiteForm from '@/refactoring/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
@@ -87,7 +87,7 @@ export default function RefactoringDashboard({
   onAddPrerequisiteToPrerequisite,
   onCommitChanges,
 }: {
-  refactoring: RefactoringGraph,
+  refactoring: MikadoGraphView,
   onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
   onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
   onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,

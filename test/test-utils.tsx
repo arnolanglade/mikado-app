@@ -6,7 +6,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import refactoringApi, { RefactoringApi } from '@/refactoring/refactoring';
 import {
-  Goal, Label, Prerequisite, PrerequisiteGraph, MikakoGraph, RefactoringGraph, Status,
+  Goal, Label, Prerequisite, PrerequisiteView, MikakoGraph, MikadoGraphView, Status,
 } from '@/api/refactoring/mikako-graph';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
@@ -113,7 +113,7 @@ type RefactoringGraphState = {
   prerequisites: Partial<PrerequisiteGraphState>[]
 };
 
-export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): RefactoringGraph => ({
+export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): MikadoGraphView => ({
   refactoringId: graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   goal: graph.goal ?? 'Refactor this class',
   done: graph.done ?? false,
@@ -126,7 +126,7 @@ export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): R
   })) ?? [],
 });
 
-export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteGraphState> = {}): PrerequisiteGraph => ({
+export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteGraphState> = {}): PrerequisiteView => ({
   prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
   label: prerequisite.label ?? 'Do this',
   status: prerequisite.status ?? Status.TODO,
