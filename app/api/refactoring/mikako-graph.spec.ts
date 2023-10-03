@@ -1,6 +1,6 @@
 import {
   handleAddPrerequisiteToPrerequisite,
-  handleAddPrerequisiteToRefactoring,
+  handleAddPrerequisiteToMikadoGraph,
   handleCommitChanges,
   handleGetRefactoringById,
   handleStartExperimentation,
@@ -39,7 +39,7 @@ describe('Refactoring use cases', () => {
       prerequisites: [],
     })]);
 
-    await handleAddPrerequisiteToRefactoring(refactorings)({
+    await handleAddPrerequisiteToMikadoGraph(refactorings)({
       prerequisiteId,
       refactoringId,
       label,

@@ -252,19 +252,19 @@ export const handleStartRefactoring = (refactorings: MikadoGraphs) => async (inp
 
 export const startRefactoring = handleStartRefactoring(inMemoryMikadoGraphs);
 
-export type AddPrerequisiteToRefactoring = {
+export type AddPrerequisiteToMikadoGraph = {
   prerequisiteId: string
   refactoringId: string
   label: string
 };
 
-export const handleAddPrerequisiteToRefactoring = (refactorings: MikadoGraphs) => async (input: AddPrerequisiteToRefactoring) => {
-  const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.addPrerequisiteToMikadoGraph(input.prerequisiteId, input.label);
-  await refactorings.add(refactoring);
+export const handleAddPrerequisiteToMikadoGraph = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToMikadoGraph) => {
+  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  mikakoGraph.addPrerequisiteToMikadoGraph(input.prerequisiteId, input.label);
+  await mikadoGraphs.add(mikakoGraph);
 };
 
-export const addPrerequisiteToRefactoring = handleAddPrerequisiteToRefactoring(inMemoryMikadoGraphs);
+export const addPrerequisiteToMikadoGraph = handleAddPrerequisiteToMikadoGraph(inMemoryMikadoGraphs);
 
 export type AddPrerequisiteToPrerequisite = {
   refactoringId: string
@@ -273,17 +273,17 @@ export type AddPrerequisiteToPrerequisite = {
   label: string
 };
 
-export const handleAddPrerequisiteToPrerequisite = (refactorings: MikadoGraphs) => async (input: AddPrerequisiteToPrerequisite) => {
-  const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.addPrerequisiteToPrerequisite(input.prerequisiteId, input.parentId, input.label);
-  await refactorings.add(refactoring);
+export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToPrerequisite) => {
+  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  mikakoGraph.addPrerequisiteToPrerequisite(input.prerequisiteId, input.parentId, input.label);
+  await mikadoGraphs.add(mikakoGraph);
 };
 
 export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(inMemoryMikadoGraphs);
 
-export const handleGetRefactoringById = (refactorings: MikadoGraphs) => async (refactoringId: string): Promise<MikadoGraphView> => {
-  const refactoring = await refactorings.get(refactoringId);
-  return refactoring.render();
+export const handleGetRefactoringById = (mikadoGraphs: MikadoGraphs) => async (mikadoGraphId: string): Promise<MikadoGraphView> => {
+  const mikakoGraph = await mikadoGraphs.get(mikadoGraphId);
+  return mikakoGraph.render();
 };
 
 export type CommitChanges = {
@@ -291,10 +291,10 @@ export type CommitChanges = {
   prerequisiteId: string
 };
 
-export const handleCommitChanges = (refactorings: MikadoGraphs) => async (input: CommitChanges) => {
-  const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.commitChanges(input.prerequisiteId);
-  await refactorings.add(refactoring);
+export const handleCommitChanges = (mikadoGraphs: MikadoGraphs) => async (input: CommitChanges) => {
+  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  mikakoGraph.commitChanges(input.prerequisiteId);
+  await mikadoGraphs.add(mikakoGraph);
 };
 
 export const commitChanges = handleCommitChanges(inMemoryMikadoGraphs);
