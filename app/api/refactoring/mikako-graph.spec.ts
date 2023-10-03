@@ -2,7 +2,7 @@ import {
   handleAddPrerequisiteToPrerequisite,
   handleAddPrerequisiteToMikadoGraph,
   handleCommitChanges,
-  handleGetRefactoringById,
+  handleGetMikadoGraphById,
   handleStartExperimentation,
   handleStartRefactoring,
   InMemoryClock,
@@ -140,7 +140,7 @@ describe('Refactoring use cases', () => {
       prerequisites: [{ prerequisiteId, label, status }],
     })]);
 
-    const getRefactoringById = handleGetRefactoringById(refactorings);
+    const getRefactoringById = handleGetMikadoGraphById(refactorings);
 
     expect(await getRefactoringById(refactoringId)).toEqual({
       refactoringId,

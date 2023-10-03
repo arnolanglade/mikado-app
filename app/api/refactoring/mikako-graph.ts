@@ -281,11 +281,6 @@ export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) 
 
 export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(inMemoryMikadoGraphs);
 
-export const handleGetRefactoringById = (mikadoGraphs: MikadoGraphs) => async (mikadoGraphId: string): Promise<MikadoGraphView> => {
-  const mikakoGraph = await mikadoGraphs.get(mikadoGraphId);
-  return mikakoGraph.render();
-};
-
 export type CommitChanges = {
   refactoringId: string
   prerequisiteId: string
@@ -299,17 +294,22 @@ export const handleCommitChanges = (mikadoGraphs: MikadoGraphs) => async (input:
 
 export const commitChanges = handleCommitChanges(inMemoryMikadoGraphs);
 
-export const getRefactoringById = handleGetRefactoringById(inMemoryMikadoGraphs);
+export const handleGetMikadoGraphById = (mikadoGraphs: MikadoGraphs) => async (mikadoGraphId: string): Promise<MikadoGraphView> => {
+  const mikakoGraph = await mikadoGraphs.get(mikadoGraphId);
+  return mikakoGraph.render();
+};
+
+export const getMikadoGraphById = handleGetMikadoGraphById(inMemoryMikadoGraphs);
 
 export type StartExperimentation = {
   prerequisiteId: string
   refactoringId: string
 };
 
-export const handleStartExperimentation = (refactorings: MikadoGraphs, clock: Clock) => async (input: StartExperimentation): Promise<void> => {
-  const refactoring = await refactorings.get(input.refactoringId);
-  refactoring.startExperimentation(input.prerequisiteId, clock.now());
-  await refactorings.add(refactoring);
+export const handleStartExperimentation = (mikadoGraphs: MikadoGraphs, clock: Clock) => async (input: StartExperimentation): Promise<void> => {
+  const mikakoGraph = await mikadoGraphs.get(input.refactoringId);
+  mikakoGraph.startExperimentation(input.prerequisiteId, clock.now());
+  await mikadoGraphs.add(mikakoGraph);
 };
 
 export const startExperimentation = handleStartExperimentation(inMemoryMikadoGraphs, new SystemClock());

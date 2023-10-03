@@ -1,5 +1,5 @@
 import httpClient from '@/lib/http-client';
-import { getRefactoringById, MikadoGraphView as Refactoring } from '@/api/refactoring/mikako-graph';
+import { getMikadoGraphById, MikadoGraphView as Refactoring } from '@/api/refactoring/mikako-graph';
 
 type RefactoringData = {
   goal: string,
@@ -79,7 +79,7 @@ export type RefactoringApi = {
 };
 
 const refactoringApi: RefactoringApi = {
-  getById: async (id: string) => getRefactoringById(id),
+  getById: async (id: string) => getMikadoGraphById(id),
   start: async (goal: string) => {
     const response = await httpClient.post('/api/refactoring', { goal });
     return response.json();
