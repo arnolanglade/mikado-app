@@ -19,7 +19,7 @@ describe('useMikadoGraph', () => {
             refactoringApi: aRefactoringApi({ start: async () => aMikadoGraphView() }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.notification.success.start': 'The mikado graph has been started' },
+          { 'mikado-graph.notification.success.start': 'The mikado graph has been started' },
         ),
       });
 
@@ -314,7 +314,7 @@ describe('useMikadoGraph', () => {
             refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: true }) }),
             useNotification: aNotifier({ success }),
           },
-          { 'refactoring.done': 'Refactoring done' },
+          { 'mikado-graph.done': 'Refactoring done' },
         ),
       });
 

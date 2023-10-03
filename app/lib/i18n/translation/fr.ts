@@ -2,8 +2,8 @@ import { Translations } from '@/lib/i18n/translation';
 
 const translationFr: Translations = {
   test: 'test fr',
-  'refactoring.start': 'Start refactoring',
-  'refactoring.notification.success.start': 'The refactoring has been started',
+  'mikado-graph.start': 'Start refactoring',
+  'mikado-graph.notification.success.start': 'The refactoring has been started',
   'prerequisite.add': 'Add prerequisite',
   'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added',
   'prerequisite.notification.start-experimentation.success': 'The experimentation has started',
