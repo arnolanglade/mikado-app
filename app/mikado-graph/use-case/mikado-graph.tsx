@@ -3,6 +3,7 @@
 import { useServiceContainer } from '@/lib/service-container-context';
 import { useIntl } from '@/lib/i18n/intl-provider';
 import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
+import { Edge, Node } from '@/mikado-graph/mikado-graph';
 
 export function useStartTask() {
   const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
@@ -40,6 +41,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
       notifier.error(translation('notification.error'));
     }
   };
+
   const startExperimentation = async (prerequisiteId: string) => {
     try {
       await mikadoGraphApi.startExperimentation(mikadoGraphView.mikadoGraphId, prerequisiteId);
@@ -74,7 +76,42 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
     }
   };
 
+  const getMikadoGraph = () => {
+    const refactoringNode: Node = {
+      id: mikadoGraphView.mikadoGraphId,
+      type: 'refactoring',
+      data: { goal: mikadoGraphView.goal, done: mikadoGraphView.done, addPrerequisiteToRefactoring: (label: string) => addPrerequisiteToMikadoGraph(label) },
+      position: { x: 0, y: 0 },
+    };
+
+    const prerequisiteNodes = mikadoGraphView.prerequisites.map((prerequisite): Node => ({
+      id: prerequisite.prerequisiteId,
+      type: 'prerequisite',
+      parentId: prerequisite.parentId,
+      data: {
+        label: prerequisite.label,
+        status: prerequisite.status,
+        startExperimentation: () => startExperimentation(prerequisite.prerequisiteId),
+        addPrerequisiteToPrerequisite: (label: string) => addPrerequisiteToPrerequisite(prerequisite.prerequisiteId, label),
+        commitChanges: () => commitChanges(prerequisite.prerequisiteId),
+      },
+      position: { x: 0, y: 100 },
+    }));
+
+    const edges = mikadoGraphView.prerequisites.map((prerequisite): Edge => ({
+      id: `${prerequisite.parentId}-${prerequisite.prerequisiteId}`,
+      source: prerequisite.parentId,
+      target: prerequisite.prerequisiteId,
+    }));
+
+    return {
+      nodes: [refactoringNode, ...prerequisiteNodes],
+      edges,
+    };
+  };
+
   return {
+    getMikadoGraph,
     startExperimentation,
     addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,

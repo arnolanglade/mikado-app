@@ -9,16 +9,10 @@ export default function Page({ mikadoGraphView }: {
   mikadoGraphView: MikadoGraphView
 }) {
   const {
-    addPrerequisiteToMikadoGraph, addPrerequisiteToPrerequisite, startExperimentation, commitChanges,
+    getMikadoGraph,
   } = useMikadoGraph(mikadoGraphView);
 
   return (
-    <MikadoGraph
-      refactoring={mikadoGraphView}
-      onAddPrerequisiteToRefactoring={addPrerequisiteToMikadoGraph}
-      onStartExperimentation={startExperimentation}
-      onAddPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
-      onCommitChanges={commitChanges}
-    />
+    <MikadoGraph mikadoGraph={getMikadoGraph()} />
   );
 }

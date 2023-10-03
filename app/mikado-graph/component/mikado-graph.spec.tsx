@@ -2,28 +2,52 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { aMikadoGraphView, createWrapper } from '@/test/test-utils';
+import { createWrapper } from '@/test/test-utils';
 import MikadoGraph, { PrerequisiteNode, RefactoringNode } from '@/mikado-graph/component/mikado-graph';
 import { Status } from '@/api/mikado-graph/mikako-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
-import { Mock } from 'jest-mock';
 
 describe('MikadoGraph', () => {
   test('The developer sees the refactoring with its prerequisites', async () => {
     render(<MikadoGraph
-      refactoring={aMikadoGraphView({
-        goal: 'Refactor this method',
-        prerequisites: [
-          { label: 'Do this' },
-          { label: 'Do that' },
+      mikadoGraph={{
+        nodes: [
+          {
+            id: uuidv4(),
+            type: 'refactoring',
+            data: { goal: 'Refactor this method', done: false, addPrerequisiteToRefactoring: jest.fn() },
+            position: { x: 0, y: 0 },
+          },
+          {
+            id: uuidv4(),
+            type: 'prerequisite',
+            data: {
+              label: 'Do this',
+              status: Status.TODO,
+              startExperimentation: jest.fn(),
+              addPrerequisiteToPrerequisite: jest.fn(),
+              commitChanges: jest.fn(),
+            },
+            position: { x: 0, y: 0 },
+          },
+          {
+            id: uuidv4(),
+            type: 'prerequisite',
+            data: {
+              label: 'Do that',
+              status: Status.TODO,
+              startExperimentation: jest.fn(),
+              addPrerequisiteToPrerequisite: jest.fn(),
+              commitChanges: jest.fn(),
+            },
+            position: { x: 0, y: 0 },
+          },
+
         ],
-      })}
-      onStartExperimentation={jest.fn()}
-      onAddPrerequisiteToRefactoring={jest.fn()}
-      onAddPrerequisiteToPrerequisite={jest.fn()}
-      onCommitChanges={jest.fn()}
+        edges: [],
+      }}
     />, {
       wrapper: createWrapper(
         {},
@@ -116,7 +140,7 @@ describe('MikadoGraph', () => {
   describe('PrerequisiteNode', () => {
     describe('start experimentation', () => {
       test('The onStartExperimentation callback is called when a developer starts an experimentation', async () => {
-        const onStartExperimentation: Mock<() => () => void> = jest.fn();
+        const onStartExperimentation = jest.fn();
         const prerequisiteId = uuidv4();
         render(<PrerequisiteNode
           id={prerequisiteId}
@@ -124,8 +148,8 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status: Status.TODO,
             startExperimentation: onStartExperimentation,
-            addPrerequisiteToPrerequisite: () => jest.fn(),
-            commitChanges: () => jest.fn(),
+            addPrerequisiteToPrerequisite: jest.fn(),
+            commitChanges: jest.fn(),
           }}
         />, {
           wrapper: createWrapper(
@@ -136,7 +160,7 @@ describe('MikadoGraph', () => {
 
         await userEvent.click(screen.getByText('Start experimentation'));
 
-        expect(onStartExperimentation).toHaveBeenCalledWith(prerequisiteId);
+        expect(onStartExperimentation).toHaveBeenCalled();
       });
 
       test.each([
@@ -175,9 +199,9 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: Status.EXPERIMENTING,
-            startExperimentation: () => jest.fn(),
-            addPrerequisiteToPrerequisite: () => addPrerequisiteToPrerequisite,
-            commitChanges: () => jest.fn(),
+            startExperimentation: jest.fn(),
+            addPrerequisiteToPrerequisite,
+            commitChanges: jest.fn(),
           }}
         />, {
           wrapper: createWrapper({}, {
@@ -220,15 +244,15 @@ describe('MikadoGraph', () => {
 
     describe('commit changes', () => {
       test('The commitChanges callback is called when a developer commit changes', async () => {
-        const commitChanges: Mock<() => () => void> = jest.fn();
+        const commitChanges = jest.fn();
         const prerequisiteId = uuidv4();
         render(<PrerequisiteNode
           id={prerequisiteId}
           data={{
             label: 'Do this',
             status: Status.EXPERIMENTING,
-            startExperimentation: () => jest.fn(),
-            addPrerequisiteToPrerequisite: () => jest.fn(),
+            startExperimentation: jest.fn(),
+            addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges,
           }}
         />, {
@@ -239,7 +263,7 @@ describe('MikadoGraph', () => {
 
         await userEvent.click(screen.getByText('Commit changes'));
 
-        expect(commitChanges).toHaveBeenCalledWith(prerequisiteId);
+        expect(commitChanges).toHaveBeenCalled();
       });
 
       test.each([

@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { MikadoGraphView, Status } from '@/api/mikado-graph/mikako-graph';
+import { Status } from '@/api/mikado-graph/mikako-graph';
 import styles from '@/mikado-graph/[id]/page.module.css';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
-import { mapResponseToRefactoringGraph } from '@/mikado-graph/mikado-graph';
+import { MikadoGraph } from '@/mikado-graph/mikado-graph';
 import { Handle, Position, ReactFlow } from 'reactflow';
+
 import 'reactflow/dist/style.css';
 
 export function RefactoringNode({
@@ -38,9 +39,9 @@ export function PrerequisiteNode({
   data: {
     label: string,
     status: 'experimenting' | 'done' | 'todo',
-    startExperimentation: (prerequisiteId: string) => () => void,
-    addPrerequisiteToPrerequisite: (prerequisiteId: string) => (label: string) => void,
-    commitChanges: (prerequisiteId: string) => () => void,
+    startExperimentation: () => void,
+    addPrerequisiteToPrerequisite: (label: string) => void,
+    commitChanges:() => void,
   }
 }) {
   return (
@@ -57,7 +58,7 @@ export function PrerequisiteNode({
       {status === Status.TODO && (
       <button
         type="button"
-        onClick={startExperimentation(id)}
+        onClick={startExperimentation}
       >
         <Translation id="prerequisite.start-experimentation" />
       </button>
@@ -65,11 +66,11 @@ export function PrerequisiteNode({
       {status === Status.EXPERIMENTING && (
       <>
         <AddPrerequisiteForm
-          onSubmit={addPrerequisiteToPrerequisite(id)}
+          onSubmit={addPrerequisiteToPrerequisite}
         />
         <button
           type="button"
-          onClick={commitChanges(id)}
+          onClick={commitChanges}
         >
           <Translation id="prerequisite.commit-changes" />
         </button>
@@ -80,40 +81,21 @@ export function PrerequisiteNode({
   );
 }
 
-export default function MikadoGraph({
-  refactoring,
-  onAddPrerequisiteToRefactoring,
-  onStartExperimentation,
-  onAddPrerequisiteToPrerequisite,
-  onCommitChanges,
+const nodeTypes = {
+  prerequisite: PrerequisiteNode,
+  refactoring: RefactoringNode,
+};
+
+export default function Graph({
+  mikadoGraph,
 }: {
-  refactoring: MikadoGraphView,
-  onAddPrerequisiteToRefactoring: (label: string) => void,
-  onStartExperimentation: (prerequisiteId: string) => void,
-  onAddPrerequisiteToPrerequisite: (prerequisiteId: string, label: string) => void,
-  onCommitChanges: (prerequisiteId: string) => void,
+  mikadoGraph: MikadoGraph,
 }) {
-  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(label);
-  const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(prerequisiteId, label);
-  const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(prerequisiteId);
-  const commitChanges = (prerequisiteId: string) => () => onCommitChanges(prerequisiteId);
-
-  const { nodes, edges } = mapResponseToRefactoringGraph(
-    refactoring,
-    { addPrerequisiteToRefactoring },
-    { startExperimentation, addPrerequisiteToPrerequisite, commitChanges },
-  );
-
-  const nodeTypes = {
-    prerequisite: PrerequisiteNode,
-    refactoring: RefactoringNode,
-  };
-
   return (
     <div className={styles.dashboard}>
       <ReactFlow
-        nodes={nodes}
-        edges={edges}
+        nodes={mikadoGraph.nodes}
+        edges={mikadoGraph.edges}
         nodeTypes={nodeTypes}
         fitView
       />
