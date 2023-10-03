@@ -3,13 +3,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import StartRefactoringForm from '@/mikado-graph/component/start-refactoring-form';
+import StartTaskForm from '@/mikado-graph/component/start-task-form';
 import { createWrapper } from '@/test/test-utils';
 
-describe('StartRefactoringForm', () => {
+describe('StartTaskForm', () => {
   test('The onSubmit callback is called when the form is submitted', async () => {
     const onSubmit = jest.fn();
-    render(<StartRefactoringForm onSubmit={onSubmit} />, {
+    render(<StartTaskForm onSubmit={onSubmit} />, {
       wrapper: createWrapper(
         {},
         { 'refactoring.start': 'Start refactoring' },
