@@ -3,16 +3,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { aMikadoGraphView, createWrapper } from '@/test/test-utils';
-import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/mikado-graph/component/refactoring-dashboard';
+import MikadoGraph, { PrerequisiteNode, RefactoringNode } from '@/mikado-graph/component/mikado-graph';
 import { Status } from '@/api/mikado-graph/mikako-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
 import { Mock } from 'jest-mock';
 
-describe('RefactoringDashboard', () => {
+describe('MikadoGraph', () => {
   test('The developer sees the refactoring with its prerequisites', async () => {
-    render(<RefactoringDashboard
+    render(<MikadoGraph
       refactoring={aMikadoGraphView({
         goal: 'Refactor this method',
         prerequisites: [

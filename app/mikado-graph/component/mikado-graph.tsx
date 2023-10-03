@@ -80,7 +80,7 @@ export function PrerequisiteNode({
   );
 }
 
-export default function RefactoringDashboard({
+export default function MikadoGraph({
   refactoring,
   onAddPrerequisiteToRefactoring,
   onStartExperimentation,

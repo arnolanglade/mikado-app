@@ -3,7 +3,7 @@
 import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
 import useMikadoGraph from '@/mikado-graph/use-case/mikado-graph';
 import React from 'react';
-import RefactoringDashboard from '@/mikado-graph/component/refactoring-dashboard';
+import MikadoGraph from '@/mikado-graph/component/mikado-graph';
 
 export default function Page({ refactoring }: {
   refactoring: MikadoGraphView
@@ -13,7 +13,7 @@ export default function Page({ refactoring }: {
   } = useMikadoGraph();
 
   return (
-    <RefactoringDashboard
+    <MikadoGraph
       refactoring={refactoring}
       onAddPrerequisiteToRefactoring={addPrerequisiteToMikadoGraph}
       onStartExperimentation={startExperimentation}
