@@ -9,7 +9,7 @@ import {
 import mikadoGraphApi from '@/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 
-describe('start task', () => {
+describe('useStartTask', () => {
   test('The developer is notified after starting a mikado graph that everything went well', async () => {
     const success = jest.fn();
     const { result } = renderHook(useStartTask, {
@@ -73,7 +73,7 @@ describe('useMikadoGraph', () => {
       const success = jest.fn();
       const mikadoGraphId = uuidv4();
       const prerequisiteLabel = 'Do that';
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({ mikadoGraphId })), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToMikadoGraph }),
@@ -84,7 +84,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.addPrerequisiteToMikadoGraph(
-        mikadoGraphId,
         prerequisiteLabel,
       ));
 
@@ -95,7 +94,7 @@ describe('useMikadoGraph', () => {
     test('The mikado graph graph is refresh after adding a prerequisite', async () => {
       const refresh = jest.fn();
 
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToMikadoGraph: async () => aMikadoGraphView() }),
@@ -105,7 +104,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.addPrerequisiteToMikadoGraph(
-        uuidv4(),
         'Do this',
       ));
 
@@ -114,7 +112,7 @@ describe('useMikadoGraph', () => {
 
     test('The developer is notified that something went wrong', async () => {
       const error = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({
@@ -129,7 +127,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.addPrerequisiteToMikadoGraph(
-        uuidv4(),
         'Do this',
       ));
 
@@ -144,7 +141,7 @@ describe('useMikadoGraph', () => {
       const mikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const prerequisiteLabel = 'Do that';
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({ mikadoGraphId })), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToPrerequisite }),
@@ -155,7 +152,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.addPrerequisiteToPrerequisite(
-        mikadoGraphId,
         prerequisiteId,
         prerequisiteLabel,
       ));
@@ -167,7 +163,7 @@ describe('useMikadoGraph', () => {
     test('The mikado graph graph is refresh after adding a prerequisite', async () => {
       const refresh = jest.fn();
 
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToPrerequisite: async () => aMikadoGraphView() }),
@@ -178,7 +174,6 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.addPrerequisiteToPrerequisite(
         uuidv4(),
-        uuidv4(),
         'Do this',
       ));
 
@@ -187,7 +182,7 @@ describe('useMikadoGraph', () => {
 
     test('The developer is notified that something went wrong', async () => {
       const error = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({
@@ -203,7 +198,6 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.addPrerequisiteToPrerequisite(
         uuidv4(),
-        uuidv4(),
         'Do this',
       ));
 
@@ -218,7 +212,7 @@ describe('useMikadoGraph', () => {
       const prerequisiteId = uuidv4();
       const startExperimentation = jest.fn() as jest.Mocked<typeof mikadoGraphApi.startExperimentation>;
 
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({ mikadoGraphId })), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ startExperimentation }),
@@ -229,7 +223,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.startExperimentation(
-        mikadoGraphId,
         prerequisiteId,
       ));
 
@@ -239,7 +232,7 @@ describe('useMikadoGraph', () => {
 
     test('The mikado graph graph is refresh after starting an experimentation', async () => {
       const refresh = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ startExperimentation: async () => aMikadoGraphView() }),
@@ -250,7 +243,6 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.startExperimentation(
         uuidv4(),
-        uuidv4(),
       ));
 
       expect(refresh).toHaveBeenCalled();
@@ -258,7 +250,7 @@ describe('useMikadoGraph', () => {
 
     test('The developer is notified that something went wrong', async () => {
       const error = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({
@@ -274,7 +266,6 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.startExperimentation(
         uuidv4(),
-        uuidv4(),
       ));
 
       expect(error).toHaveBeenCalledWith('Something went wrong');
@@ -287,7 +278,7 @@ describe('useMikadoGraph', () => {
       const mikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
 
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ commitChanges: async () => aMikadoGraphView({ done: false }) }),
@@ -298,7 +289,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.commitChanges(
-        mikadoGraphId,
         prerequisiteId,
       ));
 
@@ -308,7 +298,7 @@ describe('useMikadoGraph', () => {
     test('The developer is notified after commit changes that the mikado graph is done', async () => {
       const success = jest.fn();
 
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ commitChanges: async () => aMikadoGraphView({ done: true }) }),
@@ -320,7 +310,6 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.commitChanges(
         uuidv4(),
-        uuidv4(),
       ));
 
       expect(success).toHaveBeenCalledWith('Mikado Graph done');
@@ -328,7 +317,7 @@ describe('useMikadoGraph', () => {
 
     test('The mikado graph graph is refresh after committing changes', async () => {
       const refresh = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({ commitChanges: async () => aMikadoGraphView() }),
@@ -339,7 +328,6 @@ describe('useMikadoGraph', () => {
 
       await act(() => result.current.commitChanges(
         uuidv4(),
-        uuidv4(),
       ));
 
       expect(refresh).toHaveBeenCalled();
@@ -347,7 +335,7 @@ describe('useMikadoGraph', () => {
 
     test('The developer is notified that something went wrong', async () => {
       const error = jest.fn();
-      const { result } = renderHook(useMikadoGraph, {
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
         wrapper: createWrapper(
           {
             mikadoGraphApi: aMikadoGraphApi({
@@ -362,7 +350,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.commitChanges(
-        uuidv4(),
         uuidv4(),
       ));
 

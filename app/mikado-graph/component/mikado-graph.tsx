@@ -88,15 +88,15 @@ export default function MikadoGraph({
   onCommitChanges,
 }: {
   refactoring: MikadoGraphView,
-  onAddPrerequisiteToRefactoring: (refactoringId: string, label: string) => void,
-  onStartExperimentation: (refactoringId: string, prerequisiteId: string) => void,
-  onAddPrerequisiteToPrerequisite: (refactoringId: string, prerequisiteId: string, label: string) => void,
-  onCommitChanges: (refactoringId: string, prerequisiteId: string) => void,
+  onAddPrerequisiteToRefactoring: (label: string) => void,
+  onStartExperimentation: (prerequisiteId: string) => void,
+  onAddPrerequisiteToPrerequisite: (prerequisiteId: string, label: string) => void,
+  onCommitChanges: (prerequisiteId: string) => void,
 }) {
-  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(refactoring.mikadoGraphId, label);
-  const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(refactoring.mikadoGraphId, prerequisiteId, label);
-  const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(refactoring.mikadoGraphId, prerequisiteId);
-  const commitChanges = (prerequisiteId: string) => () => onCommitChanges(refactoring.mikadoGraphId, prerequisiteId);
+  const addPrerequisiteToRefactoring = (label: string) => onAddPrerequisiteToRefactoring(label);
+  const addPrerequisiteToPrerequisite = (prerequisiteId: string) => (label: string) => onAddPrerequisiteToPrerequisite(prerequisiteId, label);
+  const startExperimentation = (prerequisiteId: string) => () => onStartExperimentation(prerequisiteId);
+  const commitChanges = (prerequisiteId: string) => () => onCommitChanges(prerequisiteId);
 
   const { nodes, edges } = mapResponseToRefactoringGraph(
     refactoring,

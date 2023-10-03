@@ -10,7 +10,7 @@ export default function Page({ mikadoGraphView }: {
 }) {
   const {
     addPrerequisiteToMikadoGraph, addPrerequisiteToPrerequisite, startExperimentation, commitChanges,
-  } = useMikadoGraph();
+  } = useMikadoGraph(mikadoGraphView);
 
   return (
     <MikadoGraph

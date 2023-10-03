@@ -25,24 +25,24 @@ export function useStartTask() {
   };
 }
 
-export default function useMikadoGraph() {
+export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
   const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
   const router = useRouter();
   const notifier = useNotification();
   const { translation } = useIntl();
 
-  const addPrerequisiteToMikadoGraph = async (mikadoGraphId: string, label: string) => {
+  const addPrerequisiteToMikadoGraph = async (label: string) => {
     try {
-      await mikadoGraphApi.addPrerequisiteToMikadoGraph(mikadoGraphId, label);
+      await mikadoGraphApi.addPrerequisiteToMikadoGraph(mikadoGraphView.mikadoGraphId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
       notifier.error(translation('notification.error'));
     }
   };
-  const startExperimentation = async (mikadoGraphId: string, prerequisiteId: string) => {
+  const startExperimentation = async (prerequisiteId: string) => {
     try {
-      await mikadoGraphApi.startExperimentation(mikadoGraphId, prerequisiteId);
+      await mikadoGraphApi.startExperimentation(mikadoGraphView.mikadoGraphId, prerequisiteId);
       notifier.success(translation('prerequisite.notification.start-experimentation.success'));
       router.refresh();
     } catch (e) {
@@ -50,9 +50,9 @@ export default function useMikadoGraph() {
     }
   };
 
-  const addPrerequisiteToPrerequisite = async (mikadoGraphId: string, prerequisiteId: string, label: string) => {
+  const addPrerequisiteToPrerequisite = async (prerequisiteId: string, label: string) => {
     try {
-      await mikadoGraphApi.addPrerequisiteToPrerequisite(mikadoGraphId, prerequisiteId, label);
+      await mikadoGraphApi.addPrerequisiteToPrerequisite(mikadoGraphView.mikadoGraphId, prerequisiteId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -60,9 +60,9 @@ export default function useMikadoGraph() {
     }
   };
 
-  const commitChanges = async (mikadoGraphId: string, prerequisiteId: string) => {
+  const commitChanges = async (prerequisiteId: string) => {
     try {
-      const mikadoGraph = await mikadoGraphApi.commitChanges(mikadoGraphId, prerequisiteId);
+      const mikadoGraph = await mikadoGraphApi.commitChanges(mikadoGraphView.mikadoGraphId, prerequisiteId);
       if (mikadoGraph.done) {
         notifier.success(translation('mikado-graph.done'));
       } else {
