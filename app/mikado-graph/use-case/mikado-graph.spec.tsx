@@ -67,16 +67,16 @@ describe('useMikadoGraph', () => {
     });
   });
 
-  describe('add prerequisite to a refactoring', () => {
+  describe('add prerequisite to a mikado graph', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const addPrerequisiteToRefactoring = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>;
+      const addPrerequisiteToMikadoGraph = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>;
       const success = jest.fn();
       const mikadoGraphId = uuidv4();
       const prerequisiteLabel = 'Do that';
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToMikadoGraph: addPrerequisiteToRefactoring }),
+            mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToMikadoGraph }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
@@ -88,11 +88,11 @@ describe('useMikadoGraph', () => {
         prerequisiteLabel,
       ));
 
-      expect(addPrerequisiteToRefactoring).toHaveBeenCalledWith(mikadoGraphId, prerequisiteLabel);
+      expect(addPrerequisiteToMikadoGraph).toHaveBeenCalledWith(mikadoGraphId, prerequisiteLabel);
       expect(success).toHaveBeenCalledWith('The prerequisite has been added');
     });
 
-    test('The refactoring graph is refresh after adding a prerequisite', async () => {
+    test('The mikado graph graph is refresh after adding a prerequisite', async () => {
       const refresh = jest.fn();
 
       const { result } = renderHook(useMikadoGraph, {
@@ -164,7 +164,7 @@ describe('useMikadoGraph', () => {
       expect(success).toHaveBeenCalledWith('The prerequisite has been added');
     });
 
-    test('The refactoring graph is refresh after adding a prerequisite', async () => {
+    test('The mikado graph graph is refresh after adding a prerequisite', async () => {
       const refresh = jest.fn();
 
       const { result } = renderHook(useMikadoGraph, {
@@ -237,7 +237,7 @@ describe('useMikadoGraph', () => {
       expect(success).toHaveBeenCalledWith('The experimentation has started');
     });
 
-    test('The refactoring graph is refresh after starting an experimentation', async () => {
+    test('The mikado graph graph is refresh after starting an experimentation', async () => {
       const refresh = jest.fn();
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
@@ -305,7 +305,7 @@ describe('useMikadoGraph', () => {
       expect(success).toHaveBeenCalledWith('Changes committed');
     });
 
-    test('The developer is notified after commit changes that the refactoring is done', async () => {
+    test('The developer is notified after commit changes that the mikado graph is done', async () => {
       const success = jest.fn();
 
       const { result } = renderHook(useMikadoGraph, {
@@ -314,7 +314,7 @@ describe('useMikadoGraph', () => {
             mikadoGraphApi: aMikadoGraphApi({ commitChanges: async () => aMikadoGraphView({ done: true }) }),
             useNotification: aNotifier({ success }),
           },
-          { 'mikado-graph.done': 'Refactoring done' },
+          { 'mikado-graph.done': 'Mikado Graph done' },
         ),
       });
 
@@ -323,10 +323,10 @@ describe('useMikadoGraph', () => {
         uuidv4(),
       ));
 
-      expect(success).toHaveBeenCalledWith('Refactoring done');
+      expect(success).toHaveBeenCalledWith('Mikado Graph done');
     });
 
-    test('The refactoring graph is refresh after committing changes', async () => {
+    test('The mikado graph graph is refresh after committing changes', async () => {
       const refresh = jest.fn();
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
