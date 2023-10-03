@@ -5,8 +5,8 @@ import useMikadoGraph from '@/mikado-graph/use-case/mikado-graph';
 import React from 'react';
 import MikadoGraph from '@/mikado-graph/component/mikado-graph';
 
-export default function Page({ mikadoGraph }: {
-  mikadoGraph: MikadoGraphView
+export default function Page({ mikadoGraphView }: {
+  mikadoGraphView: MikadoGraphView
 }) {
   const {
     addPrerequisiteToMikadoGraph, addPrerequisiteToPrerequisite, startExperimentation, commitChanges,
@@ -14,7 +14,7 @@ export default function Page({ mikadoGraph }: {
 
   return (
     <MikadoGraph
-      refactoring={mikadoGraph}
+      refactoring={mikadoGraphView}
       onAddPrerequisiteToRefactoring={addPrerequisiteToMikadoGraph}
       onStartExperimentation={startExperimentation}
       onAddPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}

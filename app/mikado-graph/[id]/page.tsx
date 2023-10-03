@@ -4,11 +4,11 @@ import mikadoGraphApi from '@/mikado-graph/mikado-graph';
 import styles from './page.module.css';
 
 export default async function RefactoringPage({ params: { id } }: { params: { id: string } }) {
-  const mikadoGraph = (await mikadoGraphApi.getById(id));
+  const mikadoGraphView = (await mikadoGraphApi.getById(id));
 
   return (
     <div className={styles.dashboard}>
-      <Page mikadoGraph={mikadoGraph} />
+      <Page mikadoGraphView={mikadoGraphView} />
     </div>
   );
 }
