@@ -2,7 +2,7 @@
 
 import React from 'react';
 import StartRefactoringForm from '@/refactoring/component/start-refactoring-form';
-import useRefactoring from '@/refactoring/use-case/refactoring';
+import useRefactoring from '@/refactoring/use-case/mikado-graph';
 import styles from './page.module.css';
 
 export default function StartRefactoring() {

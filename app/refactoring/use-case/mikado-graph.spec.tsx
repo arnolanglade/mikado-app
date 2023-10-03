@@ -1,7 +1,7 @@
 'use client';
 
 import { act, renderHook } from '@testing-library/react';
-import useRefactoring from '@/refactoring/use-case/refactoring';
+import useRefactoring from '@/refactoring/use-case/mikado-graph';
 import { jest } from '@jest/globals';
 import {
   aNotifier, aRefactoringApi, aMikadoGraphView, aRouter, createWrapper,
