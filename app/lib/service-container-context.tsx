@@ -6,16 +6,16 @@ import React, {
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useRouter } from 'next/navigation';
 import { useNotification, UseNotificationHook } from '@/lib/notification';
-import refactoringApi, { RefactoringApi } from '@/refactoring/mikado-graph';
+import mikadoGraphApi, { MikadoGraphApi } from '@/refactoring/mikado-graph';
 
 export type ServiceContainer = {
-  refactoringApi: RefactoringApi,
+  mikadoGraphApi: MikadoGraphApi,
   useRouter: () => AppRouterInstance
   useNotification: UseNotificationHook
 };
 
 export const container: ServiceContainer = {
-  refactoringApi,
+  mikadoGraphApi,
   useRouter,
   useNotification,
 };

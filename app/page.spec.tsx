@@ -13,7 +13,7 @@ describe('StartRefactoring Page', () => {
     render(<StartRefactoring />, {
       wrapper: createWrapper(
         {
-          refactoringApi: aRefactoringApi({
+          mikadoGraphApi: aRefactoringApi({
             start: async () => aMikadoGraphView({
               refactoringId: '86be6200-1303-48dc-9403-fe497186a0e4',
             }),

@@ -4,7 +4,7 @@ import IntlProvider from '@/lib/i18n/intl-provider';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
-import refactoringApi, { RefactoringApi } from '@/refactoring/mikado-graph';
+import mikadoGraphApi, { MikadoGraphApi } from '@/refactoring/mikado-graph';
 import {
   Goal, Label, Prerequisite, PrerequisiteView, MikakoGraph, MikadoGraphView, Status,
 } from '@/api/mikado-graph/mikako-graph';
@@ -12,13 +12,13 @@ import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';
 
-export const aRefactoringApi = (api: Partial<RefactoringApi> = {}): RefactoringApi => ({
-  getById: jest.fn() as jest.Mocked<typeof refactoringApi.getById>,
-  start: jest.fn() as jest.Mocked<typeof refactoringApi.start>,
-  addPrerequisiteToRefactoringMikadoGraph: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToRefactoringMikadoGraph>,
-  addPrerequisiteToPrerequisite: jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToPrerequisite>,
-  startExperimentation: jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>,
-  commitChanges: jest.fn() as jest.Mocked<typeof refactoringApi.commitChanges>,
+export const aRefactoringApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
+  getById: jest.fn() as jest.Mocked<typeof mikadoGraphApi.getById>,
+  start: jest.fn() as jest.Mocked<typeof mikadoGraphApi.start>,
+  addPrerequisiteToRefactoringMikadoGraph: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToRefactoringMikadoGraph>,
+  addPrerequisiteToPrerequisite: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToPrerequisite>,
+  startExperimentation: jest.fn() as jest.Mocked<typeof mikadoGraphApi.startExperimentation>,
+  commitChanges: jest.fn() as jest.Mocked<typeof mikadoGraphApi.commitChanges>,
   ...api,
 });
 

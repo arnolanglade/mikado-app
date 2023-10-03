@@ -6,7 +6,7 @@ import { jest } from '@jest/globals';
 import {
   aNotifier, aRefactoringApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
-import refactoringApi from '@/refactoring/mikado-graph';
+import mikadoGraphApi from '@/refactoring/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('useMikadoGraph', () => {
@@ -16,7 +16,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ start: async () => aMikadoGraphView() }),
+            mikadoGraphApi: aRefactoringApi({ start: async () => aMikadoGraphView() }),
             useNotification: aNotifier({ success }),
           },
           { 'mikado-graph.notification.success.start': 'The mikado graph has been started' },
@@ -35,7 +35,7 @@ describe('useMikadoGraph', () => {
         wrapper: createWrapper(
           {
             useRouter: aRouter({ push }),
-            refactoringApi: aRefactoringApi({ start: async () => aMikadoGraphView({ refactoringId }) }),
+            mikadoGraphApi: aRefactoringApi({ start: async () => aMikadoGraphView({ refactoringId }) }),
           },
         ),
       });
@@ -50,7 +50,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({
+            mikadoGraphApi: aRefactoringApi({
               start: async () => {
                 throw Error();
               },
@@ -69,14 +69,14 @@ describe('useMikadoGraph', () => {
 
   describe('add prerequisite to a refactoring', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const addPrerequisiteToRefactoring = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToRefactoringMikadoGraph>;
+      const addPrerequisiteToRefactoring = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToRefactoringMikadoGraph>;
       const success = jest.fn();
       const refactoringId = uuidv4();
       const prerequisiteLabel = 'Do that';
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoringMikadoGraph: addPrerequisiteToRefactoring }),
+            mikadoGraphApi: aRefactoringApi({ addPrerequisiteToRefactoringMikadoGraph: addPrerequisiteToRefactoring }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
@@ -98,7 +98,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoringMikadoGraph: async () => aMikadoGraphView() }),
+            mikadoGraphApi: aRefactoringApi({ addPrerequisiteToRefactoringMikadoGraph: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -117,7 +117,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({
+            mikadoGraphApi: aRefactoringApi({
               addPrerequisiteToRefactoringMikadoGraph: async () => {
                 throw Error();
               },
@@ -139,7 +139,7 @@ describe('useMikadoGraph', () => {
 
   describe('add prerequisite to a prerequisite', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const addPrerequisiteToPrerequisite = jest.fn() as jest.Mocked<typeof refactoringApi.addPrerequisiteToPrerequisite>;
+      const addPrerequisiteToPrerequisite = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToPrerequisite>;
       const success = jest.fn();
       const refactoringId = uuidv4();
       const prerequisiteId = uuidv4();
@@ -147,7 +147,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite }),
+            mikadoGraphApi: aRefactoringApi({ addPrerequisiteToPrerequisite }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
@@ -170,7 +170,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => aMikadoGraphView() }),
+            mikadoGraphApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -190,7 +190,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({
+            mikadoGraphApi: aRefactoringApi({
               addPrerequisiteToPrerequisite: async () => {
                 throw Error();
               },
@@ -216,12 +216,12 @@ describe('useMikadoGraph', () => {
       const success = jest.fn();
       const refactoringId = uuidv4();
       const prerequisiteId = uuidv4();
-      const startExperimentation = jest.fn() as jest.Mocked<typeof refactoringApi.startExperimentation>;
+      const startExperimentation = jest.fn() as jest.Mocked<typeof mikadoGraphApi.startExperimentation>;
 
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ startExperimentation }),
+            mikadoGraphApi: aRefactoringApi({ startExperimentation }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.start-experimentation.success': 'The experimentation has started' },
@@ -242,7 +242,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ startExperimentation: async () => aMikadoGraphView() }),
+            mikadoGraphApi: aRefactoringApi({ startExperimentation: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -261,7 +261,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({
+            mikadoGraphApi: aRefactoringApi({
               startExperimentation: async () => {
                 throw Error();
               },
@@ -290,7 +290,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: false }) }),
+            mikadoGraphApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: false }) }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'Changes committed' },
@@ -311,7 +311,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: true }) }),
+            mikadoGraphApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: true }) }),
             useNotification: aNotifier({ success }),
           },
           { 'mikado-graph.done': 'Refactoring done' },
@@ -331,7 +331,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView() }),
+            mikadoGraphApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -350,7 +350,7 @@ describe('useMikadoGraph', () => {
       const { result } = renderHook(useMikadoGraph, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({
+            mikadoGraphApi: aRefactoringApi({
               commitChanges: async () => {
                 throw Error();
               },

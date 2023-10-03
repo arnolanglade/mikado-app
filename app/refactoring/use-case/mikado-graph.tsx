@@ -4,14 +4,14 @@ import { useServiceContainer } from '@/lib/service-container-context';
 import { useIntl } from '@/lib/i18n/intl-provider';
 
 export default function useMikadoGraph() {
-  const { refactoringApi, useRouter, useNotification } = useServiceContainer();
+  const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
   const router = useRouter();
   const notifier = useNotification();
   const { translation } = useIntl();
 
   const startTask = async (goal: string) => {
     try {
-      const { mikadoGraphId } = await refactoringApi.start(goal);
+      const { mikadoGraphId } = await mikadoGraphApi.start(goal);
       notifier.success(translation('mikado-graph.notification.success.start'));
       router.push(`/refactoring/${mikadoGraphId}`);
     } catch (e) {
@@ -21,7 +21,7 @@ export default function useMikadoGraph() {
 
   const addPrerequisiteToMikadoGraph = async (mikadoGraphId: string, label: string) => {
     try {
-      await refactoringApi.addPrerequisiteToRefactoringMikadoGraph(mikadoGraphId, label);
+      await mikadoGraphApi.addPrerequisiteToRefactoringMikadoGraph(mikadoGraphId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -30,7 +30,7 @@ export default function useMikadoGraph() {
   };
   const startExperimentation = async (mikadoGraphId: string, prerequisiteId: string) => {
     try {
-      await refactoringApi.startExperimentation(mikadoGraphId, prerequisiteId);
+      await mikadoGraphApi.startExperimentation(mikadoGraphId, prerequisiteId);
       notifier.success(translation('prerequisite.notification.start-experimentation.success'));
       router.refresh();
     } catch (e) {
@@ -40,7 +40,7 @@ export default function useMikadoGraph() {
 
   const addPrerequisiteToPrerequisite = async (mikadoGraphId: string, prerequisiteId: string, label: string) => {
     try {
-      await refactoringApi.addPrerequisiteToPrerequisite(mikadoGraphId, prerequisiteId, label);
+      await mikadoGraphApi.addPrerequisiteToPrerequisite(mikadoGraphId, prerequisiteId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -50,7 +50,7 @@ export default function useMikadoGraph() {
 
   const commitChanges = async (mikadoGraphId: string, prerequisiteId: string) => {
     try {
-      const mikadoGraph = await refactoringApi.commitChanges(mikadoGraphId, prerequisiteId);
+      const mikadoGraph = await mikadoGraphApi.commitChanges(mikadoGraphId, prerequisiteId);
       if (mikadoGraph.done) {
         notifier.success(translation('mikado-graph.done'));
       } else {
