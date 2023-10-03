@@ -6,11 +6,11 @@ import useMikadoGraph from '@/refactoring/use-case/mikado-graph';
 import styles from './page.module.css';
 
 export default function StartRefactoring() {
-  const { startRefactoring } = useMikadoGraph();
+  const { startTask } = useMikadoGraph();
 
   return (
     <div className={styles.dashboard}>
-      <StartRefactoringForm onSubmit={startRefactoring} />
+      <StartRefactoringForm onSubmit={startTask} />
     </div>
   );
 }

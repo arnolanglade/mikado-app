@@ -9,13 +9,13 @@ export default function Page({ refactoring }: {
   refactoring: MikadoGraphView
 }) {
   const {
-    addPrerequisiteToRefactoring, addPrerequisiteToPrerequisite, startExperimentation, commitChanges,
+    addPrerequisiteToMikadoGraph, addPrerequisiteToPrerequisite, startExperimentation, commitChanges,
   } = useMikadoGraph();
 
   return (
     <RefactoringDashboard
       refactoring={refactoring}
-      onAddPrerequisiteToRefactoring={addPrerequisiteToRefactoring}
+      onAddPrerequisiteToRefactoring={addPrerequisiteToMikadoGraph}
       onStartExperimentation={startExperimentation}
       onAddPrerequisiteToPrerequisite={addPrerequisiteToPrerequisite}
       onCommitChanges={commitChanges}

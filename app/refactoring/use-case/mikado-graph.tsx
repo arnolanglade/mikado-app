@@ -64,8 +64,8 @@ export default function useMikadoGraph() {
 
   return {
     startExperimentation,
-    startRefactoring: startTask,
-    addPrerequisiteToRefactoring: addPrerequisiteToMikadoGraph,
+    startTask,
+    addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,
     commitChanges,
   };

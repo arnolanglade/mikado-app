@@ -54,7 +54,7 @@ describe('mapResponseToRefactoringGraph', () => {
         refactoringId,
         prerequisites: [{ prerequisiteId, label, status }],
       }),
-      { addPrerequisiteToRefactoring: jest.fn() },
+      { addPrerequisiteToMikadoGraph: jest.fn() },
       {
         startExperimentation,
         addPrerequisiteToPrerequisite,
@@ -88,7 +88,7 @@ describe('mapResponseToRefactoringGraph', () => {
           { prerequisiteId: otherPrerequisiteId },
         ],
       }),
-      { addPrerequisiteToRefactoring: jest.fn() },
+      { addPrerequisiteToMikadoGraph: jest.fn() },
       {
         startExperimentation: jest.fn() as Mock<() => () => void>,
         addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,
@@ -115,7 +115,7 @@ describe('mapResponseToRefactoringGraph', () => {
           { prerequisiteId: secondLevelPrerequisiteId, parentId: firstLevelPrerequisiteId },
         ],
       }),
-      { addPrerequisiteToRefactoring: jest.fn() },
+      { addPrerequisiteToMikadoGraph: jest.fn() },
       {
         startExperimentation: jest.fn() as Mock<() => () => void>,
         addPrerequisiteToPrerequisite: jest.fn() as Mock<() => (label: string) => void>,

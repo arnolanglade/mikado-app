@@ -23,7 +23,7 @@ describe('useMikadoGraph', () => {
         ),
       });
 
-      await act(() => result.current.startRefactoring('Refactor method'));
+      await act(() => result.current.startTask('Refactor method'));
 
       expect(success).toHaveBeenCalledWith('The mikado graph has been started');
     });
@@ -40,7 +40,7 @@ describe('useMikadoGraph', () => {
         ),
       });
 
-      await act(() => result.current.startRefactoring('Refactor method'));
+      await act(() => result.current.startTask('Refactor method'));
 
       expect(push).toHaveBeenCalledWith(`/refactoring/${refactoringId}`);
     });
@@ -61,7 +61,7 @@ describe('useMikadoGraph', () => {
         ),
       });
 
-      await act(() => result.current.startRefactoring('Refactor method'));
+      await act(() => result.current.startTask('Refactor method'));
 
       expect(error).toHaveBeenCalledWith('Something went wrong');
     });
@@ -83,7 +83,7 @@ describe('useMikadoGraph', () => {
         ),
       });
 
-      await act(() => result.current.addPrerequisiteToRefactoring(
+      await act(() => result.current.addPrerequisiteToMikadoGraph(
         refactoringId,
         prerequisiteLabel,
       ));
@@ -104,7 +104,7 @@ describe('useMikadoGraph', () => {
         ),
       });
 
-      await act(() => result.current.addPrerequisiteToRefactoring(
+      await act(() => result.current.addPrerequisiteToMikadoGraph(
         uuidv4(),
         'Do this',
       ));
@@ -128,7 +128,7 @@ describe('useMikadoGraph', () => {
         ),
       });
 
-      await act(() => result.current.addPrerequisiteToRefactoring(
+      await act(() => result.current.addPrerequisiteToMikadoGraph(
         uuidv4(),
         'Do this',
       ));
