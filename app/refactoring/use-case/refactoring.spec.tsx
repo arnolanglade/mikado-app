@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react';
 import useRefactoring from '@/refactoring/use-case/refactoring';
 import { jest } from '@jest/globals';
 import {
-  aNotifier, aRefactoringApi, aRefactoringGraph, aRouter, createWrapper,
+  aNotifier, aRefactoringApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
 import refactoringApi from '@/refactoring/refactoring';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +16,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ start: async () => aRefactoringGraph() }),
+            refactoringApi: aRefactoringApi({ start: async () => aMikadoGraphView() }),
             useNotification: aNotifier({ success }),
           },
           { 'refactoring.notification.success.start': 'The refactoring has been started' },
@@ -35,7 +35,7 @@ describe('useRefactoring', () => {
         wrapper: createWrapper(
           {
             useRouter: aRouter({ push }),
-            refactoringApi: aRefactoringApi({ start: async () => aRefactoringGraph({ refactoringId }) }),
+            refactoringApi: aRefactoringApi({ start: async () => aMikadoGraphView({ refactoringId }) }),
           },
         ),
       });
@@ -98,7 +98,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoring: async () => aRefactoringGraph() }),
+            refactoringApi: aRefactoringApi({ addPrerequisiteToRefactoring: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -170,7 +170,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => aRefactoringGraph() }),
+            refactoringApi: aRefactoringApi({ addPrerequisiteToPrerequisite: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -242,7 +242,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ startExperimentation: async () => aRefactoringGraph() }),
+            refactoringApi: aRefactoringApi({ startExperimentation: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),
@@ -290,7 +290,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => aRefactoringGraph({ done: false }) }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: false }) }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'Changes committed' },
@@ -311,7 +311,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => aRefactoringGraph({ done: true }) }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView({ done: true }) }),
             useNotification: aNotifier({ success }),
           },
           { 'refactoring.done': 'Refactoring done' },
@@ -331,7 +331,7 @@ describe('useRefactoring', () => {
       const { result } = renderHook(useRefactoring, {
         wrapper: createWrapper(
           {
-            refactoringApi: aRefactoringApi({ commitChanges: async () => aRefactoringGraph() }),
+            refactoringApi: aRefactoringApi({ commitChanges: async () => aMikadoGraphView() }),
             useRouter: aRouter({ refresh }),
           },
         ),

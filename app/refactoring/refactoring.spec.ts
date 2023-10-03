@@ -1,5 +1,5 @@
 import { mapResponseToRefactoringGraph } from '@/refactoring/refactoring';
-import { aRefactoringGraph } from '@/test/test-utils';
+import { aMikadoGraphView } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 import { Status } from '@/api/mikado-graph/mikako-graph';
 import { Mock } from 'jest-mock';
@@ -13,7 +13,7 @@ describe('mapResponseToRefactoringGraph', () => {
     const addPrerequisiteToRefactoring = jest.fn();
 
     const refactoringGraph = mapResponseToRefactoringGraph(
-      aRefactoringGraph({
+      aMikadoGraphView({
         refactoringId,
         goal,
         done,
@@ -50,7 +50,7 @@ describe('mapResponseToRefactoringGraph', () => {
     const status = Status.TODO;
 
     const refactoringGraph = mapResponseToRefactoringGraph(
-      aRefactoringGraph({
+      aMikadoGraphView({
         refactoringId,
         prerequisites: [{ prerequisiteId, label, status }],
       }),
@@ -81,7 +81,7 @@ describe('mapResponseToRefactoringGraph', () => {
     const otherPrerequisiteId = uuidv4();
 
     const refactoringGraph = mapResponseToRefactoringGraph(
-      aRefactoringGraph({
+      aMikadoGraphView({
         refactoringId,
         prerequisites: [
           { prerequisiteId },
@@ -108,7 +108,7 @@ describe('mapResponseToRefactoringGraph', () => {
     const secondLevelPrerequisiteId = uuidv4();
 
     const refactoringGraph = mapResponseToRefactoringGraph(
-      aRefactoringGraph({
+      aMikadoGraphView({
         refactoringId,
         prerequisites: [
           { prerequisiteId: firstLevelPrerequisiteId },

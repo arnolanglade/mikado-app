@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { aRefactoringGraph, createWrapper } from '@/test/test-utils';
+import { aMikadoGraphView, createWrapper } from '@/test/test-utils';
 import RefactoringDashboard, { PrerequisiteNode, RefactoringNode } from '@/refactoring/component/refactoring-dashboard';
 import { Status } from '@/api/mikado-graph/mikako-graph';
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +13,7 @@ import { Mock } from 'jest-mock';
 describe('RefactoringDashboard', () => {
   test('The developer sees the refactoring with its prerequisites', async () => {
     render(<RefactoringDashboard
-      refactoring={aRefactoringGraph({
+      refactoring={aMikadoGraphView({
         goal: 'Refactor this method',
         prerequisites: [
           { label: 'Do this' },

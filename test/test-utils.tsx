@@ -98,7 +98,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
   );
 };
 
-type PrerequisiteGraphState = {
+type PrerequisiteViewState = {
   prerequisiteId: string
   label: string
   status: Status
@@ -106,14 +106,14 @@ type PrerequisiteGraphState = {
   parentId: string
 };
 
-type RefactoringGraphState = {
+type MikadoGraphViewState = {
   refactoringId: string
   goal: string
   done: boolean
-  prerequisites: Partial<PrerequisiteGraphState>[]
+  prerequisites: Partial<PrerequisiteViewState>[]
 };
 
-export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): MikadoGraphView => ({
+export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): MikadoGraphView => ({
   refactoringId: graph.refactoringId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
   goal: graph.goal ?? 'Refactor this class',
   done: graph.done ?? false,
@@ -126,7 +126,7 @@ export const aRefactoringGraph = (graph: Partial<RefactoringGraphState> = {}): M
   })) ?? [],
 });
 
-export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteGraphState> = {}): PrerequisiteView => ({
+export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteViewState> = {}): PrerequisiteView => ({
   prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
   label: prerequisite.label ?? 'Do this',
   status: prerequisite.status ?? Status.TODO,
