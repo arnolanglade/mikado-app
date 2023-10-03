@@ -4,7 +4,7 @@ import {
   handleCommitChanges,
   handleGetMikadoGraphById,
   handleStartExperimentation,
-  handleStartRefactoring,
+  handleStartTask,
   InMemoryClock,
   InMemoryMikadoGraphs,
   MikakoGraph,
@@ -18,7 +18,7 @@ describe('Refactoring use cases', () => {
   test('The developer starts a refactoring', async () => {
     const refactoringId = uuidv4();
     const refactorings = new InMemoryMikadoGraphs();
-    await handleStartRefactoring(refactorings)({
+    await handleStartTask(refactorings)({
       refactoringId,
       goal: 'Rework that part',
     });

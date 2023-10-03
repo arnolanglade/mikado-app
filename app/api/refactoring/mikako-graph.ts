@@ -241,16 +241,16 @@ export class InMemoryMikadoGraphs implements MikadoGraphs {
 // Todo: Export for the testing purpose
 export const inMemoryMikadoGraphs = new InMemoryMikadoGraphs();
 
-export type StartRefactoring = {
+export type StartTask = {
   refactoringId: string
   goal: string
 };
 
-export const handleStartRefactoring = (refactorings: MikadoGraphs) => async (input: StartRefactoring) => {
-  await refactorings.add(MikakoGraph.start(input.refactoringId, input.goal));
+export const handleStartTask = (mikadoGraphs: MikadoGraphs) => async (input: StartTask) => {
+  await mikadoGraphs.add(MikakoGraph.start(input.refactoringId, input.goal));
 };
 
-export const startRefactoring = handleStartRefactoring(inMemoryMikadoGraphs);
+export const startTask = handleStartTask(inMemoryMikadoGraphs);
 
 export type AddPrerequisiteToMikadoGraph = {
   prerequisiteId: string
