@@ -5,10 +5,10 @@ import { Status } from '@/api/mikado-graph/mikako-graph';
 import styles from '@/mikado-graph/[id]/page.module.css';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
-import { MikadoGraph } from '@/mikado-graph/mikado-graph.api';
 import { Handle, Position, ReactFlow } from 'reactflow';
 
 import 'reactflow/dist/style.css';
+import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 
 export function MikadoGraphNode({
   data: { goal, done, addPrerequisiteToMikadoGraph },

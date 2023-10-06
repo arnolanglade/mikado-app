@@ -3,7 +3,6 @@
 import { useServiceContainer } from '@/lib/service-container-context';
 import { useIntl } from '@/lib/i18n/intl-provider';
 import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
-import { Edge, MikadoGraph, Node } from '@/mikado-graph/mikado-graph.api';
 import Dagre from '@dagrejs/dagre';
 
 export function useStartTask() {
@@ -26,6 +25,38 @@ export function useStartTask() {
     startTask,
   };
 }
+
+export type MikadoGraphData = {
+  goal: string,
+  done: boolean
+  addPrerequisiteToMikadoGraph: (label: string) => void
+};
+export type PrerequisiteData = {
+  label: string,
+  status: 'experimenting' | 'done' | 'todo',
+  startExperimentation: () => void,
+  addPrerequisiteToPrerequisite: (label: string) => void,
+  commitChanges: () => void,
+};
+
+export type Node = {
+  id: string,
+  type: 'mikadoGraph' | 'prerequisite',
+  data: MikadoGraphData | PrerequisiteData,
+  parentId?: string,
+  position: { x: number, y: number }
+};
+
+export type Edge = {
+  id: string,
+  source: string,
+  target: string,
+};
+
+export type MikadoGraph = {
+  nodes: Node[],
+  edges: Edge[],
+};
 
 export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
   const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();

@@ -1,38 +1,6 @@
 import httpClient from '@/lib/http-client';
 import { getMikadoGraphById, MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
 
-type MikadoGraphData = {
-  goal: string,
-  done: boolean
-  addPrerequisiteToMikadoGraph: (label: string) => void
-};
-
-type PrerequisiteData = {
-  label: string,
-  status: 'experimenting' | 'done' | 'todo',
-  startExperimentation: () => void,
-  addPrerequisiteToPrerequisite: (label: string) => void,
-  commitChanges: () => void,
-};
-
-export type Node = {
-  id: string,
-  type: 'mikadoGraph' | 'prerequisite',
-  data: MikadoGraphData | PrerequisiteData,
-  parentId?: string,
-  position: { x: number, y: number }
-};
-export type Edge = {
-  id: string,
-  source: string,
-  target: string,
-};
-
-export type MikadoGraph = {
-  nodes:Node[],
-  edges: Edge[],
-};
-
 export type MikadoGraphApi = {
   getById: (id: string) => Promise<MikadoGraphView>
   start: (goal: string) => Promise<MikadoGraphView>
