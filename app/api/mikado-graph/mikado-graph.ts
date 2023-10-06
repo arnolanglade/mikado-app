@@ -243,8 +243,8 @@ export class MikadoGraph {
     return id === this.id;
   }
 
-  equals(mikakoGraph: MikadoGraph): boolean {
-    return mikakoGraph.id === this.id;
+  equals(mikadoGraph: MikadoGraph): boolean {
+    return mikadoGraph.id === this.id;
   }
 }
 
