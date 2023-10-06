@@ -1,5 +1,5 @@
 import React from 'react';
-import Page from '@/mikado-graph/component/refactoring-page';
+import Page from '@/mikado-graph/component/mikado-graph-page';
 import mikadoGraphApi from '@/mikado-graph/mikado-graph';
 import styles from './page.module.css';
 

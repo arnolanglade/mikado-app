@@ -10,7 +10,7 @@ import { Handle, Position, ReactFlow } from 'reactflow';
 
 import 'reactflow/dist/style.css';
 
-export function RefactoringNode({
+export function MikadoGraphNode({
   data: { goal, done, addPrerequisiteToRefactoring },
 } : {
   data: { goal: string, done: boolean, addPrerequisiteToRefactoring: (label: string) => void },
@@ -83,7 +83,7 @@ export function PrerequisiteNode({
 
 const nodeTypes = {
   prerequisite: PrerequisiteNode,
-  refactoring: RefactoringNode,
+  refactoring: MikadoGraphNode,
 };
 
 export default function Graph({
