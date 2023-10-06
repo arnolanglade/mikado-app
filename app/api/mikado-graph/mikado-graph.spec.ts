@@ -223,6 +223,30 @@ describe('Mikado Graph', () => {
     }));
   });
 
+  it('resets the allChildrenDone flag when a new prerequisite is added', () => {
+    const prerequisiteId = uuidv4();
+    const parentPrerequisiteId = uuidv4();
+    const label = 'Change that';
+    const mikadoGraph = aMikadoGraph({
+      prerequisites: [
+        { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: true },
+        { prerequisiteId, parentId: parentPrerequisiteId, status: Status.DONE },
+      ],
+    });
+
+    mikadoGraph.addPrerequisiteToPrerequisite(prerequisiteId, parentPrerequisiteId, label);
+
+    expect(mikadoGraph).toEqual(aMikadoGraph({
+      prerequisites: [
+        { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: false },
+        { prerequisiteId, parentId: parentPrerequisiteId, status: Status.DONE },
+        {
+          prerequisiteId, parentId: parentPrerequisiteId, label, status: Status.TODO,
+        },
+      ],
+    }));
+  });
+
   it('raises an error if a prerequisite is added to existing prerequisite with an empty label', () => {
     const mikadoGraph = aMikadoGraph({});
 

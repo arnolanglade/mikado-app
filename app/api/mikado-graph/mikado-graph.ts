@@ -104,6 +104,17 @@ export class Prerequisite {
     );
   }
 
+  resetChildrenDone(): Prerequisite {
+    return new Prerequisite(
+      this.prerequisiteId,
+      this.label,
+      this.status,
+      this.parentId,
+      false,
+      this.startedAt,
+    );
+  }
+
   identifyBy(prerequisiteId: string): boolean {
     return prerequisiteId === this.prerequisiteId;
   }
@@ -182,6 +193,9 @@ export class MikadoGraph {
   }
 
   addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
+    this.prerequisites = this.prerequisites
+      .map((prerequisite) => (prerequisite.identifyBy(parentId) ? prerequisite.resetChildrenDone() : prerequisite));
+
     this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, parentId, label)];
   }
 
