@@ -16,7 +16,7 @@ export function MikadoGraphNode({
   data: { goal: string, done: boolean, addPrerequisiteToMikadoGraph: (label: string) => void },
 }) {
   return (
-    <div className={styles.refactoringGoal}>
+    <div className={styles.goal}>
       <p>{goal}</p>
       {done ? <Translation id="prerequisite.done" />
         : <AddPrerequisiteForm onSubmit={addPrerequisiteToMikadoGraph} />}
