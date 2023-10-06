@@ -6,7 +6,7 @@ import { jest } from '@jest/globals';
 import {
   aNotifier, aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
-import mikadoGraphApi from '@/mikado-graph/mikado-graph';
+import mikadoGraphApi from '@/mikado-graph/mikado-graph.api';
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '@/api/mikado-graph/mikako-graph';
 
