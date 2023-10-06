@@ -133,11 +133,14 @@ describe('Mikado Graph use cases', () => {
     const done = false;
     const label = 'Change that';
     const status = Status.TODO;
+    const allChildrenDone = true;
     const mikadoGraphs = new InMemoryMikadoGraphs([aMikadoGraph({
       mikadoGraphId,
       goal,
       done,
-      prerequisites: [{ prerequisiteId, label, status }],
+      prerequisites: [{
+        prerequisiteId, label, status, allChildrenDone,
+      }],
     })]);
 
     const getMikadoGraphById = handleGetMikadoGraphById(mikadoGraphs);
@@ -147,7 +150,7 @@ describe('Mikado Graph use cases', () => {
       goal,
       done,
       prerequisites: [{
-        prerequisiteId, label, status, parentId: mikadoGraphId, startedAt: undefined,
+        prerequisiteId, label, status, parentId: mikadoGraphId, startedAt: undefined, allChildrenDone,
       }],
     });
   });
@@ -371,6 +374,7 @@ describe('Mikado Graph', () => {
           status: Status.TODO,
           startedAt: '2023-07-25T10:24:00.000Z',
           parentId: 'fce08bae-3c28-4d9b-afe9-9ff920605d32',
+          allChildrenDone: true,
         }],
       });
 
@@ -385,6 +389,7 @@ describe('Mikado Graph', () => {
             status: Status.TODO,
             startedAt: '2023-07-25T10:24:00.000Z',
             parentId: 'fce08bae-3c28-4d9b-afe9-9ff920605d32',
+            allChildrenDone: true,
           }],
         });
     });

@@ -44,6 +44,7 @@ export type PrerequisiteView = {
   status: Status,
   startedAt?: string,
   parentId: string,
+  allChildrenDone: boolean,
 };
 
 export class Prerequisite {
@@ -138,6 +139,7 @@ export class Prerequisite {
       status: this.status,
       startedAt: this.startedAt?.toISOString(),
       parentId: this.parentId,
+      allChildrenDone: this.allChildrenDone,
     };
   }
 }
