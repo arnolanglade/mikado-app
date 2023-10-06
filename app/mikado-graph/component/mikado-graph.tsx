@@ -83,7 +83,7 @@ export function PrerequisiteNode({
 
 const nodeTypes = {
   prerequisite: PrerequisiteNode,
-  refactoring: MikadoGraphNode,
+  mikadoGraph: MikadoGraphNode,
 };
 
 export default function Graph({

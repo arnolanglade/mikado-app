@@ -87,7 +87,7 @@ describe('useMikadoGraph', () => {
         nodes: [
           {
             id: mikadoGraphId,
-            type: 'refactoring',
+            type: 'mikadoGraph',
             data: { goal, done, addPrerequisiteToMikadoGraph: expect.any(Function) },
             position: { x: 0, y: 0 },
           },

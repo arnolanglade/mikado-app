@@ -17,7 +17,7 @@ type PrerequisiteData = {
 
 export type Node = {
   id: string,
-  type: 'refactoring' | 'prerequisite',
+  type: 'mikadoGraph' | 'prerequisite',
   data: MikadoGraphData | PrerequisiteData,
   parentId?: string,
   position: { x: number, y: number }

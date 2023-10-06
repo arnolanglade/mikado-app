@@ -16,7 +16,7 @@ describe('MikadoGraph', () => {
         nodes: [
           {
             id: uuidv4(),
-            type: 'refactoring',
+            type: 'mikadoGraph',
             data: { goal: 'Refactor this method', done: false, addPrerequisiteToMikadoGraph: jest.fn() },
             position: { x: 0, y: 0 },
           },

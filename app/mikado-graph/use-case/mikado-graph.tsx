@@ -87,7 +87,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
   const getMikadoGraph = (): MikadoGraph => {
     const refactoringNode: Node = {
       id: mikadoGraphView.mikadoGraphId,
-      type: 'refactoring',
+      type: 'mikadoGraph',
       data: { goal: mikadoGraphView.goal, done: mikadoGraphView.done, addPrerequisiteToMikadoGraph: (label: string) => addPrerequisiteToMikadoGraph(label) },
       position: { x: 0, y: 0 },
     };
