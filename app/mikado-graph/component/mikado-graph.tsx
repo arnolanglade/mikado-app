@@ -30,6 +30,7 @@ export function PrerequisiteNode({
   data: {
     label,
     status,
+    allChildrenDone,
     startExperimentation,
     addPrerequisiteToPrerequisite,
     commitChanges,
@@ -39,6 +40,7 @@ export function PrerequisiteNode({
   data: {
     label: string,
     status: 'experimenting' | 'done' | 'todo',
+    allChildrenDone: boolean,
     startExperimentation: () => void,
     addPrerequisiteToPrerequisite: (label: string) => void,
     commitChanges:() => void,
@@ -68,12 +70,14 @@ export function PrerequisiteNode({
         <AddPrerequisiteForm
           onSubmit={addPrerequisiteToPrerequisite}
         />
-        <button
-          type="button"
-          onClick={commitChanges}
-        >
-          <Translation id="prerequisite.commit-changes" />
-        </button>
+        { allChildrenDone && (
+          <button
+            type="button"
+            onClick={commitChanges}
+          >
+            <Translation id="prerequisite.commit-changes" />
+          </button>
+        )}
       </>
       )}
       <Handle type="source" position={Position.Bottom} />

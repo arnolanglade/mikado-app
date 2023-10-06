@@ -147,6 +147,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: Status.TODO,
+            allChildrenDone: false,
             startExperimentation: onStartExperimentation,
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges: jest.fn(),
@@ -172,6 +173,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status,
+            allChildrenDone: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
@@ -199,6 +201,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: Status.EXPERIMENTING,
+            allChildrenDone: false,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite,
             commitChanges: jest.fn(),
@@ -225,6 +228,7 @@ describe('MikadoGraph', () => {
             data={{
               label: 'Do this',
               status,
+              allChildrenDone: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -251,6 +255,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: Status.EXPERIMENTING,
+            allChildrenDone: true,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges,
@@ -276,6 +281,31 @@ describe('MikadoGraph', () => {
             data={{
               label: 'Do this',
               status,
+              allChildrenDone: false,
+              startExperimentation: () => jest.fn(),
+              addPrerequisiteToPrerequisite: () => jest.fn(),
+              commitChanges: () => jest.fn(),
+            }}
+          />,
+          {
+            wrapper: createWrapper({}, {
+              'prerequisite.add': 'Add prerequisite',
+              'prerequisite.commit-changes': 'Commit changes',
+            }),
+          },
+        );
+
+        expect(screen.queryByText('Commit changes')).not.toBeInTheDocument();
+      });
+
+      test('The start commit changes button is hidden for an experimenting prerequisite that has unfinished children prerequisites', async () => {
+        render(
+          <PrerequisiteNode
+            id={uuidv4()}
+            data={{
+              label: 'Do this',
+              status: 'experimenting',
+              allChildrenDone: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -300,6 +330,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: Status.DONE,
+            allChildrenDone: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
@@ -324,6 +355,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status,
+            allChildrenDone: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),

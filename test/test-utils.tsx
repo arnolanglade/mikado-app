@@ -108,6 +108,7 @@ type PrerequisiteViewState = {
   status: Status
   startedAt: string
   parentId: string
+  allChildrenDone: boolean
 };
 
 type MikadoGraphViewState = {
@@ -127,13 +128,6 @@ export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): Mik
     status: prerequisite.status ?? Status.TODO,
     startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
     parentId: prerequisite.parentId ?? graph.mikadoGraphId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+    allChildrenDone: prerequisite.allChildrenDone ?? false,
   })) ?? [],
-});
-
-export const aPrerequisiteGraph = (prerequisite: Partial<PrerequisiteViewState> = {}): PrerequisiteView => ({
-  prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
-  label: prerequisite.label ?? 'Do this',
-  status: prerequisite.status ?? Status.TODO,
-  startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
-  parentId: prerequisite.parentId ?? uuidv4(),
 });
