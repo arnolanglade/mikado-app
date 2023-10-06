@@ -286,7 +286,7 @@ describe('Mikado Graph', () => {
       }));
     });
 
-    it('finishes the mikado graph after committing the last changes', () => {
+    it('finishes the mikado graph after finishing all prerequisites', () => {
       const prerequisiteId = uuidv4();
       const mikadoGraph = aMikadoGraph({
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
@@ -300,6 +300,26 @@ describe('Mikado Graph', () => {
           prerequisiteId,
           status: Status.DONE,
         }],
+      }));
+    });
+
+    it('finishes the prerequisite after finishing all children prerequisites', () => {
+      const parentPrerequisiteId = uuidv4();
+      const prerequisiteId = uuidv4();
+      const mikadoGraph = aMikadoGraph({
+        prerequisites: [
+          { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: false },
+          { prerequisiteId, parentId: parentPrerequisiteId, status: Status.EXPERIMENTING },
+        ],
+      });
+
+      mikadoGraph.commitChanges(prerequisiteId);
+
+      expect(mikadoGraph).toEqual(aMikadoGraph({
+        prerequisites: [
+          { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: true },
+          { prerequisiteId, parentId: parentPrerequisiteId, status: Status.DONE },
+        ],
       }));
     });
 

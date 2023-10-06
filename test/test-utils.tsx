@@ -73,6 +73,7 @@ type MikadaGraphState = {
     status: Status
     startedAt: string
     parentId: string
+    allChildrenDone: boolean
   }>[]
 };
 
@@ -94,6 +95,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
         prerequisite.parentId ?? newState.mikadoGraphId,
+        prerequisite.allChildrenDone ?? false,
         prerequisite.startedAt ? new Date(prerequisite.startedAt) : undefined,
       ),
     ),

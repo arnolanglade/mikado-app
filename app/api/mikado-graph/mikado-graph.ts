@@ -51,7 +51,8 @@ export class Prerequisite {
     private prerequisiteId: string,
     private label: Label,
     private status: Status,
-    private parentId: string,
+    public parentId: string,
+    private allChildrenDone: boolean,
     private startedAt?: Date,
   ) {
   }
@@ -61,7 +62,13 @@ export class Prerequisite {
     parentId: string,
     label: string,
   ) {
-    return new Prerequisite(prerequisiteId, new Label(label), Status.TODO, parentId);
+    return new Prerequisite(
+      prerequisiteId,
+      new Label(label),
+      Status.TODO,
+      parentId,
+      false,
+    );
   }
 
   start(startedAt: Date): Prerequisite {
@@ -70,6 +77,7 @@ export class Prerequisite {
       this.label,
       Status.EXPERIMENTING,
       this.parentId,
+      this.allChildrenDone,
       startedAt,
     );
   }
@@ -80,12 +88,28 @@ export class Prerequisite {
       this.label,
       Status.DONE,
       this.parentId,
+      this.allChildrenDone,
+      this.startedAt,
+    );
+  }
+
+  allChildrenDone2(): Prerequisite {
+    return new Prerequisite(
+      this.prerequisiteId,
+      this.label,
+      this.status,
+      this.parentId,
+      true,
       this.startedAt,
     );
   }
 
   identifyBy(prerequisiteId: string): boolean {
     return prerequisiteId === this.prerequisiteId;
+  }
+
+  hasParent(parentId: string): boolean {
+    return this.parentId === parentId;
   }
 
   hasStatus(status: Status): boolean {
@@ -174,6 +198,23 @@ export class MikadoGraph {
 
       return prerequisite;
     });
+
+    const prerequisite = this.prerequisites
+      .filter((prerequisite) => prerequisite.identifyBy(prerequisiteId))[0];
+
+    if (!prerequisite.identifyBy(this.id)) {
+      const childrenPrerequisiteUnDone = this.prerequisites
+        .filter((prerequisite) => prerequisite.hasParent(prerequisiteId) && !prerequisite.hasStatus(Status.DONE));
+      if (childrenPrerequisiteUnDone.length === 0) {
+        this.prerequisites = this.prerequisites.map((p) => {
+          if (p.identifyBy(prerequisite.parentId)) {
+            return p.allChildrenDone2();
+          }
+
+          return p;
+        });
+      }
+    }
 
     this.done = done;
   }
