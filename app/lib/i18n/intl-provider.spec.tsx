@@ -22,19 +22,19 @@ describe('Intl module', () => {
     it('returns the correct translation depending on the given key', () => {
       const intl = renderHook(
         () => useIntl(),
-        { wrapper: createWrapper({}, { 'refactoring.start': 'translation message' }) },
+        { wrapper: createWrapper({}, { 'mikado.start': 'translation message' }) },
       );
 
-      expect(intl.result.current.translation('refactoring.start')).toEqual('translation message');
+      expect(intl.result.current.translation('mikado.start')).toEqual('translation message');
     });
 
     it('adds a value to the translation', () => {
       const intl = renderHook(
         () => useIntl(),
-        { wrapper: createWrapper({}, { 'refactoring.start': 'translation {message}' }) },
+        { wrapper: createWrapper({}, { 'mikado.start': 'translation {message}' }) },
       );
 
-      expect(intl.result.current.translation('refactoring.start', { message: 'here is my value' }))
+      expect(intl.result.current.translation('mikado.start', { message: 'here is my value' }))
         .toEqual('translation here is my value');
     });
   });
@@ -42,8 +42,8 @@ describe('Intl module', () => {
   describe('Translation component', () => {
     it('renders the correct translation depending on the given key', () => {
       render(
-        <Translation id="refactoring.start" />,
-        { wrapper: createWrapper({}, { 'refactoring.start': 'translation message' }) },
+        <Translation id="mikado.start" />,
+        { wrapper: createWrapper({}, { 'mikado.start': 'translation message' }) },
       );
 
       expect(screen.getByText('translation message')).toBeTruthy();
@@ -51,8 +51,8 @@ describe('Intl module', () => {
 
     it('adds a value to the translation', () => {
       render(
-        <Translation id="refactoring.start" values={{ message: 'here is my value' }} />,
-        { wrapper: createWrapper({}, { 'refactoring.start': 'translation {message}' }) },
+        <Translation id="mikado.start" values={{ message: 'here is my value' }} />,
+        { wrapper: createWrapper({}, { 'mikado.start': 'translation {message}' }) },
       );
 
       expect(screen.getByText('translation here is my value')).toBeTruthy();
