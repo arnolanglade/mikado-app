@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Status } from '@/api/mikado-graph/mikako-graph';
+import { Status } from '@/api/mikado-graph/mikado-graph';
 import styles from '@/mikado-graph/[id]/page.module.css';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';

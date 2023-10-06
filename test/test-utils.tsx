@@ -6,8 +6,8 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import mikadoGraphApi, { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
 import {
-  Goal, Label, Prerequisite, PrerequisiteView, MikakoGraph, MikadoGraphView, Status,
-} from '@/api/mikado-graph/mikako-graph';
+  Goal, Label, Prerequisite, PrerequisiteView, MikadoGraph, MikadoGraphView, Status,
+} from '@/api/mikado-graph/mikado-graph';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';
@@ -84,7 +84,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
     prerequisites: [],
     ...state,
   };
-  return new MikakoGraph(
+  return new MikadoGraph(
     newState.mikadoGraphId,
     new Goal(newState.goal),
     newState.done,

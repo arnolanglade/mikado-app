@@ -7,10 +7,10 @@ import {
   handleStartTask,
   InMemoryClock,
   InMemoryMikadoGraphs,
-  MikakoGraph,
+  MikadoGraph,
   Status,
   UnknownMikadoGraph,
-} from '@/api/mikado-graph/mikako-graph';
+} from '@/api/mikado-graph/mikado-graph';
 import { aMikadoGraph } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -157,9 +157,9 @@ describe('Mikado Graph', () => {
   it('creates a mikado graph without any prerequisite when a mikado graph is started', () => {
     const mikadoGraphId = uuidv4();
     const goal = 'Rework that part';
-    const mikakoGraph = MikakoGraph.start(mikadoGraphId, goal);
+    const mikadoGraph = MikadoGraph.start(mikadoGraphId, goal);
 
-    expect(mikakoGraph).toEqual(aMikadoGraph({
+    expect(mikadoGraph).toEqual(aMikadoGraph({
       mikadoGraphId,
       goal,
       prerequisites: [],
@@ -167,7 +167,7 @@ describe('Mikado Graph', () => {
   });
 
   it('raises an error if a mikado graph is created with an empty goal', () => {
-    expect(() => MikakoGraph.start(uuidv4(), ''))
+    expect(() => MikadoGraph.start(uuidv4(), ''))
       .toThrow(new Error('The goal cannot be empty'));
   });
 
@@ -175,14 +175,14 @@ describe('Mikado Graph', () => {
     const mikadoGraphId = uuidv4();
     const prerequisiteId = uuidv4();
     const label = 'Change that';
-    const mikakoGraph = aMikadoGraph({
+    const mikadoGraph = aMikadoGraph({
       mikadoGraphId,
       prerequisites: [],
     });
 
-    mikakoGraph.addPrerequisiteToMikadoGraph(prerequisiteId, label);
+    mikadoGraph.addPrerequisiteToMikadoGraph(prerequisiteId, label);
 
-    expect(mikakoGraph).toEqual(aMikadoGraph({
+    expect(mikadoGraph).toEqual(aMikadoGraph({
       mikadoGraphId,
       prerequisites: [{
         prerequisiteId,
@@ -194,9 +194,9 @@ describe('Mikado Graph', () => {
   });
 
   it('raises an error if a prerequisite is added to mikado graph with an empty label', () => {
-    const mikakoGraph = aMikadoGraph({});
+    const mikadoGraph = aMikadoGraph({});
 
-    expect(() => mikakoGraph.addPrerequisiteToMikadoGraph(uuidv4(), ''))
+    expect(() => mikadoGraph.addPrerequisiteToMikadoGraph(uuidv4(), ''))
       .toThrow(new Error('The label cannot be empty'));
   });
 
@@ -205,13 +205,13 @@ describe('Mikado Graph', () => {
     const parentId = uuidv4();
     const label = 'Change that';
     const existingPrerequisite = { prerequisiteId };
-    const mikakoGraph = aMikadoGraph({
+    const mikadoGraph = aMikadoGraph({
       prerequisites: [existingPrerequisite],
     });
 
-    mikakoGraph.addPrerequisiteToPrerequisite(prerequisiteId, parentId, label);
+    mikadoGraph.addPrerequisiteToPrerequisite(prerequisiteId, parentId, label);
 
-    expect(mikakoGraph).toEqual(aMikadoGraph({
+    expect(mikadoGraph).toEqual(aMikadoGraph({
       prerequisites: [
         existingPrerequisite,
         {
@@ -224,23 +224,23 @@ describe('Mikado Graph', () => {
   });
 
   it('raises an error if a prerequisite is added to existing prerequisite with an empty label', () => {
-    const mikakoGraph = aMikadoGraph({});
+    const mikadoGraph = aMikadoGraph({});
 
-    expect(() => mikakoGraph.addPrerequisiteToPrerequisite(uuidv4(), uuidv4(), ''))
+    expect(() => mikadoGraph.addPrerequisiteToPrerequisite(uuidv4(), uuidv4(), ''))
       .toThrow(new Error('The label cannot be empty'));
   });
 
   it('start an experimentation on a todo prerequisite', () => {
     const prerequisiteId = uuidv4();
-    const mikakoGraph = aMikadoGraph({
+    const mikadoGraph = aMikadoGraph({
       prerequisites: [{
         prerequisiteId, status: Status.TODO, startedAt: undefined,
       }],
     });
 
-    mikakoGraph.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00'));
+    mikadoGraph.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00'));
 
-    expect(mikakoGraph).toEqual(aMikadoGraph({
+    expect(mikadoGraph).toEqual(aMikadoGraph({
       prerequisites: [{
         prerequisiteId,
         status: Status.EXPERIMENTING,
@@ -254,13 +254,13 @@ describe('Mikado Graph', () => {
     Status.DONE,
   ])('raises an error if  an experimentation is started on a "%s" prerequisite', async (status) => {
     const prerequisiteId = uuidv4();
-    const mikakoGraph = aMikadoGraph({
+    const mikadoGraph = aMikadoGraph({
       prerequisites: [{
         prerequisiteId, status, startedAt: undefined,
       }],
     });
 
-    expect(() => mikakoGraph.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00')))
+    expect(() => mikadoGraph.startExperimentation(prerequisiteId, new Date('2023-07-25T10:24:00')))
       .toThrow(new Error('You can only start an experimentation an a todo prerequisite'));
   });
 
@@ -268,16 +268,16 @@ describe('Mikado Graph', () => {
     it('commits a change after finishing an experimentation', () => {
       const prerequisiteId = uuidv4();
       const todoPrerequisite = { prerequisiteId: uuidv4(), status: Status.TODO };
-      const mikakoGraph = aMikadoGraph({
+      const mikadoGraph = aMikadoGraph({
         prerequisites: [
           { prerequisiteId, status: Status.EXPERIMENTING },
           todoPrerequisite,
         ],
       });
 
-      mikakoGraph.commitChanges(prerequisiteId);
+      mikadoGraph.commitChanges(prerequisiteId);
 
-      expect(mikakoGraph).toEqual(aMikadoGraph({
+      expect(mikadoGraph).toEqual(aMikadoGraph({
         done: false,
         prerequisites: [
           { prerequisiteId, status: Status.DONE },
@@ -288,13 +288,13 @@ describe('Mikado Graph', () => {
 
     it('finishes the mikado graph after committing the last changes', () => {
       const prerequisiteId = uuidv4();
-      const mikakoGraph = aMikadoGraph({
+      const mikadoGraph = aMikadoGraph({
         prerequisites: [{ prerequisiteId, status: Status.EXPERIMENTING }],
       });
 
-      mikakoGraph.commitChanges(prerequisiteId);
+      mikadoGraph.commitChanges(prerequisiteId);
 
-      expect(mikakoGraph).toEqual(aMikadoGraph({
+      expect(mikadoGraph).toEqual(aMikadoGraph({
         done: true,
         prerequisites: [{
           prerequisiteId,
@@ -308,16 +308,16 @@ describe('Mikado Graph', () => {
       Status.DONE,
     ])('raises an error if changes are committed to a "%s" prerequisite', async (status) => {
       const prerequisiteId = uuidv4();
-      const mikakoGraph = aMikadoGraph({
+      const mikadoGraph = aMikadoGraph({
         prerequisites: [{ prerequisiteId, status }],
       });
 
-      expect(() => mikakoGraph.commitChanges(prerequisiteId))
+      expect(() => mikadoGraph.commitChanges(prerequisiteId))
         .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
     });
 
     it('turns a mikado graph into a format used by the UI to render it', () => {
-      const mikakoGraph = aMikadoGraph({
+      const mikadoGraph = aMikadoGraph({
         mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
         goal: 'My goal',
         done: false,
@@ -330,7 +330,7 @@ describe('Mikado Graph', () => {
         }],
       });
 
-      expect(mikakoGraph.render())
+      expect(mikadoGraph.render())
         .toEqual({
           mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
           goal: 'My goal',
@@ -349,16 +349,16 @@ describe('Mikado Graph', () => {
   describe('identifyBy', () => {
     it('says yes if the given id match the mikado graph id', () => {
       const mikadoGraphId = uuidv4();
-      const mikakoGraph = aMikadoGraph({ mikadoGraphId });
+      const mikadoGraph = aMikadoGraph({ mikadoGraphId });
 
-      expect(mikakoGraph.identifyBy(mikadoGraphId))
+      expect(mikadoGraph.identifyBy(mikadoGraphId))
         .toEqual(true);
     });
 
     it('says no if the given id does not match the mikado graph id', () => {
-      const mikakoGraph = aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const mikadoGraph = aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
-      expect(mikakoGraph.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
+      expect(mikadoGraph.identifyBy('c2e2ddf8-534b-4080-b47c-0f4536b54cae'))
         .toEqual(false);
     });
   });
@@ -366,16 +366,16 @@ describe('Mikado Graph', () => {
   describe('equals', () => {
     it('says yes if the given mikado graph object equals this one', () => {
       const mikadoGraphId = uuidv4();
-      const mikakoGraph = aMikadoGraph({ mikadoGraphId });
+      const mikadoGraph = aMikadoGraph({ mikadoGraphId });
 
-      expect(mikakoGraph.equals(aMikadoGraph({ mikadoGraphId })))
+      expect(mikadoGraph.equals(aMikadoGraph({ mikadoGraphId })))
         .toEqual(true);
     });
 
     it('says no if the given mikado graph object does not equals this one', () => {
-      const mikakoGraph = aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
+      const mikadoGraph = aMikadoGraph({ mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784' });
 
-      expect(mikakoGraph.equals(aMikadoGraph({ mikadoGraphId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
+      expect(mikadoGraph.equals(aMikadoGraph({ mikadoGraphId: 'c2e2ddf8-534b-4080-b47c-0f4536b54cae' })))
         .toEqual(false);
     });
   });

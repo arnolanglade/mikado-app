@@ -123,7 +123,7 @@ export type MikadoGraphView = {
   prerequisites: PrerequisiteView[]
 };
 
-export class MikakoGraph {
+export class MikadoGraph {
   constructor(
     private id: string,
     private goal: Goal,
@@ -132,7 +132,7 @@ export class MikakoGraph {
   ) {}
 
   static start(id: string, goal: string) {
-    return new MikakoGraph(id, new Goal(goal), false, []);
+    return new MikadoGraph(id, new Goal(goal), false, []);
   }
 
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
@@ -191,7 +191,7 @@ export class MikakoGraph {
     return id === this.id;
   }
 
-  equals(mikakoGraph: MikakoGraph): boolean {
+  equals(mikakoGraph: MikadoGraph): boolean {
     return mikakoGraph.id === this.id;
   }
 }
@@ -204,14 +204,14 @@ export class UnknownMikadoGraph extends Error {
 
 // Todo: Export for the frontend, do we need to duplicate?
 export interface MikadoGraphs {
-  get(id: string): Promise<MikakoGraph>
-  add(mikakoGraph: MikakoGraph): Promise<void>
+  get(id: string): Promise<MikadoGraph>
+  add(mikakoGraph: MikadoGraph): Promise<void>
 }
 
 export class InMemoryMikadoGraphs implements MikadoGraphs {
-  constructor(private mikakoGraphs: MikakoGraph[] = []) {}
+  constructor(private mikakoGraphs: MikadoGraph[] = []) {}
 
-  async get(id: string): Promise<MikakoGraph> {
+  async get(id: string): Promise<MikadoGraph> {
     const matchingMikadoGraph = this.mikakoGraphs
       .filter((mikadoGraph) => mikadoGraph.identifyBy(id));
 
@@ -222,7 +222,7 @@ export class InMemoryMikadoGraphs implements MikadoGraphs {
     return matchingMikadoGraph[0];
   }
 
-  async add(mikakoGraph: MikakoGraph): Promise<void> {
+  async add(mikakoGraph: MikadoGraph): Promise<void> {
     let isMikadoGraphFound = false;
     this.mikakoGraphs = this.mikakoGraphs.map((currentMikadoGraph) => {
       if (currentMikadoGraph.equals(mikakoGraph)) {
@@ -247,7 +247,7 @@ export type StartTask = {
 };
 
 export const handleStartTask = (mikadoGraphs: MikadoGraphs) => async (input: StartTask) => {
-  await mikadoGraphs.add(MikakoGraph.start(input.mikadoGraphId, input.goal));
+  await mikadoGraphs.add(MikadoGraph.start(input.mikadoGraphId, input.goal));
 };
 
 export const startTask = handleStartTask(inMemoryMikadoGraphs);

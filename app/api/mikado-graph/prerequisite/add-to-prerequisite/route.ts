@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import {
   addPrerequisiteToPrerequisite, getMikadoGraphById,
-} from '@/api/mikado-graph/mikako-graph';
+} from '@/api/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line import/prefer-default-export

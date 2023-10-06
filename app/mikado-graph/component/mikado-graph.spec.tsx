@@ -4,7 +4,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { createWrapper } from '@/test/test-utils';
 import MikadoGraph, { PrerequisiteNode, MikadoGraphNode } from '@/mikado-graph/component/mikado-graph';
-import { Status } from '@/api/mikado-graph/mikako-graph';
+import { Status } from '@/api/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';

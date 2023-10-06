@@ -2,7 +2,7 @@
 
 import { useServiceContainer } from '@/lib/service-container-context';
 import { useIntl } from '@/lib/i18n/intl-provider';
-import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
+import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
 import Dagre from '@dagrejs/dagre';
 
 export function useStartTask() {
