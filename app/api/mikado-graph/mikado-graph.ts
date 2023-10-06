@@ -93,7 +93,7 @@ export class Prerequisite {
     );
   }
 
-  allChildrenDone2(): Prerequisite {
+  childrenDone(): Prerequisite {
     return new Prerequisite(
       this.prerequisiteId,
       this.label,
@@ -108,8 +108,12 @@ export class Prerequisite {
     return prerequisiteId === this.prerequisiteId;
   }
 
-  hasParent(parentId: string): boolean {
-    return this.parentId === parentId;
+  isParent(prerequisite: Prerequisite): boolean {
+    return this.prerequisiteId === prerequisite.parentId;
+  }
+
+  hasParent(prerequisite: Prerequisite): boolean {
+    return this.parentId === prerequisite.parentId;
   }
 
   hasStatus(status: Status): boolean {
@@ -200,20 +204,13 @@ export class MikadoGraph {
     });
 
     const prerequisite = this.prerequisites
-      .filter((prerequisite) => prerequisite.identifyBy(prerequisiteId))[0];
+      .filter((p) => p.identifyBy(prerequisiteId))[0];
 
-    if (!prerequisite.identifyBy(this.id)) {
-      const childrenPrerequisiteUnDone = this.prerequisites
-        .filter((prerequisite) => prerequisite.hasParent(prerequisiteId) && !prerequisite.hasStatus(Status.DONE));
-      if (childrenPrerequisiteUnDone.length === 0) {
-        this.prerequisites = this.prerequisites.map((p) => {
-          if (p.identifyBy(prerequisite.parentId)) {
-            return p.allChildrenDone2();
-          }
+    const childrenPrerequisiteUnDone = this.prerequisites
+      .filter((p) => p.hasParent(prerequisite) && !p.hasStatus(Status.DONE));
 
-          return p;
-        });
-      }
+    if (childrenPrerequisiteUnDone.length === 0) {
+      this.prerequisites = this.prerequisites.map((p) => (p.isParent(prerequisite) ? p.childrenDone() : p));
     }
 
     this.done = done;
