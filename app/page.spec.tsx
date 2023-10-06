@@ -7,8 +7,8 @@ import {
 } from '@/test/test-utils';
 import { jest } from '@jest/globals';
 
-describe('StartRefactoring Page', () => {
-  test('The developer provides a goal to start a refactoring', async () => {
+describe('StartTask Page (SSR)', () => {
+  test('The developer provides a goal to start a task', async () => {
     const push = jest.fn();
     render(<StartTask />, {
       wrapper: createWrapper(

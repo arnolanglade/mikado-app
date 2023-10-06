@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
 
 describe('MikadoGraph', () => {
-  test('The developer sees the refactoring with its prerequisites', async () => {
+  test('The developer sees the mikado graph with its prerequisites', async () => {
     render(<MikadoGraph
       mikadoGraph={{
         nodes: [
@@ -61,8 +61,8 @@ describe('MikadoGraph', () => {
   });
 
   describe('MikadoGraphNode', () => {
-    describe('Add prerequisite to a refactoring', () => {
-      test('The onAddPrerequisite callback is called when a developer add a prerequisite to a refactoring', async () => {
+    describe('Add prerequisite to a mikado graph', () => {
+      test('The onAddPrerequisite callback is called when a developer add a prerequisite to a mikado graph', async () => {
         const addPrerequisiteToMikadoGraph = jest.fn();
         const label = 'Refactor method';
         render(<MikadoGraphNode
@@ -80,7 +80,7 @@ describe('MikadoGraph', () => {
         expect(addPrerequisiteToMikadoGraph).toHaveBeenCalledWith(label);
       });
 
-      test('The prerequisite addition form is displayed while the refactoring is not finished', async () => {
+      test('The prerequisite addition form is displayed while the mikado graph is not finished', async () => {
         render(<MikadoGraphNode
           data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
@@ -93,7 +93,7 @@ describe('MikadoGraph', () => {
         expect(screen.getByText('Add prerequisite')).toBeInTheDocument();
       });
 
-      test('The prerequisite addition form is hidden when the refactoring is finished', async () => {
+      test('The prerequisite addition form is hidden when the mikado graph is finished', async () => {
         render(<MikadoGraphNode
           data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
@@ -108,7 +108,7 @@ describe('MikadoGraph', () => {
     });
 
     describe('"done" notice', () => {
-      test('A "done" notice is displayed when the refactoring is done', async () => {
+      test('A "done" notice is displayed when the mikado graph is done', async () => {
         render(<MikadoGraphNode
           data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
@@ -120,7 +120,7 @@ describe('MikadoGraph', () => {
         ).toBeInTheDocument();
       });
 
-      test('A "done" notice is hidden when the refactoring is a WIP', async () => {
+      test('A "done" notice is hidden when the mikado graph is a WIP', async () => {
         render(<MikadoGraphNode
           data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {

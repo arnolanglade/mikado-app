@@ -69,7 +69,7 @@ describe('useStartTask', () => {
 
 describe('useMikadoGraph', () => {
   describe('get mikado graph', () => {
-    test('the first node of the refactoring graph contains the refactoring information', async () => {
+    test('the first node of the mikado graph contains the mikado graph information', async () => {
       const goal = 'goal';
       const mikadoGraphId = uuidv4();
       const done = false;
@@ -97,13 +97,13 @@ describe('useMikadoGraph', () => {
     });
 
     test('the next nodes contain the prerequisite information', async () => {
-      const refactoringId = uuidv4();
+      const MikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const label = 'label';
       const status = Status.TODO;
 
       const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({
-        mikadoGraphId: refactoringId,
+        mikadoGraphId: MikadoGraphId,
         prerequisites: [{ prerequisiteId, label, status }],
       })), {
         wrapper: createWrapper({}, {}),
@@ -112,7 +112,7 @@ describe('useMikadoGraph', () => {
       expect(result.current.getMikadoGraph().nodes[1]).toEqual({
         id: prerequisiteId,
         type: 'prerequisite',
-        parentId: refactoringId,
+        parentId: MikadoGraphId,
         data: {
           label,
           status,
@@ -124,13 +124,13 @@ describe('useMikadoGraph', () => {
       });
     });
 
-    test('it computes edges between refactoring and its prerequisite children', async () => {
-      const refactoringId = uuidv4();
+    test('it computes edges between mikado graph goal and its prerequisite children', async () => {
+      const MikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const otherPrerequisiteId = uuidv4();
 
       const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({
-        mikadoGraphId: refactoringId,
+        mikadoGraphId: MikadoGraphId,
         prerequisites: [
           { prerequisiteId },
           { prerequisiteId: otherPrerequisiteId },
@@ -140,18 +140,18 @@ describe('useMikadoGraph', () => {
       });
 
       expect(result.current.getMikadoGraph().edges).toEqual([
-        { id: `${refactoringId}-${prerequisiteId}`, source: refactoringId, target: prerequisiteId },
-        { id: `${refactoringId}-${otherPrerequisiteId}`, source: refactoringId, target: otherPrerequisiteId },
+        { id: `${MikadoGraphId}-${prerequisiteId}`, source: MikadoGraphId, target: prerequisiteId },
+        { id: `${MikadoGraphId}-${otherPrerequisiteId}`, source: MikadoGraphId, target: otherPrerequisiteId },
       ]);
     });
 
     test('it computes edges between prerequisites and its prerequisites children', async () => {
-      const refactoringId = uuidv4();
+      const MikadoGraphId = uuidv4();
       const firstLevelPrerequisiteId = uuidv4();
       const secondLevelPrerequisiteId = uuidv4();
 
       const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({
-        mikadoGraphId: refactoringId,
+        mikadoGraphId: MikadoGraphId,
         prerequisites: [
           { prerequisiteId: firstLevelPrerequisiteId },
           { prerequisiteId: secondLevelPrerequisiteId, parentId: firstLevelPrerequisiteId },
@@ -161,7 +161,7 @@ describe('useMikadoGraph', () => {
       });
 
       expect(result.current.getMikadoGraph().edges).toEqual([
-        { id: `${refactoringId}-${firstLevelPrerequisiteId}`, source: refactoringId, target: firstLevelPrerequisiteId },
+        { id: `${MikadoGraphId}-${firstLevelPrerequisiteId}`, source: MikadoGraphId, target: firstLevelPrerequisiteId },
         { id: `${firstLevelPrerequisiteId}-${secondLevelPrerequisiteId}`, source: firstLevelPrerequisiteId, target: secondLevelPrerequisiteId },
       ]);
     });

@@ -85,7 +85,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
   };
 
   const getMikadoGraph = (): MikadoGraph => {
-    const refactoringNode: Node = {
+    const mikadoGraphNode: Node = {
       id: mikadoGraphView.mikadoGraphId,
       type: 'mikadoGraph',
       data: { goal: mikadoGraphView.goal, done: mikadoGraphView.done, addPrerequisiteToMikadoGraph: (label: string) => addPrerequisiteToMikadoGraph(label) },
@@ -122,7 +122,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
 
     Dagre.layout(dagreGraph);
 
-    const nodes = [refactoringNode, ...prerequisiteNodes].map((node) => {
+    const nodes = [mikadoGraphNode, ...prerequisiteNodes].map((node) => {
       const { x, y } = dagreGraph.node(node.id);
       return {
         ...node,
