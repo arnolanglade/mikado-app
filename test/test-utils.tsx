@@ -11,6 +11,7 @@ import {
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';
+import { ToastContainer } from 'react-toastify';
 
 export const aMikadoGraphApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
   getById: jest.fn() as jest.Mocked<typeof mikadoGraphApi.getById>,
@@ -55,6 +56,7 @@ export const createWrapper = (
       <IntlProvider overriddenTranslations={translations}>
         <ServiceContainerProvider overriddenContainer={aServiceContainer(serviceContainer)}>
           {children}
+          <ToastContainer />
         </ServiceContainerProvider>
       </IntlProvider>
     </ReactFlowProvider>
