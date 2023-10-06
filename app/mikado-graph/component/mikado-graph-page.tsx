@@ -1,7 +1,7 @@
 'use client';
 
 import { MikadoGraphView } from '@/api/mikado-graph/mikako-graph';
-import useMikadoGraph from '@/mikado-graph/use-case/mikado-graph';
+import useMikadoGraph from '@/mikado-graph/mikado-graph.usecase';
 import React from 'react';
 import MikadoGraph from '@/mikado-graph/component/mikado-graph';
 

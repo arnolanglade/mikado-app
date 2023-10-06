@@ -1,7 +1,7 @@
 'use client';
 
 import { act, renderHook } from '@testing-library/react';
-import useMikadoGraph, { useStartTask } from '@/mikado-graph/use-case/mikado-graph';
+import useMikadoGraph, { useStartTask } from '@/mikado-graph/mikado-graph.usecase';
 import { jest } from '@jest/globals';
 import {
   aNotifier, aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
