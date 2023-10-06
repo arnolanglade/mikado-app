@@ -88,7 +88,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
     const refactoringNode: Node = {
       id: mikadoGraphView.mikadoGraphId,
       type: 'refactoring',
-      data: { goal: mikadoGraphView.goal, done: mikadoGraphView.done, addPrerequisiteToRefactoring: (label: string) => addPrerequisiteToMikadoGraph(label) },
+      data: { goal: mikadoGraphView.goal, done: mikadoGraphView.done, addPrerequisiteToMikadoGraph: (label: string) => addPrerequisiteToMikadoGraph(label) },
       position: { x: 0, y: 0 },
     };
     dagreGraph.setNode(mikadoGraphView.mikadoGraphId, { width: nodeWidth, height: nodeHeight });

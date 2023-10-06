@@ -11,15 +11,15 @@ import { Handle, Position, ReactFlow } from 'reactflow';
 import 'reactflow/dist/style.css';
 
 export function MikadoGraphNode({
-  data: { goal, done, addPrerequisiteToRefactoring },
+  data: { goal, done, addPrerequisiteToMikadoGraph },
 } : {
-  data: { goal: string, done: boolean, addPrerequisiteToRefactoring: (label: string) => void },
+  data: { goal: string, done: boolean, addPrerequisiteToMikadoGraph: (label: string) => void },
 }) {
   return (
     <div className={styles.refactoringGoal}>
       <p>{goal}</p>
       {done ? <Translation id="prerequisite.done" />
-        : <AddPrerequisiteForm onSubmit={addPrerequisiteToRefactoring} />}
+        : <AddPrerequisiteForm onSubmit={addPrerequisiteToMikadoGraph} />}
       <Handle type="source" position={Position.Bottom} />
     </div>
   );

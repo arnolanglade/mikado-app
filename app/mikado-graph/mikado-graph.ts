@@ -4,7 +4,7 @@ import { getMikadoGraphById, MikadoGraphView } from '@/api/mikado-graph/mikako-g
 type MikadoGraphData = {
   goal: string,
   done: boolean
-  addPrerequisiteToRefactoring: (label: string) => void
+  addPrerequisiteToMikadoGraph: (label: string) => void
 };
 
 type PrerequisiteData = {
