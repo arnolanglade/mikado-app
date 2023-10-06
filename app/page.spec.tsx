@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import StartRefactoring from '@/page';
+import StartTask from '@/page';
 import {
   aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
@@ -10,7 +10,7 @@ import { jest } from '@jest/globals';
 describe('StartRefactoring Page', () => {
   test('The developer provides a goal to start a refactoring', async () => {
     const push = jest.fn();
-    render(<StartRefactoring />, {
+    render(<StartTask />, {
       wrapper: createWrapper(
         {
           mikadoGraphApi: aMikadoGraphApi({
