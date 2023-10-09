@@ -165,6 +165,16 @@ describe('Prerequisite List', () => {
 
     expect(newList).toEqual(new PrerequisiteList([prerequisite]));
   });
+
+  it('gets a prerequisite with its id', () => {
+    const prerequisiteId = uuidv4();
+    const prerequisite = aPrerequisite({ prerequisiteId });
+    const list = new PrerequisiteList([prerequisite]);
+
+    const foundPrerequisite = list.get(prerequisiteId);
+
+    expect(foundPrerequisite).toEqual(prerequisite);
+  });
 });
 
 describe('Mikado Graph', () => {

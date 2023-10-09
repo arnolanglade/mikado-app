@@ -25,6 +25,13 @@ export class PrerequisiteList {
   add(prerequisite: Prerequisite): PrerequisiteList {
     return new PrerequisiteList([...this.prerequisites, prerequisite]);
   }
+
+  get(id: string): Prerequisite {
+    const matchingPrerequisites = this.prerequisites
+      .filter((prerequisite) => prerequisite.identifyBy(id));
+
+    return matchingPrerequisites[0];
+  }
 }
 
 export class Label {
