@@ -30,6 +30,10 @@ export class PrerequisiteList {
     const matchingPrerequisites = this.prerequisites
       .filter((prerequisite) => prerequisite.identifyBy(id));
 
+    if (matchingPrerequisites.length !== 1) {
+      throw new Error(`The prerequisite with the id ${id} does not exist`);
+    }
+
     return matchingPrerequisites[0];
   }
 }
