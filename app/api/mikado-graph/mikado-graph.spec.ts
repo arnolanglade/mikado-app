@@ -195,6 +195,18 @@ describe('Prerequisite List', () => {
 
     expect(newList).toEqual(new PrerequisiteList([newPrerequisite]));
   });
+
+  it('replaces the parent prerequisite by another one', () => {
+    const parentPrerequisiteId = uuidv4();
+    const parentPrerequisite = aPrerequisite({ prerequisiteId: parentPrerequisiteId });
+    const prerequisite = aPrerequisite({ parentId: parentPrerequisiteId });
+    const list = new PrerequisiteList([prerequisite, parentPrerequisite]);
+
+    const newParentPrerequisite = aPrerequisite({ prerequisiteId: parentPrerequisiteId, label: 'new label' });
+    const newList = list.replaceParent(prerequisite, newParentPrerequisite);
+
+    expect(newList).toEqual(new PrerequisiteList([prerequisite, newParentPrerequisite]));
+  });
 });
 
 describe('Mikado Graph', () => {

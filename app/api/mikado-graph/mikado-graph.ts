@@ -43,6 +43,13 @@ export class PrerequisiteList {
         .map((currentPrerequisite) => (currentPrerequisite.identifyBy(prerequisiteId) ? prerequisite : currentPrerequisite)),
     );
   }
+
+  replaceParent(prerequisite: Prerequisite, newParentPrerequisite: Prerequisite): PrerequisiteList {
+    return new PrerequisiteList(
+      this.prerequisites
+        .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? newParentPrerequisite : currentPrerequisite)),
+    );
+  }
 }
 
 export class Label {
