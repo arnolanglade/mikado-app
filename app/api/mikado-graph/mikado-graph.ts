@@ -18,44 +18,6 @@ export class SystemClock implements Clock {
   }
 }
 
-export class PrerequisiteList {
-  constructor(private prerequisites: Prerequisite[] = []) {
-  }
-
-  add(prerequisite: Prerequisite): PrerequisiteList {
-    return new PrerequisiteList([...this.prerequisites, prerequisite]);
-  }
-
-  find(callback: (prerequisite: Prerequisite) => boolean): Prerequisite {
-    const matchingPrerequisites = this.prerequisites
-      .filter(callback);
-
-    if (matchingPrerequisites.length !== 1) {
-      throw new Error('The prerequisite does not exist');
-    }
-
-    return matchingPrerequisites[0];
-  }
-
-  replace(prerequisiteId: string, prerequisite: Prerequisite): PrerequisiteList {
-    return new PrerequisiteList(
-      this.prerequisites
-        .map((currentPrerequisite) => (currentPrerequisite.identifyBy(prerequisiteId) ? prerequisite : currentPrerequisite)),
-    );
-  }
-
-  replaceParent(prerequisite: Prerequisite, newParentPrerequisite: Prerequisite): PrerequisiteList {
-    return new PrerequisiteList(
-      this.prerequisites
-        .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? newParentPrerequisite : currentPrerequisite)),
-    );
-  }
-
-  isDone(): boolean {
-    return true;
-  }
-}
-
 export class Label {
   constructor(private label: string) {
     if (label === '') {
@@ -191,6 +153,44 @@ export class Goal {
 
   toString() {
     return this.goal;
+  }
+}
+
+export class PrerequisiteList {
+  constructor(private prerequisites: Prerequisite[] = []) {
+  }
+
+  add(prerequisite: Prerequisite): PrerequisiteList {
+    return new PrerequisiteList([...this.prerequisites, prerequisite]);
+  }
+
+  find(callback: (prerequisite: Prerequisite) => boolean): Prerequisite {
+    const matchingPrerequisites = this.prerequisites
+      .filter(callback);
+
+    if (matchingPrerequisites.length !== 1) {
+      throw new Error('The prerequisite does not exist');
+    }
+
+    return matchingPrerequisites[0];
+  }
+
+  replace(prerequisiteId: string, prerequisite: Prerequisite): PrerequisiteList {
+    return new PrerequisiteList(
+      this.prerequisites
+        .map((currentPrerequisite) => (currentPrerequisite.identifyBy(prerequisiteId) ? prerequisite : currentPrerequisite)),
+    );
+  }
+
+  replaceParent(prerequisite: Prerequisite, newParentPrerequisite: Prerequisite): PrerequisiteList {
+    return new PrerequisiteList(
+      this.prerequisites
+        .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? newParentPrerequisite : currentPrerequisite)),
+    );
+  }
+
+  isDone(): boolean {
+    return this.prerequisites.every((prerequisite) => prerequisite.hasStatus(Status.DONE));
   }
 }
 

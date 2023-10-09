@@ -210,7 +210,7 @@ describe('Prerequisite List', () => {
   });
 
   describe('isDone method', () => {
-    it('says yes if all prerequisite are done', () => {
+    it('says yes if all prerequisites are done', () => {
       const parentPrerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.DONE });
       const prerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.DONE });
       const list = new PrerequisiteList([prerequisite, parentPrerequisite]);
@@ -218,6 +218,16 @@ describe('Prerequisite List', () => {
       list.isDone();
 
       expect(list.isDone()).toBe(true);
+    });
+
+    it('says no if all prerequisites are not done', () => {
+      const parentPrerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.DONE });
+      const prerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.TODO });
+      const list = new PrerequisiteList([prerequisite, parentPrerequisite]);
+
+      list.isDone();
+
+      expect(list.isDone()).toBe(false);
     });
   });
 });
