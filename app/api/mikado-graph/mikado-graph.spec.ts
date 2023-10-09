@@ -9,9 +9,9 @@ import {
   InMemoryMikadoGraphs,
   MikadoGraph,
   Status,
-  UnknownMikadoGraph,
+  UnknownMikadoGraph, PrerequisiteList,
 } from '@/api/mikado-graph/mikado-graph';
-import { aMikadoGraph } from '@/test/test-utils';
+import { aMikadoGraph, aPrerequisite } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('Mikado Graph use cases', () => {
@@ -153,6 +153,17 @@ describe('Mikado Graph use cases', () => {
         prerequisiteId, label, status, parentId: mikadoGraphId, startedAt: undefined, allChildrenDone,
       }],
     });
+  });
+});
+
+describe('Prerequisite List', () => {
+  it('adds a new prerequisite to the list', () => {
+    const list = new PrerequisiteList();
+    const prerequisite = aPrerequisite();
+
+    const newList = list.add(prerequisite);
+
+    expect(newList).toEqual(new PrerequisiteList([prerequisite]));
   });
 });
 
@@ -430,7 +441,7 @@ describe('Mikado Graph', () => {
   });
 });
 
-describe('mikadoGraphs', () => {
+describe('Mikado Graphs', () => {
   it('persists a mikado graph', async () => {
     const mikadoGraphId = uuidv4();
     const mikadoGraphs = new InMemoryMikadoGraphs();

@@ -63,18 +63,19 @@ export const createWrapper = (
   );
 };
 
+type PrerequisiteState = {
+  prerequisiteId: string
+  label: string
+  status: Status
+  startedAt: string
+  parentId: string
+  allChildrenDone: boolean
+};
 type MikadaGraphState = {
   mikadoGraphId: string
   goal: string
   done: boolean
-  prerequisites: Partial<{
-    prerequisiteId: string
-    label: string
-    status: Status
-    startedAt: string
-    parentId: string
-    allChildrenDone: boolean
-  }>[]
+  prerequisites: Partial<PrerequisiteState>[]
 };
 
 export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
@@ -101,6 +102,15 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
     ),
   );
 };
+
+export const aPrerequisite = (state: Partial<PrerequisiteState> = {}) => new Prerequisite(
+  state.prerequisiteId ?? uuidv4(),
+  new Label(state.label ?? 'Do that'),
+  state.status ?? Status.TODO,
+  state.parentId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
+  state.allChildrenDone ?? false,
+  state.startedAt ? new Date(state.startedAt) : undefined,
+);
 
 type PrerequisiteViewState = {
   prerequisiteId: string

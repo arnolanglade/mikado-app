@@ -18,6 +18,15 @@ export class SystemClock implements Clock {
   }
 }
 
+export class PrerequisiteList {
+  constructor(private prerequisites: Prerequisite[] = []) {
+  }
+
+  add(prerequisite: Prerequisite): PrerequisiteList {
+    return new PrerequisiteList([...this.prerequisites, prerequisite]);
+  }
+}
+
 export class Label {
   constructor(private label: string) {
     if (label === '') {
