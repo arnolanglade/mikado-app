@@ -184,6 +184,17 @@ describe('Prerequisite List', () => {
       expect(() => list.find((p) => p.identifyBy(prerequisiteId))).toThrow(new Error('The prerequisite does not exist'));
     });
   });
+
+  it('replaces a prerequisite by another one', () => {
+    const prerequisiteId = uuidv4();
+    const prerequisite = aPrerequisite({ prerequisiteId });
+    const list = new PrerequisiteList([prerequisite]);
+
+    const newPrerequisite = aPrerequisite({ prerequisiteId, label: 'new label' });
+    const newList = list.replace(prerequisiteId, newPrerequisite);
+
+    expect(newList).toEqual(new PrerequisiteList([newPrerequisite]));
+  });
 });
 
 describe('Mikado Graph', () => {

@@ -36,6 +36,13 @@ export class PrerequisiteList {
 
     return matchingPrerequisites[0];
   }
+
+  replace(prerequisiteId: string, prerequisite: Prerequisite): PrerequisiteList {
+    return new PrerequisiteList(
+      this.prerequisites
+        .map((currentPrerequisite) => (currentPrerequisite.identifyBy(prerequisiteId) ? prerequisite : currentPrerequisite)),
+    );
+  }
 }
 
 export class Label {
