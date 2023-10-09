@@ -166,13 +166,13 @@ describe('Prerequisite List', () => {
     expect(newList).toEqual(new PrerequisiteList([prerequisite]));
   });
 
-  describe('get method', () => {
+  describe('find method', () => {
     it('gets a prerequisite with its id', () => {
       const prerequisiteId = uuidv4();
       const prerequisite = aPrerequisite({ prerequisiteId });
       const list = new PrerequisiteList([prerequisite]);
 
-      const foundPrerequisite = list.get(prerequisiteId);
+      const foundPrerequisite = list.find(prerequisiteId);
 
       expect(foundPrerequisite).toEqual(prerequisite);
     });
@@ -181,7 +181,7 @@ describe('Prerequisite List', () => {
       const prerequisiteId = uuidv4();
       const list = new PrerequisiteList([]);
 
-      expect(() => list.get(prerequisiteId)).toThrow(new Error(`The prerequisite with the id ${prerequisiteId} does not exist`));
+      expect(() => list.find(prerequisiteId)).toThrow(new Error(`The prerequisite with the id ${prerequisiteId} does not exist`));
     });
   });
 });

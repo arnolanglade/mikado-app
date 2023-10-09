@@ -26,7 +26,7 @@ export class PrerequisiteList {
     return new PrerequisiteList([...this.prerequisites, prerequisite]);
   }
 
-  get(id: string): Prerequisite {
+  find(id: string): Prerequisite {
     const matchingPrerequisites = this.prerequisites
       .filter((prerequisite) => prerequisite.identifyBy(id));
 
