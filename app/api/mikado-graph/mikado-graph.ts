@@ -26,12 +26,12 @@ export class PrerequisiteList {
     return new PrerequisiteList([...this.prerequisites, prerequisite]);
   }
 
-  find(id: string): Prerequisite {
+  find(callback: (prerequisite: Prerequisite) => boolean): Prerequisite {
     const matchingPrerequisites = this.prerequisites
-      .filter((prerequisite) => prerequisite.identifyBy(id));
+      .filter(callback);
 
     if (matchingPrerequisites.length !== 1) {
-      throw new Error(`The prerequisite with the id ${id} does not exist`);
+      throw new Error('The prerequisite does not exist');
     }
 
     return matchingPrerequisites[0];

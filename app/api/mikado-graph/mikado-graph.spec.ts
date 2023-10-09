@@ -172,7 +172,7 @@ describe('Prerequisite List', () => {
       const prerequisite = aPrerequisite({ prerequisiteId });
       const list = new PrerequisiteList([prerequisite]);
 
-      const foundPrerequisite = list.find(prerequisiteId);
+      const foundPrerequisite = list.find((p) => p.identifyBy(prerequisiteId));
 
       expect(foundPrerequisite).toEqual(prerequisite);
     });
@@ -181,7 +181,7 @@ describe('Prerequisite List', () => {
       const prerequisiteId = uuidv4();
       const list = new PrerequisiteList([]);
 
-      expect(() => list.find(prerequisiteId)).toThrow(new Error(`The prerequisite with the id ${prerequisiteId} does not exist`));
+      expect(() => list.find((p) => p.identifyBy(prerequisiteId))).toThrow(new Error('The prerequisite does not exist'));
     });
   });
 });
