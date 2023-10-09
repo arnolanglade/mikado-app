@@ -1,6 +1,6 @@
 import {
-  handleAddPrerequisiteToPrerequisite,
   handleAddPrerequisiteToMikadoGraph,
+  handleAddPrerequisiteToPrerequisite,
   handleCommitChanges,
   handleGetMikadoGraphById,
   handleStartExperimentation,
@@ -8,8 +8,9 @@ import {
   InMemoryClock,
   InMemoryMikadoGraphs,
   MikadoGraph,
+  PrerequisiteList,
   Status,
-  UnknownMikadoGraph, PrerequisiteList,
+  UnknownMikadoGraph,
 } from '@/api/mikado-graph/mikado-graph';
 import { aMikadoGraph, aPrerequisite } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -206,6 +207,18 @@ describe('Prerequisite List', () => {
     const newList = list.replaceParent(prerequisite, newParentPrerequisite);
 
     expect(newList).toEqual(new PrerequisiteList([prerequisite, newParentPrerequisite]));
+  });
+
+  describe('isDone method', () => {
+    it('says yes if all prerequisite are done', () => {
+      const parentPrerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.DONE });
+      const prerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.DONE });
+      const list = new PrerequisiteList([prerequisite, parentPrerequisite]);
+
+      list.isDone();
+
+      expect(list.isDone()).toBe(true);
+    });
   });
 });
 

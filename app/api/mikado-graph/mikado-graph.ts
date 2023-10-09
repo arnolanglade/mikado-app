@@ -50,6 +50,10 @@ export class PrerequisiteList {
         .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? newParentPrerequisite : currentPrerequisite)),
     );
   }
+
+  isDone(): boolean {
+    return true;
+  }
 }
 
 export class Label {
