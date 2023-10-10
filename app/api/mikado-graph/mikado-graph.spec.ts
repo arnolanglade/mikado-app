@@ -1,12 +1,4 @@
 import {
-  handleAddPrerequisiteToMikadoGraph,
-  handleAddPrerequisiteToPrerequisite,
-  handleCommitChanges,
-  handleGetMikadoGraphById,
-  handleStartExperimentation,
-  handleStartTask,
-  InMemoryClock,
-  InMemoryMikadoGraphs,
   MikadoGraph,
   PrerequisiteList,
   Status,
@@ -14,6 +6,12 @@ import {
 } from '@/api/mikado-graph/mikado-graph';
 import { aMikadoGraph, aPrerequisite, aPrerequisiteView } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
+import { InMemoryClock, InMemoryMikadoGraphs } from '@/api/mikado-graph/mikado-graph.infra';
+import {
+  handleAddPrerequisiteToMikadoGraph,
+  handleAddPrerequisiteToPrerequisite, handleCommitChanges, handleGetMikadoGraphById, handleStartExperimentation,
+  handleStartTask,
+} from '@/api/mikado-graph/mikadao-graph.usecase';
 
 describe('Mikado Graph use cases', () => {
   test('The developer starts a mikado graph', async () => {

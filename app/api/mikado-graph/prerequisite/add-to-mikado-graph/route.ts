@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import { addPrerequisiteToMikadoGraph, getMikadoGraphById } from '@/api/mikado-graph/mikado-graph';
+import { addPrerequisiteToMikadoGraph, getMikadoGraphById } from '@/api/mikado-graph/mikadao-graph.usecase';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {
