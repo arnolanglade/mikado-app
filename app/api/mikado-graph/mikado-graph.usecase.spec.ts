@@ -8,7 +8,7 @@ import {
   handleAddPrerequisiteToMikadoGraph,
   handleAddPrerequisiteToPrerequisite, handleCommitChanges, handleGetMikadoGraphById, handleStartExperimentation,
   handleStartTask,
-} from '@/api/mikado-graph/mikadao-graph.usecase';
+} from '@/api/mikado-graph/mikado-graph.usecase';
 
 describe('Mikado Graph use cases', () => {
   test('The developer starts a mikado graph', async () => {

@@ -1,6 +1,6 @@
 import httpClient from '@/lib/http-client';
 import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
-import { getMikadoGraphById } from '@/api/mikado-graph/mikadao-graph.usecase';
+import { getMikadoGraphById } from '@/api/mikado-graph/mikado-graph.usecase';
 
 export type MikadoGraphApi = {
   getById: (id: string) => Promise<MikadoGraphView>

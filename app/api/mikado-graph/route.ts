@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import { getMikadoGraphById, startTask } from '@/api/mikado-graph/mikadao-graph.usecase';
+import { getMikadoGraphById, startTask } from '@/api/mikado-graph/mikado-graph.usecase';
 
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: NextRequest) {

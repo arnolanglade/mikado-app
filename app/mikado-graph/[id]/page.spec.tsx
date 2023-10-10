@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { aMikadoGraph, aRouter, createWrapper } from '@/test/test-utils';
 import MikadoGraphPage from '@/mikado-graph/[id]/page';
 
-import { inMemoryMikadoGraphs } from '@/api/mikado-graph/mikadao-graph.usecase';
+import { inMemoryMikadoGraphs } from '@/api/mikado-graph/mikado-graph.usecase';
 
 describe('MikadoGraphPage Page', () => {
   test('The developer sees the mikado graph thanks to its id', async () => {
