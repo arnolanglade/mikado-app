@@ -1,7 +1,7 @@
 import {
   MikadoGraph,
   PrerequisiteList,
-  Status,
+  Status, StatusView,
 } from '@/api/mikado-graph/mikado-graph';
 import { aMikadoGraph, aPrerequisite, aPrerequisiteView } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -72,18 +72,17 @@ describe('Prerequisite List', () => {
   it('turn the prerequisite list into a view', () => {
     const prerequisiteId = uuidv4();
     const label = 'Change that';
-    const status = Status.EXPERIMENTING;
     const startedAt = '2023-07-25T10:24:00.000Z';
     const parentId = uuidv4();
     const allChildrenDone = true;
     const prerequisite = aPrerequisite({
-      prerequisiteId, label, status, startedAt, parentId, allChildrenDone,
+      prerequisiteId, label, status: Status.EXPERIMENTING, startedAt, parentId, allChildrenDone,
     });
     const list = new PrerequisiteList([prerequisite]);
 
     expect(list.toView()).toEqual([
       aPrerequisiteView({
-        prerequisiteId, label, status, startedAt, parentId, allChildrenDone,
+        prerequisiteId, label, status: StatusView.EXPERIMENTING, startedAt, parentId, allChildrenDone,
       }),
     ]);
   });

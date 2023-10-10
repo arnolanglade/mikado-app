@@ -8,7 +8,7 @@ import {
 } from '@/test/test-utils';
 import mikadoGraphApi from '@/mikado-graph/mikado-graph.api';
 import { v4 as uuidv4 } from 'uuid';
-import { Status } from '@/api/mikado-graph/mikado-graph';
+import { Status, StatusView } from '@/api/mikado-graph/mikado-graph';
 
 describe('useStartTask', () => {
   test('The developer is notified after starting a mikado graph that everything went well', async () => {
@@ -100,7 +100,7 @@ describe('useMikadoGraph', () => {
       const MikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const label = 'label';
-      const status = Status.TODO;
+      const status = StatusView.TODO;
 
       const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({
         mikadoGraphId: MikadoGraphId,

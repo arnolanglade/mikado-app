@@ -6,7 +6,16 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import mikadoGraphApi, { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
 import {
-  Goal, Label, Prerequisite, PrerequisiteView, MikadoGraph, MikadoGraphView, Status, MikadoGraphId, PrerequisiteId,
+  Goal,
+  Label,
+  Prerequisite,
+  PrerequisiteView,
+  MikadoGraph,
+  MikadoGraphView,
+  Status,
+  MikadoGraphId,
+  PrerequisiteId,
+  StatusView,
 } from '@/api/mikado-graph/mikado-graph';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
@@ -115,7 +124,7 @@ export const aPrerequisite = (state: Partial<PrerequisiteState> = {}) => new Pre
 type PrerequisiteViewState = {
   prerequisiteId: string
   label: string
-  status: Status
+  status: StatusView
   startedAt: string
   parentId: string
   allChildrenDone: boolean
@@ -135,7 +144,7 @@ export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): Mik
   prerequisites: graph.prerequisites?.map((prerequisite) => ({
     prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
     label: prerequisite.label ?? 'Do this',
-    status: prerequisite.status ?? Status.TODO,
+    status: prerequisite.status ?? StatusView.TODO,
     startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
     parentId: prerequisite.parentId ?? graph.mikadoGraphId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
     allChildrenDone: prerequisite.allChildrenDone ?? false,
@@ -145,7 +154,7 @@ export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): Mik
 export const aPrerequisiteView = (prerequisite: Partial<PrerequisiteViewState> = {}): PrerequisiteView => ({
   prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
   label: prerequisite.label ?? 'Do this',
-  status: prerequisite.status ?? Status.TODO,
+  status: prerequisite.status ?? StatusView.TODO,
   startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
   parentId: prerequisite.parentId ?? uuidv4(),
   allChildrenDone: prerequisite.allChildrenDone ?? false,

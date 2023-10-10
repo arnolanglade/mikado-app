@@ -53,11 +53,17 @@ export enum Status {
   DONE = 'done',
 }
 
+export enum StatusView {
+  TODO = 'todo',
+  EXPERIMENTING = 'experimenting',
+  DONE = 'done',
+}
+
 // Todo: used in the front end
 export type PrerequisiteView = {
   prerequisiteId: string,
   label: string,
-  status: Status,
+  status: StatusView,
   startedAt?: string,
   parentId: string,
   allChildrenDone: boolean,
@@ -152,7 +158,7 @@ export class Prerequisite {
     return {
       prerequisiteId: this.prerequisiteId.toString(),
       label: this.label.toString(),
-      status: this.status,
+      status: this.status as unknown as StatusView,
       startedAt: this.startedAt?.toISOString(),
       parentId: this.parentId.toString(),
       allChildrenDone: this.allChildrenDone,

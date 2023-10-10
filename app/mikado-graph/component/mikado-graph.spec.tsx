@@ -4,7 +4,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { createWrapper } from '@/test/test-utils';
 import MikadoGraph, { PrerequisiteNode, MikadoGraphNode } from '@/mikado-graph/component/mikado-graph';
-import { Status } from '@/api/mikado-graph/mikado-graph';
+import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
@@ -25,7 +25,7 @@ describe('MikadoGraph', () => {
             type: 'prerequisite',
             data: {
               label: 'Do this',
-              status: Status.TODO,
+              status: StatusView.TODO,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -37,7 +37,7 @@ describe('MikadoGraph', () => {
             type: 'prerequisite',
             data: {
               label: 'Do that',
-              status: Status.TODO,
+              status: StatusView.TODO,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -146,7 +146,7 @@ describe('MikadoGraph', () => {
           id={prerequisiteId}
           data={{
             label: 'Do this',
-            status: Status.TODO,
+            status: StatusView.TODO,
             allChildrenDone: false,
             startExperimentation: onStartExperimentation,
             addPrerequisiteToPrerequisite: jest.fn(),
@@ -165,9 +165,9 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        Status.EXPERIMENTING,
-        Status.DONE,
-      ])('The start experimentation button is hidden for a %s prerequisite', async (status: Status) => {
+        StatusView.EXPERIMENTING,
+        StatusView.DONE,
+      ])('The start experimentation button is hidden for a %s prerequisite', async (status: StatusView) => {
         render(<PrerequisiteNode
           id={uuidv4()}
           data={{
@@ -200,7 +200,7 @@ describe('MikadoGraph', () => {
           id={prerequisiteId}
           data={{
             label: 'Do this',
-            status: Status.EXPERIMENTING,
+            status: StatusView.EXPERIMENTING,
             allChildrenDone: false,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite,
@@ -219,9 +219,9 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        Status.TODO,
-        Status.DONE,
-      ])('The start add prerequisite form is hidden for a %s prerequisite', async (status: Status) => {
+        StatusView.TODO,
+        StatusView.DONE,
+      ])('The start add prerequisite form is hidden for a %s prerequisite', async (status: StatusView) => {
         render(
           <PrerequisiteNode
             id={uuidv4()}
@@ -254,7 +254,7 @@ describe('MikadoGraph', () => {
           id={prerequisiteId}
           data={{
             label: 'Do this',
-            status: Status.EXPERIMENTING,
+            status: StatusView.EXPERIMENTING,
             allChildrenDone: true,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite: jest.fn(),
@@ -272,9 +272,9 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        Status.TODO,
-        Status.DONE,
-      ])('The start commit changes button is hidden for a %s prerequisite', async (status: Status) => {
+        StatusView.TODO,
+        StatusView.DONE,
+      ])('The start commit changes button is hidden for a %s prerequisite', async (status: StatusView) => {
         render(
           <PrerequisiteNode
             id={uuidv4()}
@@ -329,7 +329,7 @@ describe('MikadoGraph', () => {
           id={uuidv4()}
           data={{
             label: 'Do this',
-            status: Status.DONE,
+            status: StatusView.DONE,
             allChildrenDone: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
@@ -347,9 +347,9 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        Status.TODO,
-        Status.EXPERIMENTING,
-      ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status: Status) => {
+        StatusView.TODO,
+        StatusView.EXPERIMENTING,
+      ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status: StatusView) => {
         render(<PrerequisiteNode
           id={uuidv4()}
           data={{

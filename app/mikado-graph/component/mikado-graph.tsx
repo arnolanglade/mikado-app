@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Status } from '@/api/mikado-graph/mikado-graph';
+import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import styles from '@/mikado-graph/[id]/page.module.css';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/lib/i18n/intl-provider';
@@ -55,9 +55,9 @@ export function PrerequisiteNode({
       <p>
         {label}
         {' '}
-        {status === Status.DONE && <Translation id="prerequisite.done" />}
+        {status === StatusView.DONE && <Translation id="prerequisite.done" />}
       </p>
-      {status === Status.TODO && (
+      {status === StatusView.TODO && (
       <button
         type="button"
         onClick={startExperimentation}
@@ -65,7 +65,7 @@ export function PrerequisiteNode({
         <Translation id="prerequisite.start-experimentation" />
       </button>
       )}
-      {status === Status.EXPERIMENTING && (
+      {status === StatusView.EXPERIMENTING && (
       <>
         <AddPrerequisiteForm
           onSubmit={addPrerequisiteToPrerequisite}
