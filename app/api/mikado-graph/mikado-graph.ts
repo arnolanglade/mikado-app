@@ -257,7 +257,7 @@ export class MikadoGraph {
     }
   }
 
-  render(): MikadoGraphView {
+  toView(): MikadoGraphView {
     return {
       mikadoGraphId: this.id,
       goal: this.goal.toString(),
@@ -375,7 +375,7 @@ export const commitChanges = handleCommitChanges(inMemoryMikadoGraphs);
 
 export const handleGetMikadoGraphById = (mikadoGraphs: MikadoGraphs) => async (mikadoGraphId: string): Promise<MikadoGraphView> => {
   const mikakoGraph = await mikadoGraphs.get(mikadoGraphId);
-  return mikakoGraph.render();
+  return mikakoGraph.toView();
 };
 
 export const getMikadoGraphById = handleGetMikadoGraphById(inMemoryMikadoGraphs);

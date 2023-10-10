@@ -447,33 +447,42 @@ describe('Mikado Graph', () => {
         .toThrow(new Error('Chances can only be committed on a experimenting prerequisite'));
     });
 
-    it('turns a mikado graph into a format used by the UI to render it', () => {
+    it('turns a mikado graph into a view', () => {
+      const mikadoGraphId = uuidv4();
+      const goal = 'My goal';
+      const done = false;
+      const prerequisiteId = uuidv4();
+      const label = 'Do this';
+      const status = Status.TODO;
+      const startedAt = '2023-07-25T10:24:00.000Z';
+      const parentId = uuidv4();
+      const allChildrenDone = true;
       const mikadoGraph = aMikadoGraph({
-        mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-        goal: 'My goal',
-        done: false,
+        mikadoGraphId,
+        goal,
+        done,
         prerequisites: [{
-          prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
-          label: 'Do this',
-          status: Status.TODO,
-          startedAt: '2023-07-25T10:24:00.000Z',
-          parentId: 'fce08bae-3c28-4d9b-afe9-9ff920605d32',
-          allChildrenDone: true,
+          prerequisiteId,
+          label,
+          status,
+          startedAt,
+          parentId,
+          allChildrenDone,
         }],
       });
 
-      expect(mikadoGraph.render())
+      expect(mikadoGraph.toView())
         .toEqual({
-          mikadoGraphId: '51bb1ce3-d1cf-4d32-9d10-8eea626f4784',
-          goal: 'My goal',
-          done: false,
+          mikadoGraphId,
+          goal,
+          done,
           prerequisites: [{
-            prerequisiteId: '0472c1c9-7a75-4f7a-9b79-9cd18e60005a',
-            label: 'Do this',
-            status: Status.TODO,
-            startedAt: '2023-07-25T10:24:00.000Z',
-            parentId: 'fce08bae-3c28-4d9b-afe9-9ff920605d32',
-            allChildrenDone: true,
+            prerequisiteId,
+            label,
+            status,
+            startedAt,
+            parentId,
+            allChildrenDone,
           }],
         });
     });
