@@ -6,7 +6,7 @@ import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/lib/notification';
 import mikadoGraphApi, { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
 import {
-  Goal, Label, Prerequisite, PrerequisiteView, MikadoGraph, MikadoGraphView, Status, MikadoGraphId,
+  Goal, Label, Prerequisite, PrerequisiteView, MikadoGraph, MikadoGraphView, Status, MikadoGraphId, PrerequisiteId,
 } from '@/api/mikado-graph/mikado-graph';
 import { Translations } from '@/lib/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
@@ -92,7 +92,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
     newState.done,
     newState.prerequisites.map(
       (prerequisite) => new Prerequisite(
-        prerequisite.prerequisiteId ?? uuidv4(),
+        new PrerequisiteId(prerequisite.prerequisiteId ?? uuidv4()),
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
         new MikadoGraphId(prerequisite.parentId ?? newState.mikadoGraphId),
@@ -104,7 +104,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
 };
 
 export const aPrerequisite = (state: Partial<PrerequisiteState> = {}) => new Prerequisite(
-  state.prerequisiteId ?? uuidv4(),
+  new PrerequisiteId(state.prerequisiteId ?? uuidv4()),
   new Label(state.label ?? 'Do that'),
   state.status ?? Status.TODO,
   new MikadoGraphId(state.parentId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6'),

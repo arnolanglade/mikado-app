@@ -17,6 +17,7 @@ export class SystemClock implements Clock {
     return new Date();
   }
 }
+
 export class MikadoGraphId {
   constructor(private id: string) {
     if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
@@ -25,6 +26,22 @@ export class MikadoGraphId {
   }
 
   equals(other: MikadoGraphId): boolean {
+    return this.id === other.id;
+  }
+
+  toString() {
+    return this.id;
+  }
+}
+
+export class PrerequisiteId {
+  constructor(private id: string) {
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new Error('The prerequisite id does follow the required format');
+    }
+  }
+
+  equals(other: PrerequisiteId): boolean {
     return this.id === other.id;
   }
 
@@ -64,7 +81,7 @@ export type PrerequisiteView = {
 
 export class Prerequisite {
   constructor(
-    private prerequisiteId: string,
+    private prerequisiteId: PrerequisiteId,
     private label: Label,
     private status: Status,
     public parentId: MikadoGraphId,
@@ -79,7 +96,7 @@ export class Prerequisite {
     label: string,
   ) {
     return new Prerequisite(
-      prerequisiteId,
+      new PrerequisiteId(prerequisiteId),
       new Label(label),
       Status.TODO,
       new MikadoGraphId(parentId),
@@ -132,11 +149,11 @@ export class Prerequisite {
   }
 
   identifyBy(prerequisiteId: string): boolean {
-    return prerequisiteId === this.prerequisiteId;
+    return this.prerequisiteId.equals(new PrerequisiteId(prerequisiteId));
   }
 
   isParent(prerequisite: Prerequisite): boolean {
-    return this.prerequisiteId === prerequisite.parentId.toString();
+    return this.prerequisiteId.toString() === prerequisite.parentId.toString();
   }
 
   hasParent(prerequisite: Prerequisite): boolean {
@@ -149,7 +166,7 @@ export class Prerequisite {
 
   toView(): PrerequisiteView {
     return {
-      prerequisiteId: this.prerequisiteId,
+      prerequisiteId: this.prerequisiteId.toString(),
       label: this.label.toString(),
       status: this.status,
       startedAt: this.startedAt?.toISOString(),
