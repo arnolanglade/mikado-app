@@ -168,29 +168,31 @@ export class PrerequisiteList {
     const matchingPrerequisites = this.prerequisites
       .filter(callback);
 
-    if (matchingPrerequisites.length !== 1) {
-      throw new Error('The prerequisite does not exist');
-    }
-
     return matchingPrerequisites[0];
   }
 
-  replace(prerequisiteId: string, prerequisite: Prerequisite): PrerequisiteList {
+  replace(prerequisiteId: string, callback: (prerequisite: Prerequisite) => Prerequisite): PrerequisiteList {
     return new PrerequisiteList(
       this.prerequisites
-        .map((currentPrerequisite) => (currentPrerequisite.identifyBy(prerequisiteId) ? prerequisite : currentPrerequisite)),
+        .map(
+          (currentPrerequisite) => (currentPrerequisite.identifyBy(prerequisiteId) ? callback(currentPrerequisite) : currentPrerequisite),
+        ),
     );
   }
 
-  replaceParent(prerequisite: Prerequisite, newParentPrerequisite: Prerequisite): PrerequisiteList {
+  replaceParent(prerequisite: Prerequisite, callback: (prerequisite: Prerequisite) => Prerequisite): PrerequisiteList {
     return new PrerequisiteList(
       this.prerequisites
-        .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? newParentPrerequisite : currentPrerequisite)),
+        .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? callback(currentPrerequisite) : currentPrerequisite)),
     );
   }
 
   isDone(): boolean {
     return this.prerequisites.every((prerequisite) => prerequisite.hasStatus(Status.DONE));
+  }
+
+  toView(): PrerequisiteView[] {
+    return this.prerequisites.map((prerequisite) => prerequisite.render());
   }
 }
 
@@ -203,71 +205,56 @@ export type MikadoGraphView = {
 };
 
 export class MikadoGraph {
+  private prerequisites: PrerequisiteList;
+
   constructor(
     private id: string,
     private goal: Goal,
     private done: boolean,
-    private prerequisites: Prerequisite[] = [],
-  ) {}
+    prerequisites: Prerequisite[] = [],
+  ) {
+    this.prerequisites = new PrerequisiteList(prerequisites);
+  }
 
   static start(id: string, goal: string) {
     return new MikadoGraph(id, new Goal(goal), false, []);
   }
 
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
-    this.prerequisites = this.prerequisites.map((prerequisite) => {
-      if (prerequisite.identifyBy(prerequisiteId)) {
-        if (!prerequisite.hasStatus(Status.TODO)) {
-          throw new Error('You can only start an experimentation an a todo prerequisite');
-        }
-
-        return prerequisite.start(startedAt);
+    this.prerequisites = this.prerequisites.replace(prerequisiteId, (prerequisite) => {
+      if (!prerequisite.hasStatus(Status.TODO)) {
+        throw new Error('You can only start an experimentation an a todo prerequisite');
       }
-
-      return prerequisite;
+      return prerequisite.start(startedAt);
     });
   }
 
   addPrerequisiteToMikadoGraph(prerequisiteId: string, label: string): void {
-    this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, this.id, label)];
+    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, this.id, label));
   }
 
   addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
-    this.prerequisites = this.prerequisites
-      .map((prerequisite) => (prerequisite.identifyBy(parentId) ? prerequisite.resetChildrenDone() : prerequisite));
+    this.prerequisites = this.prerequisites.replace(parentId, (prerequisite) => prerequisite.resetChildrenDone());
 
-    this.prerequisites = [...this.prerequisites, Prerequisite.new(prerequisiteId, parentId, label)];
+    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, parentId, label));
   }
 
   commitChanges(prerequisiteId: string): void {
-    let done = true;
-    this.prerequisites = this.prerequisites.map((prerequisite) => {
-      if (prerequisite.identifyBy(prerequisiteId)) {
-        if (!prerequisite.hasStatus(Status.EXPERIMENTING)) {
-          throw new Error('Chances can only be committed on a experimenting prerequisite');
-        }
-
-        return prerequisite.done();
+    this.prerequisites = this.prerequisites.replace(prerequisiteId, (prerequisite) => {
+      if (!prerequisite.hasStatus(Status.EXPERIMENTING)) {
+        throw new Error('Chances can only be committed on a experimenting prerequisite');
       }
 
-      if (!prerequisite.hasStatus(Status.DONE)) {
-        done = false;
-      }
-
-      return prerequisite;
+      return prerequisite.done();
     });
 
-    const prerequisite = this.prerequisites
-      .filter((p) => p.identifyBy(prerequisiteId))[0];
+    this.done = this.prerequisites.isDone();
 
-    const childrenPrerequisiteUnDone = this.prerequisites
-      .filter((p) => p.hasParent(prerequisite) && !p.hasStatus(Status.DONE));
-
-    if (childrenPrerequisiteUnDone.length === 0) {
-      this.prerequisites = this.prerequisites.map((p) => (p.isParent(prerequisite) ? p.childrenDone() : p));
+    const prerequisite = this.prerequisites.find((p) => p.identifyBy(prerequisiteId));
+    const childrenPrerequisiteUnDone = this.prerequisites.find((p) => p.hasParent(prerequisite) && !p.hasStatus(Status.DONE));
+    if (!childrenPrerequisiteUnDone) {
+      this.prerequisites = this.prerequisites.replaceParent(prerequisite, (p) => p.childrenDone());
     }
-
-    this.done = done;
   }
 
   render(): MikadoGraphView {
@@ -275,7 +262,7 @@ export class MikadoGraph {
       mikadoGraphId: this.id,
       goal: this.goal.toString(),
       done: this.done,
-      prerequisites: this.prerequisites.map((prerequisite) => prerequisite.render()),
+      prerequisites: this.prerequisites.toView(),
     };
   }
 

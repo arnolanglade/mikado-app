@@ -12,7 +12,7 @@ import {
   Status,
   UnknownMikadoGraph,
 } from '@/api/mikado-graph/mikado-graph';
-import { aMikadoGraph, aPrerequisite } from '@/test/test-utils';
+import { aMikadoGraph, aPrerequisite, aPrerequisiteView } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('Mikado Graph use cases', () => {
@@ -167,23 +167,14 @@ describe('Prerequisite List', () => {
     expect(newList).toEqual(new PrerequisiteList([prerequisite]));
   });
 
-  describe('find method', () => {
-    it('gets a prerequisite with its id', () => {
-      const prerequisiteId = uuidv4();
-      const prerequisite = aPrerequisite({ prerequisiteId });
-      const list = new PrerequisiteList([prerequisite]);
+  it('finds a prerequisite with its id', () => {
+    const prerequisiteId = uuidv4();
+    const prerequisite = aPrerequisite({ prerequisiteId });
+    const list = new PrerequisiteList([prerequisite]);
 
-      const foundPrerequisite = list.find((p) => p.identifyBy(prerequisiteId));
+    const foundPrerequisite = list.find((p) => p.identifyBy(prerequisiteId));
 
-      expect(foundPrerequisite).toEqual(prerequisite);
-    });
-
-    it('raises an error if the prerequisite does not exist', () => {
-      const prerequisiteId = uuidv4();
-      const list = new PrerequisiteList([]);
-
-      expect(() => list.find((p) => p.identifyBy(prerequisiteId))).toThrow(new Error('The prerequisite does not exist'));
-    });
+    expect(foundPrerequisite).toEqual(prerequisite);
   });
 
   it('replaces a prerequisite by another one', () => {
@@ -192,7 +183,7 @@ describe('Prerequisite List', () => {
     const list = new PrerequisiteList([prerequisite]);
 
     const newPrerequisite = aPrerequisite({ prerequisiteId, label: 'new label' });
-    const newList = list.replace(prerequisiteId, newPrerequisite);
+    const newList = list.replace(prerequisiteId, () => newPrerequisite);
 
     expect(newList).toEqual(new PrerequisiteList([newPrerequisite]));
   });
@@ -204,7 +195,7 @@ describe('Prerequisite List', () => {
     const list = new PrerequisiteList([prerequisite, parentPrerequisite]);
 
     const newParentPrerequisite = aPrerequisite({ prerequisiteId: parentPrerequisiteId, label: 'new label' });
-    const newList = list.replaceParent(prerequisite, newParentPrerequisite);
+    const newList = list.replaceParent(prerequisite, () => newParentPrerequisite);
 
     expect(newList).toEqual(new PrerequisiteList([prerequisite, newParentPrerequisite]));
   });
@@ -225,10 +216,27 @@ describe('Prerequisite List', () => {
       const prerequisite = aPrerequisite({ prerequisiteId: uuidv4(), status: Status.TODO });
       const list = new PrerequisiteList([prerequisite, parentPrerequisite]);
 
-      list.isDone();
-
       expect(list.isDone()).toBe(false);
     });
+  });
+
+  it('turn the prerequisite list into a view', () => {
+    const prerequisiteId = uuidv4();
+    const label = 'Change that';
+    const status = Status.EXPERIMENTING;
+    const startedAt = '2023-07-25T10:24:00.000Z';
+    const parentId = uuidv4();
+    const allChildrenDone = true;
+    const prerequisite = aPrerequisite({
+      prerequisiteId, label, status, startedAt, parentId, allChildrenDone,
+    });
+    const list = new PrerequisiteList([prerequisite]);
+
+    expect(list.toView()).toEqual([
+      aPrerequisiteView({
+        prerequisiteId, label, status, startedAt, parentId, allChildrenDone,
+      }),
+    ]);
   });
 });
 

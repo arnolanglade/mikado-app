@@ -141,3 +141,12 @@ export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): Mik
     allChildrenDone: prerequisite.allChildrenDone ?? false,
   })) ?? [],
 });
+
+export const aPrerequisiteView = (prerequisite: Partial<PrerequisiteViewState> = {}): PrerequisiteView => ({
+  prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
+  label: prerequisite.label ?? 'Do this',
+  status: prerequisite.status ?? Status.TODO,
+  startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
+  parentId: prerequisite.parentId ?? uuidv4(),
+  allChildrenDone: prerequisite.allChildrenDone ?? false,
+});
