@@ -17,6 +17,21 @@ export class SystemClock implements Clock {
     return new Date();
   }
 }
+export class MikadoGraphId {
+  constructor(private id: string) {
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      throw new Error('The mikado graph id does follow the required format');
+    }
+  }
+
+  equals(other: MikadoGraphId): boolean {
+    return this.id === other.id;
+  }
+
+  toString() {
+    return this.id;
+  }
+}
 
 export class Label {
   constructor(private label: string) {
@@ -52,7 +67,7 @@ export class Prerequisite {
     private prerequisiteId: string,
     private label: Label,
     private status: Status,
-    public parentId: string,
+    public parentId: MikadoGraphId,
     private allChildrenDone: boolean,
     private startedAt?: Date,
   ) {
@@ -67,7 +82,7 @@ export class Prerequisite {
       prerequisiteId,
       new Label(label),
       Status.TODO,
-      parentId,
+      new MikadoGraphId(parentId),
       false,
     );
   }
@@ -121,7 +136,7 @@ export class Prerequisite {
   }
 
   isParent(prerequisite: Prerequisite): boolean {
-    return this.prerequisiteId === prerequisite.parentId;
+    return this.prerequisiteId === prerequisite.parentId.toString();
   }
 
   hasParent(prerequisite: Prerequisite): boolean {
@@ -132,13 +147,13 @@ export class Prerequisite {
     return this.status === status;
   }
 
-  render(): PrerequisiteView {
+  toView(): PrerequisiteView {
     return {
       prerequisiteId: this.prerequisiteId,
       label: this.label.toString(),
       status: this.status,
       startedAt: this.startedAt?.toISOString(),
-      parentId: this.parentId,
+      parentId: this.parentId.toString(),
       allChildrenDone: this.allChildrenDone,
     };
   }
@@ -157,8 +172,7 @@ export class Goal {
 }
 
 export class PrerequisiteList {
-  constructor(private prerequisites: Prerequisite[] = []) {
-  }
+  constructor(private prerequisites: Prerequisite[] = []) {}
 
   add(prerequisite: Prerequisite): PrerequisiteList {
     return new PrerequisiteList([...this.prerequisites, prerequisite]);
@@ -192,7 +206,7 @@ export class PrerequisiteList {
   }
 
   toView(): PrerequisiteView[] {
-    return this.prerequisites.map((prerequisite) => prerequisite.render());
+    return this.prerequisites.map((prerequisite) => prerequisite.toView());
   }
 }
 
@@ -208,7 +222,7 @@ export class MikadoGraph {
   private prerequisites: PrerequisiteList;
 
   constructor(
-    private id: string,
+    private id: MikadoGraphId,
     private goal: Goal,
     private done: boolean,
     prerequisites: Prerequisite[] = [],
@@ -217,7 +231,7 @@ export class MikadoGraph {
   }
 
   static start(id: string, goal: string) {
-    return new MikadoGraph(id, new Goal(goal), false, []);
+    return new MikadoGraph(new MikadoGraphId(id), new Goal(goal), false, []);
   }
 
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
@@ -230,7 +244,7 @@ export class MikadoGraph {
   }
 
   addPrerequisiteToMikadoGraph(prerequisiteId: string, label: string): void {
-    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, this.id, label));
+    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, this.id.toString(), label));
   }
 
   addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
@@ -259,7 +273,7 @@ export class MikadoGraph {
 
   toView(): MikadoGraphView {
     return {
-      mikadoGraphId: this.id,
+      mikadoGraphId: this.id.toString(),
       goal: this.goal.toString(),
       done: this.done,
       prerequisites: this.prerequisites.toView(),
@@ -267,11 +281,11 @@ export class MikadoGraph {
   }
 
   identifyBy(id: string): boolean {
-    return id === this.id;
+    return this.id.equals(new MikadoGraphId(id));
   }
 
   equals(mikadoGraph: MikadoGraph): boolean {
-    return mikadoGraph.id === this.id;
+    return this.id.equals(mikadoGraph.id);
   }
 }
 
