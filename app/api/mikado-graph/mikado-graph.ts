@@ -46,28 +46,11 @@ export class Label {
   }
 }
 
-// Todo: used in the front end
 export enum Status {
   TODO = 'todo',
   EXPERIMENTING = 'experimenting',
   DONE = 'done',
 }
-
-export enum StatusView {
-  TODO = 'todo',
-  EXPERIMENTING = 'experimenting',
-  DONE = 'done',
-}
-
-// Todo: used in the front end
-export type PrerequisiteView = {
-  prerequisiteId: string,
-  label: string,
-  status: StatusView,
-  startedAt?: string,
-  parentId: string,
-  allChildrenDone: boolean,
-};
 
 export class Prerequisite {
   constructor(
@@ -217,14 +200,6 @@ export class PrerequisiteList {
   }
 }
 
-// Todo: used in the front end
-export type MikadoGraphView = {
-  mikadoGraphId: string
-  goal: string
-  done: boolean
-  prerequisites: PrerequisiteView[]
-};
-
 export class MikadoGraph {
   private prerequisites: PrerequisiteList;
 
@@ -307,3 +282,26 @@ export interface MikadoGraphs {
   get(id: string): Promise<MikadoGraph>
   add(mikadoGraph: MikadoGraph): Promise<void>
 }
+
+// Read side: only those type are can be used in the frontend
+export enum StatusView {
+  TODO = 'todo',
+  EXPERIMENTING = 'experimenting',
+  DONE = 'done',
+}
+
+export type PrerequisiteView = {
+  prerequisiteId: string,
+  label: string,
+  status: StatusView,
+  startedAt?: string,
+  parentId: string,
+  allChildrenDone: boolean,
+};
+
+export type MikadoGraphView = {
+  mikadoGraphId: string
+  goal: string
+  done: boolean
+  prerequisites: PrerequisiteView[]
+};
