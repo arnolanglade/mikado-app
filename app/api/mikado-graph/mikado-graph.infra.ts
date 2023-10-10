@@ -19,11 +19,11 @@ export class InMemoryClock implements Clock {
 }
 
 export class InMemoryMikadoGraphs implements MikadoGraphs {
-  constructor(private mikakoGraphs: MikadoGraph[] = []) {
+  constructor(private mikadoGraphs: MikadoGraph[] = []) {
   }
 
   async get(id: string): Promise<MikadoGraph> {
-    const matchingMikadoGraph = this.mikakoGraphs
+    const matchingMikadoGraph = this.mikadoGraphs
       .filter((mikadoGraph) => mikadoGraph.identifyBy(id));
 
     if (matchingMikadoGraph.length !== 1) {
@@ -33,18 +33,18 @@ export class InMemoryMikadoGraphs implements MikadoGraphs {
     return matchingMikadoGraph[0];
   }
 
-  async add(mikakoGraph: MikadoGraph): Promise<void> {
+  async add(mikadoGraph: MikadoGraph): Promise<void> {
     let isMikadoGraphFound = false;
-    this.mikakoGraphs = this.mikakoGraphs.map((currentMikadoGraph) => {
-      if (currentMikadoGraph.equals(mikakoGraph)) {
+    this.mikadoGraphs = this.mikadoGraphs.map((currentMikadoGraph) => {
+      if (currentMikadoGraph.equals(mikadoGraph)) {
         isMikadoGraphFound = true;
-        return mikakoGraph;
+        return mikadoGraph;
       }
       return currentMikadoGraph;
     });
 
     if (!isMikadoGraphFound) {
-      this.mikakoGraphs = [...this.mikakoGraphs, mikakoGraph];
+      this.mikadoGraphs = [...this.mikadoGraphs, mikadoGraph];
     }
   }
 }

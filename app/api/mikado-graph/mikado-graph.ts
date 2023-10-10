@@ -299,5 +299,5 @@ export class UnknownMikadoGraph extends Error {
 // Todo: Export for the frontend, do we need to duplicate?
 export interface MikadoGraphs {
   get(id: string): Promise<MikadoGraph>
-  add(mikakoGraph: MikadoGraph): Promise<void>
+  add(mikadoGraph: MikadoGraph): Promise<void>
 }
