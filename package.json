@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.0.4",
+    "@supabase/supabase-js": "^2.38.0",
     "@vercel/analytics": "^1.0.1",
     "intl-messageformat": "^10.5.0",
     "next": "13.4.8",
