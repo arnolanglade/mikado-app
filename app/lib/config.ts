@@ -1,7 +1,9 @@
-const createEncVars = (envVars: Record<string, string>): { get: (key: string) => string } => ({
+const createEncVars = (envVars: Record<string, string | undefined>): { get: (key: string) => string } => ({
   get: (key: string) => {
-    if (!envVars[key]) throw new Error(`The env var ${key} does exist`);
-    return envVars[key];
+    if (!envVars[key]) {
+      throw new Error(`Please define the "${key}" env var`);
+    }
+    return envVars[key] as string;
   },
 });
 

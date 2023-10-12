@@ -10,6 +10,13 @@ describe('Env var', () => {
     const envVars = createEncVars({ var: 'value' });
 
     expect(() => envVars.get('otherVar'))
-      .toThrow(new Error('The env var otherVar does exist'));
+      .toThrow(new Error('Please define the "otherVar" env var'));
+  });
+
+  it('raises an error if the env var is undefined', () => {
+    const envVars = createEncVars({ var: undefined });
+
+    expect(() => envVars.get('var'))
+      .toThrow(new Error('Please define the "var" env var'));
   });
 });
