@@ -6,10 +6,10 @@ describe('Env var', () => {
     expect(envVars.get('var')).toBe('value');
   });
 
-  it('raises an error if the env var is undefined', () => {
+  it('raises an error if the env var doest exist', () => {
     const envVars = createEncVars({ var: 'value' });
 
     expect(() => envVars.get('otherVar'))
-      .toThrow(new Error('The env var otherVar is not defined'));
+      .toThrow(new Error('The env var otherVar does exist'));
   });
 });
