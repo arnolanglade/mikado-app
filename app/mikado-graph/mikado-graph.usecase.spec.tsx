@@ -8,7 +8,7 @@ import {
 } from '@/test/test-utils';
 import mikadoGraphApi from '@/mikado-graph/mikado-graph.api';
 import { v4 as uuidv4 } from 'uuid';
-import { Status, StatusView } from '@/api/mikado-graph/mikado-graph';
+import { StatusView } from '@/api/mikado-graph/mikado-graph';
 
 describe('useStartTask', () => {
   test('The developer is notified after starting a mikado graph that everything went well', async () => {
