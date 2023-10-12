@@ -3,6 +3,9 @@ import {
 } from '@/api/mikado-graph/mikado-graph';
 import { InMemoryMikadoGraphs, SystemClock } from '@/api/mikado-graph/mikado-graph.infra';
 
+// Todo: Export for the testing purpose
+export const inMemoryMikadoGraphs = new InMemoryMikadoGraphs();
+
 export type StartTask = {
   mikadoGraphId: string
   goal: string
@@ -12,9 +15,8 @@ export const handleStartTask = (mikadoGraphs: MikadoGraphs) => async (input: Sta
   await mikadoGraphs.add(MikadoGraph.start(input.mikadoGraphId, input.goal));
 };
 
-// Todo: Export for the testing purpose
-export const inMemoryMikadoGraphs = new InMemoryMikadoGraphs();
 export const startTask = handleStartTask(inMemoryMikadoGraphs);
+
 export type AddPrerequisiteToMikadoGraph = {
   prerequisiteId: string
   mikadoGraphId: string
