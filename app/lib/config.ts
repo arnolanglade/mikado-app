@@ -1,4 +1,4 @@
-const createEncVars = (envVars: Record<string, string | undefined>): { get: (key: string) => string } => ({
+export const createEncVars = (envVars: Record<string, string | undefined>): { get: (key: string) => string } => ({
   get: (key: string) => {
     if (!envVars[key]) {
       throw new Error(`Please define the "${key}" env var`);
@@ -7,4 +7,4 @@ const createEncVars = (envVars: Record<string, string | undefined>): { get: (key
   },
 });
 
-export default createEncVars;
+export default createEncVars(process.env);
