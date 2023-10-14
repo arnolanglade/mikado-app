@@ -231,6 +231,22 @@ export class MikadoGraph {
     return new MikadoGraph(new MikadoGraphId(id), new Goal(goal), false, []);
   }
 
+  static fromState(mikadoGraphState: MikadoGraphState) {
+    return new MikadoGraph(
+      new MikadoGraphId(mikadoGraphState.mikadoGraphId),
+      new Goal(mikadoGraphState.goal),
+      mikadoGraphState.done,
+      mikadoGraphState.prerequisites.map((prerequisiteState) => new Prerequisite(
+        new PrerequisiteId(prerequisiteState.prerequisiteId),
+        new Label(prerequisiteState.label),
+        prerequisiteState.status as unknown as Status,
+        new MikadoGraphId(prerequisiteState.parentId),
+        prerequisiteState.allChildrenDone,
+        prerequisiteState.startedAt ? new Date(prerequisiteState.startedAt) : undefined,
+      )),
+    );
+  }
+
   startExperimentation(prerequisiteId: string, startedAt: Date): void {
     this.prerequisites = this.prerequisites.replace(prerequisiteId, (prerequisite) => {
       if (!prerequisite.hasStatus(Status.TODO)) {

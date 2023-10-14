@@ -1,7 +1,7 @@
 import {
   MikadoGraph,
   PrerequisiteList,
-  Status, StatusView,
+  Status, StatusState, StatusView,
 } from '@/api/mikado-graph/mikado-graph';
 import { aMikadoGraph, aPrerequisite, aPrerequisiteView } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
@@ -98,6 +98,45 @@ describe('Mikado Graph', () => {
       mikadoGraphId,
       goal,
       prerequisites: [],
+    }));
+  });
+
+  it('creates a mikado graph from its state', () => {
+    const mikadoGraphId = uuidv4();
+    const goal = 'My goal';
+    const done = false;
+    const prerequisiteId = uuidv4();
+    const label = 'Do this';
+    const startedAt = '2023-07-25T10:24:00.000Z';
+    const parentId = uuidv4();
+    const allChildrenDone = true;
+
+    const mikadoGraph = MikadoGraph.fromState({
+      mikadoGraphId,
+      goal,
+      done,
+      prerequisites: [{
+        prerequisiteId,
+        label,
+        status: StatusState.TODO,
+        startedAt,
+        parentId,
+        allChildrenDone,
+      }],
+    });
+
+    expect(mikadoGraph).toEqual(aMikadoGraph({
+      mikadoGraphId,
+      goal,
+      done,
+      prerequisites: [{
+        prerequisiteId,
+        label,
+        status: Status.TODO,
+        startedAt,
+        parentId,
+        allChildrenDone,
+      }],
     }));
   });
 
