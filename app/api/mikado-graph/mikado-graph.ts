@@ -147,6 +147,17 @@ export class Prerequisite {
       allChildrenDone: this.allChildrenDone,
     };
   }
+
+  toState(): PrerequisiteState {
+    return {
+      prerequisiteId: this.prerequisiteId.toString(),
+      label: this.label.toString(),
+      status: this.status as unknown as StatusState,
+      startedAt: this.startedAt?.toISOString(),
+      parentId: this.parentId.toString(),
+      allChildrenDone: this.allChildrenDone,
+    };
+  }
 }
 
 export class Goal {
@@ -197,6 +208,10 @@ export class PrerequisiteList {
 
   toView(): PrerequisiteView[] {
     return this.prerequisites.map((prerequisite) => prerequisite.toView());
+  }
+
+  toState(): PrerequisiteState[] {
+    return this.prerequisites.map((prerequisite) => prerequisite.toState());
   }
 }
 
@@ -262,6 +277,15 @@ export class MikadoGraph {
     };
   }
 
+  toState(): MikadoGraphState {
+    return {
+      mikadoGraphId: this.id.toString(),
+      goal: this.goal.toString(),
+      done: this.done,
+      prerequisites: this.prerequisites.toState(),
+    };
+  }
+
   identifyBy(id: string): boolean {
     return this.id.equals(new MikadoGraphId(id));
   }
@@ -276,6 +300,28 @@ export class UnknownMikadoGraph extends Error {
     return new UnknownMikadoGraph(`The mikado graph with the id ${id} does not exist`);
   }
 }
+
+export enum StatusState {
+  TODO = 'todo',
+  EXPERIMENTING = 'experimenting',
+  DONE = 'done',
+}
+
+export type PrerequisiteState = {
+  prerequisiteId: string,
+  label: string,
+  status: StatusState,
+  startedAt?: string,
+  parentId: string,
+  allChildrenDone: boolean,
+};
+
+export type MikadoGraphState = {
+  mikadoGraphId: string
+  goal: string
+  done: boolean
+  prerequisites: PrerequisiteState[]
+};
 
 // Todo: Export for the frontend, do we need to duplicate?
 export interface MikadoGraphs {

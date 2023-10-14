@@ -334,6 +334,46 @@ describe('Mikado Graph', () => {
           }],
         });
     });
+
+    it('turns a mikado graph into a state', () => {
+      const mikadoGraphId = uuidv4();
+      const goal = 'My goal';
+      const done = false;
+      const prerequisiteId = uuidv4();
+      const label = 'Do this';
+      const status = Status.TODO;
+      const startedAt = '2023-07-25T10:24:00.000Z';
+      const parentId = uuidv4();
+      const allChildrenDone = true;
+      const mikadoGraph = aMikadoGraph({
+        mikadoGraphId,
+        goal,
+        done,
+        prerequisites: [{
+          prerequisiteId,
+          label,
+          status,
+          startedAt,
+          parentId,
+          allChildrenDone,
+        }],
+      });
+
+      expect(mikadoGraph.toState())
+        .toEqual({
+          mikadoGraphId,
+          goal,
+          done,
+          prerequisites: [{
+            prerequisiteId,
+            label,
+            status,
+            startedAt,
+            parentId,
+            allChildrenDone,
+          }],
+        });
+    });
   });
 
   describe('identifyBy', () => {
