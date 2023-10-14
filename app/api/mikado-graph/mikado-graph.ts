@@ -150,12 +150,12 @@ export class Prerequisite {
 
   toState(): PrerequisiteState {
     return {
-      prerequisiteId: this.prerequisiteId.toString(),
+      prerequisite_id: this.prerequisiteId.toString(),
       label: this.label.toString(),
       status: this.status as unknown as StatusState,
-      startedAt: this.startedAt?.toISOString(),
-      parentId: this.parentId.toString(),
-      allChildrenDone: this.allChildrenDone,
+      started_at: this.startedAt?.toISOString(),
+      parent_id: this.parentId.toString(),
+      all_children_done: this.allChildrenDone,
     };
   }
 }
@@ -233,16 +233,16 @@ export class MikadoGraph {
 
   static fromState(mikadoGraphState: MikadoGraphState) {
     return new MikadoGraph(
-      new MikadoGraphId(mikadoGraphState.mikadoGraphId),
+      new MikadoGraphId(mikadoGraphState.mikado_graph_id),
       new Goal(mikadoGraphState.goal),
       mikadoGraphState.done,
       mikadoGraphState.prerequisites.map((prerequisiteState) => new Prerequisite(
-        new PrerequisiteId(prerequisiteState.prerequisiteId),
+        new PrerequisiteId(prerequisiteState.prerequisite_id),
         new Label(prerequisiteState.label),
         prerequisiteState.status as unknown as Status,
-        new MikadoGraphId(prerequisiteState.parentId),
-        prerequisiteState.allChildrenDone,
-        prerequisiteState.startedAt ? new Date(prerequisiteState.startedAt) : undefined,
+        new MikadoGraphId(prerequisiteState.parent_id),
+        prerequisiteState.all_children_done,
+        prerequisiteState.started_at ? new Date(prerequisiteState.started_at) : undefined,
       )),
     );
   }
@@ -295,7 +295,7 @@ export class MikadoGraph {
 
   toState(): MikadoGraphState {
     return {
-      mikadoGraphId: this.id.toString(),
+      mikado_graph_id: this.id.toString(),
       goal: this.goal.toString(),
       done: this.done,
       prerequisites: this.prerequisites.toState(),
@@ -324,16 +324,16 @@ export enum StatusState {
 }
 
 export type PrerequisiteState = {
-  prerequisiteId: string,
+  prerequisite_id: string,
   label: string,
   status: StatusState,
-  startedAt?: string,
-  parentId: string,
-  allChildrenDone: boolean,
+  started_at?: string,
+  parent_id: string,
+  all_children_done: boolean,
 };
 
 export type MikadoGraphState = {
-  mikadoGraphId: string
+  mikado_graph_id: string
   goal: string
   done: boolean
   prerequisites: PrerequisiteState[]

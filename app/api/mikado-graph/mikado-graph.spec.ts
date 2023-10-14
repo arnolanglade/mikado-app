@@ -112,16 +112,16 @@ describe('Mikado Graph', () => {
     const allChildrenDone = true;
 
     const mikadoGraph = MikadoGraph.fromState({
-      mikadoGraphId,
+      mikado_graph_id: mikadoGraphId,
       goal,
       done,
       prerequisites: [{
-        prerequisiteId,
+        prerequisite_id: prerequisiteId,
         label,
         status: StatusState.TODO,
-        startedAt,
-        parentId,
-        allChildrenDone,
+        started_at: startedAt,
+        parent_id: parentId,
+        all_children_done: allChildrenDone,
       }],
     });
 
@@ -400,16 +400,16 @@ describe('Mikado Graph', () => {
 
       expect(mikadoGraph.toState())
         .toEqual({
-          mikadoGraphId,
+          mikado_graph_id: mikadoGraphId,
           goal,
           done,
           prerequisites: [{
-            prerequisiteId,
+            prerequisite_id: prerequisiteId,
             label,
             status,
-            startedAt,
-            parentId,
-            allChildrenDone,
+            started_at: startedAt,
+            parent_id: parentId,
+            all_children_done: allChildrenDone,
           }],
         });
     });
