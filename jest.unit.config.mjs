@@ -9,7 +9,7 @@ const config = {
     },
     testEnvironment: 'jest-environment-jsdom', // Todo: should be node for api tests
     setupFilesAfterEnv: [
-        '<rootDir>/test/jest.setup.ts',
+        '<rootDir>/test/unit.setup.ts',
     ],
     testMatch: [
         '**/*.spec.(ts|tsx)',
