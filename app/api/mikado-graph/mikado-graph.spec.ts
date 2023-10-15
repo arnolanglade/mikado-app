@@ -115,7 +115,7 @@ describe('Mikado Graph', () => {
       mikado_graph_id: mikadoGraphId,
       goal,
       done,
-      prerequisites: [{
+      prerequisite: [{
         prerequisite_id: prerequisiteId,
         label,
         status: StatusState.TODO,
@@ -403,7 +403,7 @@ describe('Mikado Graph', () => {
           mikado_graph_id: mikadoGraphId,
           goal,
           done,
-          prerequisites: [{
+          prerequisite: [{
             prerequisite_id: prerequisiteId,
             label,
             status,

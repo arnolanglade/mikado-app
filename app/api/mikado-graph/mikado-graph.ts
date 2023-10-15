@@ -236,7 +236,7 @@ export class MikadoGraph {
       new MikadoGraphId(mikadoGraphState.mikado_graph_id),
       new Goal(mikadoGraphState.goal),
       mikadoGraphState.done,
-      mikadoGraphState.prerequisites.map((prerequisiteState) => new Prerequisite(
+      mikadoGraphState.prerequisite.map((prerequisiteState) => new Prerequisite(
         new PrerequisiteId(prerequisiteState.prerequisite_id),
         new Label(prerequisiteState.label),
         prerequisiteState.status as unknown as Status,
@@ -298,7 +298,7 @@ export class MikadoGraph {
       mikado_graph_id: this.id.toString(),
       goal: this.goal.toString(),
       done: this.done,
-      prerequisites: this.prerequisites.toState(),
+      prerequisite: this.prerequisites.toState(),
     };
   }
 
@@ -336,7 +336,7 @@ export type MikadoGraphState = {
   mikado_graph_id: string
   goal: string
   done: boolean
-  prerequisites: PrerequisiteState[]
+  prerequisite: PrerequisiteState[]
 };
 
 // Todo: Export for the frontend, do we need to duplicate?
