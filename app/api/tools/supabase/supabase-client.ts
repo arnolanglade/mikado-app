@@ -33,7 +33,7 @@ DatabaseGenerated,
 
 const supabaseClient = createClient<Database>(
   env.get('SUPABASE_URL'),
-  env.get('SUPABASE_KEY'),
+  env.get('SUPABASE_ACCESS_TOKEN'),
 );
 
 export default supabaseClient;
