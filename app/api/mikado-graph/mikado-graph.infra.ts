@@ -75,7 +75,7 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
   }
 
   async get(id: string): Promise<MikadoGraph> {
-    const { data, error } = await this.supabaseClient
+    const { data } = await this.supabaseClient
       .from('mikado_graph')
       .select('*, prerequisite(*)')
       .eq('mikado_graph_id', id)
