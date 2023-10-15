@@ -20,7 +20,7 @@ jobs:
       - name: Set environment variables
         run: cp .env.dist .env.local
       - name: Start database
-        run: supabase db start
+        run: supabase start
       - name: Install dependencies
         run: pnpm install
       - name: Run tests
