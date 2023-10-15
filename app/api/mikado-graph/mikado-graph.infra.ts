@@ -1,7 +1,7 @@
 import {
   Clock, MikadoGraph, MikadoGraphs, UnknownMikadoGraph,
 } from '@/api/mikado-graph/mikado-graph';
-import { Database } from '@/api/tools/supabase-client';
+import { Database } from '@/api/tools/supabase/supabase-client';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 export class SystemClock implements Clock {
