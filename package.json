@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --testMatch '**/*.spec.ts' '**/*.spec.tsx' --config jest.config.mjs",
+    "test": "jest --testMatch '**/*.spec.ts' '**/*.spec.tsx' --config jest.unit.config.mjs",
     "integration": "jest --testMatch '**/*.integration.ts' --config jest.integration.config.mjs",
     "tsc": "npx tsc",
     "setup": "husky install",
