@@ -57,17 +57,25 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
   async add(mikadoGraph: MikadoGraph): Promise<void> {
     const state = mikadoGraph.toState();
 
-    await this.supabaseClient
+    const { error: mikadoGraphError } = await this.supabaseClient
       .from('mikado_graph')
       .upsert({ mikado_graph_id: state.mikado_graph_id, goal: state.goal, done: state.done }, { onConflict: 'mikado_graph_id' });
 
-    await this.supabaseClient
+    if (mikadoGraphError) {
+      throw new Error('The mikado graph cannot be saved', { cause: mikadoGraphError });
+    }
+
+    const { error: prerequisiteError } = await this.supabaseClient
       .from('prerequisite')
       .upsert(state.prerequisite.map((p) => ({ ...p, mikado_graph_id: state.mikado_graph_id })), { onConflict: 'prerequisite_id' });
+
+    if (prerequisiteError) {
+      throw new Error('The prerequisites cannot be saved', { cause: prerequisiteError });
+    }
   }
 
   async get(id: string): Promise<MikadoGraph> {
-    const { data } = await this.supabaseClient
+    const { data, error } = await this.supabaseClient
       .from('mikado_graph')
       .select('*, prerequisite(*)')
       .eq('mikado_graph_id', id)
