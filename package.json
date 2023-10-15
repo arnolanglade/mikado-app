@@ -7,11 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --config jest.unit.config.mjs",
+    "unit": "jest --config jest.unit.config.mjs",
     "integration": "jest --config jest.integration.config.mjs",
     "tsc": "npx tsc",
     "setup": "husky install",
-    "tests": "run-p tsc lint test"
+    "tests": "run-p tsc lint unit integration"
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.0.4",

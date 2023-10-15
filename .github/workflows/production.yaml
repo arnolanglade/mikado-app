@@ -14,12 +14,17 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8.6.6
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      - name: Set environment variables
+        run: cp .env.dist .env.local
+      - name: Start database
+        run: supabase db start
       - name: Install dependencies
         run: pnpm install
-      - name: Check lint issues
-        run: pnpm lint
-      - name: Run unit tests
-        run: pnpm test
+      - name: Run tests
+        run: pnpm tests
       - name: Install Vercel CLI
         run: pnpm install --global vercel@canary
       - name: Pull Vercel Environment Information
