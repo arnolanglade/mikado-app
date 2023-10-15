@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --config jest.unit.config.mjs",
-    "integration": "jest --testMatch '**/*.integration.ts' --config jest.integration.config.mjs",
+    "integration": "jest --config jest.integration.config.mjs",
     "tsc": "npx tsc",
     "setup": "husky install",
     "tests": "run-p tsc lint test"
