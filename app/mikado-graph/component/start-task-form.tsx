@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FormEvent, useRef } from 'react';
-import { Translation } from '@/lib/i18n/intl-provider';
+import { Translation } from '@/tools/i18n/intl-provider';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
   const goalInput = useRef<HTMLInputElement>(null);

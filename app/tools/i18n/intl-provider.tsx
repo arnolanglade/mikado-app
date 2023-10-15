@@ -10,9 +10,9 @@ import {
   useIntl as useBaseIntl,
 } from 'react-intl';
 import { FormatXMLElementFn } from 'intl-messageformat';
-import translationEn from '@/lib/i18n/translation/en';
-import translationFr from '@/lib/i18n/translation/fr';
-import { Translations } from '@/lib/i18n/translation';
+import translationEn from '@/tools/i18n/translation/en';
+import translationFr from '@/tools/i18n/translation/fr';
+import { Translations } from '@/tools/i18n/translation';
 
 type HookValues = Record<string, string | FormatXMLElementFn<string, string>>;
 

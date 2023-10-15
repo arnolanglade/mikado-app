@@ -2,7 +2,7 @@ import React from 'react';
 import {
   render, renderHook, screen, act,
 } from '@testing-library/react';
-import { Translation, useIntl } from '@/lib/i18n/intl-provider';
+import { Translation, useIntl } from '@/tools/i18n/intl-provider';
 import { createWrapper } from '@/test/test-utils';
 
 describe('Intl module', () => {

@@ -1,7 +1,7 @@
 'use client';
 
-import { useServiceContainer } from '@/lib/service-container-context';
-import { useIntl } from '@/lib/i18n/intl-provider';
+import { useServiceContainer } from '@/tools/service-container-context';
+import { useIntl } from '@/tools/i18n/intl-provider';
 import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
 import Dagre from '@dagrejs/dagre';
 

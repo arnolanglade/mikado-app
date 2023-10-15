@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { useRouter } from 'next/navigation';
-import { useNotification, UseNotificationHook } from '@/lib/notification';
+import { useNotification, UseNotificationHook } from '@/tools/notification';
 import mikadoGraphApi, { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
 
 export type ServiceContainer = {

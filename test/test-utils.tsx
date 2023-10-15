@@ -1,9 +1,9 @@
-import { container, ServiceContainerProvider } from '@/lib/service-container-context';
+import { container, ServiceContainerProvider } from '@/tools/service-container-context';
 import { ReactElement } from 'react';
-import IntlProvider from '@/lib/i18n/intl-provider';
+import IntlProvider from '@/tools/i18n/intl-provider';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
-import { UseNotification } from '@/lib/notification';
+import { UseNotification } from '@/tools/notification';
 import mikadoGraphApi, { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
 import {
   Goal,
@@ -17,7 +17,7 @@ import {
   PrerequisiteId,
   StatusView,
 } from '@/api/mikado-graph/mikado-graph';
-import { Translations } from '@/lib/i18n/translation';
+import { Translations } from '@/tools/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';
 import { ToastContainer } from 'react-toastify';

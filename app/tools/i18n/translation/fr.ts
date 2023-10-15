@@ -1,4 +1,4 @@
-import { Translations } from '@/lib/i18n/translation';
+import { Translations } from '@/tools/i18n/translation';
 
 const translationFr: Translations = {
   test: 'test fr',

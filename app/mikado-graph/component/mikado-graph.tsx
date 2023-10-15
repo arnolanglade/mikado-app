@@ -4,7 +4,7 @@ import React from 'react';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import styles from '@/mikado-graph/[id]/page.module.css';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
-import { Translation } from '@/lib/i18n/intl-provider';
+import { Translation } from '@/tools/i18n/intl-provider';
 import { Handle, Position, ReactFlow } from 'reactflow';
 
 import 'reactflow/dist/style.css';

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import env from '@/lib/config';
+import env from '@/tools/config';
 import { MergeDeep } from 'type-fest';
 import { StatusState } from '@/api/mikado-graph/mikado-graph';
 import { Database as DatabaseGenerated } from './generated-type';

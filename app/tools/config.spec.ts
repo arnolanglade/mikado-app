@@ -1,4 +1,4 @@
-import { createEncVars } from '@/lib/config';
+import { createEncVars } from '@/tools/config';
 
 describe('Env var', () => {
   it('gets an env var value', () => {

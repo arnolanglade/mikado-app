@@ -1,4 +1,4 @@
-import httpClient from '@/lib/http-client';
+import httpClient from '@/tools/http-client';
 import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
 import { getMikadoGraphById } from '@/api/mikado-graph/mikado-graph.usecase';
 
