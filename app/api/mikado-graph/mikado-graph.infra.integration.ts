@@ -5,7 +5,7 @@ import {
 import { aMikadoGraph } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 import { InMemoryMikadoGraphs, SupabaseMikadoGraphs } from '@/api/mikado-graph/mikado-graph.infra';
-import supabaseClient from '@/api/tools/supabase/supabase-client';
+import supabaseClient from '@/tools/api/supabase/supabase-client';
 
 describe('Mikado Graphs', () => {
   it.each([
