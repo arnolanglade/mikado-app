@@ -2,7 +2,7 @@ import {
   Clock, MikadoGraph, MikadoGraphs, UnknownMikadoGraph,
 } from '@/api/mikado-graph/mikado-graph';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database } from '@/tools/api/supabase/supabase-client';
+import supabaseClient, { Database } from '@/tools/api/supabase/supabase-client';
 
 export class SystemClock implements Clock {
   // eslint-disable-next-line class-methods-use-this
@@ -52,12 +52,12 @@ export class InMemoryMikadoGraphs implements MikadoGraphs {
 }
 
 export class SupabaseMikadoGraphs implements MikadoGraphs {
-  constructor(private supabaseClient: SupabaseClient<Database>) {}
+  constructor(private client: SupabaseClient<Database>) {}
 
   async add(mikadoGraph: MikadoGraph): Promise<void> {
     const state = mikadoGraph.toState();
 
-    const { error: mikadoGraphError } = await this.supabaseClient
+    const { error: mikadoGraphError } = await this.client
       .from('mikado_graph')
       .upsert({ mikado_graph_id: state.mikado_graph_id, goal: state.goal, done: state.done }, { onConflict: 'mikado_graph_id' });
 
@@ -65,7 +65,7 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
       throw new Error('The mikado graph cannot be saved', { cause: mikadoGraphError });
     }
 
-    const { error: prerequisiteError } = await this.supabaseClient
+    const { error: prerequisiteError } = await this.client
       .from('prerequisite')
       .upsert(state.prerequisite.map((p) => ({ ...p, mikado_graph_id: state.mikado_graph_id })), { onConflict: 'prerequisite_id' });
 
@@ -75,7 +75,7 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
   }
 
   async get(id: string): Promise<MikadoGraph> {
-    const { data } = await this.supabaseClient
+    const { data } = await this.client
       .from('mikado_graph')
       .select('*, prerequisite(*)')
       .eq('mikado_graph_id', id)
@@ -88,3 +88,4 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
     return MikadoGraph.fromState(data);
   }
 }
+export const supabaseMikadoGraphs = new SupabaseMikadoGraphs(supabaseClient);

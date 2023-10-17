@@ -1,10 +1,7 @@
 import {
   Clock, MikadoGraph, MikadoGraphs, MikadoGraphView,
 } from '@/api/mikado-graph/mikado-graph';
-import { InMemoryMikadoGraphs, SystemClock } from '@/api/mikado-graph/mikado-graph.infra';
-
-// Todo: Export for the testing purpose
-export const inMemoryMikadoGraphs = new InMemoryMikadoGraphs();
+import { supabaseMikadoGraphs, SystemClock } from '@/api/mikado-graph/mikado-graph.infra';
 
 export type StartTask = {
   mikadoGraphId: string
@@ -15,7 +12,7 @@ export const handleStartTask = (mikadoGraphs: MikadoGraphs) => async (input: Sta
   await mikadoGraphs.add(MikadoGraph.start(input.mikadoGraphId, input.goal));
 };
 
-export const startTask = handleStartTask(inMemoryMikadoGraphs);
+export const startTask = handleStartTask(supabaseMikadoGraphs);
 
 export type AddPrerequisiteToMikadoGraph = {
   prerequisiteId: string
@@ -29,7 +26,7 @@ export const handleAddPrerequisiteToMikadoGraph = (mikadoGraphs: MikadoGraphs) =
   await mikadoGraphs.add(mikadoGraph);
 };
 
-export const addPrerequisiteToMikadoGraph = handleAddPrerequisiteToMikadoGraph(inMemoryMikadoGraphs);
+export const addPrerequisiteToMikadoGraph = handleAddPrerequisiteToMikadoGraph(supabaseMikadoGraphs);
 
 export type AddPrerequisiteToPrerequisite = {
   mikadoGraphId: string
@@ -44,7 +41,7 @@ export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) 
   await mikadoGraphs.add(mikadoGraph);
 };
 
-export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(inMemoryMikadoGraphs);
+export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(supabaseMikadoGraphs);
 
 export type CommitChanges = {
   mikadoGraphId: string
@@ -57,14 +54,14 @@ export const handleCommitChanges = (mikadoGraphs: MikadoGraphs) => async (input:
   await mikadoGraphs.add(mikadoGraph);
 };
 
-export const commitChanges = handleCommitChanges(inMemoryMikadoGraphs);
+export const commitChanges = handleCommitChanges(supabaseMikadoGraphs);
 
 export const handleGetMikadoGraphById = (mikadoGraphs: MikadoGraphs) => async (mikadoGraphId: string): Promise<MikadoGraphView> => {
   const mikadoGraph = await mikadoGraphs.get(mikadoGraphId);
   return mikadoGraph.toView();
 };
 
-export const getMikadoGraphById = handleGetMikadoGraphById(inMemoryMikadoGraphs);
+export const getMikadoGraphById = handleGetMikadoGraphById(supabaseMikadoGraphs);
 
 export type StartExperimentation = {
   prerequisiteId: string
@@ -77,4 +74,4 @@ export const handleStartExperimentation = (mikadoGraphs: MikadoGraphs, clock: Cl
   await mikadoGraphs.add(mikadoGraph);
 };
 
-export const startExperimentation = handleStartExperimentation(inMemoryMikadoGraphs, new SystemClock());
+export const startExperimentation = handleStartExperimentation(supabaseMikadoGraphs, new SystemClock());
