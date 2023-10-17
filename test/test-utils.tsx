@@ -4,7 +4,7 @@ import IntlProvider from '@/tools/i18n/intl-provider';
 import { jest } from '@jest/globals';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 import { UseNotification } from '@/tools/notification';
-import mikadoGraphApi, { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
+import { MikadoGraphApi } from '@/mikado-graph/mikado-graph.api';
 import {
   Goal,
   Label,
@@ -21,16 +21,6 @@ import { Translations } from '@/tools/i18n/translation';
 import { v4 as uuidv4 } from 'uuid';
 import { ReactFlowProvider } from 'reactflow';
 import { ToastContainer } from 'react-toastify';
-
-export const aMikadoGraphApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
-  getById: jest.fn() as jest.Mocked<typeof mikadoGraphApi.getById>,
-  start: jest.fn() as jest.Mocked<typeof mikadoGraphApi.start>,
-  addPrerequisiteToMikadoGraph: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>,
-  addPrerequisiteToPrerequisite: jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToPrerequisite>,
-  startExperimentation: jest.fn() as jest.Mocked<typeof mikadoGraphApi.startExperimentation>,
-  commitChanges: jest.fn() as jest.Mocked<typeof mikadoGraphApi.commitChanges>,
-  ...api,
-});
 
 export const aRouter = (router: Partial<AppRouterInstance> = {}) => (): AppRouterInstance => ({
   back: jest.fn(),
@@ -158,4 +148,13 @@ export const aPrerequisiteView = (prerequisite: Partial<PrerequisiteViewState> =
   startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
   parentId: prerequisite.parentId ?? uuidv4(),
   allChildrenDone: prerequisite.allChildrenDone ?? false,
+});
+
+export const aMikadoGraphApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
+  start: jest.fn(() => Promise.resolve(aMikadoGraphView())),
+  addPrerequisiteToMikadoGraph: jest.fn(() => Promise.resolve(aMikadoGraphView())),
+  addPrerequisiteToPrerequisite: jest.fn(() => Promise.resolve(aMikadoGraphView())),
+  startExperimentation: jest.fn(() => Promise.resolve(aMikadoGraphView())),
+  commitChanges: jest.fn(() => Promise.resolve(aMikadoGraphView())),
+  ...api,
 });

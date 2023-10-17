@@ -1,9 +1,7 @@
 import httpClient from '@/tools/http-client';
 import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
-import { getMikadoGraphById } from '@/api/mikado-graph/mikado-graph.usecase';
 
 export type MikadoGraphApi = {
-  getById: (id: string) => Promise<MikadoGraphView>
   start: (goal: string) => Promise<MikadoGraphView>
   addPrerequisiteToMikadoGraph: (mikadoGraphId: string, label: string) => Promise<MikadoGraphView>
   startExperimentation: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
@@ -12,7 +10,6 @@ export type MikadoGraphApi = {
 };
 
 const mikadoGraphApi: MikadoGraphApi = {
-  getById: async (id: string) => getMikadoGraphById(id),
   start: async (goal: string) => {
     const response = await httpClient.post('/api/mikado-graph', { goal });
     return response.json();

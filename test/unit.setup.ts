@@ -1,4 +1,7 @@
 import '@testing-library/jest-dom/extend-expect';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: '.env.local' });
 
 // To make sure that the tests are working, it's important that you are using
 // this implementation of ResizeObserver and DOMMatrixReadOnly

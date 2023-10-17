@@ -6,7 +6,6 @@ import { jest } from '@jest/globals';
 import {
   aNotifier, aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
 } from '@/test/test-utils';
-import mikadoGraphApi from '@/mikado-graph/mikado-graph.api';
 import { v4 as uuidv4 } from 'uuid';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
 
@@ -169,7 +168,7 @@ describe('useMikadoGraph', () => {
 
   describe('add prerequisite to a mikado graph', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const addPrerequisiteToMikadoGraph = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToMikadoGraph>;
+      const addPrerequisiteToMikadoGraph = jest.fn(() => Promise.resolve(aMikadoGraphView()));
       const success = jest.fn();
       const mikadoGraphId = uuidv4();
       const prerequisiteLabel = 'Do that';
@@ -236,7 +235,7 @@ describe('useMikadoGraph', () => {
 
   describe('add prerequisite to a prerequisite', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const addPrerequisiteToPrerequisite = jest.fn() as jest.Mocked<typeof mikadoGraphApi.addPrerequisiteToPrerequisite>;
+      const addPrerequisiteToPrerequisite = jest.fn(() => Promise.resolve(aMikadoGraphView()));
       const success = jest.fn();
       const mikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
@@ -310,7 +309,7 @@ describe('useMikadoGraph', () => {
       const success = jest.fn();
       const mikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
-      const startExperimentation = jest.fn() as jest.Mocked<typeof mikadoGraphApi.startExperimentation>;
+      const startExperimentation = jest.fn(() => Promise.resolve(aMikadoGraphView()));
 
       const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({ mikadoGraphId })), {
         wrapper: createWrapper(

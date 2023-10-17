@@ -1,8 +1,8 @@
 import {
   Clock, MikadoGraph, MikadoGraphs, UnknownMikadoGraph,
 } from '@/api/mikado-graph/mikado-graph';
-import { Database } from '@/api/tools/supabase/supabase-client';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { Database } from '@/tools/api/supabase/supabase-client';
 
 export class SystemClock implements Clock {
   // eslint-disable-next-line class-methods-use-this
