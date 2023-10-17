@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "unit": "jest --testMatch '**/*.spec.(ts|tsx)'  --testEnvironment jest-environment-jsdom --setupFilesAfterEnv '<rootDir>/test/unit.setup.ts'",
-    "integration": "jest --testMatch '**/*.integration.ts' --setupFiles '<rootDir>/test/integration.setup.ts'",
+    "unit": "jest",
+    "integration": "jest --testMatch '**/*.integration.ts' --testEnvironment node --setupFilesAfterEnv",
     "tsc": "npx tsc",
     "setup": "husky install",
     "tests": "run-p tsc lint unit integration"

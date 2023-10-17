@@ -1,10 +1,6 @@
-import '@testing-library/jest-dom/extend-expect';
-import dotenv from 'dotenv';
-
-dotenv.config({ path: '.env.local' });
-
 // To make sure that the tests are working, it's important that you are using
 // this implementation of ResizeObserver and DOMMatrixReadOnly
+// @ts-ignore
 class ResizeObserver {
   callback: globalThis.ResizeObserverCallback;
 
@@ -16,11 +12,14 @@ class ResizeObserver {
     this.callback([{ target } as globalThis.ResizeObserverEntry], this);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   unobserve() {}
 
+  // eslint-disable-next-line class-methods-use-this
   disconnect() {}
 }
 
+// @ts-ignore
 class DOMMatrixReadOnly {
   m22: number;
 
