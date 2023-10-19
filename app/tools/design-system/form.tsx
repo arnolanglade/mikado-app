@@ -11,6 +11,17 @@ export function Form(
   );
 }
 
+export function Button(
+  { label, onClick }:
+  { label: ReactNode, onClick: () => void },
+) {
+  return (
+    <button type="button" onClick={onClick}>
+      {label}
+    </button>
+  );
+}
+
 export function SubmitButton({ label }: { label: ReactNode }) {
   return (
     <button type="submit">
