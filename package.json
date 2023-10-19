@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "unit": "jest",
-    "integration": "jest --testMatch '**/*.integration.ts' --testEnvironment node --setupFilesAfterEnv",
+    "unit": "jest --maxWorkers=50%",
+    "integration": "jest --maxWorkers=50% --testMatch '**/*.integration.ts' --testEnvironment node --setupFilesAfterEnv",
     "tsc": "npx tsc",
     "setup": "husky install",
     "tests": "run-p tsc lint unit integration"
