@@ -1,4 +1,5 @@
 import React, { ReactNode, RefObject } from 'react';
+import styles from './form.module.css';
 
 export function Form(
   { onSubmit, children }:
@@ -16,7 +17,7 @@ export function Button(
   { label: ReactNode, onClick: () => void },
 ) {
   return (
-    <button type="button" onClick={onClick}>
+    <button type="button" onClick={onClick} className={`${styles.button} ${styles.formElement}`}>
       {label}
     </button>
   );
@@ -24,7 +25,7 @@ export function Button(
 
 export function SubmitButton({ label }: { label: ReactNode }) {
   return (
-    <button type="submit">
+    <button type="submit" className={`${styles.button} ${styles.formElement}`}>
       {label}
     </button>
   );
@@ -32,6 +33,6 @@ export function SubmitButton({ label }: { label: ReactNode }) {
 
 export function Textarea({ ref }: { ref: RefObject<HTMLTextAreaElement> }) {
   return (
-    <textarea ref={ref} />
+    <textarea ref={ref} className={`${styles.textarea} ${styles.formElement}`} />
   );
 }

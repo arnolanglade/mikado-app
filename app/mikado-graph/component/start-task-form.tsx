@@ -2,21 +2,20 @@
 
 import React, { FormEvent, useRef } from 'react';
 import { Translation } from '@/tools/i18n/intl-provider';
+import { Form, SubmitButton, Textarea } from '@/tools/design-system/form';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
-  const goalInput = useRef<HTMLInputElement>(null);
+  const goalref = useRef<HTMLTextAreaElement>(null);
 
   const startTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(goalInput.current?.value!);
+    onSubmit(goalref.current?.value!);
   };
 
   return (
-    <form onSubmit={startTask}>
-      <input required ref={goalInput} type="text" />
-      <button type="submit" aria-label="start a task">
-        <Translation id="mikado-graph.start" />
-      </button>
-    </form>
+    <Form onSubmit={startTask}>
+      <Textarea ref={goalref} />
+      <SubmitButton label={<Translation id="mikado-graph.start" />} />
+    </Form>
   );
 }
