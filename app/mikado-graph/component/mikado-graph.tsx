@@ -9,6 +9,7 @@ import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
 import 'reactflow/dist/style.css';
 import { Button } from '@/tools/design-system/form';
+import Alert from '@/tools/design-system/alert';
 import styles from './mikado-graph.module.css';
 
 export function MikadoGraphNode({
@@ -21,8 +22,13 @@ export function MikadoGraphNode({
       <Typography variant="p">
         <Translation id="mikado-graph.your-goal" values={{ goal }} />
       </Typography>
-      {done ? <Translation id="prerequisite.done" />
-        : <AddPrerequisiteForm onSubmit={addPrerequisiteToMikadoGraph} />}
+      {
+        done ? (
+          <Alert severity="success">
+            <Translation id="mikado-graph.done" />
+          </Alert>
+        ) : <AddPrerequisiteForm onSubmit={addPrerequisiteToMikadoGraph} />
+      }
       <Handle type="source" position={Position.Bottom} />
     </div>
   );
@@ -56,9 +62,13 @@ export function PrerequisiteNode({
     >
       <Handle type="target" position={Position.Top} />
       <Translation id="prerequisite.label" values={{ label }} />
-      <p>
-        {status === StatusView.DONE && <Translation id="prerequisite.done" />}
-      </p>
+      {
+        status === StatusView.DONE && (
+          <Alert severity="success">
+            <Translation id="prerequisite.done" />
+          </Alert>
+        )
+      }
       {status === StatusView.TODO && (
       <Button onClick={startExperimentation}>
         <Translation id="prerequisite.start-experimentation" />

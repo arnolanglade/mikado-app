@@ -3,6 +3,7 @@ import { Translations } from '@/tools/i18n/translation';
 const translationEn: Translations = {
   test: 'test en',
   'mikado-graph.start': 'Start a task',
+  'mikado-graph.done': 'Great! You finished your goal!',
   'mikado-graph.goal-and-objective': 'What is your goal or objective?',
   'mikado-graph.your-goal': '<strong>Your goal</strong>: {goal}',
   'mikado-graph.notification.success.start': 'The refactoring has been started',
@@ -14,6 +15,6 @@ const translationEn: Translations = {
   'prerequisite.start-experimentation': 'Start experimentation',
   'prerequisite.commit-changes': 'Commit changes',
   'prerequisite.notification.success.commit-changes': 'Changes committed',
-  'prerequisite.done': 'Done',
+  'prerequisite.done': 'Great! You\'ve completed the prerequisite!',
 };
 export default translationEn;

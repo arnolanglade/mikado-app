@@ -58,8 +58,8 @@ describe('MikadoGraph', () => {
     });
 
     expect(screen.getByText((content) => content.includes('Refactor this method'))).toBeInTheDocument();
-    expect(screen.getByText('Do this')).toBeInTheDocument();
-    expect(screen.getByText('Do that')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Do this'))).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Do that'))).toBeInTheDocument();
   });
 
   describe('MikadoGraphNode', () => {
@@ -114,7 +114,9 @@ describe('MikadoGraph', () => {
         render(<MikadoGraphNode
           data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
-          wrapper: createWrapper(),
+          wrapper: createWrapper({}, {
+            'mikado-graph.done': 'Done',
+          }),
         });
 
         expect(
