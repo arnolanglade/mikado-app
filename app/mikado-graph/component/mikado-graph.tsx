@@ -17,7 +17,7 @@ export function MikadoGraphNode({
   data: { goal: string, done: boolean, addPrerequisiteToMikadoGraph: (label: string) => void },
 }) {
   return (
-    <div className={styles.goalContainer}>
+    <div className={styles.container}>
       <Typography variant="p">
         <Translation id="mikado-graph.your-goal" values={{ goal }} />
       </Typography>
@@ -51,7 +51,7 @@ export function PrerequisiteNode({
 }) {
   return (
     <div
-      className={styles.prerequisiteContainer}
+      className={styles.container}
       key={id}
     >
       <Handle type="target" position={Position.Top} />

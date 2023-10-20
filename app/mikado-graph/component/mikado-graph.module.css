@@ -4,14 +4,9 @@
     color: #545454;
 }
 
-.goalContainer {
-    border: 1px solid rgb(84 105 212 / 0.5);
+.container {
     padding: 10px;
     max-width: 500px;
-}
-
-.prerequisiteContainer {
-    border: 1px solid rgb(84 105 212 / 0.5);
-    padding: 10px;
-    max-width: 500px;
+    border-radius: 4px;
+    box-shadow: rgba(60, 66, 87, 0.12) 0 7px 14px 0, rgba(0, 0, 0, 0.12) 0 3px 6px 0;
 }
