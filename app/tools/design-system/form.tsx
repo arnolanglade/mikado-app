@@ -1,4 +1,4 @@
-import React, { ReactNode, RefObject } from 'react';
+import React, { forwardRef, ReactNode, RefObject } from 'react';
 import styles from './form.module.css';
 
 export function Form(
@@ -31,8 +31,7 @@ export function SubmitButton({ label }: { label: ReactNode }) {
   );
 }
 
-export function Textarea({ ref }: { ref: RefObject<HTMLTextAreaElement> }) {
-  return (
-    <textarea ref={ref} className={`${styles.textarea} ${styles.formElement}`} />
-  );
-}
+// eslint-disable-next-line react/display-name
+export const Textarea = forwardRef<HTMLTextAreaElement>((props, ref) => (
+  <textarea ref={ref} className={`${styles.textarea} ${styles.formElement}`} />
+));
