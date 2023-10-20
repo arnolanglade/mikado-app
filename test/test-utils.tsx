@@ -95,7 +95,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
         new MikadoGraphId(prerequisite.parentId ?? newState.mikadoGraphId),
-        prerequisite.allChildrenDone ?? false,
+        prerequisite.allChildrenDone,
         prerequisite.startedAt ? new Date(prerequisite.startedAt) : undefined,
       ),
     ),

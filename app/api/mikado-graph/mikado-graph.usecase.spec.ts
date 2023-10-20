@@ -91,7 +91,7 @@ describe('Mikado Graph use cases', () => {
       .toEqual(aMikadoGraph({
         mikadoGraphId,
         prerequisites: [
-          existingPrerequisite,
+          { ...existingPrerequisite, allChildrenDone: false },
           {
             prerequisiteId, parentId: existingPrerequisiteId, label, status: Status.TODO,
           },

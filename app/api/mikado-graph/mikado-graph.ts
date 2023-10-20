@@ -58,7 +58,7 @@ export class Prerequisite {
     private label: Label,
     private status: Status,
     public parentId: MikadoGraphId,
-    private allChildrenDone: boolean,
+    private allChildrenDone?: boolean,
     private startedAt?: Date,
   ) {
   }
@@ -73,7 +73,6 @@ export class Prerequisite {
       new Label(label),
       Status.TODO,
       new MikadoGraphId(parentId),
-      false,
     );
   }
 
@@ -329,7 +328,7 @@ export type PrerequisiteState = {
   status: StatusState,
   started_at?: string,
   parent_id: string,
-  all_children_done: boolean,
+  all_children_done?: boolean,
 };
 
 export type MikadoGraphState = {
@@ -358,7 +357,7 @@ export type PrerequisiteView = {
   status: StatusView,
   startedAt?: string,
   parentId: string,
-  allChildrenDone: boolean,
+  allChildrenDone?: boolean,
 };
 
 export type MikadoGraphView = {
