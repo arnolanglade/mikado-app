@@ -8,6 +8,7 @@ import { Handle, Position, ReactFlow } from 'reactflow';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
 import 'reactflow/dist/style.css';
+import { Button } from '@/tools/design-system/form';
 import styles from './mikado-graph.module.css';
 
 export function MikadoGraphNode({
@@ -60,12 +61,9 @@ export function PrerequisiteNode({
         {status === StatusView.DONE && <Translation id="prerequisite.done" />}
       </p>
       {status === StatusView.TODO && (
-      <button
-        type="button"
-        onClick={startExperimentation}
-      >
+      <Button onClick={startExperimentation}>
         <Translation id="prerequisite.start-experimentation" />
-      </button>
+      </Button>
       )}
       {status === StatusView.EXPERIMENTING && (
       <>
