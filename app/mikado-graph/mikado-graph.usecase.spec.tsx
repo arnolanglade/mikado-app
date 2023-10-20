@@ -100,10 +100,13 @@ describe('useMikadoGraph', () => {
       const prerequisiteId = uuidv4();
       const label = 'label';
       const status = StatusView.TODO;
+      const allChildrenDone = false;
 
       const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({
         mikadoGraphId: MikadoGraphId,
-        prerequisites: [{ prerequisiteId, label, status }],
+        prerequisites: [{
+          prerequisiteId, label, status, allChildrenDone,
+        }],
       })), {
         wrapper: createWrapper({}, {}),
       });
@@ -115,6 +118,7 @@ describe('useMikadoGraph', () => {
         data: {
           label,
           status,
+          allChildrenDone,
           startExperimentation: expect.any(Function),
           addPrerequisiteToPrerequisite: expect.any(Function),
           commitChanges: expect.any(Function),

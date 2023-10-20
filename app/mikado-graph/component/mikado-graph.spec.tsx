@@ -26,6 +26,7 @@ describe('MikadoGraph', () => {
             data: {
               label: 'Do this',
               status: StatusView.TODO,
+              allChildrenDone: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -38,6 +39,7 @@ describe('MikadoGraph', () => {
             data: {
               label: 'Do that',
               status: StatusView.TODO,
+              allChildrenDone: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),

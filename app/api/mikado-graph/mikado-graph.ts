@@ -143,7 +143,7 @@ export class Prerequisite {
       status: this.status as unknown as StatusView,
       startedAt: this.startedAt?.toISOString(),
       parentId: this.parentId.toString(),
-      allChildrenDone: this.allChildrenDone,
+      allChildrenDone: !this.allChildrenDone ? true : this.allChildrenDone,
     };
   }
 
@@ -357,7 +357,7 @@ export type PrerequisiteView = {
   status: StatusView,
   startedAt?: string,
   parentId: string,
-  allChildrenDone?: boolean,
+  allChildrenDone: boolean,
 };
 
 export type MikadoGraphView = {

@@ -3,7 +3,9 @@ import {
   PrerequisiteList,
   Status, StatusState, StatusView,
 } from '@/api/mikado-graph/mikado-graph';
-import { aMikadoGraph, aPrerequisite, aPrerequisiteView } from '@/test/test-utils';
+import {
+  aMikadoGraph, aMikadoGraphView, aPrerequisite, aPrerequisiteView,
+} from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('Prerequisite List', () => {
@@ -372,6 +374,21 @@ describe('Mikado Graph', () => {
             allChildrenDone,
           }],
         });
+    });
+
+    test('a prerequisite can be committed when a prerequisite does not have a children', () => {
+      const mikadoGraph = aMikadoGraph({
+        prerequisites: [{
+          allChildrenDone: undefined,
+        }],
+      });
+
+      expect(mikadoGraph.toView())
+        .toEqual(aMikadoGraphView({
+          prerequisites: [{
+            allChildrenDone: true,
+          }],
+        }));
     });
 
     it('turns a mikado graph into a state', () => {
