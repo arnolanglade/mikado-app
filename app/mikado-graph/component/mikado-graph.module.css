@@ -7,9 +7,11 @@
 .goalContainer {
     border: 1px solid rgb(84 105 212 / 0.5);
     padding: 10px;
+    max-width: 500px;
 }
 
 .prerequisiteContainer {
     border: 1px solid rgb(84 105 212 / 0.5);
     padding: 10px;
+    max-width: 500px;
 }

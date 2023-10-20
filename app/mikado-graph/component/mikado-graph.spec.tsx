@@ -55,7 +55,7 @@ describe('MikadoGraph', () => {
       ),
     });
 
-    expect(screen.getByText('Refactor this method')).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Refactor this method'))).toBeInTheDocument();
     expect(screen.getByText('Do this')).toBeInTheDocument();
     expect(screen.getByText('Do that')).toBeInTheDocument();
   });

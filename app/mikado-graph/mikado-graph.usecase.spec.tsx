@@ -119,7 +119,7 @@ describe('useMikadoGraph', () => {
           addPrerequisiteToPrerequisite: expect.any(Function),
           commitChanges: expect.any(Function),
         },
-        position: { x: 0, y: 320 },
+        position: { x: 0, y: 400 },
       });
     });
 
