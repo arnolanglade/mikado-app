@@ -71,6 +71,10 @@ export const useIntl = () : Intl => {
 
 type ComponentValues = Record<string, string | FormatXMLElementFn<ReactNode, ReactNode>>;
 
+const richText = {
+  strong: (chunks: ReactNode) => <strong>{chunks}</strong>,
+};
+
 export function Translation({ id, values = {} }: { id: string, values?: ComponentValues }) {
-  return <FormattedMessage id={id} values={values} />;
+  return <FormattedMessage id={id} values={{ ...richText, ...values }} />;
 }

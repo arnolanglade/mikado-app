@@ -2,13 +2,13 @@
 
 import React from 'react';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
-import styles from '@/mikado-graph/[id]/page.module.css';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/tools/i18n/intl-provider';
 import { Handle, Position, ReactFlow } from 'reactflow';
-
-import 'reactflow/dist/style.css';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
+import Typography from '@/tools/design-system/Typography';
+import 'reactflow/dist/style.css';
+import styles from './mikado-graph.module.css';
 
 export function MikadoGraphNode({
   data: { goal, done, addPrerequisiteToMikadoGraph },
@@ -16,8 +16,10 @@ export function MikadoGraphNode({
   data: { goal: string, done: boolean, addPrerequisiteToMikadoGraph: (label: string) => void },
 }) {
   return (
-    <div className={styles.goal}>
-      <p>{goal}</p>
+    <div className={styles.goalContainer}>
+      <Typography variant="p">
+        <Translation id="mikado-graph.your-goal" values={{ goal }} />
+      </Typography>
       {done ? <Translation id="prerequisite.done" />
         : <AddPrerequisiteForm onSubmit={addPrerequisiteToMikadoGraph} />}
       <Handle type="source" position={Position.Bottom} />
@@ -48,7 +50,7 @@ export function PrerequisiteNode({
 }) {
   return (
     <div
-      className={styles.prerequisite}
+      className={styles.prerequisiteContainer}
       key={id}
     >
       <Handle type="target" position={Position.Top} />
@@ -96,13 +98,11 @@ export default function Graph({
   mikadoGraph: MikadoGraph,
 }) {
   return (
-    <div className={styles.dashboard}>
-      <ReactFlow
-        nodes={mikadoGraph.nodes}
-        edges={mikadoGraph.edges}
-        nodeTypes={nodeTypes}
-        fitView
-      />
-    </div>
+    <ReactFlow
+      nodes={mikadoGraph.nodes}
+      edges={mikadoGraph.edges}
+      nodeTypes={nodeTypes}
+      fitView
+    />
   );
 }
