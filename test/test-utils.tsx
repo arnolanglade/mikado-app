@@ -91,10 +91,10 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
     newState.done,
     newState.prerequisites.map(
       (prerequisite) => new Prerequisite(
-        new PrerequisiteId(prerequisite.prerequisiteId ?? uuidv4()),
+        new PrerequisiteId(prerequisite.prerequisiteId ?? 'b97a7c3a-ee3c-443f-a6a2-59272e70560c'),
         new Label(prerequisite.label ?? 'Do that'),
         prerequisite.status ?? Status.TODO,
-        new MikadoGraphId(prerequisite.parentId ?? newState.mikadoGraphId),
+        new MikadoGraphId(prerequisite.parentId ?? newState.mikadoGraphId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6'),
         prerequisite.allChildrenDone,
         prerequisite.startedAt ? new Date(prerequisite.startedAt) : undefined,
       ),
@@ -103,7 +103,7 @@ export const aMikadoGraph = (state: Partial<MikadaGraphState>) => {
 };
 
 export const aPrerequisite = (state: Partial<PrerequisiteState> = {}) => new Prerequisite(
-  new PrerequisiteId(state.prerequisiteId ?? uuidv4()),
+  new PrerequisiteId(state.prerequisiteId ?? 'b97a7c3a-ee3c-443f-a6a2-59272e70560c'),
   new Label(state.label ?? 'Do that'),
   state.status ?? Status.TODO,
   new MikadoGraphId(state.parentId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6'),
@@ -132,22 +132,22 @@ export const aMikadoGraphView = (graph: Partial<MikadoGraphViewState> = {}): Mik
   goal: graph.goal ?? 'Refactor this class',
   done: graph.done ?? false,
   prerequisites: graph.prerequisites?.map((prerequisite) => ({
-    prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
-    label: prerequisite.label ?? 'Do this',
+    prerequisiteId: prerequisite.prerequisiteId ?? 'b97a7c3a-ee3c-443f-a6a2-59272e70560c',
+    label: prerequisite.label ?? 'Do that',
     status: prerequisite.status ?? StatusView.TODO,
-    startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
     parentId: prerequisite.parentId ?? graph.mikadoGraphId ?? '2067a2c3-9965-4c7f-857b-00d4e27f35f6',
-    allChildrenDone: prerequisite.allChildrenDone ?? false,
+    startedAt: prerequisite.startedAt,
+    allChildrenDone: prerequisite.allChildrenDone,
   })) ?? [],
 });
 
 export const aPrerequisiteView = (prerequisite: Partial<PrerequisiteViewState> = {}): PrerequisiteView => ({
-  prerequisiteId: prerequisite.prerequisiteId ?? uuidv4(),
-  label: prerequisite.label ?? 'Do this',
+  prerequisiteId: prerequisite.prerequisiteId ?? 'b97a7c3a-ee3c-443f-a6a2-59272e70560c',
+  label: prerequisite.label ?? 'Do that',
   status: prerequisite.status ?? StatusView.TODO,
-  startedAt: prerequisite.startedAt ?? '2023-07-25T10:24:00',
-  parentId: prerequisite.parentId ?? uuidv4(),
-  allChildrenDone: prerequisite.allChildrenDone ?? false,
+  parentId: prerequisite.parentId ?? 'd3084e50-6f44-11ee-b962-0242ac120002',
+  startedAt: prerequisite.startedAt,
+  allChildrenDone: prerequisite.allChildrenDone,
 });
 
 export const aMikadoGraphApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphApi => ({
