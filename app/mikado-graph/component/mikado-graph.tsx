@@ -61,7 +61,9 @@ export function PrerequisiteNode({
       key={id}
     >
       <Handle type="target" position={Position.Top} />
-      <Translation id="prerequisite.label" values={{ label }} />
+      <Typography variant="p">
+        <Translation id="prerequisite.label" values={{ label }} />
+      </Typography>
       {
         status === StatusView.DONE && (
           <Alert severity="success">
