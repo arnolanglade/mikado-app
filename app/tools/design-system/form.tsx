@@ -12,6 +12,14 @@ export function Form(
   );
 }
 
+export function ButtonGroup({ children }: { children: ReactNode }) {
+  return (
+    <div className={styles.buttonGroup}>
+      {children}
+    </div>
+  );
+}
+
 export function Button(
   { children, onClick }:
   { children: ReactNode, onClick: () => void },

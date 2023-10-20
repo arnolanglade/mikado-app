@@ -18,6 +18,13 @@
   margin-bottom: 20px;
 }
 
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 10px
+}
+
 .button {
   background-color: rgb(84, 105, 212);
   color: #fff;
