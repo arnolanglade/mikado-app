@@ -1,3 +1,7 @@
+body {
+    background-color: rgb(243, 246, 249);
+}
+
 .Toastify__toast-theme--colored.Toastify__toast--success {
     background-color: rgb(237, 247, 237);
     color: rgb(30, 70, 32);
