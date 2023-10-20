@@ -6,7 +6,7 @@ import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form'
 import { Translation } from '@/tools/i18n/intl-provider';
 import { Handle, Position, ReactFlow } from 'reactflow';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
-import Typography from '@/tools/design-system/Typography';
+import Typography from '@/tools/design-system/typography';
 import 'reactflow/dist/style.css';
 import styles from './mikado-graph.module.css';
 

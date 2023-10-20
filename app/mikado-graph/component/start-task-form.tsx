@@ -3,7 +3,7 @@
 import React, { FormEvent, useRef } from 'react';
 import { Translation } from '@/tools/i18n/intl-provider';
 import { Form, SubmitButton, Textarea } from '@/tools/design-system/form';
-import Typography from '@/tools/design-system/Typography';
+import Typography from '@/tools/design-system/typography';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
   const goalRef = useRef<HTMLTextAreaElement>(null);
