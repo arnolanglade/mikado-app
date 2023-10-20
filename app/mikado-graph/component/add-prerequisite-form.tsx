@@ -2,24 +2,23 @@
 
 import React, { FormEvent, useRef } from 'react';
 import { Translation } from '@/tools/i18n/intl-provider';
+import { Form, SubmitButton, Textarea } from '@/tools/design-system/form';
 
 export default function AddPrerequisiteForm({ onSubmit }: { onSubmit: (label: string) => void }) {
-  const prerequisiteLabel = useRef<HTMLInputElement>(null);
+  const LabelRef = useRef<HTMLTextAreaElement>(null);
 
   const addPrerequisite = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (prerequisiteLabel.current) {
-      onSubmit(prerequisiteLabel.current?.value!);
-      prerequisiteLabel.current.value = '';
+    if (LabelRef.current) {
+      onSubmit(LabelRef.current?.value!);
+      LabelRef.current.value = '';
     }
   };
 
   return (
-    <form onSubmit={addPrerequisite}>
-      <input required ref={prerequisiteLabel} type="text" />
-      <button type="submit" aria-label="add prerequisite">
-        <Translation id="prerequisite.add" />
-      </button>
-    </form>
+    <Form onSubmit={addPrerequisite}>
+      <Textarea ref={LabelRef} />
+      <SubmitButton label={<Translation id="prerequisite.add" />} />
+    </Form>
   );
 }
