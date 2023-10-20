@@ -67,16 +67,11 @@ export function PrerequisiteNode({
       )}
       {status === StatusView.EXPERIMENTING && (
       <>
-        <AddPrerequisiteForm
-          onSubmit={addPrerequisiteToPrerequisite}
-        />
+        <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} />
         { allChildrenDone && (
-          <button
-            type="button"
-            onClick={commitChanges}
-          >
-            <Translation id="prerequisite.commit-changes" />
-          </button>
+        <Button onClick={commitChanges}>
+          <Translation id="prerequisite.commit-changes" />
+        </Button>
         )}
       </>
       )}
