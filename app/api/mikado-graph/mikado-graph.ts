@@ -58,7 +58,7 @@ export class Prerequisite {
     private label: Label,
     private status: Status,
     public parentId: MikadoGraphId,
-    private canBeCommitted?: boolean,
+    private canBeCommitted: boolean | null = null,
     private startedAt?: Date,
   ) {
   }
@@ -143,7 +143,7 @@ export class Prerequisite {
       status: this.status as unknown as StatusView,
       startedAt: this.startedAt?.toISOString(),
       parentId: this.parentId.toString(),
-      canBeCommitted: !this.canBeCommitted ? true : this.canBeCommitted,
+      canBeCommitted: this.canBeCommitted === null ? true : this.canBeCommitted,
     };
   }
 
@@ -328,7 +328,7 @@ export type PrerequisiteState = {
   status: StatusState,
   started_at?: string,
   parent_id: string,
-  all_children_done?: boolean,
+  all_children_done: boolean | null,
 };
 
 export type MikadoGraphState = {

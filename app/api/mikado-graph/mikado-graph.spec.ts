@@ -379,7 +379,7 @@ describe('Mikado Graph', () => {
     test('a prerequisite can be committed when a prerequisite does not have a children', () => {
       const mikadoGraph = aMikadoGraph({
         prerequisites: [{
-          canBeCommitted: undefined,
+          canBeCommitted: null,
         }],
       });
 

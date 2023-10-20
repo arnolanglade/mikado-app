@@ -68,7 +68,7 @@ type PrerequisiteState = {
   status: Status
   startedAt: string
   parentId: string
-  canBeCommitted: boolean
+  canBeCommitted: boolean | null
 };
 
 type MikadaGraphState = {
