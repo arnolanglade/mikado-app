@@ -26,7 +26,7 @@ describe('MikadoGraph', () => {
             data: {
               label: 'Do this',
               status: StatusView.TODO,
-              allChildrenDone: false,
+              canBeCommitted: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -39,7 +39,7 @@ describe('MikadoGraph', () => {
             data: {
               label: 'Do that',
               status: StatusView.TODO,
-              allChildrenDone: false,
+              canBeCommitted: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -149,7 +149,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: StatusView.TODO,
-            allChildrenDone: false,
+            canBeCommitted: false,
             startExperimentation: onStartExperimentation,
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges: jest.fn(),
@@ -175,7 +175,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status,
-            allChildrenDone: false,
+            canBeCommitted: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
@@ -203,7 +203,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: StatusView.EXPERIMENTING,
-            allChildrenDone: false,
+            canBeCommitted: false,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite,
             commitChanges: jest.fn(),
@@ -230,7 +230,7 @@ describe('MikadoGraph', () => {
             data={{
               label: 'Do this',
               status,
-              allChildrenDone: false,
+              canBeCommitted: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -257,7 +257,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: StatusView.EXPERIMENTING,
-            allChildrenDone: true,
+            canBeCommitted: true,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges,
@@ -283,7 +283,7 @@ describe('MikadoGraph', () => {
             data={{
               label: 'Do this',
               status,
-              allChildrenDone: false,
+              canBeCommitted: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -307,7 +307,7 @@ describe('MikadoGraph', () => {
             data={{
               label: 'Do this',
               status: 'experimenting',
-              allChildrenDone: false,
+              canBeCommitted: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -332,7 +332,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status: StatusView.DONE,
-            allChildrenDone: false,
+            canBeCommitted: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
@@ -357,7 +357,7 @@ describe('MikadoGraph', () => {
           data={{
             label: 'Do this',
             status,
-            allChildrenDone: false,
+            canBeCommitted: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),

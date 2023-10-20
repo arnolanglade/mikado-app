@@ -33,7 +33,7 @@ export function PrerequisiteNode({
   data: {
     label,
     status,
-    allChildrenDone,
+    canBeCommitted,
     startExperimentation,
     addPrerequisiteToPrerequisite,
     commitChanges,
@@ -43,7 +43,7 @@ export function PrerequisiteNode({
   data: {
     label: string,
     status: 'experimenting' | 'done' | 'todo',
-    allChildrenDone: boolean,
+    canBeCommitted: boolean,
     startExperimentation: () => void,
     addPrerequisiteToPrerequisite: (label: string) => void,
     commitChanges:() => void,
@@ -68,7 +68,7 @@ export function PrerequisiteNode({
       {status === StatusView.EXPERIMENTING && (
       <>
         <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} />
-        { allChildrenDone && (
+        { canBeCommitted && (
         <Button onClick={commitChanges}>
           <Translation id="prerequisite.commit-changes" />
         </Button>

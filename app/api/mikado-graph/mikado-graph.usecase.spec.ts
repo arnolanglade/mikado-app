@@ -91,7 +91,7 @@ describe('Mikado Graph use cases', () => {
       .toEqual(aMikadoGraph({
         mikadoGraphId,
         prerequisites: [
-          { ...existingPrerequisite, allChildrenDone: false },
+          { ...existingPrerequisite, canBeCommitted: false },
           {
             prerequisiteId, parentId: existingPrerequisiteId, label, status: Status.TODO,
           },
@@ -129,13 +129,13 @@ describe('Mikado Graph use cases', () => {
     const done = false;
     const label = 'Change that';
     const status = Status.TODO;
-    const allChildrenDone = true;
+    const canBeCommitted = true;
     const mikadoGraphs = new InMemoryMikadoGraphs([aMikadoGraph({
       mikadoGraphId,
       goal,
       done,
       prerequisites: [{
-        prerequisiteId, label, status, allChildrenDone,
+        prerequisiteId, label, status, canBeCommitted,
       }],
     })]);
 
@@ -146,7 +146,7 @@ describe('Mikado Graph use cases', () => {
       goal,
       done,
       prerequisites: [{
-        prerequisiteId, label, status, parentId: mikadoGraphId, startedAt: undefined, allChildrenDone,
+        prerequisiteId, label, status, parentId: mikadoGraphId, startedAt: undefined, canBeCommitted,
       }],
     });
   });

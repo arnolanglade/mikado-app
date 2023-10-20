@@ -34,7 +34,7 @@ export type MikadoGraphData = {
 export type PrerequisiteData = {
   label: string,
   status: 'experimenting' | 'done' | 'todo',
-  allChildrenDone: boolean,
+  canBeCommitted: boolean,
   startExperimentation: () => void,
   addPrerequisiteToPrerequisite: (label: string) => void,
   commitChanges: () => void,
@@ -135,7 +135,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
         data: {
           label: prerequisite.label,
           status: prerequisite.status,
-          allChildrenDone: prerequisite.allChildrenDone,
+          canBeCommitted: prerequisite.canBeCommitted,
           startExperimentation: () => startExperimentation(prerequisite.prerequisiteId),
           addPrerequisiteToPrerequisite: (label: string) => addPrerequisiteToPrerequisite(prerequisite.prerequisiteId, label),
           commitChanges: () => commitChanges(prerequisite.prerequisiteId),

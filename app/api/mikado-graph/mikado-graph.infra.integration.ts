@@ -21,7 +21,7 @@ describe('Mikado Graphs', () => {
         status: Status.TODO,
         startedAt: '2021-01-01T00:00:00.000Z',
         parentId: mikadoGraphId,
-        allChildrenDone: false,
+        canBeCommitted: false,
       }],
     });
     await mikadoGraphs.add(mikadoGraph);

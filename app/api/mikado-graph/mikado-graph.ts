@@ -58,7 +58,7 @@ export class Prerequisite {
     private label: Label,
     private status: Status,
     public parentId: MikadoGraphId,
-    private allChildrenDone?: boolean,
+    private canBeCommitted?: boolean,
     private startedAt?: Date,
   ) {
   }
@@ -82,7 +82,7 @@ export class Prerequisite {
       this.label,
       Status.EXPERIMENTING,
       this.parentId,
-      this.allChildrenDone,
+      this.canBeCommitted,
       startedAt,
     );
   }
@@ -93,7 +93,7 @@ export class Prerequisite {
       this.label,
       Status.DONE,
       this.parentId,
-      this.allChildrenDone,
+      this.canBeCommitted,
       this.startedAt,
     );
   }
@@ -143,7 +143,7 @@ export class Prerequisite {
       status: this.status as unknown as StatusView,
       startedAt: this.startedAt?.toISOString(),
       parentId: this.parentId.toString(),
-      allChildrenDone: !this.allChildrenDone ? true : this.allChildrenDone,
+      canBeCommitted: !this.canBeCommitted ? true : this.canBeCommitted,
     };
   }
 
@@ -154,7 +154,7 @@ export class Prerequisite {
       status: this.status as unknown as StatusState,
       started_at: this.startedAt?.toISOString(),
       parent_id: this.parentId.toString(),
-      all_children_done: this.allChildrenDone,
+      all_children_done: this.canBeCommitted,
     };
   }
 }
@@ -357,7 +357,7 @@ export type PrerequisiteView = {
   status: StatusView,
   startedAt?: string,
   parentId: string,
-  allChildrenDone: boolean,
+  canBeCommitted: boolean,
 };
 
 export type MikadoGraphView = {

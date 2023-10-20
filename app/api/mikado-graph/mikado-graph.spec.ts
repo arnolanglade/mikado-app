@@ -76,15 +76,15 @@ describe('Prerequisite List', () => {
     const label = 'Change that';
     const startedAt = '2023-07-25T10:24:00.000Z';
     const parentId = uuidv4();
-    const allChildrenDone = true;
+    const canBeCommitted = true;
     const prerequisite = aPrerequisite({
-      prerequisiteId, label, status: Status.EXPERIMENTING, startedAt, parentId, allChildrenDone,
+      prerequisiteId, label, status: Status.EXPERIMENTING, startedAt, parentId, canBeCommitted,
     });
     const list = new PrerequisiteList([prerequisite]);
 
     expect(list.toView()).toEqual([
       aPrerequisiteView({
-        prerequisiteId, label, status: StatusView.EXPERIMENTING, startedAt, parentId, allChildrenDone,
+        prerequisiteId, label, status: StatusView.EXPERIMENTING, startedAt, parentId, canBeCommitted,
       }),
     ]);
   });
@@ -111,7 +111,7 @@ describe('Mikado Graph', () => {
     const label = 'Do this';
     const startedAt = '2023-07-25T10:24:00.000Z';
     const parentId = uuidv4();
-    const allChildrenDone = true;
+    const canBeCommitted = true;
 
     const mikadoGraph = MikadoGraph.fromState({
       mikado_graph_id: mikadoGraphId,
@@ -123,7 +123,7 @@ describe('Mikado Graph', () => {
         status: StatusState.TODO,
         started_at: startedAt,
         parent_id: parentId,
-        all_children_done: allChildrenDone,
+        all_children_done: canBeCommitted,
       }],
     });
 
@@ -137,7 +137,7 @@ describe('Mikado Graph', () => {
         status: Status.TODO,
         startedAt,
         parentId,
-        allChildrenDone,
+        canBeCommitted,
       }],
     }));
   });
@@ -199,13 +199,13 @@ describe('Mikado Graph', () => {
     }));
   });
 
-  it('resets the allChildrenDone flag when a new prerequisite is added', () => {
+  it('resets the canBeCommitted flag when a new prerequisite is added', () => {
     const prerequisiteId = uuidv4();
     const parentPrerequisiteId = uuidv4();
     const label = 'Change that';
     const mikadoGraph = aMikadoGraph({
       prerequisites: [
-        { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: true },
+        { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, canBeCommitted: true },
         { prerequisiteId, parentId: parentPrerequisiteId, status: Status.DONE },
       ],
     });
@@ -214,7 +214,7 @@ describe('Mikado Graph', () => {
 
     expect(mikadoGraph).toEqual(aMikadoGraph({
       prerequisites: [
-        { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: false },
+        { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, canBeCommitted: false },
         { prerequisiteId, parentId: parentPrerequisiteId, status: Status.DONE },
         {
           prerequisiteId, parentId: parentPrerequisiteId, label, status: Status.TODO,
@@ -308,7 +308,7 @@ describe('Mikado Graph', () => {
       const prerequisiteId = uuidv4();
       const mikadoGraph = aMikadoGraph({
         prerequisites: [
-          { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: false },
+          { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, canBeCommitted: false },
           { prerequisiteId, parentId: parentPrerequisiteId, status: Status.EXPERIMENTING },
         ],
       });
@@ -317,7 +317,7 @@ describe('Mikado Graph', () => {
 
       expect(mikadoGraph).toEqual(aMikadoGraph({
         prerequisites: [
-          { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, allChildrenDone: true },
+          { prerequisiteId: parentPrerequisiteId, status: Status.EXPERIMENTING, canBeCommitted: true },
           { prerequisiteId, parentId: parentPrerequisiteId, status: Status.DONE },
         ],
       }));
@@ -345,7 +345,7 @@ describe('Mikado Graph', () => {
       const status = Status.TODO;
       const startedAt = '2023-07-25T10:24:00.000Z';
       const parentId = uuidv4();
-      const allChildrenDone = true;
+      const canBeCommitted = true;
       const mikadoGraph = aMikadoGraph({
         mikadoGraphId,
         goal,
@@ -356,7 +356,7 @@ describe('Mikado Graph', () => {
           status,
           startedAt,
           parentId,
-          allChildrenDone,
+          canBeCommitted,
         }],
       });
 
@@ -371,7 +371,7 @@ describe('Mikado Graph', () => {
             status,
             startedAt,
             parentId,
-            allChildrenDone,
+            canBeCommitted,
           }],
         });
     });
@@ -379,14 +379,14 @@ describe('Mikado Graph', () => {
     test('a prerequisite can be committed when a prerequisite does not have a children', () => {
       const mikadoGraph = aMikadoGraph({
         prerequisites: [{
-          allChildrenDone: undefined,
+          canBeCommitted: undefined,
         }],
       });
 
       expect(mikadoGraph.toView())
         .toEqual(aMikadoGraphView({
           prerequisites: [{
-            allChildrenDone: true,
+            canBeCommitted: true,
           }],
         }));
     });
@@ -400,7 +400,7 @@ describe('Mikado Graph', () => {
       const status = Status.TODO;
       const startedAt = '2023-07-25T10:24:00.000Z';
       const parentId = uuidv4();
-      const allChildrenDone = true;
+      const canBeCommitted = true;
       const mikadoGraph = aMikadoGraph({
         mikadoGraphId,
         goal,
@@ -411,7 +411,7 @@ describe('Mikado Graph', () => {
           status,
           startedAt,
           parentId,
-          allChildrenDone,
+          canBeCommitted,
         }],
       });
 
@@ -426,7 +426,7 @@ describe('Mikado Graph', () => {
             status,
             started_at: startedAt,
             parent_id: parentId,
-            all_children_done: allChildrenDone,
+            all_children_done: canBeCommitted,
           }],
         });
     });
