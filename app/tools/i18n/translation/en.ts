@@ -6,6 +6,7 @@ const translationEn: Translations = {
   'mikado-graph.goal-and-objective': 'What is your goal or objective?',
   'mikado-graph.your-goal': '<strong>Your goal</strong>: {goal}',
   'mikado-graph.notification.success.start': 'The refactoring has been started',
+  'prerequisite.label': '<strong>Prerequisite</strong>: {label}',
   'prerequisite.add': 'Add prerequisite',
   'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added',
   'prerequisite.notification.start-experimentation.success': 'The experimentation has started',

@@ -55,9 +55,8 @@ export function PrerequisiteNode({
       key={id}
     >
       <Handle type="target" position={Position.Top} />
+      <Translation id="prerequisite.label" values={{ label }} />
       <p>
-        {label}
-        {' '}
         {status === StatusView.DONE && <Translation id="prerequisite.done" />}
       </p>
       {status === StatusView.TODO && (
