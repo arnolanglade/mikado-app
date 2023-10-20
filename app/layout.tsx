@@ -36,6 +36,7 @@ export default function RootLayout({
               draggable
               pauseOnHover
               theme="colored"
+              closeButton={false}
               icon
             />
           </ServiceContainerProvider>
