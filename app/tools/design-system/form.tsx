@@ -13,12 +13,12 @@ export function Form(
 }
 
 export function Button(
-  { label, onClick }:
-  { label: ReactNode, onClick: () => void },
+  { children, onClick }:
+  { children: ReactNode, onClick: () => void },
 ) {
   return (
     <button type="button" onClick={onClick} className={`${styles.button} ${styles.formElement}`}>
-      {label}
+      {children}
     </button>
   );
 }
