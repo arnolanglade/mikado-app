@@ -224,6 +224,31 @@ describe('MikadoGraph', () => {
         expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(label);
       });
 
+      test('The commit changes and display prerequisite form buttons are hidden when the prerequisite form is display', async () => {
+        const addPrerequisiteToPrerequisite = jest.fn();
+        render(<PrerequisiteNode
+          id={uuidv4()}
+          data={{
+            label: 'Do this',
+            status: StatusView.EXPERIMENTING,
+            canBeCommitted: false,
+            startExperimentation: jest.fn(),
+            addPrerequisiteToPrerequisite,
+            commitChanges: jest.fn(),
+          }}
+        />, {
+          wrapper: createWrapper({}, {
+            'prerequisite.add': 'Add prerequisite',
+            'prerequisite.commit-changes': 'Commit changes',
+          }),
+        });
+
+        await userEvent.click(screen.getByText('Add prerequisite'));
+
+        expect(screen.queryByText('Add prerequisite')).not.toBeInTheDocument();
+        expect(screen.queryByText('Commit changes')).not.toBeInTheDocument();
+      });
+
       test.each([
         StatusView.TODO,
         StatusView.DONE,

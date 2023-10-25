@@ -82,10 +82,8 @@ export function PrerequisiteNode({
         <Translation id="prerequisite.start-experimentation" />
       </Button>
       )}
-      {status === StatusView.EXPERIMENTING && (
-      <>
-        { displayPrerequisiteForm && <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} /> }
 
+      { !displayPrerequisiteForm && status === StatusView.EXPERIMENTING && (
         <ButtonGroup>
           <Button onClick={displayOrHiddenPrerequisiteForm}>
             <Translation id="prerequisite.add" />
@@ -96,9 +94,11 @@ export function PrerequisiteNode({
           </Button>
           )}
         </ButtonGroup>
-
-      </>
       )}
+
+      { displayPrerequisiteForm && status === StatusView.EXPERIMENTING
+          && <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} /> }
+
       <Handle type="source" position={Position.Bottom} />
     </div>
   );
