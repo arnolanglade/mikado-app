@@ -2,9 +2,11 @@
 
 import React, { FormEvent, useRef } from 'react';
 import { Translation } from '@/tools/i18n/intl-provider';
-import { Form, SubmitButton, Textarea } from '@/tools/design-system/form';
+import {
+  Button, Form, SubmitButton, Textarea,
+} from '@/tools/design-system/form';
 
-export default function AddPrerequisiteForm({ onSubmit }: { onSubmit: (label: string) => void }) {
+export default function AddPrerequisiteForm({ onSubmit, onCancel }: { onSubmit: (label: string) => void, onCancel?: () => void }) {
   const LabelRef = useRef<HTMLTextAreaElement>(null);
 
   const addPrerequisite = (e: FormEvent<HTMLFormElement>) => {
@@ -19,6 +21,11 @@ export default function AddPrerequisiteForm({ onSubmit }: { onSubmit: (label: st
     <Form onSubmit={addPrerequisite}>
       <Textarea ref={LabelRef} />
       <SubmitButton label={<Translation id="add" />} />
+      {onCancel && (
+      <Button onClick={() => {}}>
+        <Translation id="cancel" />
+      </Button>
+      )}
     </Form>
   );
 }
