@@ -3,6 +3,7 @@ import { Translations } from '@/tools/i18n/translation';
 const translationEn: Translations = {
   test: 'test en',
   add: 'Add',
+  cancel: 'Cancel',
   'mikado-graph.start': 'Start a task',
   'mikado-graph.done': 'Great! You finished your goal!',
   'mikado-graph.goal-and-objective': 'What is your goal or objective?',
