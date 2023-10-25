@@ -12,7 +12,7 @@ describe('AddPrerequisiteForm', () => {
     render(<AddPrerequisiteForm onSubmit={onSubmit} />, {
       wrapper: createWrapper(
         {},
-        { 'prerequisite.add': 'Add prerequisite' },
+        { add: 'Add prerequisite' },
       ),
     });
 
@@ -26,7 +26,7 @@ describe('AddPrerequisiteForm', () => {
     render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
       wrapper: createWrapper(
         {},
-        { 'prerequisite.add': 'Add prerequisite' },
+        { add: 'Add prerequisite' },
       ),
     });
     const prerequisiteInput = screen.getByRole<HTMLInputElement>('textbox');

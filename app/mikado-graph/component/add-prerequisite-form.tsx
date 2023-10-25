@@ -18,7 +18,7 @@ export default function AddPrerequisiteForm({ onSubmit }: { onSubmit: (label: st
   return (
     <Form onSubmit={addPrerequisite}>
       <Textarea ref={LabelRef} />
-      <SubmitButton label={<Translation id="prerequisite.add" />} />
+      <SubmitButton label={<Translation id="add" />} />
     </Form>
   );
 }

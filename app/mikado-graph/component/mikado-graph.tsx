@@ -8,7 +8,7 @@ import { Handle, Position, ReactFlow } from 'reactflow';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
 import 'reactflow/dist/style.css';
-import { Button } from '@/tools/design-system/form';
+import { Button, ButtonGroup } from '@/tools/design-system/form';
 import Alert from '@/tools/design-system/alert';
 import styles from './mikado-graph.module.css';
 
@@ -55,6 +55,12 @@ export function PrerequisiteNode({
     commitChanges:() => void,
   }
 }) {
+  const [displayPrerequisiteForm, setDisplayPrerequisiteForm] = React.useState(false);
+
+  const displayOrHiddenPrerequisiteForm = () => {
+    setDisplayPrerequisiteForm(!displayPrerequisiteForm);
+  };
+
   return (
     <div
       className={styles.container}
@@ -78,12 +84,19 @@ export function PrerequisiteNode({
       )}
       {status === StatusView.EXPERIMENTING && (
       <>
-        <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} />
-        { canBeCommitted && (
-        <Button onClick={commitChanges}>
-          <Translation id="prerequisite.commit-changes" />
-        </Button>
-        )}
+        { displayPrerequisiteForm && <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} /> }
+
+        <ButtonGroup>
+          <Button onClick={displayOrHiddenPrerequisiteForm}>
+            <Translation id="prerequisite.add" />
+          </Button>
+          { canBeCommitted && (
+          <Button onClick={commitChanges}>
+            <Translation id="prerequisite.commit-changes" />
+          </Button>
+          )}
+        </ButtonGroup>
+
       </>
       )}
       <Handle type="source" position={Position.Bottom} />

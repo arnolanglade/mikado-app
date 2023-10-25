@@ -2,6 +2,7 @@ import { Translations } from '@/tools/i18n/translation';
 
 const translationFr: Translations = {
   test: 'test fr',
+  add: 'Add',
   'mikado-graph.start': 'Start refactoring',
   'mikado-graph.done': 'Great! You finished your goal!',
   'mikado-graph.goal-and-objective': 'What is your goal or objective?',

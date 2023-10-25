@@ -72,12 +72,12 @@ describe('MikadoGraph', () => {
         />, {
           wrapper: createWrapper(
             {},
-            { 'prerequisite.add"': 'Add prerequisite' },
+            { 'add"': 'Add' },
           ),
         });
 
         await userEvent.type(screen.getByRole('textbox'), label);
-        await userEvent.click(screen.getByText('Add prerequisite'));
+        await userEvent.click(screen.getByText('Add'));
 
         expect(addPrerequisiteToMikadoGraph).toHaveBeenCalledWith(label);
       });
@@ -88,11 +88,11 @@ describe('MikadoGraph', () => {
         />, {
           wrapper: createWrapper(
             {},
-            { 'prerequisite.add': 'Add prerequisite' },
+            { add: 'Add' },
           ),
         });
 
-        expect(screen.getByText('Add prerequisite')).toBeInTheDocument();
+        expect(screen.getByText('Add')).toBeInTheDocument();
       });
 
       test('The prerequisite addition form is hidden when the mikado graph is finished', async () => {
@@ -213,11 +213,13 @@ describe('MikadoGraph', () => {
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.add': 'Add prerequisite',
+            add: 'Add',
           }),
         });
 
-        await userEvent.type(screen.getByRole('textbox'), label);
         await userEvent.click(screen.getByText('Add prerequisite'));
+        await userEvent.type(screen.getByRole('textbox'), label);
+        await userEvent.click(screen.getByText('Add'));
 
         expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(label);
       });
