@@ -6,7 +6,10 @@ import {
   Button, Form, SubmitButton, Textarea,
 } from '@/tools/design-system/form';
 
-export default function AddPrerequisiteForm({ onSubmit, onCancel }: { onSubmit: (label: string) => void, onCancel?: () => void }) {
+export default function AddPrerequisiteForm(
+  { onSubmit, onCancel }:
+  { onSubmit: (label: string) => void, onCancel?: () => void },
+) {
   const LabelRef = useRef<HTMLTextAreaElement>(null);
 
   const addPrerequisite = (e: FormEvent<HTMLFormElement>) => {
@@ -22,7 +25,7 @@ export default function AddPrerequisiteForm({ onSubmit, onCancel }: { onSubmit: 
       <Textarea ref={LabelRef} />
       <SubmitButton label={<Translation id="add" />} />
       {onCancel && (
-      <Button onClick={() => {}}>
+      <Button onClick={onCancel}>
         <Translation id="cancel" />
       </Button>
       )}

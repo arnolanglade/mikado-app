@@ -38,25 +38,41 @@ describe('AddPrerequisiteForm', () => {
     expect(prerequisiteInput.value).toBe('');
   });
 
-  test('The cancel button is hidden when the cancel callback is not provided', async () => {
-    render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
-      wrapper: createWrapper(
-        {},
-        { cancel: 'Cancel' },
-      ),
+  describe('Cancel button', () => {
+    test('The cancel button is hidden when the cancel callback is not provided', async () => {
+      render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
+        wrapper: createWrapper(
+          {},
+          { cancel: 'Cancel' },
+        ),
+      });
+
+      expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
     });
 
-    expect(screen.queryByText('Cancel')).not.toBeInTheDocument();
-  });
+    test('The cancel button is display when the cancel callback is  provided', async () => {
+      render(<AddPrerequisiteForm onSubmit={jest.fn()} onCancel={jest.fn()} />, {
+        wrapper: createWrapper(
+          {},
+          { cancel: 'Cancel' },
+        ),
+      });
 
-  test('The cancel button is display when the cancel callback is  provided', async () => {
-    render(<AddPrerequisiteForm onSubmit={jest.fn()} onCancel={jest.fn()} />, {
-      wrapper: createWrapper(
-        {},
-        { cancel: 'Cancel' },
-      ),
+      expect(screen.queryByText('Cancel')).toBeInTheDocument();
     });
 
-    expect(screen.queryByText('Cancel')).toBeInTheDocument();
+    test('The onCancel callback is called when the button is clicked', async () => {
+      const onCancel = jest.fn();
+      render(<AddPrerequisiteForm onSubmit={jest.fn()} onCancel={onCancel} />, {
+        wrapper: createWrapper(
+          {},
+          { cancel: 'Cancel' },
+        ),
+      });
+
+      await userEvent.click(screen.getByText('Cancel'));
+
+      expect(onCancel).toBeCalled();
+    });
   });
 });
