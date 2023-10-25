@@ -36,6 +36,7 @@ export function MikadoGraphNode({
 
 export function PrerequisiteNode({
   id,
+  displayPrerequisiteForm,
   data: {
     label,
     status,
@@ -46,6 +47,7 @@ export function PrerequisiteNode({
   },
 }: {
   id: string,
+  displayPrerequisiteForm: boolean,
   data: {
     label: string,
     status: 'experimenting' | 'done' | 'todo',
@@ -55,10 +57,14 @@ export function PrerequisiteNode({
     commitChanges:() => void,
   }
 }) {
-  const [displayPrerequisiteForm, setDisplayPrerequisiteForm] = React.useState(false);
+  const [displayForm, setDisplayForm] = React.useState(displayPrerequisiteForm || false);
 
   const displayOrHiddenPrerequisiteForm = () => {
-    setDisplayPrerequisiteForm(!displayPrerequisiteForm);
+    setDisplayForm(!displayForm);
+  };
+
+  const hidePrerequisiteForm = () => {
+    setDisplayForm(false);
   };
 
   return (
@@ -83,7 +89,7 @@ export function PrerequisiteNode({
       </Button>
       )}
 
-      { !displayPrerequisiteForm && status === StatusView.EXPERIMENTING && (
+      { !displayForm && status === StatusView.EXPERIMENTING && (
         <ButtonGroup>
           <Button onClick={displayOrHiddenPrerequisiteForm}>
             <Translation id="prerequisite.add" />
@@ -96,8 +102,12 @@ export function PrerequisiteNode({
         </ButtonGroup>
       )}
 
-      { displayPrerequisiteForm && status === StatusView.EXPERIMENTING
-          && <AddPrerequisiteForm onSubmit={addPrerequisiteToPrerequisite} /> }
+      { displayForm && status === StatusView.EXPERIMENTING && (
+      <AddPrerequisiteForm
+        onSubmit={addPrerequisiteToPrerequisite}
+        onCancel={hidePrerequisiteForm}
+      />
+      )}
 
       <Handle type="source" position={Position.Bottom} />
     </div>

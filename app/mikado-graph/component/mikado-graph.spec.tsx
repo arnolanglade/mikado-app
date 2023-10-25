@@ -225,15 +225,15 @@ describe('MikadoGraph', () => {
       });
 
       test('The commit changes and display prerequisite form buttons are hidden when the prerequisite form is display', async () => {
-        const addPrerequisiteToPrerequisite = jest.fn();
         render(<PrerequisiteNode
           id={uuidv4()}
+          displayPrerequisiteForm={false}
           data={{
             label: 'Do this',
             status: StatusView.EXPERIMENTING,
             canBeCommitted: false,
             startExperimentation: jest.fn(),
-            addPrerequisiteToPrerequisite,
+            addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges: jest.fn(),
           }}
         />, {
@@ -247,6 +247,32 @@ describe('MikadoGraph', () => {
 
         expect(screen.queryByText('Add prerequisite')).not.toBeInTheDocument();
         expect(screen.queryByText('Commit changes')).not.toBeInTheDocument();
+      });
+
+      test('The prerequisite form is hidden and the action buttons are displayed when the cancel is click', async () => {
+        render(<PrerequisiteNode
+          id={uuidv4()}
+          displayPrerequisiteForm
+          data={{
+            label: 'Do this',
+            status: StatusView.EXPERIMENTING,
+            canBeCommitted: true,
+            startExperimentation: jest.fn(),
+            addPrerequisiteToPrerequisite: jest.fn(),
+            commitChanges: jest.fn(),
+          }}
+        />, {
+          wrapper: createWrapper({}, {
+            cancel: 'Cancel',
+            'prerequisite.add': 'Add prerequisite',
+            'prerequisite.commit-changes': 'Commit changes',
+          }),
+        });
+
+        await userEvent.click(screen.getByText('Cancel'));
+
+        expect(screen.getByText('Add prerequisite')).toBeInTheDocument();
+        expect(screen.getByText('Commit changes')).toBeInTheDocument();
       });
 
       test.each([
