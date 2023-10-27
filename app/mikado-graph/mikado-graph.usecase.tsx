@@ -31,10 +31,12 @@ export type MikadoGraphData = {
   done: boolean
   addPrerequisiteToMikadoGraph: (label: string) => void
 };
+
 export type PrerequisiteData = {
   label: string,
   status: 'experimenting' | 'done' | 'todo',
   canBeCommitted: boolean,
+  displayPrerequisiteForm: boolean,
   startExperimentation: () => void,
   addPrerequisiteToPrerequisite: (label: string) => void,
   commitChanges: () => void,
@@ -136,6 +138,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
           label: prerequisite.label,
           status: prerequisite.status,
           canBeCommitted: prerequisite.canBeCommitted,
+          displayPrerequisiteForm: false,
           startExperimentation: () => startExperimentation(prerequisite.prerequisiteId),
           addPrerequisiteToPrerequisite: (label: string) => addPrerequisiteToPrerequisite(prerequisite.prerequisiteId, label),
           commitChanges: () => commitChanges(prerequisite.prerequisiteId),

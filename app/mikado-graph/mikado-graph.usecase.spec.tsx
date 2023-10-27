@@ -119,6 +119,7 @@ describe('useMikadoGraph', () => {
           label,
           status,
           canBeCommitted,
+          displayPrerequisiteForm: false,
           startExperimentation: expect.any(Function),
           addPrerequisiteToPrerequisite: expect.any(Function),
           commitChanges: expect.any(Function),

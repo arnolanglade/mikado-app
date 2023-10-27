@@ -4,10 +4,21 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { createWrapper } from '@/test/test-utils';
 import MikadoGraph, { PrerequisiteNode, MikadoGraphNode } from '@/mikado-graph/component/mikado-graph';
-import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
+import { PrerequisiteData } from '@/mikado-graph/mikado-graph.usecase';
+
+const createData = (data: Partial<PrerequisiteData>): PrerequisiteData => ({
+  label: 'Do this',
+  status: 'todo',
+  canBeCommitted: false,
+  displayPrerequisiteForm: false,
+  startExperimentation: () => {},
+  addPrerequisiteToPrerequisite: () => {},
+  commitChanges: () => {},
+  ...data,
+});
 
 describe('MikadoGraph', () => {
   test('The developer sees the mikado graph with its prerequisites', async () => {
@@ -25,8 +36,9 @@ describe('MikadoGraph', () => {
             type: 'prerequisite',
             data: {
               label: 'Do this',
-              status: StatusView.TODO,
+              status: 'todo',
               canBeCommitted: false,
+              displayPrerequisiteForm: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -38,8 +50,9 @@ describe('MikadoGraph', () => {
             type: 'prerequisite',
             data: {
               label: 'Do that',
-              status: StatusView.TODO,
+              status: 'todo',
               canBeCommitted: false,
+              displayPrerequisiteForm: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
@@ -148,15 +161,10 @@ describe('MikadoGraph', () => {
         const prerequisiteId = uuidv4();
         render(<PrerequisiteNode
           id={prerequisiteId}
-          data={{
-            label: 'Do this',
-            status: StatusView.TODO,
-            canBeCommitted: false,
-            displayPrerequisiteForm: false,
+          data={createData({
+            status: 'todo',
             startExperimentation: onStartExperimentation,
-            addPrerequisiteToPrerequisite: jest.fn(),
-            commitChanges: jest.fn(),
-          }}
+          })}
         />, {
           wrapper: createWrapper(
             {},
@@ -170,20 +178,14 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        StatusView.EXPERIMENTING,
-        StatusView.DONE,
-      ])('The start experimentation button is hidden for a %s prerequisite', async (status: StatusView) => {
+        'experimenting',
+        'done',
+      ])('The start experimentation button is hidden for a %s prerequisite', async (status) => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          data={{
-            label: 'Do this',
-            status,
-            canBeCommitted: false,
-            displayPrerequisiteForm: false,
-            startExperimentation: () => jest.fn(),
-            addPrerequisiteToPrerequisite: () => jest.fn(),
-            commitChanges: () => jest.fn(),
-          }}
+          data={createData({
+            status: (status as 'done' | 'experimenting'),
+          })}
         />, {
           wrapper: createWrapper(
             {},
@@ -204,15 +206,10 @@ describe('MikadoGraph', () => {
         const label = 'Change that';
         render(<PrerequisiteNode
           id={prerequisiteId}
-          data={{
-            label: 'Do this',
-            status: StatusView.EXPERIMENTING,
-            canBeCommitted: false,
-            displayPrerequisiteForm: false,
-            startExperimentation: jest.fn(),
+          data={createData({
+            status: 'experimenting',
             addPrerequisiteToPrerequisite,
-            commitChanges: jest.fn(),
-          }}
+          })}
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.add': 'Add prerequisite',
@@ -230,15 +227,12 @@ describe('MikadoGraph', () => {
       test('The commit changes and display prerequisite form buttons are hidden when the prerequisite form is display', async () => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          data={{
-            label: 'Do this',
-            displayPrerequisiteForm: false,
-            status: StatusView.EXPERIMENTING,
+          data={createData({
+            status: 'experimenting',
             canBeCommitted: false,
-            startExperimentation: jest.fn(),
-            addPrerequisiteToPrerequisite: jest.fn(),
-            commitChanges: jest.fn(),
-          }}
+            displayPrerequisiteForm: false,
+
+          })}
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.add': 'Add prerequisite',
@@ -255,15 +249,11 @@ describe('MikadoGraph', () => {
       test('The prerequisite form is hidden and the action buttons are displayed when the cancel is clicked', async () => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          data={{
-            label: 'Do this',
-            status: StatusView.EXPERIMENTING,
+          data={createData({
+            status: 'experimenting',
             canBeCommitted: true,
             displayPrerequisiteForm: true,
-            startExperimentation: jest.fn(),
-            addPrerequisiteToPrerequisite: jest.fn(),
-            commitChanges: jest.fn(),
-          }}
+          })}
         />, {
           wrapper: createWrapper({}, {
             cancel: 'Cancel',
@@ -279,22 +269,15 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        StatusView.TODO,
-        StatusView.DONE,
-      ])('The start add prerequisite form is hidden for a %s prerequisite', async (status: StatusView) => {
+        'todo',
+        'done',
+      ])('The start add prerequisite form is hidden for a %s prerequisite', async (status) => {
         render(
           <PrerequisiteNode
             id={uuidv4()}
-            data={{
-              label: 'Do this',
-              status,
-              canBeCommitted: false,
-              displayPrerequisiteForm: false,
-              startExperimentation: () => jest.fn(),
-              addPrerequisiteToPrerequisite: () => jest.fn(),
-              commitChanges: () => jest.fn(),
-            }}
-
+            data={createData({
+              status: (status as 'done' | 'todo'),
+            })}
           />,
           {
             wrapper: createWrapper({}, {
@@ -313,15 +296,11 @@ describe('MikadoGraph', () => {
         const prerequisiteId = uuidv4();
         render(<PrerequisiteNode
           id={prerequisiteId}
-          data={{
-            label: 'Do this',
-            status: StatusView.EXPERIMENTING,
+          data={createData({
+            status: 'experimenting',
             canBeCommitted: true,
-            displayPrerequisiteForm: false,
-            startExperimentation: jest.fn(),
-            addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges,
-          }}
+          })}
         />, {
           wrapper: createWrapper({ }, {
             'prerequisite.commit-changes': 'Commit changes',
@@ -334,21 +313,15 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        StatusView.TODO,
-        StatusView.DONE,
-      ])('The start commit changes button is hidden for a %s prerequisite', async (status: StatusView) => {
+        'todo',
+        'done',
+      ])('The start commit changes button is hidden for a %s prerequisite', async (status) => {
         render(
           <PrerequisiteNode
             id={uuidv4()}
-            data={{
-              label: 'Do this',
-              status,
-              canBeCommitted: false,
-              displayPrerequisiteForm: false,
-              startExperimentation: () => jest.fn(),
-              addPrerequisiteToPrerequisite: () => jest.fn(),
-              commitChanges: () => jest.fn(),
-            }}
+            data={createData({
+              status: (status as 'done' | 'todo'),
+            })}
           />,
           {
             wrapper: createWrapper({}, {
@@ -365,15 +338,10 @@ describe('MikadoGraph', () => {
         render(
           <PrerequisiteNode
             id={uuidv4()}
-            data={{
-              label: 'Do this',
+            data={createData({
               status: 'experimenting',
               canBeCommitted: false,
-              displayPrerequisiteForm: false,
-              startExperimentation: () => jest.fn(),
-              addPrerequisiteToPrerequisite: () => jest.fn(),
-              commitChanges: () => jest.fn(),
-            }}
+            })}
           />,
           {
             wrapper: createWrapper({}, {
@@ -391,15 +359,9 @@ describe('MikadoGraph', () => {
       test('A "done" notice is displayed when the prerequisite is done', async () => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          data={{
-            label: 'Do this',
-            status: StatusView.DONE,
-            canBeCommitted: false,
-            displayPrerequisiteForm: false,
-            startExperimentation: () => jest.fn(),
-            addPrerequisiteToPrerequisite: () => jest.fn(),
-            commitChanges: () => jest.fn(),
-          }}
+          data={createData({
+            status: 'done',
+          })}
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.done': 'Done',
@@ -412,20 +374,14 @@ describe('MikadoGraph', () => {
       });
 
       test.each([
-        StatusView.TODO,
-        StatusView.EXPERIMENTING,
-      ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status: StatusView) => {
+        'todo',
+        'experimenting',
+      ])('The "done" notice is hidden when the prerequisite status is "%s"', async (status) => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          data={{
-            label: 'Do this',
-            status,
-            canBeCommitted: false,
-            displayPrerequisiteForm: false,
-            startExperimentation: () => jest.fn(),
-            addPrerequisiteToPrerequisite: () => jest.fn(),
-            commitChanges: () => jest.fn(),
-          }}
+          data={createData({
+            status: (status as 'todo' | 'experimenting'),
+          })}
         />, {
           wrapper: createWrapper(
             { },
