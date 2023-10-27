@@ -3,7 +3,7 @@
 import React, { FormEvent, useRef } from 'react';
 import { Translation } from '@/tools/i18n/intl-provider';
 import {
-  Button, Form, SubmitButton, Textarea,
+  Button, ButtonGroup, Form, SubmitButton, Textarea,
 } from '@/tools/design-system/form';
 
 export default function AddPrerequisiteForm(
@@ -23,12 +23,14 @@ export default function AddPrerequisiteForm(
   return (
     <Form onSubmit={addPrerequisite}>
       <Textarea ref={LabelRef} />
-      <SubmitButton label={<Translation id="add" />} />
-      {onCancel && (
-      <Button onClick={onCancel}>
-        <Translation id="cancel" />
-      </Button>
-      )}
+      <ButtonGroup>
+        {onCancel && (
+        <Button onClick={onCancel}>
+          <Translation id="cancel" />
+        </Button>
+        )}
+        <SubmitButton label={<Translation id="add" />} />
+      </ButtonGroup>
     </Form>
   );
 }
