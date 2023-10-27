@@ -29,7 +29,9 @@ export default function AddPrerequisiteForm(
           <Translation id="cancel" />
         </Button>
         )}
-        <SubmitButton label={<Translation id="add" />} />
+        <SubmitButton>
+          <Translation id="add" />
+        </SubmitButton>
       </ButtonGroup>
     </Form>
   );

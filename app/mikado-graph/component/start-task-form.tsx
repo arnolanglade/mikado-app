@@ -19,7 +19,9 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
         <Translation id="mikado-graph.goal-and-objective" />
       </Typography>
       <Textarea ref={goalRef} />
-      <SubmitButton label={<Translation id="mikado-graph.start" />} />
+      <SubmitButton>
+        <Translation id="mikado-graph.start" />
+      </SubmitButton>
     </Form>
   );
 }

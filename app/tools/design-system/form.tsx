@@ -31,10 +31,10 @@ export function Button(
   );
 }
 
-export function SubmitButton({ label }: { label: ReactNode }) {
+export function SubmitButton({ children }: { children: ReactNode }) {
   return (
     <button type="submit" className={`${styles.button} ${styles.formElement}`}>
-      {label}
+      {children}
     </button>
   );
 }
