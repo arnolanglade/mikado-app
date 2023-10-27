@@ -249,7 +249,7 @@ describe('MikadoGraph', () => {
         expect(screen.queryByText('Commit changes')).not.toBeInTheDocument();
       });
 
-      test('The prerequisite form is hidden and the action buttons are displayed when the cancel is click', async () => {
+      test('The prerequisite form is hidden and the action buttons are displayed when the cancel is clicked', async () => {
         render(<PrerequisiteNode
           id={uuidv4()}
           displayPrerequisiteForm
