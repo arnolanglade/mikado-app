@@ -36,22 +36,22 @@ export function MikadoGraphNode({
 
 export function PrerequisiteNode({
   id,
-  displayPrerequisiteForm,
   data: {
     label,
     status,
     canBeCommitted,
+    displayPrerequisiteForm,
     startExperimentation,
     addPrerequisiteToPrerequisite,
     commitChanges,
   },
 }: {
   id: string,
-  displayPrerequisiteForm: boolean,
   data: {
     label: string,
     status: 'experimenting' | 'done' | 'todo',
     canBeCommitted: boolean,
+    displayPrerequisiteForm: boolean,
     startExperimentation: () => void,
     addPrerequisiteToPrerequisite: (label: string) => void,
     commitChanges:() => void,

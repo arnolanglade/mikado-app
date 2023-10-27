@@ -152,6 +152,7 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status: StatusView.TODO,
             canBeCommitted: false,
+            displayPrerequisiteForm: false,
             startExperimentation: onStartExperimentation,
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges: jest.fn(),
@@ -178,6 +179,7 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status,
             canBeCommitted: false,
+            displayPrerequisiteForm: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
@@ -206,6 +208,7 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status: StatusView.EXPERIMENTING,
             canBeCommitted: false,
+            displayPrerequisiteForm: false,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite,
             commitChanges: jest.fn(),
@@ -227,9 +230,9 @@ describe('MikadoGraph', () => {
       test('The commit changes and display prerequisite form buttons are hidden when the prerequisite form is display', async () => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          displayPrerequisiteForm={false}
           data={{
             label: 'Do this',
+            displayPrerequisiteForm: false,
             status: StatusView.EXPERIMENTING,
             canBeCommitted: false,
             startExperimentation: jest.fn(),
@@ -252,11 +255,11 @@ describe('MikadoGraph', () => {
       test('The prerequisite form is hidden and the action buttons are displayed when the cancel is clicked', async () => {
         render(<PrerequisiteNode
           id={uuidv4()}
-          displayPrerequisiteForm
           data={{
             label: 'Do this',
             status: StatusView.EXPERIMENTING,
             canBeCommitted: true,
+            displayPrerequisiteForm: true,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges: jest.fn(),
@@ -286,6 +289,7 @@ describe('MikadoGraph', () => {
               label: 'Do this',
               status,
               canBeCommitted: false,
+              displayPrerequisiteForm: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -313,6 +317,7 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status: StatusView.EXPERIMENTING,
             canBeCommitted: true,
+            displayPrerequisiteForm: false,
             startExperimentation: jest.fn(),
             addPrerequisiteToPrerequisite: jest.fn(),
             commitChanges,
@@ -339,6 +344,7 @@ describe('MikadoGraph', () => {
               label: 'Do this',
               status,
               canBeCommitted: false,
+              displayPrerequisiteForm: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -363,6 +369,7 @@ describe('MikadoGraph', () => {
               label: 'Do this',
               status: 'experimenting',
               canBeCommitted: false,
+              displayPrerequisiteForm: false,
               startExperimentation: () => jest.fn(),
               addPrerequisiteToPrerequisite: () => jest.fn(),
               commitChanges: () => jest.fn(),
@@ -388,6 +395,7 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status: StatusView.DONE,
             canBeCommitted: false,
+            displayPrerequisiteForm: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
@@ -413,6 +421,7 @@ describe('MikadoGraph', () => {
             label: 'Do this',
             status,
             canBeCommitted: false,
+            displayPrerequisiteForm: false,
             startExperimentation: () => jest.fn(),
             addPrerequisiteToPrerequisite: () => jest.fn(),
             commitChanges: () => jest.fn(),
