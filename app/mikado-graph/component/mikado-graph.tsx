@@ -5,7 +5,7 @@ import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/tools/i18n/intl-provider';
 import {
-  Controls, Handle, Position, ReactFlow,
+  Controls, Handle, MiniMap, Position, ReactFlow,
 } from 'reactflow';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
@@ -134,6 +134,7 @@ export default function Graph({
       fitView
     >
       <Controls />
+      <MiniMap zoomable pannable />
     </ReactFlow>
   );
 }
