@@ -13,7 +13,7 @@
   outline-color: rgb(84 105 212 / 0.5);
   background-color: rgb(255, 255, 255);
   min-height: 150px;
-  resize: vertical;
+  resize: none;
   box-sizing: border-box;
   margin-bottom: 20px;
 }
