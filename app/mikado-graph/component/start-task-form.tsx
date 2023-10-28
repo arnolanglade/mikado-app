@@ -1,16 +1,25 @@
 'use client';
 
-import React, { FormEvent, useRef } from 'react';
-import { Translation } from '@/tools/i18n/intl-provider';
+import React, { FormEvent, useRef, useState } from 'react';
+import { Translation, useIntl } from '@/tools/i18n/intl-provider';
 import { Form, SubmitButton, Textarea } from '@/tools/design-system/form';
 import Typography from '@/tools/design-system/typography';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
   const goalRef = useRef<HTMLTextAreaElement>(null);
+  const { translation } = useIntl();
+  const [error, setError] = useState<string | null>(null);
 
   const startTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit(goalRef.current?.value!);
+    if (goalRef.current) {
+      if (goalRef.current.value === '') {
+        setError(translation('mikado-graph.error.emptyGoal'));
+        return;
+      }
+      onSubmit(goalRef.current.value);
+      goalRef.current.value = '';
+    }
   };
 
   return (
@@ -19,6 +28,9 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
         <Translation id="mikado-graph.goal-and-objective" />
       </Typography>
       <Textarea ref={goalRef} />
+      <Typography variant="p">
+        {error}
+      </Typography>
       <SubmitButton>
         <Translation id="mikado-graph.start" />
       </SubmitButton>

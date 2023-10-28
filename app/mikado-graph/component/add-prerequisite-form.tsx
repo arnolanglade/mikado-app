@@ -22,7 +22,7 @@ export default function AddPrerequisiteForm(
         setError(translation('prerequisite.error.emptyLabel'));
         return;
       }
-      onSubmit(LabelRef.current.value!);
+      onSubmit(LabelRef.current.value);
       LabelRef.current.value = '';
     }
   };

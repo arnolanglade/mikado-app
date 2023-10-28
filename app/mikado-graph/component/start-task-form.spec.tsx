@@ -21,4 +21,20 @@ describe('StartTaskForm', () => {
 
     expect(onSubmit).toHaveBeenCalledWith('Refactor method');
   });
+
+  test('An error message is displayed when the goal is not provided', async () => {
+    render(<StartTaskForm onSubmit={jest.fn()} />, {
+      wrapper: createWrapper(
+        {},
+        {
+          'mikado-graph.error.emptyGoal': 'The goal cannot be empty',
+          'mikado-graph.start': 'Start a task',
+        },
+      ),
+    });
+
+    await userEvent.click(screen.getByText('Start a task'));
+
+    expect(screen.getByText('The goal cannot be empty')).toBeInTheDocument();
+  });
 });
