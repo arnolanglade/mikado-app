@@ -74,5 +74,21 @@ describe('AddPrerequisiteForm', () => {
 
       expect(onCancel).toBeCalled();
     });
+
+    test('An error message is displayed when the label of the prerequisite is not provided', async () => {
+      render(<AddPrerequisiteForm onSubmit={jest.fn()} onCancel={jest.fn()} />, {
+        wrapper: createWrapper(
+          {},
+          {
+            'prerequisite.error.emptyLabel': 'The label cannot be empty',
+            add: 'Add prerequisite',
+          },
+        ),
+      });
+
+      await userEvent.click(screen.getByText('Add prerequisite'));
+
+      expect(screen.getByText('The label cannot be empty')).toBeInTheDocument();
+    });
   });
 });
