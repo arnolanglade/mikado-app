@@ -4,7 +4,9 @@ import React from 'react';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/tools/i18n/intl-provider';
-import { Handle, Position, ReactFlow } from 'reactflow';
+import {
+  Controls, Handle, Position, ReactFlow,
+} from 'reactflow';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
 import 'reactflow/dist/style.css';
@@ -130,6 +132,8 @@ export default function Graph({
       edges={mikadoGraph.edges}
       nodeTypes={nodeTypes}
       fitView
-    />
+    >
+      <Controls />
+    </ReactFlow>
   );
 }
