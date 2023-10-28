@@ -1,11 +1,7 @@
 .formElement {
-  font-size: 16px;
-  line-height: 28px;
-  padding: 8px;
   width: 100%;
-  min-height: 44px;
+  font-size: 16px;
   border-radius: 4px;
-  outline-color: rgb(84 105 212 / 0.5);
 }
 
 .textarea {
@@ -26,9 +22,11 @@
 }
 
 .button {
-  background-color: rgb(84, 105, 212);
-  color: #fff;
-  border: unset;
-  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #007bff;
 }
