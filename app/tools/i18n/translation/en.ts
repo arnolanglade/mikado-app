@@ -6,6 +6,7 @@ const translationEn: Translations = {
   cancel: 'Cancel',
   'mikado-graph.start': 'Start a task',
   'mikado-graph.done': 'Great! You finished your goal!',
+  'mikado-graph.error.emptyGoal': 'The goal cannot be empty',
   'mikado-graph.goal-and-objective': 'What is your goal or objective?',
   'mikado-graph.your-goal': '<strong>Your goal</strong>: {goal}',
   'mikado-graph.notification.success.start': 'The refactoring has been started',
@@ -18,5 +19,6 @@ const translationEn: Translations = {
   'prerequisite.commit-changes': 'Commit changes',
   'prerequisite.notification.success.commit-changes': 'Changes committed',
   'prerequisite.done': 'Great! You\'ve completed the prerequisite!',
+  'prerequisite.error.emptyLabel': 'The label cannot be empty',
 };
 export default translationEn;
