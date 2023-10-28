@@ -86,18 +86,18 @@ export function PrerequisiteNode({
         )
       }
       {status === StatusView.TODO && (
-      <Button onClick={startExperimentation}>
+      <Button variant="primary" onClick={startExperimentation}>
         <Translation id="prerequisite.start-experimentation" />
       </Button>
       )}
 
       { !displayForm && status === StatusView.EXPERIMENTING && (
         <ButtonGroup>
-          <Button onClick={displayOrHiddenPrerequisiteForm}>
+          <Button variant="primary" onClick={displayOrHiddenPrerequisiteForm}>
             <Translation id="prerequisite.add" />
           </Button>
           { canBeCommitted && (
-          <Button onClick={commitChanges}>
+          <Button variant="primary" onClick={commitChanges}>
             <Translation id="prerequisite.commit-changes" />
           </Button>
           )}

@@ -17,7 +17,6 @@
 .buttonGroup {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
   gap: 10px
 }
 
@@ -27,6 +26,14 @@
   cursor: pointer;
   text-align: center;
   text-decoration: none;
+  font-weight: bold;
   color: #fff;
+}
+
+.primary {
   background-color: #007bff;
+}
+
+.secondary {
+  background-color: #9da0a4;
 }

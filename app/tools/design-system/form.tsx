@@ -21,11 +21,11 @@ export function ButtonGroup({ children }: { children: ReactNode }) {
 }
 
 export function Button(
-  { children, onClick }:
-  { children: ReactNode, onClick: () => void },
+  { children, variant, onClick }:
+  { children: ReactNode, variant: 'primary' | 'secondary', onClick: () => void },
 ) {
   return (
-    <button type="button" onClick={onClick} className={`${styles.button} ${styles.formElement}`}>
+    <button type="button" onClick={onClick} className={`${styles.button} ${styles[variant]} ${styles.formElement}`}>
       {children}
     </button>
   );
@@ -33,7 +33,7 @@ export function Button(
 
 export function SubmitButton({ children }: { children: ReactNode }) {
   return (
-    <button type="submit" className={`${styles.button} ${styles.formElement}`}>
+    <button type="submit" className={`${styles.button} ${styles.primary} ${styles.formElement}`}>
       {children}
     </button>
   );

@@ -25,7 +25,7 @@ export default function AddPrerequisiteForm(
       <Textarea ref={LabelRef} />
       <ButtonGroup>
         {onCancel && (
-        <Button onClick={onCancel}>
+        <Button variant="secondary" onClick={onCancel}>
           <Translation id="cancel" />
         </Button>
         )}
