@@ -1,4 +1,5 @@
 import React, { forwardRef, ReactNode } from 'react';
+import Typography from '@/tools/design-system/typography';
 import styles from './form.module.css';
 
 export function Form(
@@ -43,3 +44,13 @@ export function SubmitButton({ children }: { children: ReactNode }) {
 export const Textarea = forwardRef<HTMLTextAreaElement>((props, ref) => (
   <textarea ref={ref} className={`${styles.textarea} ${styles.formElement}`} />
 ));
+
+export function FormError({ error }: { error: ReactNode }) {
+  if (!error) { return null; }
+
+  return (
+    <Typography className={styles.formError} variant="p">
+      {error}
+    </Typography>
+  );
+}

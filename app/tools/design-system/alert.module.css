@@ -5,21 +5,21 @@
 }
 
 .success {
-  background-color: rgb(237, 247, 237);
-  color: rgb(30, 70, 32);
+  background-color: #edf7ed;
+  color: #1e461e;
 }
 
 .error {
-  background-color: rgb(253, 237, 237);
-  color: rgb(95, 33, 32);
+  background-color: #fdeded;
+  color: #5f2120;
 }
 
 .info {
-  background-color: rgb(229, 246, 253);
-  color: rgb(1, 67, 97);
+  background-color: #e5f6fd;
+  color: #014361;
 }
 
 .warning {
-  background-color: rgb(255, 244, 229);
-  color: rgb(102, 60, 0);
+  background-color: #fff4e5;
+  color: #663c00;
 }

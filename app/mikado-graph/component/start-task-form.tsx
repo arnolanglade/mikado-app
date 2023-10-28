@@ -2,7 +2,9 @@
 
 import React, { FormEvent, useRef, useState } from 'react';
 import { Translation, useIntl } from '@/tools/i18n/intl-provider';
-import { Form, SubmitButton, Textarea } from '@/tools/design-system/form';
+import {
+  Form, FormError, SubmitButton, Textarea,
+} from '@/tools/design-system/form';
 import Typography from '@/tools/design-system/typography';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
@@ -28,9 +30,7 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
         <Translation id="mikado-graph.goal-and-objective" />
       </Typography>
       <Textarea ref={goalRef} />
-      <Typography variant="p">
-        {error}
-      </Typography>
+      <FormError error={error} />
       <SubmitButton>
         <Translation id="mikado-graph.start" />
       </SubmitButton>

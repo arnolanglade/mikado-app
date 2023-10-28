@@ -3,7 +3,7 @@
 import React, { FormEvent, useRef, useState } from 'react';
 import { Translation, useIntl } from '@/tools/i18n/intl-provider';
 import {
-  Button, ButtonGroup, Form, SubmitButton, Textarea,
+  Button, ButtonGroup, Form, FormError, SubmitButton, Textarea,
 } from '@/tools/design-system/form';
 import Typography from '@/tools/design-system/typography';
 
@@ -30,9 +30,7 @@ export default function AddPrerequisiteForm(
   return (
     <Form onSubmit={addPrerequisite}>
       <Textarea ref={LabelRef} />
-      <Typography variant="p">
-        {error}
-      </Typography>
+      <FormError error={error} />
       <ButtonGroup>
         {onCancel && (
         <Button variant="secondary" onClick={onCancel}>
