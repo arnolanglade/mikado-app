@@ -5,7 +5,7 @@ import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/tools/i18n/intl-provider';
 import {
-  Controls, Handle, MiniMap, Position, ReactFlow,
+  Controls, Handle, MiniMap, Position, ReactFlow, useEdgesState, useNodesState,
 } from 'reactflow';
 import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
@@ -126,10 +126,15 @@ export default function Graph({
 }: {
   mikadoGraph: MikadoGraph,
 }) {
+  const [nodes, , onNodesChange] = useNodesState(mikadoGraph.nodes);
+  const [edges, , onEdgesChange] = useEdgesState(mikadoGraph.edges);
+
   return (
     <ReactFlow
-      nodes={mikadoGraph.nodes}
-      edges={mikadoGraph.edges}
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
       fitView
     >
