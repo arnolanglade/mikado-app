@@ -58,3 +58,23 @@ Run all tests
 ```bash
 pnpm tests
 ```
+
+## Supabase
+
+Start supabase
+
+```bash
+npx supabase start
+```
+
+Resets the local database to current migrations
+
+```bash
+npx supabase db reset
+```
+
+Create an empty migration script
+
+```bash
+npx supabase migration new <migration name>
+```
