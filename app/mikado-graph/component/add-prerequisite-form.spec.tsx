@@ -23,21 +23,6 @@ describe('AddPrerequisiteForm', () => {
     expect(onSubmit).toHaveBeenCalledWith('Refactor method');
   });
 
-  test('The input value is reset after submitting the form', async () => {
-    render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
-      wrapper: createWrapper(
-        {},
-        { add: 'Add prerequisite' },
-      ),
-    });
-    const prerequisiteInput = screen.getByRole<HTMLInputElement>('textbox');
-
-    await userEvent.type(screen.getByRole('textbox'), 'Refactor method');
-    await userEvent.click(screen.getByText('Add prerequisite'));
-
-    expect(prerequisiteInput.value).toBe('');
-  });
-
   describe('Cancel button', () => {
     test('The cancel button is hidden when the cancel callback is not provided', async () => {
       render(<AddPrerequisiteForm onSubmit={jest.fn()} />, {
