@@ -3,6 +3,7 @@ import {
 } from '@/api/mikado-graph/mikado-graph';
 import { SupabaseClient } from '@supabase/supabase-js';
 import supabaseClient, { Database } from '@/tools/api/supabase/supabase-client';
+import * as Sentry from '@sentry/nextjs';
 
 export class SystemClock implements Clock {
   // eslint-disable-next-line class-methods-use-this
@@ -72,6 +73,8 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
       .select('aggregate')
       .eq('mikado_graph_id', id)
       .single();
+
+    Sentry.captureMessage('Une information importante.');
 
     if (!data) {
       throw UnknownMikadoGraph.fromId(id);
