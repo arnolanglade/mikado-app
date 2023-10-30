@@ -78,9 +78,6 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
       throw UnknownMikadoGraph.fromId(id);
     }
 
-    data.aggregate.prerequisite.forEach((prerequisite) => {
-      Sentry.captureMessage('Prerequisite....', { extra: { prerequisite } });
-    });
     return MikadoGraph.fromState(data.aggregate);
   }
 }
