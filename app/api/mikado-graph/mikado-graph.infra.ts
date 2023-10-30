@@ -71,7 +71,7 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
       .from('mikado_graph')
       .select('aggregate')
       .eq('mikado_graph_id', id)
-      .maybeSingle();
+      .single();
 
     if (!data) {
       throw UnknownMikadoGraph.fromId(id);
