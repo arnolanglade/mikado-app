@@ -67,15 +67,11 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
   }
 
   async get(id: string): Promise<MikadoGraph> {
-    const { data, error } = await this.client
+    const { data } = await this.client
       .from('mikado_graph')
       .select('aggregate')
       .eq('mikado_graph_id', id)
       .maybeSingle();
-
-    if (error) {
-      throw new Error('The mikado graph cannot be retrieved', { cause: error });
-    }
 
     if (!data) {
       throw UnknownMikadoGraph.fromId(id);
