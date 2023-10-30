@@ -3,7 +3,6 @@ import {
 } from '@/api/mikado-graph/mikado-graph';
 import { SupabaseClient } from '@supabase/supabase-js';
 import supabaseClient, { Database } from '@/tools/api/supabase/supabase-client';
-import * as Sentry from '@sentry/nextjs';
 
 export class SystemClock implements Clock {
   // eslint-disable-next-line class-methods-use-this
@@ -58,21 +57,25 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
   async add(mikadoGraph: MikadoGraph): Promise<void> {
     const state = mikadoGraph.toState();
 
-    const { error: mikadoGraphError } = await this.client
+    const { error } = await this.client
       .from('mikado_graph')
       .upsert({ mikado_graph_id: state.mikado_graph_id, aggregate: state }, { onConflict: 'mikado_graph_id' });
 
-    if (mikadoGraphError) {
-      throw new Error('The mikado graph cannot be saved', { cause: mikadoGraphError });
+    if (error) {
+      throw new Error('The mikado graph cannot be saved', { cause: error });
     }
   }
 
   async get(id: string): Promise<MikadoGraph> {
-    const { data } = await this.client
+    const { data, error } = await this.client
       .from('mikado_graph')
       .select('aggregate')
       .eq('mikado_graph_id', id)
-      .single();
+      .maybeSingle();
+
+    if (error) {
+      throw new Error('The mikado graph cannot be retrieved', { cause: error });
+    }
 
     if (!data) {
       throw UnknownMikadoGraph.fromId(id);
