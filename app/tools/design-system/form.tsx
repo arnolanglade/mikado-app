@@ -40,10 +40,11 @@ export function SubmitButton({ children }: { children: ReactNode }) {
   );
 }
 
-// eslint-disable-next-line react/display-name
-export const Textarea = forwardRef<HTMLTextAreaElement>((props, ref) => (
-  <textarea ref={ref} className={`${styles.textarea} ${styles.formElement}`} />
-));
+export function Textarea({ name }: { name: string }) {
+  return (
+    <textarea className={`${styles.textarea} ${styles.formElement}`} name={name} />
+  );
+}
 
 export function FormError({ error }: { error: ReactNode }) {
   if (!error) { return null; }

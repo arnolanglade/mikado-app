@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FormEvent, useRef, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Translation, useIntl } from '@/tools/i18n/intl-provider';
 import {
   Button, ButtonGroup, Form, FormError, SubmitButton, Textarea,
@@ -11,24 +11,21 @@ export default function AddPrerequisiteForm(
   { onSubmit: (label: string) => void, onCancel?: () => void },
 ) {
   const { translation } = useIntl();
-  const LabelRef = useRef<HTMLTextAreaElement>(null);
   const [error, setError] = useState<string | null>(null);
 
   const addPrerequisite = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (LabelRef.current) {
-      if (LabelRef.current.value === '') {
-        setError(translation('prerequisite.error.emptyLabel'));
-        return;
-      }
-      onSubmit(LabelRef.current.value);
-      LabelRef.current.value = '';
+    const formData = new FormData(e.currentTarget);
+    if (formData.get('label') === '') {
+      setError(translation('prerequisite.error.emptyLabel'));
+      return;
     }
+    onSubmit(formData.get('label') as string);
   };
 
   return (
     <Form onSubmit={addPrerequisite}>
-      <Textarea ref={LabelRef} />
+      <Textarea name="label" />
       <FormError error={error} />
       <ButtonGroup>
         {onCancel && (
