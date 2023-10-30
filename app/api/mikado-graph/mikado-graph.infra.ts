@@ -59,25 +59,17 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
 
     const { error: mikadoGraphError } = await this.client
       .from('mikado_graph')
-      .upsert({ mikado_graph_id: state.mikado_graph_id, goal: state.goal, done: state.done }, { onConflict: 'mikado_graph_id' });
+      .upsert({ mikado_graph_id: state.mikado_graph_id, aggregate: state }, { onConflict: 'mikado_graph_id' });
 
     if (mikadoGraphError) {
       throw new Error('The mikado graph cannot be saved', { cause: mikadoGraphError });
-    }
-
-    const { error: prerequisiteError } = await this.client
-      .from('prerequisite')
-      .upsert(state.prerequisite.map((p) => ({ ...p, mikado_graph_id: state.mikado_graph_id })), { onConflict: 'prerequisite_id' });
-
-    if (prerequisiteError) {
-      throw new Error('The prerequisites cannot be saved', { cause: prerequisiteError });
     }
   }
 
   async get(id: string): Promise<MikadoGraph> {
     const { data } = await this.client
       .from('mikado_graph')
-      .select('mikado_graph_id, goal, done, prerequisite(prerequisite_id, label, status, started_at, parent_id, all_children_done)')
+      .select('aggregate')
       .eq('mikado_graph_id', id)
       .single();
 
@@ -85,7 +77,7 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
       throw UnknownMikadoGraph.fromId(id);
     }
 
-    return MikadoGraph.fromState(data);
+    return MikadoGraph.fromState(data.aggregate);
   }
 }
 export const supabaseMikadoGraphs = new SupabaseMikadoGraphs(supabaseClient);

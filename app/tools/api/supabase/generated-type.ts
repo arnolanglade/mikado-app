@@ -1,10 +1,10 @@
 export type Json =
-    | string
-    | number
-    | boolean
-    | null
-    | { [key: string]: Json | undefined }
-    | Json[];
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
 
 export interface Database {
   graphql_public: {
@@ -36,58 +36,18 @@ export interface Database {
     Tables: {
       mikado_graph: {
         Row: {
-          done: boolean | null
-          goal: string | null
+          aggregate: Json | null
           mikado_graph_id: string
         }
         Insert: {
-          done?: boolean | null
-          goal?: string | null
+          aggregate?: Json | null
           mikado_graph_id: string
         }
         Update: {
-          done?: boolean | null
-          goal?: string | null
+          aggregate?: Json | null
           mikado_graph_id?: string
         }
         Relationships: []
-      }
-      prerequisite: {
-        Row: {
-          all_children_done: boolean | null
-          label: string | null
-          mikado_graph_id: string | null
-          parent_id: string | null
-          prerequisite_id: string
-          started_at: string | null
-          status: Database['public']['Enums']['status'] | null
-        }
-        Insert: {
-          all_children_done?: boolean | null
-          label?: string | null
-          mikado_graph_id?: string | null
-          parent_id?: string | null
-          prerequisite_id: string
-          started_at?: string | null
-          status?: Database['public']['Enums']['status'] | null
-        }
-        Update: {
-          all_children_done?: boolean | null
-          label?: string | null
-          mikado_graph_id?: string | null
-          parent_id?: string | null
-          prerequisite_id?: string
-          started_at?: string | null
-          status?: Database['public']['Enums']['status'] | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'prerequisite_mikado_graph_id_fkey'
-            columns: ['mikado_graph_id']
-            referencedRelation: 'mikado_graph'
-            referencedColumns: ['mikado_graph_id']
-          },
-        ]
       }
     }
     Views: {

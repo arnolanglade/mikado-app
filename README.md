@@ -73,8 +73,10 @@ Resets the local database to current migrations
 npx supabase db reset
 ```
 
-Create an empty migration script
+Add a new migration
 
 ```bash
 npx supabase migration new <migration name>
+npx supabase gen types typescript --local > app/tools/api/supabase/generated-type.ts
+npx supabase db reset
 ```
