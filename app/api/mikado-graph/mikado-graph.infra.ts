@@ -74,7 +74,7 @@ export class SupabaseMikadoGraphs implements MikadoGraphs {
       .eq('mikado_graph_id', id)
       .single();
 
-    Sentry.captureMessage('Une information importante.');
+    Sentry.captureMessage('Mikado graph loaded from Supabase', { extra: { data } });
 
     if (!data) {
       throw UnknownMikadoGraph.fromId(id);
