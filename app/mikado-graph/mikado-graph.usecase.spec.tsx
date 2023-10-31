@@ -335,13 +335,19 @@ describe('useMikadoGraph', () => {
       const success = jest.fn();
       const prerequisiteId = uuidv4();
 
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
+      const { result } = renderHook(() => useMikadoGraph(
+        aMikadoGraphView({ prerequisites: [{ prerequisiteId }] }),
+      ), {
         wrapper: createWrapper(
           {
-            mikadoGraphApi: aMikadoGraphApi({ commitChanges: async () => aMikadoGraphView({ done: false }) }),
+            mikadoGraphApi: aMikadoGraphApi({
+              commitChanges: async () => aMikadoGraphView(
+                { done: false, prerequisites: [{ prerequisiteId, status: StatusView.DONE }] },
+              ),
+            }),
             useNotification: aNotifier({ success }),
           },
-          { 'prerequisite.notification.add-prerequisite.success': 'Changes committed' },
+          { 'prerequisite.notification.success.commit-changes': 'Changes committed' },
         ),
       });
 
@@ -349,6 +355,7 @@ describe('useMikadoGraph', () => {
         prerequisiteId,
       ));
 
+      expect((result.current.mikadoGraph.nodes[1].data as PrerequisiteData).status).toBe(StatusView.DONE); // 0:Goal + 1:prerequisite
       expect(success).toHaveBeenCalledWith('Changes committed');
     });
 
@@ -370,24 +377,6 @@ describe('useMikadoGraph', () => {
       ));
 
       expect(success).toHaveBeenCalledWith('Mikado Graph done');
-    });
-
-    test('The mikado graph graph is refresh after committing changes', async () => {
-      const refresh = jest.fn();
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({ commitChanges: async () => aMikadoGraphView() }),
-            useRouter: aRouter({ refresh }),
-          },
-        ),
-      });
-
-      await act(() => result.current.commitChanges(
-        uuidv4(),
-      ));
-
-      expect(refresh).toHaveBeenCalled();
     });
 
     test('The developer is notified that something went wrong', async () => {

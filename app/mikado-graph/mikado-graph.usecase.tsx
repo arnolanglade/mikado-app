@@ -107,12 +107,12 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
   const commitChanges = async (prerequisiteId: string) => {
     try {
       const mikadoGraph = await mikadoGraphApi.commitChanges(defaultMikadoGraphView.mikadoGraphId, prerequisiteId);
+      setMikadoGraphView(mikadoGraph);
       if (mikadoGraph.done) {
         notifier.success(translation('mikado-graph.done'));
       } else {
         notifier.success(translation('prerequisite.notification.success.commit-changes'));
       }
-      router.refresh();
     } catch (e) {
       notifier.error(translation('notification.error'));
     }
