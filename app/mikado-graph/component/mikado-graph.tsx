@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/tools/i18n/intl-provider';
@@ -126,8 +126,13 @@ export default function Graph({
 }: {
   mikadoGraph: MikadoGraph,
 }) {
-  const [nodes, , onNodesChange] = useNodesState(mikadoGraph.nodes);
-  const [edges, , onEdgesChange] = useEdgesState(mikadoGraph.edges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(mikadoGraph.nodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(mikadoGraph.edges);
+
+  useEffect(() => {
+    setEdges(mikadoGraph.edges);
+    setNodes(mikadoGraph.nodes);
+  }, [mikadoGraph]);
 
   return (
     <ReactFlow
