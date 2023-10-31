@@ -9,10 +9,10 @@ export default function Page({ mikadoGraphView }: {
   mikadoGraphView: MikadoGraphView
 }) {
   const {
-    getMikadoGraph,
+    mikadoGraph,
   } = useMikadoGraph(mikadoGraphView);
 
   return (
-    <MikadoGraph mikadoGraph={getMikadoGraph()} />
+    <MikadoGraph mikadoGraph={mikadoGraph} />
   );
 }

@@ -4,6 +4,7 @@ import { useServiceContainer } from '@/tools/service-container-context';
 import { useIntl } from '@/tools/i18n/intl-provider';
 import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
 import Dagre from '@dagrejs/dagre';
+import { useState } from 'react';
 
 export function useStartTask() {
   const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
@@ -61,11 +62,13 @@ export type MikadoGraph = {
   edges: Edge[],
 };
 
-export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
+export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) {
   const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
   const router = useRouter();
   const notifier = useNotification();
   const { translation } = useIntl();
+
+  const [mikadoGraphView, setMikadoGraphView] = useState<MikadoGraphView>(defaultMikadoGraphView);
 
   const dagreGraph = new Dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -76,7 +79,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
 
   const addPrerequisiteToMikadoGraph = async (label: string) => {
     try {
-      await mikadoGraphApi.addPrerequisiteToMikadoGraph(mikadoGraphView.mikadoGraphId, label);
+      await mikadoGraphApi.addPrerequisiteToMikadoGraph(defaultMikadoGraphView.mikadoGraphId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -86,7 +89,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
 
   const startExperimentation = async (prerequisiteId: string) => {
     try {
-      await mikadoGraphApi.startExperimentation(mikadoGraphView.mikadoGraphId, prerequisiteId);
+      await mikadoGraphApi.startExperimentation(defaultMikadoGraphView.mikadoGraphId, prerequisiteId);
       notifier.success(translation('prerequisite.notification.start-experimentation.success'));
       router.refresh();
     } catch (e) {
@@ -96,7 +99,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
 
   const addPrerequisiteToPrerequisite = async (prerequisiteId: string, label: string) => {
     try {
-      await mikadoGraphApi.addPrerequisiteToPrerequisite(mikadoGraphView.mikadoGraphId, prerequisiteId, label);
+      await mikadoGraphApi.addPrerequisiteToPrerequisite(defaultMikadoGraphView.mikadoGraphId, prerequisiteId, label);
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
       router.refresh();
     } catch (e) {
@@ -106,7 +109,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
 
   const commitChanges = async (prerequisiteId: string) => {
     try {
-      const mikadoGraph = await mikadoGraphApi.commitChanges(mikadoGraphView.mikadoGraphId, prerequisiteId);
+      const mikadoGraph = await mikadoGraphApi.commitChanges(defaultMikadoGraphView.mikadoGraphId, prerequisiteId);
       if (mikadoGraph.done) {
         notifier.success(translation('mikado-graph.done'));
       } else {
@@ -118,16 +121,16 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
     }
   };
 
-  const getMikadoGraph = (): MikadoGraph => {
+  const getMikadoGraph = (graph: MikadoGraphView): MikadoGraph => {
     const mikadoGraphNode: Node = {
-      id: mikadoGraphView.mikadoGraphId,
+      id: graph.mikadoGraphId,
       type: 'mikadoGraph',
-      data: { goal: mikadoGraphView.goal, done: mikadoGraphView.done, addPrerequisiteToMikadoGraph: (label: string) => addPrerequisiteToMikadoGraph(label) },
+      data: { goal: graph.goal, done: graph.done, addPrerequisiteToMikadoGraph: (label: string) => addPrerequisiteToMikadoGraph(label) },
       position: { x: 0, y: 0 },
     };
-    dagreGraph.setNode(mikadoGraphView.mikadoGraphId, { width: nodeWidth, height: nodeHeight });
+    dagreGraph.setNode(graph.mikadoGraphId, { width: nodeWidth, height: nodeHeight });
 
-    const prerequisiteNodes = mikadoGraphView.prerequisites.map((prerequisite): Node => {
+    const prerequisiteNodes = graph.prerequisites.map((prerequisite): Node => {
       dagreGraph.setNode(prerequisite.prerequisiteId, { width: nodeWidth, height: nodeHeight });
 
       return {
@@ -147,7 +150,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
       };
     });
 
-    const edges = mikadoGraphView.prerequisites.map((prerequisite): Edge => {
+    const edges = graph.prerequisites.map((prerequisite): Edge => {
       dagreGraph.setEdge(prerequisite.parentId, prerequisite.prerequisiteId);
       return {
         id: `${prerequisite.parentId}-${prerequisite.prerequisiteId}`,
@@ -178,7 +181,7 @@ export default function useMikadoGraph(mikadoGraphView: MikadoGraphView) {
   };
 
   return {
-    getMikadoGraph,
+    mikadoGraph: getMikadoGraph(mikadoGraphView),
     startExperimentation,
     addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,

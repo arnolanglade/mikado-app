@@ -82,7 +82,7 @@ describe('useMikadoGraph', () => {
         wrapper: createWrapper({}, {}),
       });
 
-      expect(result.current.getMikadoGraph()).toEqual({
+      expect(result.current.mikadoGraph).toEqual({
         nodes: [
           {
             id: mikadoGraphId,
@@ -111,7 +111,7 @@ describe('useMikadoGraph', () => {
         wrapper: createWrapper({}, {}),
       });
 
-      expect(result.current.getMikadoGraph().nodes[1]).toEqual({
+      expect(result.current.mikadoGraph.nodes[1]).toEqual({
         id: prerequisiteId,
         type: 'prerequisite',
         parentId: MikadoGraphId,
@@ -143,7 +143,7 @@ describe('useMikadoGraph', () => {
         wrapper: createWrapper({}, {}),
       });
 
-      expect(result.current.getMikadoGraph().edges).toEqual([
+      expect(result.current.mikadoGraph.edges).toEqual([
         { id: `${MikadoGraphId}-${prerequisiteId}`, source: MikadoGraphId, target: prerequisiteId },
         { id: `${MikadoGraphId}-${otherPrerequisiteId}`, source: MikadoGraphId, target: otherPrerequisiteId },
       ]);
@@ -164,7 +164,7 @@ describe('useMikadoGraph', () => {
         wrapper: createWrapper({}, {}),
       });
 
-      expect(result.current.getMikadoGraph().edges).toEqual([
+      expect(result.current.mikadoGraph.edges).toEqual([
         { id: `${MikadoGraphId}-${firstLevelPrerequisiteId}`, source: MikadoGraphId, target: firstLevelPrerequisiteId },
         { id: `${firstLevelPrerequisiteId}-${secondLevelPrerequisiteId}`, source: firstLevelPrerequisiteId, target: secondLevelPrerequisiteId },
       ]);
