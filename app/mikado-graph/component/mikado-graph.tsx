@@ -142,6 +142,7 @@ export default function Graph({
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
       fitView
+      fitViewOptions={{ padding: 3 }}
     >
       <Controls />
       <MiniMap zoomable pannable />
