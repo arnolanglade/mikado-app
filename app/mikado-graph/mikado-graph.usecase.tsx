@@ -97,9 +97,8 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
 
   const addPrerequisiteToPrerequisite = async (prerequisiteId: string, label: string) => {
     try {
-      await mikadoGraphApi.addPrerequisiteToPrerequisite(defaultMikadoGraphView.mikadoGraphId, prerequisiteId, label);
+      setMikadoGraphView(await mikadoGraphApi.addPrerequisiteToPrerequisite(defaultMikadoGraphView.mikadoGraphId, prerequisiteId, label));
       notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
-      router.refresh();
     } catch (e) {
       notifier.error(translation('notification.error'));
     }

@@ -224,15 +224,19 @@ describe('useMikadoGraph', () => {
 
   describe('add prerequisite to a prerequisite', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const addPrerequisiteToPrerequisite = jest.fn(() => Promise.resolve(aMikadoGraphView()));
       const success = jest.fn();
-      const mikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const prerequisiteLabel = 'Do that';
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({ mikadoGraphId })), {
+      const { result } = renderHook(() => useMikadoGraph(
+        aMikadoGraphView({ prerequisites: [{ prerequisiteId }] }),
+      ), {
         wrapper: createWrapper(
           {
-            mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToPrerequisite }),
+            mikadoGraphApi: aMikadoGraphApi({
+              addPrerequisiteToPrerequisite: () => Promise.resolve(
+                aMikadoGraphView({ prerequisites: [{ prerequisiteId }, { label: prerequisiteLabel }] }),
+              ),
+            }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
@@ -244,28 +248,8 @@ describe('useMikadoGraph', () => {
         prerequisiteLabel,
       ));
 
-      expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(mikadoGraphId, prerequisiteId, prerequisiteLabel);
+      expect((result.current.mikadoGraph.nodes[2].data as PrerequisiteData).label).toBe(prerequisiteLabel); // 0: Goal + 1: prerequisite + 2: new prerequisite
       expect(success).toHaveBeenCalledWith('The prerequisite has been added');
-    });
-
-    test('The mikado graph graph is refresh after adding a prerequisite', async () => {
-      const refresh = jest.fn();
-
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({ addPrerequisiteToPrerequisite: async () => aMikadoGraphView() }),
-            useRouter: aRouter({ refresh }),
-          },
-        ),
-      });
-
-      await act(() => result.current.addPrerequisiteToPrerequisite(
-        uuidv4(),
-        'Do this',
-      ));
-
-      expect(refresh).toHaveBeenCalled();
     });
 
     test('The developer is notified that something went wrong', async () => {
