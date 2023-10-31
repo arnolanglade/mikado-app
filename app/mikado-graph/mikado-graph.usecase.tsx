@@ -63,8 +63,7 @@ export type MikadoGraph = {
 };
 
 export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) {
-  const { mikadoGraphApi, useRouter, useNotification } = useServiceContainer();
-  const router = useRouter();
+  const { mikadoGraphApi, useNotification } = useServiceContainer();
   const notifier = useNotification();
   const { translation } = useIntl();
 
