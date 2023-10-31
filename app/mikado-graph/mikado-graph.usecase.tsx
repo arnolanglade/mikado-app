@@ -88,9 +88,8 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
 
   const startExperimentation = async (prerequisiteId: string) => {
     try {
-      await mikadoGraphApi.startExperimentation(defaultMikadoGraphView.mikadoGraphId, prerequisiteId);
+      setMikadoGraphView(await mikadoGraphApi.startExperimentation(defaultMikadoGraphView.mikadoGraphId, prerequisiteId));
       notifier.success(translation('prerequisite.notification.start-experimentation.success'));
-      router.refresh();
     } catch (e) {
       notifier.error(translation('notification.error'));
     }

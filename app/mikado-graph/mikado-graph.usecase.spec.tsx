@@ -4,7 +4,7 @@ import { act, renderHook } from '@testing-library/react';
 import useMikadoGraph, { PrerequisiteData, useStartTask } from '@/mikado-graph/mikado-graph.usecase';
 import { jest } from '@jest/globals';
 import {
-  aNotifier, aMikadoGraphApi, aMikadoGraphView, aRouter, createWrapper,
+  aMikadoGraphApi, aMikadoGraphView, aNotifier, aRouter, createWrapper,
 } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
@@ -298,12 +298,16 @@ describe('useMikadoGraph', () => {
       const success = jest.fn();
       const mikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
-      const startExperimentation = jest.fn(() => Promise.resolve(aMikadoGraphView()));
-
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({ mikadoGraphId })), {
+      const { result } = renderHook(() => useMikadoGraph(
+        aMikadoGraphView({ mikadoGraphId, prerequisites: [{ prerequisiteId, status: StatusView.TODO }] }),
+      ), {
         wrapper: createWrapper(
           {
-            mikadoGraphApi: aMikadoGraphApi({ startExperimentation }),
+            mikadoGraphApi: aMikadoGraphApi({
+              startExperimentation: () => Promise.resolve(
+                aMikadoGraphView({ prerequisites: [{ prerequisiteId, status: StatusView.EXPERIMENTING }] }),
+              ),
+            }),
             useNotification: aNotifier({ success }),
           },
           { 'prerequisite.notification.start-experimentation.success': 'The experimentation has started' },
@@ -314,26 +318,8 @@ describe('useMikadoGraph', () => {
         prerequisiteId,
       ));
 
-      expect(startExperimentation).toHaveBeenCalledWith(mikadoGraphId, prerequisiteId);
+      expect((result.current.mikadoGraph.nodes[1].data as PrerequisiteData).status).toBe(StatusView.EXPERIMENTING); // 0:Goal + 1:prerequisite
       expect(success).toHaveBeenCalledWith('The experimentation has started');
-    });
-
-    test('The mikado graph graph is refresh after starting an experimentation', async () => {
-      const refresh = jest.fn();
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({ startExperimentation: async () => aMikadoGraphView() }),
-            useRouter: aRouter({ refresh }),
-          },
-        ),
-      });
-
-      await act(() => result.current.startExperimentation(
-        uuidv4(),
-      ));
-
-      expect(refresh).toHaveBeenCalled();
     });
 
     test('The developer is notified that something went wrong', async () => {
