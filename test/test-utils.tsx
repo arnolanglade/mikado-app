@@ -155,6 +155,7 @@ export const aMikadoGraphApi = (api: Partial<MikadoGraphApi> = {}): MikadoGraphA
   start: jest.fn(() => Promise.resolve(aMikadoGraphView())),
   addPrerequisiteToMikadoGraph: jest.fn(() => Promise.resolve(aMikadoGraphView())),
   addPrerequisiteToPrerequisite: jest.fn(() => Promise.resolve(aMikadoGraphView())),
+  addPrerequisite: jest.fn(() => Promise.resolve(aMikadoGraphView())),
   startExperimentation: jest.fn(() => Promise.resolve(aMikadoGraphView())),
   commitChanges: jest.fn(() => Promise.resolve(aMikadoGraphView())),
   ...api,
