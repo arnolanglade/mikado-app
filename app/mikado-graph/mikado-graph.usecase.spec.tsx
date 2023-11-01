@@ -171,6 +171,32 @@ describe('useMikadoGraph', () => {
     });
   });
 
+  describe('open prerequisite form', () => {
+    test('The developer opens the prerequisite form to add new a new prerequisite', async () => {
+      const mikadoGraphId = uuidv4();
+      const mikadoGraphView = aMikadoGraphView({ mikadoGraphId, prerequisites: [] });
+      const { result } = renderHook(() => useMikadoGraph(mikadoGraphView), {
+        wrapper: createWrapper(
+          {},
+          { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
+        ),
+      });
+
+      await act(() => result.current.openPrerequisiteForm(mikadoGraphId));
+
+      expect(result.current.mikadoGraph.nodes[1]).toMatchObject({
+        id: 'new-prerequisite',
+        type: 'prerequisite',
+        parentId: mikadoGraphId,
+      }); // 0: Goal + 1: prerequisite
+      expect(result.current.mikadoGraph.edges[0]).toEqual({
+        id: `${mikadoGraphId}-new-prerequisite`,
+        source: mikadoGraphId,
+        target: 'new-prerequisite',
+      });
+    });
+  });
+
   describe('add prerequisite to a mikado graph', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
       const success = jest.fn();

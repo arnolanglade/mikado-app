@@ -2,7 +2,7 @@
 
 import { useServiceContainer } from '@/tools/service-container-context';
 import { useIntl } from '@/tools/i18n/intl-provider';
-import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
+import { MikadoGraphView, StatusView } from '@/api/mikado-graph/mikado-graph';
 import Dagre from '@dagrejs/dagre';
 import { useState } from 'react';
 
@@ -75,6 +75,19 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
 
   const nodeWidth = 500;
   const nodeHeight = 350;
+
+  const openPrerequisiteForm = (parentId: string) => {
+    setMikadoGraphView({
+      ...mikadoGraphView,
+      prerequisites: [...mikadoGraphView.prerequisites, {
+        prerequisiteId: 'new-prerequisite',
+        parentId,
+        label: '',
+        status: StatusView.TODO,
+        canBeCommitted: false,
+      }],
+    });
+  };
 
   const addPrerequisiteToMikadoGraph = async (label: string) => {
     try {
@@ -178,6 +191,7 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
 
   return {
     mikadoGraph: getMikadoGraph(mikadoGraphView),
+    openPrerequisiteForm,
     startExperimentation,
     addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,
