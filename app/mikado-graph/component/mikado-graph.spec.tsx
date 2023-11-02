@@ -3,7 +3,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { createWrapper } from '@/test/test-utils';
-import MikadoGraph, { PrerequisiteNode, MikadoGraphNode } from '@/mikado-graph/component/mikado-graph';
+import MikadoGraph, { PrerequisiteNode, GoalNode } from '@/mikado-graph/component/mikado-graph';
 import { v4 as uuidv4 } from 'uuid';
 import userEvent from '@testing-library/user-event';
 import { jest } from '@jest/globals';
@@ -27,7 +27,7 @@ describe('MikadoGraph', () => {
         nodes: [
           {
             id: uuidv4(),
-            type: 'mikadoGraph',
+            type: 'goal',
             data: { goal: 'Refactor this method', done: false, addPrerequisiteToMikadoGraph: jest.fn() },
             position: { x: 0, y: 0 },
           },
@@ -80,7 +80,7 @@ describe('MikadoGraph', () => {
       test('The onAddPrerequisite callback is called when a developer add a prerequisite to a mikado graph', async () => {
         const addPrerequisiteToMikadoGraph = jest.fn();
         const label = 'Refactor method';
-        render(<MikadoGraphNode
+        render(<GoalNode
           data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph }}
         />, {
           wrapper: createWrapper(
@@ -96,7 +96,7 @@ describe('MikadoGraph', () => {
       });
 
       test('The prerequisite addition form is displayed while the mikado graph is not finished', async () => {
-        render(<MikadoGraphNode
+        render(<GoalNode
           data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
           wrapper: createWrapper(
@@ -109,7 +109,7 @@ describe('MikadoGraph', () => {
       });
 
       test('The prerequisite addition form is hidden when the mikado graph is finished', async () => {
-        render(<MikadoGraphNode
+        render(<GoalNode
           data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
           wrapper: createWrapper(
@@ -124,7 +124,7 @@ describe('MikadoGraph', () => {
 
     describe('"done" notice', () => {
       test('A "done" notice is displayed when the mikado graph is done', async () => {
-        render(<MikadoGraphNode
+        render(<GoalNode
           data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
           wrapper: createWrapper({}, {
@@ -138,7 +138,7 @@ describe('MikadoGraph', () => {
       });
 
       test('A "done" notice is hidden when the mikado graph is a WIP', async () => {
-        render(<MikadoGraphNode
+        render(<GoalNode
           data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph: jest.fn() }}
         />, {
           wrapper: createWrapper(

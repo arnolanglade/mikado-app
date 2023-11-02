@@ -14,7 +14,7 @@ import { Button, ButtonGroup } from '@/tools/design-system/form';
 import Alert from '@/tools/design-system/alert';
 import styles from './mikado-graph.module.css';
 
-export function MikadoGraphNode({
+export function GoalNode({
   data: { goal, done, addPrerequisiteToMikadoGraph },
 } : {
   data: { goal: string, done: boolean, addPrerequisiteToMikadoGraph: (label: string) => void },
@@ -118,7 +118,7 @@ export function PrerequisiteNode({
 
 const nodeTypes = {
   prerequisite: PrerequisiteNode,
-  mikadoGraph: MikadoGraphNode,
+  goal: GoalNode,
 };
 
 export default function Graph({

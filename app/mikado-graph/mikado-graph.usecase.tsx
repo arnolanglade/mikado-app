@@ -45,7 +45,7 @@ export type PrerequisiteData = {
 
 export type Node = {
   id: string,
-  type: 'mikadoGraph' | 'prerequisite',
+  type: 'goal' | 'prerequisite',
   data: MikadoGraphData | PrerequisiteData,
   parentId?: string,
   position: { x: number, y: number }
@@ -142,7 +142,7 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
   const getMikadoGraph = (graph: MikadoGraphView): MikadoGraph => {
     const mikadoGraphNode: Node = {
       id: graph.mikadoGraphId,
-      type: 'mikadoGraph',
+      type: 'goal',
       data: { goal: graph.goal, done: graph.done, addPrerequisiteToMikadoGraph: (label: string) => addPrerequisiteToMikadoGraph(label) },
       position: { x: 0, y: 0 },
     };
