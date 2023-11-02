@@ -14,35 +14,6 @@ export const handleStartTask = (mikadoGraphs: MikadoGraphs) => async (input: Sta
 
 export const startTask = handleStartTask(supabaseMikadoGraphs);
 
-export type AddPrerequisiteToMikadoGraph = {
-  prerequisiteId: string
-  mikadoGraphId: string
-  label: string
-};
-
-export const handleAddPrerequisiteToMikadoGraph = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToMikadoGraph) => {
-  const mikadoGraph = await mikadoGraphs.get(input.mikadoGraphId);
-  mikadoGraph.addPrerequisiteToMikadoGraph(input.prerequisiteId, input.label);
-  await mikadoGraphs.add(mikadoGraph);
-};
-
-export const addPrerequisiteToMikadoGraph = handleAddPrerequisiteToMikadoGraph(supabaseMikadoGraphs);
-
-export type AddPrerequisiteToPrerequisite = {
-  mikadoGraphId: string
-  prerequisiteId: string
-  parentId: string
-  label: string
-};
-
-export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisiteToPrerequisite) => {
-  const mikadoGraph = await mikadoGraphs.get(input.mikadoGraphId);
-  mikadoGraph.addPrerequisiteToPrerequisite(input.prerequisiteId, input.parentId, input.label);
-  await mikadoGraphs.add(mikadoGraph);
-};
-
-export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(supabaseMikadoGraphs);
-
 export type AddPrerequisite = {
   mikadoGraphId: string
   prerequisiteId: string

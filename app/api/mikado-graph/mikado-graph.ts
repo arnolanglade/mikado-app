@@ -255,16 +255,6 @@ export class MikadoGraph {
     });
   }
 
-  addPrerequisiteToMikadoGraph(prerequisiteId: string, label: string): void {
-    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, this.id.toString(), label));
-  }
-
-  addPrerequisiteToPrerequisite(prerequisiteId: string, parentId: string, label: string): void {
-    this.prerequisites = this.prerequisites.replace(parentId, (prerequisite) => prerequisite.resetChildrenDone());
-
-    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, parentId, label));
-  }
-
   addPrerequisite(prerequisiteId: string, label: string, parentId?: string): void {
     if (parentId) {
       this.prerequisites = this.prerequisites.replace(parentId, (prerequisite) => prerequisite.resetChildrenDone());
