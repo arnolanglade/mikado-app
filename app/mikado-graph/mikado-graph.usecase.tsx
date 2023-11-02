@@ -43,7 +43,6 @@ export type PrerequisiteData = {
   canBeCommitted: boolean,
   displayPrerequisiteForm: boolean,
   startExperimentation: () => void,
-  addPrerequisiteToPrerequisite: (label: string) => void,
   commitChanges: () => void,
   onAddPrerequisiteButtonClick: (parentNodeId: string) => void
 };
@@ -112,15 +111,6 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
     }
   };
 
-  const addPrerequisiteToPrerequisite = async (prerequisiteId: string, label: string) => {
-    try {
-      setMikadoGraphView(await mikadoGraphApi.addPrerequisiteToPrerequisite(defaultMikadoGraphView.mikadoGraphId, prerequisiteId, label));
-      notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
-    } catch (e) {
-      notifier.error(translation('notification.error'));
-    }
-  };
-
   const addPrerequisite = async (label: string, prerequisiteId?: string) => {
     try {
       setMikadoGraphView(await mikadoGraphApi.addPrerequisite(defaultMikadoGraphView.mikadoGraphId, label, prerequisiteId));
@@ -182,7 +172,6 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
           canBeCommitted: prerequisite.canBeCommitted,
           displayPrerequisiteForm: false,
           startExperimentation: () => startExperimentation(prerequisite.prerequisiteId),
-          addPrerequisiteToPrerequisite: (label: string) => addPrerequisiteToPrerequisite(prerequisite.prerequisiteId, label),
           commitChanges: () => commitChanges(prerequisite.prerequisiteId),
           onAddPrerequisiteButtonClick: openPrerequisiteForm,
         },
@@ -225,7 +214,6 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
     openPrerequisiteForm,
     startExperimentation,
     addPrerequisiteToMikadoGraph,
-    addPrerequisiteToPrerequisite,
     addPrerequisite,
     commitChanges,
   };

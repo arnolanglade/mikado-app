@@ -5,7 +5,6 @@ export type MikadoGraphApi = {
   start: (goal: string) => Promise<MikadoGraphView>
   addPrerequisiteToMikadoGraph: (mikadoGraphId: string, label: string) => Promise<MikadoGraphView>
   startExperimentation: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
-  addPrerequisiteToPrerequisite: (mikadoGraphId: string, prerequisiteId: string, label: string) => Promise<MikadoGraphView>
   addPrerequisite: (mikadoGraphId: string, label: string, parentId?: string) => Promise<MikadoGraphView>
   commitChanges: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
 };
@@ -26,13 +25,6 @@ const mikadoGraphApi: MikadoGraphApi = {
     const response = await httpClient.post(
       '/api/mikado-graph/prerequisite/start-experimentation',
       { mikadoGraphId, prerequisiteId },
-    );
-    return response.json();
-  },
-  addPrerequisiteToPrerequisite: async (mikadoGraphId: string, parentId: string, label: string) => {
-    const response = await httpClient.post(
-      '/api/mikado-graph/prerequisite/add-to-prerequisite',
-      { mikadoGraphId, parentId, label },
     );
     return response.json();
   },

@@ -121,7 +121,6 @@ describe('useMikadoGraph', () => {
           canBeCommitted,
           displayPrerequisiteForm: false,
           startExperimentation: expect.any(Function),
-          addPrerequisiteToPrerequisite: expect.any(Function),
           commitChanges: expect.any(Function),
           onAddPrerequisiteButtonClick: expect.any(Function),
         },
@@ -315,61 +314,6 @@ describe('useMikadoGraph', () => {
       });
 
       await act(() => result.current.addPrerequisite(
-        'Do this',
-      ));
-
-      expect(error).toHaveBeenCalledWith('Something went wrong');
-    });
-  });
-
-  describe('add prerequisite to a prerequisite', () => {
-    test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const success = jest.fn();
-      const prerequisiteId = uuidv4();
-      const prerequisiteLabel = 'Do that';
-      const { result } = renderHook(() => useMikadoGraph(
-        aMikadoGraphView({ prerequisites: [{ prerequisiteId }] }),
-      ), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({
-              addPrerequisiteToPrerequisite: () => Promise.resolve(
-                aMikadoGraphView({ prerequisites: [{ prerequisiteId }, { label: prerequisiteLabel }] }),
-              ),
-            }),
-            useNotification: aNotifier({ success }),
-          },
-          { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
-        ),
-      });
-
-      await act(() => result.current.addPrerequisiteToPrerequisite(
-        prerequisiteId,
-        prerequisiteLabel,
-      ));
-
-      expect((result.current.mikadoGraph.nodes[2].data as PrerequisiteData).label).toBe(prerequisiteLabel); // 0: Goal + 1: prerequisite + 2: new prerequisite
-      expect(success).toHaveBeenCalledWith('The prerequisite has been added');
-    });
-
-    test('The developer is notified that something went wrong', async () => {
-      const error = jest.fn();
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({
-              addPrerequisiteToPrerequisite: async () => {
-                throw Error();
-              },
-            }),
-            useNotification: aNotifier({ error }),
-          },
-          { 'notification.error': 'Something went wrong' },
-        ),
-      });
-
-      await act(() => result.current.addPrerequisiteToPrerequisite(
-        uuidv4(),
         'Do this',
       ));
 
