@@ -67,7 +67,7 @@ export function PrerequisiteNode({
     status,
     canBeCommitted,
     onStartExperimentationButtonClick,
-    commitChanges,
+    onCommitChangesButtonClick,
     onAddPrerequisiteButtonClick,
   },
 }: {
@@ -104,7 +104,7 @@ export function PrerequisiteNode({
             <Translation id="prerequisite.add" />
           </Button>
           { canBeCommitted && (
-          <Button variant="primary" onClick={commitChanges}>
+          <Button variant="primary" onClick={onCommitChangesButtonClick}>
             <Translation id="prerequisite.commit-changes" />
           </Button>
           )}

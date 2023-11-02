@@ -15,7 +15,7 @@ const createData = (data: Partial<PrerequisiteData>): PrerequisiteData => ({
   canBeCommitted: false,
   displayPrerequisiteForm: false,
   onStartExperimentationButtonClick: () => {},
-  commitChanges: () => {},
+  onCommitChangesButtonClick: () => {},
   onAddPrerequisiteButtonClick: () => {},
   ...data,
 });
@@ -40,7 +40,7 @@ describe('MikadoGraph', () => {
               canBeCommitted: false,
               displayPrerequisiteForm: false,
               onStartExperimentationButtonClick: jest.fn(),
-              commitChanges: jest.fn(),
+              onCommitChangesButtonClick: jest.fn(),
               onAddPrerequisiteButtonClick: jest.fn(),
             },
             position: { x: 0, y: 0 },
@@ -55,7 +55,7 @@ describe('MikadoGraph', () => {
               displayPrerequisiteForm: false,
               onStartExperimentationButtonClick: jest.fn(),
               onAddPrerequisiteButtonClick: jest.fn(),
-              commitChanges: jest.fn(),
+              onCommitChangesButtonClick: jest.fn(),
             },
             position: { x: 0, y: 0 },
           },
@@ -255,7 +255,7 @@ describe('MikadoGraph', () => {
           data={createData({
             status: 'experimenting',
             canBeCommitted: true,
-            commitChanges,
+            onCommitChangesButtonClick: commitChanges,
           })}
         />, {
           wrapper: createWrapper({ }, {

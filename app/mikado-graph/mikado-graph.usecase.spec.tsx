@@ -121,7 +121,7 @@ describe('useMikadoGraph', () => {
           canBeCommitted,
           displayPrerequisiteForm: false,
           onStartExperimentationButtonClick: expect.any(Function),
-          commitChanges: expect.any(Function),
+          onCommitChangesButtonClick: expect.any(Function),
           onAddPrerequisiteButtonClick: expect.any(Function),
         },
         position: { x: 0, y: 400 },
