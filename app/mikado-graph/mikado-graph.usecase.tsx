@@ -30,7 +30,7 @@ export function useStartTask() {
 export type GaolData = {
   goal: string,
   done: boolean
-  onAddPrerequisiteButtonClick: (label: string) => void
+  onAddPrerequisiteButtonClick: (parentNodeId: string) => void
 };
 
 export type NewPrerequisiteData = {
@@ -147,7 +147,11 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
     const mikadoGraphNode: Node = {
       id: graph.mikadoGraphId,
       type: 'goal',
-      data: { goal: graph.goal, done: graph.done, onAddPrerequisiteButtonClick: (label: string) => addPrerequisiteToMikadoGraph(label) },
+      data: {
+        goal: graph.goal,
+        done: graph.done,
+        onAddPrerequisiteButtonClick: openPrerequisiteForm,
+      },
       position: { x: 0, y: 0 },
     };
     dagreGraph.setNode(graph.mikadoGraphId, { width: nodeWidth, height: nodeHeight });
