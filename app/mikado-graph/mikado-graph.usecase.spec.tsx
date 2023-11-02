@@ -67,8 +67,8 @@ describe('useStartTask', () => {
 });
 
 describe('useMikadoGraph', () => {
-  describe('get mikado graph', () => {
-    test('the first node of the mikado graph contains the mikado graph information', async () => {
+  describe('compute mikado graph nodes', () => {
+    test('it computes the goal information to create a node with that display it', async () => {
       const goal = 'goal';
       const mikadoGraphId = uuidv4();
       const done = false;
@@ -95,7 +95,7 @@ describe('useMikadoGraph', () => {
       });
     });
 
-    test('the next nodes contain the prerequisite information', async () => {
+    test('it computes a new prerequisite to create a node that display it', async () => {
       const MikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const label = 'label';
@@ -123,6 +123,29 @@ describe('useMikadoGraph', () => {
           startExperimentation: expect.any(Function),
           addPrerequisiteToPrerequisite: expect.any(Function),
           commitChanges: expect.any(Function),
+        },
+        position: { x: 0, y: 400 },
+      });
+    });
+
+    test('it computes a new prerequisite to create a node that display the add prerequisite form', async () => {
+      const mikadoGraphId = uuidv4();
+      const prerequisiteId = 'new-prerequisite';
+      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView({
+        mikadoGraphId,
+        prerequisites: [{
+          prerequisiteId,
+        }],
+      })), {
+        wrapper: createWrapper({}, {}),
+      });
+
+      expect(result.current.mikadoGraph.nodes[1]).toEqual({
+        id: prerequisiteId,
+        type: 'newPrerequisite',
+        parentId: mikadoGraphId,
+        data: {
+          onPrerequisiteSubmit: expect.any(Function),
         },
         position: { x: 0, y: 400 },
       });
@@ -186,7 +209,7 @@ describe('useMikadoGraph', () => {
 
       expect(result.current.mikadoGraph.nodes[1]).toMatchObject({
         id: 'new-prerequisite',
-        type: 'prerequisite',
+        type: 'newPrerequisite',
         parentId: mikadoGraphId,
       }); // 0: Goal + 1: prerequisite
       expect(result.current.mikadoGraph.edges[0]).toEqual({

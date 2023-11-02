@@ -49,7 +49,7 @@ export type PrerequisiteData = {
 
 export type Node = {
   id: string,
-  type: 'goal' | 'prerequisite',
+  type: 'goal' | 'prerequisite' | 'newPrerequisite'
   data: GaolData | PrerequisiteData | NewPrerequisiteData,
   parentId?: string,
   position: { x: number, y: number }
@@ -154,6 +154,18 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
 
     const prerequisiteNodes = graph.prerequisites.map((prerequisite): Node => {
       dagreGraph.setNode(prerequisite.prerequisiteId, { width: nodeWidth, height: nodeHeight });
+
+      if (prerequisite.prerequisiteId === 'new-prerequisite') {
+        return {
+          id: prerequisite.prerequisiteId,
+          type: 'newPrerequisite',
+          parentId: prerequisite.parentId,
+          data: {
+            onPrerequisiteSubmit: (label: string) => addPrerequisite(label, prerequisite.parentId),
+          },
+          position: { x: 0, y: 100 },
+        };
+      }
 
       return {
         id: prerequisite.prerequisiteId,
