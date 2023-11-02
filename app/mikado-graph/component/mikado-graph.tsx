@@ -7,7 +7,9 @@ import { Translation } from '@/tools/i18n/intl-provider';
 import {
   Controls, Handle, MiniMap, Position, ReactFlow, useEdgesState, useNodesState,
 } from 'reactflow';
-import { MikadoGraph } from '@/mikado-graph/mikado-graph.usecase';
+import {
+  GaolData, MikadoGraph, NewPrerequisiteData, PrerequisiteData,
+} from '@/mikado-graph/mikado-graph.usecase';
 import Typography from '@/tools/design-system/typography';
 import 'reactflow/dist/style.css';
 import { Button, ButtonGroup } from '@/tools/design-system/form';
@@ -17,7 +19,7 @@ import styles from './mikado-graph.module.css';
 export function AddNewPrerequisiteNode({
   data: { onPrerequisiteSubmit },
 } : {
-  data: { onPrerequisiteSubmit: (label: string, prerequisiteId?: string) => void },
+  data: NewPrerequisiteData,
 }) {
   return (
     <div className={styles.container}>
@@ -31,7 +33,7 @@ export function AddNewPrerequisiteNode({
 export function GoalNode({
   data: { goal, done, addPrerequisiteToMikadoGraph },
 } : {
-  data: { goal: string, done: boolean, addPrerequisiteToMikadoGraph: (label: string) => void },
+  data: GaolData,
 }) {
   return (
     <div className={styles.container}>
@@ -63,15 +65,7 @@ export function PrerequisiteNode({
   },
 }: {
   id: string,
-  data: {
-    label: string,
-    status: 'experimenting' | 'done' | 'todo',
-    canBeCommitted: boolean,
-    displayPrerequisiteForm: boolean,
-    startExperimentation: () => void,
-    addPrerequisiteToPrerequisite: (label: string) => void,
-    commitChanges:() => void,
-  }
+  data: PrerequisiteData
 }) {
   const [displayForm, setDisplayForm] = React.useState(displayPrerequisiteForm || false);
 
