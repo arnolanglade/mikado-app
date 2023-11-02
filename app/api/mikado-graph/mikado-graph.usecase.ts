@@ -43,6 +43,21 @@ export const handleAddPrerequisiteToPrerequisite = (mikadoGraphs: MikadoGraphs) 
 
 export const addPrerequisiteToPrerequisite = handleAddPrerequisiteToPrerequisite(supabaseMikadoGraphs);
 
+export type AddPrerequisite = {
+  mikadoGraphId: string
+  prerequisiteId: string
+  label: string
+  parentId?: string
+};
+
+export const handleAddPrerequisite = (mikadoGraphs: MikadoGraphs) => async (input: AddPrerequisite) => {
+  const mikadoGraph = await mikadoGraphs.get(input.mikadoGraphId);
+  mikadoGraph.addPrerequisite(input.prerequisiteId, input.label, input.parentId);
+  await mikadoGraphs.add(mikadoGraph);
+};
+
+export const addPrerequisite = handleAddPrerequisite(supabaseMikadoGraphs);
+
 export type CommitChanges = {
   mikadoGraphId: string
   prerequisiteId: string

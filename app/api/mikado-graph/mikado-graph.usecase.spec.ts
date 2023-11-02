@@ -5,8 +5,8 @@ import { aMikadoGraph } from '@/test/test-utils';
 import { v4 as uuidv4 } from 'uuid';
 import { InMemoryClock, InMemoryMikadoGraphs } from '@/api/mikado-graph/mikado-graph.infra';
 import {
-  handleAddPrerequisiteToMikadoGraph,
-  handleAddPrerequisiteToPrerequisite, handleCommitChanges, handleGetMikadoGraphById, handleStartExperimentation,
+  handleAddPrerequisite,
+  handleCommitChanges, handleGetMikadoGraphById, handleStartExperimentation,
   handleStartTask,
 } from '@/api/mikado-graph/mikado-graph.usecase';
 
@@ -35,7 +35,7 @@ describe('Mikado Graph use cases', () => {
       prerequisites: [],
     })]);
 
-    await handleAddPrerequisiteToMikadoGraph(mikadoGraphs)({
+    await handleAddPrerequisite(mikadoGraphs)({
       prerequisiteId,
       mikadoGraphId,
       label,
@@ -80,7 +80,7 @@ describe('Mikado Graph use cases', () => {
       prerequisites: [existingPrerequisite],
     })]);
 
-    await handleAddPrerequisiteToPrerequisite(mikadoGraphs)({
+    await handleAddPrerequisite(mikadoGraphs)({
       mikadoGraphId,
       prerequisiteId,
       parentId: existingPrerequisiteId,
