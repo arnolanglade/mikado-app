@@ -41,7 +41,6 @@ export type PrerequisiteData = {
   label: string,
   status: 'experimenting' | 'done' | 'todo',
   canBeCommitted: boolean,
-  displayPrerequisiteForm: boolean,
   onStartExperimentationButtonClick: () => void,
   onCommitChangesButtonClick: () => void,
   onAddPrerequisiteButtonClick: (parentNodeId: string) => void
@@ -161,7 +160,6 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
           label: prerequisite.label,
           status: prerequisite.status,
           canBeCommitted: prerequisite.canBeCommitted,
-          displayPrerequisiteForm: false,
           onStartExperimentationButtonClick: () => startExperimentation(prerequisite.prerequisiteId),
           onCommitChangesButtonClick: () => commitChanges(prerequisite.prerequisiteId),
           onAddPrerequisiteButtonClick: openPrerequisiteForm,
