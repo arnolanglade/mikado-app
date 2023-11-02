@@ -116,6 +116,15 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
     }
   };
 
+  const addPrerequisite = async (label: string, prerequisiteId?: string) => {
+    try {
+      setMikadoGraphView(await mikadoGraphApi.addPrerequisite(defaultMikadoGraphView.mikadoGraphId, label, prerequisiteId));
+      notifier.success(translation('prerequisite.notification.add-prerequisite.success'));
+    } catch (e) {
+      notifier.error(translation('notification.error'));
+    }
+  };
+
   const commitChanges = async (prerequisiteId: string) => {
     try {
       const mikadoGraph = await mikadoGraphApi.commitChanges(defaultMikadoGraphView.mikadoGraphId, prerequisiteId);
@@ -195,6 +204,7 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
     startExperimentation,
     addPrerequisiteToMikadoGraph,
     addPrerequisiteToPrerequisite,
+    addPrerequisite,
     commitChanges,
   };
 }
