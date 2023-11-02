@@ -66,7 +66,7 @@ export function PrerequisiteNode({
     label,
     status,
     canBeCommitted,
-    startExperimentation,
+    onStartExperimentationButtonClick,
     commitChanges,
     onAddPrerequisiteButtonClick,
   },
@@ -93,7 +93,7 @@ export function PrerequisiteNode({
         )
       }
       {status === StatusView.TODO && (
-      <Button variant="primary" onClick={startExperimentation}>
+      <Button variant="primary" onClick={onStartExperimentationButtonClick}>
         <Translation id="prerequisite.start-experimentation" />
       </Button>
       )}
