@@ -156,7 +156,7 @@ describe('Mikado Graph', () => {
       prerequisites: [],
     });
 
-    mikadoGraph.addPrerequisiteToMikadoGraph(prerequisiteId, label);
+    mikadoGraph.addPrerequisite(prerequisiteId, label);
 
     expect(mikadoGraph).toEqual(aMikadoGraph({
       mikadoGraphId,
@@ -172,7 +172,7 @@ describe('Mikado Graph', () => {
   it('raises an error if a prerequisite is added to mikado graph with an empty label', () => {
     const mikadoGraph = aMikadoGraph({});
 
-    expect(() => mikadoGraph.addPrerequisiteToMikadoGraph(uuidv4(), ''))
+    expect(() => mikadoGraph.addPrerequisite(uuidv4(), ''))
       .toThrow(new Error('The label cannot be empty'));
   });
 
@@ -185,7 +185,7 @@ describe('Mikado Graph', () => {
       prerequisites: [existingPrerequisite],
     });
 
-    mikadoGraph.addPrerequisiteToPrerequisite(prerequisiteId, parentId, label);
+    mikadoGraph.addPrerequisite(prerequisiteId, label, parentId);
 
     expect(mikadoGraph).toEqual(aMikadoGraph({
       prerequisites: [
@@ -210,7 +210,7 @@ describe('Mikado Graph', () => {
       ],
     });
 
-    mikadoGraph.addPrerequisiteToPrerequisite(prerequisiteId, parentPrerequisiteId, label);
+    mikadoGraph.addPrerequisite(prerequisiteId, label, parentPrerequisiteId);
 
     expect(mikadoGraph).toEqual(aMikadoGraph({
       prerequisites: [
@@ -226,7 +226,7 @@ describe('Mikado Graph', () => {
   it('raises an error if a prerequisite is added to existing prerequisite with an empty label', () => {
     const mikadoGraph = aMikadoGraph({});
 
-    expect(() => mikadoGraph.addPrerequisiteToPrerequisite(uuidv4(), uuidv4(), ''))
+    expect(() => mikadoGraph.addPrerequisite(uuidv4(), '', uuidv4()))
       .toThrow(new Error('The label cannot be empty'));
   });
 

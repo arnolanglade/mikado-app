@@ -265,6 +265,14 @@ export class MikadoGraph {
     this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, parentId, label));
   }
 
+  addPrerequisite(prerequisiteId: string, label: string, parentId?: string): void {
+    if (parentId) {
+      this.prerequisites = this.prerequisites.replace(parentId, (prerequisite) => prerequisite.resetChildrenDone());
+    }
+
+    this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, parentId ?? this.id.toString(), label));
+  }
+
   commitChanges(prerequisiteId: string): void {
     this.prerequisites = this.prerequisites.replace(prerequisiteId, (prerequisite) => {
       if (!prerequisite.hasStatus(Status.EXPERIMENTING)) {
