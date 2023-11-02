@@ -1,21 +1,42 @@
 # Mikado method
 
-## Miro
+This project is built on top of [NEXT.js](https://nextjs.org), which is a framework for React applications.
+It also uses [Supabase](https://supabase.com)  as a database, providing an open-source alternative to Firebase.
 
-Link: https://miro.com/app/board/uXjVMkSYTDY=/?share_link_id=518210024492
+## Requirements
 
-## Run the app with the development env
+Before installing the project, you need to install Supabase CLI:
 
-First, install the project:
+```bash
+# Install supabase CLI
+npx install -g supabase
+# Start supabase
+npx supabase start
+```
+
+[volta](https://volta.sh/) is a JavaScript Tool Manager. To install it, please run the following command:
+
+```bash
+curl https://get.volta.sh | bash
+```
+
+## Getting Started
+
+### Run the app with the development env
+
+Then, you need to clone and install the project:
 
 ```bash
 git clone git@github.com:arnolanglade/mikado-method.git
+# Setup the node version for the project
 volta setup
+# Install git hooks to prevent pushing code with errors
 pnpm setup
+# Install the project dependencies
 pnpm install
 ```
 
-Then, run the development server:
+Finally, run the development server:
 
 ```bash
 pnpm dev
@@ -23,22 +44,39 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Run the app with the production env 
+### Run the app with the production env 
 
 ```bash
+# Build the app
 pnpm build
+# Start the app with the production env
 pnpm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Going further
 
-## Run tests
+### Understand how the project is organized
+
+```bash
+tree -L 1 .
+├── app # contains the application code (frontend and backend)
+│   ├── api # only contains the backend API
+│   └── tools # contains tools (frontend and backend)
+│       ├── ...
+│       └── api # only contains the backend tools
+├── supabase # contains Supabase migrations and local config
+├── test # contains test utilities like factories, mocks, etc.
+└── ...
+```
+
+### Testing strategy
 
 Run unit tests
 
 ```bash
-pnpm test
+pnpm unit
 ```
 
 Run linting tool
@@ -59,7 +97,7 @@ Run all tests
 pnpm tests
 ```
 
-## Supabase
+### Database
 
 Start supabase
 
