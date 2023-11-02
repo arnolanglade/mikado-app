@@ -33,6 +33,10 @@ export type GaolData = {
   addPrerequisiteToMikadoGraph: (label: string) => void
 };
 
+export type NewPrerequisiteData = {
+  onPrerequisiteSubmit: (label: string, prerequisiteId?: string) => void
+};
+
 export type PrerequisiteData = {
   label: string,
   status: 'experimenting' | 'done' | 'todo',
@@ -46,7 +50,7 @@ export type PrerequisiteData = {
 export type Node = {
   id: string,
   type: 'goal' | 'prerequisite',
-  data: GaolData | PrerequisiteData,
+  data: GaolData | PrerequisiteData | NewPrerequisiteData,
   parentId?: string,
   position: { x: number, y: number }
 };

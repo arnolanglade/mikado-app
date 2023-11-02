@@ -133,6 +133,7 @@ export function PrerequisiteNode({
 const nodeTypes = {
   prerequisite: PrerequisiteNode,
   goal: GoalNode,
+  newPrerequisite: AddNewPrerequisiteNode,
 };
 
 export default function Graph({
