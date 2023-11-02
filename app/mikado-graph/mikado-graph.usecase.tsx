@@ -27,7 +27,7 @@ export function useStartTask() {
   };
 }
 
-export type MikadoGraphData = {
+export type GaolData = {
   goal: string,
   done: boolean
   addPrerequisiteToMikadoGraph: (label: string) => void
@@ -46,7 +46,7 @@ export type PrerequisiteData = {
 export type Node = {
   id: string,
   type: 'goal' | 'prerequisite',
-  data: MikadoGraphData | PrerequisiteData,
+  data: GaolData | PrerequisiteData,
   parentId?: string,
   position: { x: number, y: number }
 };
