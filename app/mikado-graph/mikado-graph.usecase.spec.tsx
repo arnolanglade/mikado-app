@@ -95,7 +95,7 @@ describe('useMikadoGraph', () => {
       });
     });
 
-    test('it computes a new prerequisite to create a node that display it', async () => {
+    test('it computes a prerequisite to create a node that display it', async () => {
       const MikadoGraphId = uuidv4();
       const prerequisiteId = uuidv4();
       const label = 'label';
@@ -123,6 +123,7 @@ describe('useMikadoGraph', () => {
           startExperimentation: expect.any(Function),
           addPrerequisiteToPrerequisite: expect.any(Function),
           commitChanges: expect.any(Function),
+          onAddPrerequisiteButtonClick: expect.any(Function),
         },
         position: { x: 0, y: 400 },
       });

@@ -17,6 +17,7 @@ const createData = (data: Partial<PrerequisiteData>): PrerequisiteData => ({
   startExperimentation: () => {},
   addPrerequisiteToPrerequisite: () => {},
   commitChanges: () => {},
+  onAddPrerequisiteButtonClick: () => {},
   ...data,
 });
 
@@ -42,6 +43,7 @@ describe('MikadoGraph', () => {
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
               commitChanges: jest.fn(),
+              onAddPrerequisiteButtonClick: jest.fn(),
             },
             position: { x: 0, y: 0 },
           },
@@ -55,6 +57,7 @@ describe('MikadoGraph', () => {
               displayPrerequisiteForm: false,
               startExperimentation: jest.fn(),
               addPrerequisiteToPrerequisite: jest.fn(),
+              onAddPrerequisiteButtonClick: jest.fn(),
               commitChanges: jest.fn(),
             },
             position: { x: 0, y: 0 },
@@ -77,7 +80,7 @@ describe('MikadoGraph', () => {
 
   describe('GoalNode', () => {
     describe('Add prerequisite to a mikado graph', () => {
-      test('The onAddPrerequisiteButtonClick callback is called when a developer click on the add a prerequisite button', async () => {
+      test('The onAddPrerequisiteButtonClick callback is called when a developer clicks on the add a prerequisite button', async () => {
         const onAddPrerequisiteButtonClick = jest.fn();
         const mikadoGraphId = uuidv4();
         render(<GoalNode
@@ -204,72 +207,24 @@ describe('MikadoGraph', () => {
     });
 
     describe('add prerequisite to prerequisite', () => {
-      test('The addPrerequisiteToPrerequisite callback is called when a developer adds a prerequisite to an existing one', async () => {
-        const addPrerequisiteToPrerequisite = jest.fn();
+      test('The onAddPrerequisiteButtonClick callback is called when a developer clicks on the add a prerequisite button', async () => {
+        const onAddPrerequisiteButtonClick = jest.fn();
         const prerequisiteId = uuidv4();
-        const label = 'Change that';
         render(<PrerequisiteNode
           id={prerequisiteId}
           data={createData({
             status: 'experimenting',
-            addPrerequisiteToPrerequisite,
+            onAddPrerequisiteButtonClick,
           })}
         />, {
           wrapper: createWrapper({}, {
             'prerequisite.add': 'Add prerequisite',
-            add: 'Add',
-          }),
-        });
-
-        await userEvent.click(screen.getByText('Add prerequisite'));
-        await userEvent.type(screen.getByRole('textbox'), label);
-        await userEvent.click(screen.getByText('Add'));
-
-        expect(addPrerequisiteToPrerequisite).toHaveBeenCalledWith(label);
-      });
-
-      test('The commit changes and display prerequisite form buttons are hidden when the prerequisite form is display', async () => {
-        render(<PrerequisiteNode
-          id={uuidv4()}
-          data={createData({
-            status: 'experimenting',
-            canBeCommitted: false,
-            displayPrerequisiteForm: false,
-
-          })}
-        />, {
-          wrapper: createWrapper({}, {
-            'prerequisite.add': 'Add prerequisite',
-            'prerequisite.commit-changes': 'Commit changes',
           }),
         });
 
         await userEvent.click(screen.getByText('Add prerequisite'));
 
-        expect(screen.queryByText('Add prerequisite')).not.toBeInTheDocument();
-        expect(screen.queryByText('Commit changes')).not.toBeInTheDocument();
-      });
-
-      test('The prerequisite form is hidden and the action buttons are displayed when the cancel is clicked', async () => {
-        render(<PrerequisiteNode
-          id={uuidv4()}
-          data={createData({
-            status: 'experimenting',
-            canBeCommitted: true,
-            displayPrerequisiteForm: true,
-          })}
-        />, {
-          wrapper: createWrapper({}, {
-            cancel: 'Cancel',
-            'prerequisite.add': 'Add prerequisite',
-            'prerequisite.commit-changes': 'Commit changes',
-          }),
-        });
-
-        await userEvent.click(screen.getByText('Cancel'));
-
-        expect(screen.getByText('Add prerequisite')).toBeInTheDocument();
-        expect(screen.getByText('Commit changes')).toBeInTheDocument();
+        expect(onAddPrerequisiteButtonClick).toHaveBeenCalledWith(prerequisiteId);
       });
 
       test.each([

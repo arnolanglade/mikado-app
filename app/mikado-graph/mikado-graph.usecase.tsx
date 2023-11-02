@@ -45,6 +45,7 @@ export type PrerequisiteData = {
   startExperimentation: () => void,
   addPrerequisiteToPrerequisite: (label: string) => void,
   commitChanges: () => void,
+  onAddPrerequisiteButtonClick: (parentNodeId: string) => void
 };
 
 export type Node = {
@@ -183,6 +184,7 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
           startExperimentation: () => startExperimentation(prerequisite.prerequisiteId),
           addPrerequisiteToPrerequisite: (label: string) => addPrerequisiteToPrerequisite(prerequisite.prerequisiteId, label),
           commitChanges: () => commitChanges(prerequisite.prerequisiteId),
+          onAddPrerequisiteButtonClick: openPrerequisiteForm,
         },
         position: { x: 0, y: 100 },
       };

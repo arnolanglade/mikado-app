@@ -66,24 +66,15 @@ export function PrerequisiteNode({
     label,
     status,
     canBeCommitted,
-    displayPrerequisiteForm,
     startExperimentation,
-    addPrerequisiteToPrerequisite,
     commitChanges,
+    onAddPrerequisiteButtonClick,
   },
 }: {
   id: string,
   data: PrerequisiteData
 }) {
-  const [displayForm, setDisplayForm] = React.useState(displayPrerequisiteForm || false);
-
-  const displayOrHiddenPrerequisiteForm = () => {
-    setDisplayForm(!displayForm);
-  };
-
-  const hidePrerequisiteForm = () => {
-    setDisplayForm(false);
-  };
+  const addPrerequisite = () => onAddPrerequisiteButtonClick(id);
 
   return (
     <div
@@ -107,9 +98,9 @@ export function PrerequisiteNode({
       </Button>
       )}
 
-      { !displayForm && status === StatusView.EXPERIMENTING && (
+      { status === StatusView.EXPERIMENTING && (
         <ButtonGroup>
-          <Button variant="primary" onClick={displayOrHiddenPrerequisiteForm}>
+          <Button variant="primary" onClick={addPrerequisite}>
             <Translation id="prerequisite.add" />
           </Button>
           { canBeCommitted && (
@@ -118,13 +109,6 @@ export function PrerequisiteNode({
           </Button>
           )}
         </ButtonGroup>
-      )}
-
-      { displayForm && status === StatusView.EXPERIMENTING && (
-      <AddPrerequisiteForm
-        onSubmit={addPrerequisiteToPrerequisite}
-        onCancel={hidePrerequisiteForm}
-      />
       )}
 
       <Handle type="source" position={Position.Bottom} />
