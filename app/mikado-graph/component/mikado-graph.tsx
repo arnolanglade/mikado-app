@@ -14,6 +14,20 @@ import { Button, ButtonGroup } from '@/tools/design-system/form';
 import Alert from '@/tools/design-system/alert';
 import styles from './mikado-graph.module.css';
 
+export function AddNewPrerequisiteNode({
+  data: { onPrerequisiteSubmit },
+} : {
+  data: { onPrerequisiteSubmit: (label: string, prerequisiteId?: string) => void },
+}) {
+  return (
+    <div className={styles.container}>
+      <Handle type="target" position={Position.Top} />
+      <AddPrerequisiteForm onSubmit={onPrerequisiteSubmit} />
+      <Handle type="source" position={Position.Bottom} />
+    </div>
+  );
+}
+
 export function GoalNode({
   data: { goal, done, addPrerequisiteToMikadoGraph },
 } : {
