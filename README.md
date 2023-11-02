@@ -3,6 +3,8 @@
 This project is built on top of [NEXT.js](https://nextjs.org), which is a framework for React applications.
 It also uses [Supabase](https://supabase.com)  as a database, providing an open-source alternative to Firebase.
 
+Here is the [online demo](https://mikado-method-teal.vercel.app/)
+
 ## Requirements
 
 Before installing the project, you need to install Supabase CLI:
