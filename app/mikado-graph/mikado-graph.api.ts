@@ -3,7 +3,6 @@ import { MikadoGraphView } from '@/api/mikado-graph/mikado-graph';
 
 export type MikadoGraphApi = {
   start: (goal: string) => Promise<MikadoGraphView>
-  addPrerequisiteToMikadoGraph: (mikadoGraphId: string, label: string) => Promise<MikadoGraphView>
   startExperimentation: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
   addPrerequisite: (mikadoGraphId: string, label: string, parentId?: string) => Promise<MikadoGraphView>
   commitChanges: (mikadoGraphId: string, prerequisiteId: string) => Promise<MikadoGraphView>
@@ -12,13 +11,6 @@ export type MikadoGraphApi = {
 const mikadoGraphApi: MikadoGraphApi = {
   start: async (goal: string) => {
     const response = await httpClient.post('/api/mikado-graph', { goal });
-    return response.json();
-  },
-  addPrerequisiteToMikadoGraph: async (mikadoGraphId: string, label: string) => {
-    const response = await httpClient.post(
-      '/api/mikado-graph/prerequisite/add-to-mikado-graph',
-      { mikadoGraphId, label },
-    );
     return response.json();
   },
   startExperimentation: async (mikadoGraphId: string, prerequisiteId: string) => {

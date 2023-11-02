@@ -220,57 +220,6 @@ describe('useMikadoGraph', () => {
     });
   });
 
-  describe('add prerequisite to a mikado graph', () => {
-    test('The developer is notified after adding a prerequisite that everything went well', async () => {
-      const success = jest.fn();
-      const mikadoGraphView = aMikadoGraphView({ prerequisites: [] });
-      const prerequisiteLabel = 'Do that';
-      const { result } = renderHook(() => useMikadoGraph(mikadoGraphView), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({
-              addPrerequisiteToMikadoGraph: () => Promise.resolve(
-                aMikadoGraphView({ prerequisites: [{ label: prerequisiteLabel }] }),
-              ),
-            }),
-            useNotification: aNotifier({ success }),
-          },
-          { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
-        ),
-      });
-
-      await act(() => result.current.addPrerequisiteToMikadoGraph(
-        prerequisiteLabel,
-      ));
-
-      expect((result.current.mikadoGraph.nodes[1].data as PrerequisiteData).label).toEqual(prerequisiteLabel); // 0: Goal + 1: prerequisite
-      expect(success).toHaveBeenCalledWith('The prerequisite has been added');
-    });
-
-    test('The developer is notified that something went wrong', async () => {
-      const error = jest.fn();
-      const { result } = renderHook(() => useMikadoGraph(aMikadoGraphView()), {
-        wrapper: createWrapper(
-          {
-            mikadoGraphApi: aMikadoGraphApi({
-              addPrerequisiteToMikadoGraph: async () => {
-                throw Error();
-              },
-            }),
-            useNotification: aNotifier({ error }),
-          },
-          { 'notification.error': 'Something went wrong' },
-        ),
-      });
-
-      await act(() => result.current.addPrerequisiteToMikadoGraph(
-        'Do this',
-      ));
-
-      expect(error).toHaveBeenCalledWith('Something went wrong');
-    });
-  });
-
   describe('add prerequisite', () => {
     test('The developer is notified after adding a prerequisite that everything went well', async () => {
       const success = jest.fn();
