@@ -31,10 +31,14 @@ export function AddNewPrerequisiteNode({
 }
 
 export function GoalNode({
-  data: { goal, done, addPrerequisiteToMikadoGraph },
+  id,
+  data: { goal, done, onAddPrerequisiteButtonClick },
 } : {
+  id: string,
   data: GaolData,
 }) {
+  const addPrerequisite = () => onAddPrerequisiteButtonClick(id);
+
   return (
     <div className={styles.container}>
       <Typography variant="p">
@@ -45,7 +49,11 @@ export function GoalNode({
           <Alert severity="success">
             <Translation id="mikado-graph.done" />
           </Alert>
-        ) : <AddPrerequisiteForm onSubmit={addPrerequisiteToMikadoGraph} />
+        ) : (
+          <Button variant="primary" onClick={addPrerequisite}>
+            <Translation id="prerequisite.add" />
+          </Button>
+        )
       }
       <Handle type="source" position={Position.Bottom} />
     </div>

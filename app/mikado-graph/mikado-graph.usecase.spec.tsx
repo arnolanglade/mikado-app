@@ -87,7 +87,7 @@ describe('useMikadoGraph', () => {
           {
             id: mikadoGraphId,
             type: 'goal',
-            data: { goal, done, addPrerequisiteToMikadoGraph: expect.any(Function) },
+            data: { goal, done, onAddPrerequisiteButtonClick: expect.any(Function) },
             position: { x: 0, y: 0 },
           },
         ],

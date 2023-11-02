@@ -28,7 +28,7 @@ describe('MikadoGraph', () => {
           {
             id: uuidv4(),
             type: 'goal',
-            data: { goal: 'Refactor this method', done: false, addPrerequisiteToMikadoGraph: jest.fn() },
+            data: { goal: 'Refactor this method', done: false, onAddPrerequisiteButtonClick: jest.fn() },
             position: { x: 0, y: 0 },
           },
           {
@@ -75,42 +75,44 @@ describe('MikadoGraph', () => {
     expect(screen.getByText((content) => content.includes('Do that'))).toBeInTheDocument();
   });
 
-  describe('MikadoGraphNode', () => {
+  describe('GoalNode', () => {
     describe('Add prerequisite to a mikado graph', () => {
-      test('The onAddPrerequisite callback is called when a developer add a prerequisite to a mikado graph', async () => {
-        const addPrerequisiteToMikadoGraph = jest.fn();
-        const label = 'Refactor method';
+      test('The onAddPrerequisiteButtonClick callback is called when a developer click on the add a prerequisite button', async () => {
+        const onAddPrerequisiteButtonClick = jest.fn();
+        const mikadoGraphId = uuidv4();
         render(<GoalNode
-          data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph }}
+          id={mikadoGraphId}
+          data={{ goal: 'goal', done: false, onAddPrerequisiteButtonClick }}
         />, {
           wrapper: createWrapper(
             {},
-            { 'add"': 'Add' },
+            { 'prerequisite.add': 'Add' },
           ),
         });
 
-        await userEvent.type(screen.getByRole('textbox'), label);
         await userEvent.click(screen.getByText('Add'));
 
-        expect(addPrerequisiteToMikadoGraph).toHaveBeenCalledWith(label);
+        expect(onAddPrerequisiteButtonClick).toHaveBeenCalledWith(mikadoGraphId);
       });
 
-      test('The prerequisite addition form is displayed while the mikado graph is not finished', async () => {
+      test('The add a prerequisite button is displayed while the mikado graph is not finished', async () => {
         render(<GoalNode
-          data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph: jest.fn() }}
+          id={uuidv4()}
+          data={{ goal: 'goal', done: false, onAddPrerequisiteButtonClick: jest.fn() }}
         />, {
           wrapper: createWrapper(
             {},
-            { add: 'Add' },
+            { 'prerequisite.add': 'Add' },
           ),
         });
 
         expect(screen.getByText('Add')).toBeInTheDocument();
       });
 
-      test('The prerequisite addition form is hidden when the mikado graph is finished', async () => {
+      test('The add a prerequisite button is hidden when the mikado graph is finished', async () => {
         render(<GoalNode
-          data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
+          id={uuidv4()}
+          data={{ goal: 'goal', done: true, onAddPrerequisiteButtonClick: jest.fn() }}
         />, {
           wrapper: createWrapper(
             {},
@@ -125,7 +127,8 @@ describe('MikadoGraph', () => {
     describe('"done" notice', () => {
       test('A "done" notice is displayed when the mikado graph is done', async () => {
         render(<GoalNode
-          data={{ goal: 'goal', done: true, addPrerequisiteToMikadoGraph: jest.fn() }}
+          id={uuidv4()}
+          data={{ goal: 'goal', done: true, onAddPrerequisiteButtonClick: jest.fn() }}
         />, {
           wrapper: createWrapper({}, {
             'mikado-graph.done': 'Done',
@@ -139,7 +142,8 @@ describe('MikadoGraph', () => {
 
       test('A "done" notice is hidden when the mikado graph is a WIP', async () => {
         render(<GoalNode
-          data={{ goal: 'goal', done: false, addPrerequisiteToMikadoGraph: jest.fn() }}
+          id={uuidv4()}
+          data={{ goal: 'goal', done: false, onAddPrerequisiteButtonClick: jest.fn() }}
         />, {
           wrapper: createWrapper(
             {},
