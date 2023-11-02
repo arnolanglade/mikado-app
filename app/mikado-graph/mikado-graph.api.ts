@@ -21,17 +21,9 @@ const mikadoGraphApi: MikadoGraphApi = {
     return response.json();
   },
   addPrerequisite: async (mikadoGraphId: string, label: string, parentId?: string) => {
-    if (!parentId) {
-      const response = await httpClient.post(
-        '/api/mikado-graph/prerequisite/add-to-mikado-graph',
-        { mikadoGraphId, label },
-      );
-      return response.json();
-    }
-
     const response = await httpClient.post(
-      '/api/mikado-graph/prerequisite/add-to-prerequisite',
-      { mikadoGraphId, parentId, label },
+      '/api/mikado-graph/prerequisite/add',
+      { mikadoGraphId, label, parentId },
     );
     return response.json();
   },
