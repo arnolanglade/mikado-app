@@ -130,7 +130,9 @@ const translation = useIntl();
 translation('myTranslationKey', {name: 'Arnaud'})
 ```
 
-### Testing strategy
+## Testing
+
+### How to run tests
 
 Run unit tests
 
@@ -155,6 +157,70 @@ Run all tests
 ```bash
 pnpm tests
 ```
+
+### How to write tests
+
+The `createWrapper` function creates a REACT component that initializes all the app's providers. The function must only be used for testing purposes.
+
+```tsx
+render(
+    <MyComponent>,
+    { wrapper: createWrapper(aServiceContainer(), { myTranslationKey: 'translation...' }) },
+);
+```
+
+This function has two arguments, the first lets you override services and the second lets you override translations. 
+The goal of overriding services is to easily replace them by test double to ease the testing. 
+The goal of overriding translations is to make the test more resilient. It prevents the test from breaking if you change the translation.
+
+### Override a service
+
+The `aServiceContainer` function creates a service container with all the services of the app. It accepts an object as a parameter. 
+The keys of the object are the services to override and the values are the new services.
+
+```ts
+const myService = jest.fn();
+
+render(
+    <MyComponent>,
+    { wrapper: createWrapper(aServiceContainer({myService})) },
+);
+
+expect(myService).toBeCalled();
+```
+
+Note: Override a service is useful to replace a service by a test double, a fake or a mock for instance. 
+I wrote a [blog post](https://arnolanglade.github.io/ease-testing-thanks-to-the-dependency-inversion-design-pattern.html) that implement the dependency inversion design pattern to ease testing.
+
+### Override a translation
+
+The `createWrapper` function accepts as a second parameter an object of translations that will override the default translations.
+
+```ts
+render(
+    <MyComponent>,
+    {wrapper: createWrapper(aServiceContainer(), {myTranslationKey: 'Validate'})},
+);
+
+fireEvent.press(screen.getByText('Validate'));
+```
+Note: Override a translation make the test more resilient even if you change the translation the test will still be green.
+
+### Tests utilities
+
+In the `test-utils.ts` file, you can find some useful functions to ease testing like factories. 
+They will help you to create objects like`MikadoGraphView` or `MikadoGraph` without providing all the properties. 
+It also centralizes the creation of objects that will help you to refactor your tests more easily.
+
+```ts
+aMikadoGraph({
+    mikadoGraphId: uuidv4(),
+    goal: 'My goal',
+});
+```
+
+Note: I wrote a [blog post](https://arnolanglade.github.io/increase-your-test-quality-thanks-to-builders-or-factories.html) that explains how to use factories or builder to ease testing.
+
 
 ### Database
 
