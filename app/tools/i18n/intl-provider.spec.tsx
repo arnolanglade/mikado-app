@@ -2,7 +2,7 @@ import React from 'react';
 import {
   render, renderHook, screen, act,
 } from '@testing-library/react';
-import { Translation, useIntl } from '@/tools/i18n/intl-provider';
+import { getLocale, Translation, useIntl } from '@/tools/i18n/intl-provider';
 import { createWrapper } from '@/test/test-utils';
 
 describe('Intl module', () => {
@@ -56,6 +56,17 @@ describe('Intl module', () => {
       );
 
       expect(screen.getByText('translation here is my value')).toBeTruthy();
+    });
+  });
+
+  describe('get locale', () => {
+    it.each([
+      { preferredLocale: 'fr', expectedLocale: 'fr' },
+      { preferredLocale: 'en', expectedLocale: 'en' },
+      { preferredLocale: 'en-us', expectedLocale: 'en' },
+      { preferredLocale: 'ar-om', expectedLocale: 'en' },
+    ])('gets the locale used to translate the ui depending on the preferred locale', ({ preferredLocale, expectedLocale }) => {
+      expect(getLocale(preferredLocale)).toBe(expectedLocale);
     });
   });
 });

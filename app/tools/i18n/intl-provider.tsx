@@ -23,10 +23,20 @@ export const SwitchLanguageContext = React.createContext<SwitchLanguage>({} as S
 
 export const useSwitchLanguage = () => useContext(SwitchLanguageContext);
 
+const availableLocales = ['en', 'fr'];
+
+export const getLocale = (preferredLocale: string) => {
+  if (availableLocales.includes(preferredLocale)) {
+    return preferredLocale;
+  }
+
+  return 'en';
+};
+
 export default function IntlProvider(
   { children, overriddenTranslations = {} }:{ children: ReactElement, overriddenTranslations?: Partial<Translations> },
 ) {
-  const [locale, setLocale] = useState<string>('en');
+  const [locale, setLocale] = useState<string>(getLocale(new Intl.Locale(navigator.language).language));
   const switchLanguage = (chosenLocale: string) => setLocale(chosenLocale);
 
   const translations : Record<string, Translations> = {
