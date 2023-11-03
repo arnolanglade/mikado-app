@@ -73,6 +73,63 @@ tree -L 1 .
 └── ...
 ```
 
+## I18n
+
+The project uses [react-intl](https://formatjs.io/docs/react-intl/) to handle translations.
+
+### Add a translation
+
+First, you need to add a new translation key in translation files (en.ts or fr.ts)
+
+```ts
+// app/tools/i18n/translation/(en|fr).ts
+const translations: Translations = {
+    myTranslationKey: 'translation...'
+};
+```
+
+Then, there is two ways to get a translation, either with a hook or with a component.
+
+From the `useIntl` hook:
+
+```jsx
+function MyComponent() {
+    const {translation} = useIntl()
+    
+    return <Typography>{translation('myTranslationKey')}</Typography>
+}
+```
+
+From the `<Translation />` component:
+
+```jsx
+function MyComponent() {
+    const translation = useIntl()
+    
+    return <Typography><Translation id="myTranslationKey" /></Typography>
+}
+```
+
+For more complex needs, you can pass variables to the translation. Add a placeholder in the translation key between `{}` like `{name}`. 
+
+```ts
+const translations: Translations = {
+    myTranslationKey: 'Hello, {name}'
+};
+```
+Then, you can use the `values` property of the `Translation` component to replace the placeholder.
+
+```jsx
+<Translation id="myTranslationKey" values={{name: 'Arnaud'}} />
+```
+
+It also works with the `useIntl` hook, use the second parameter to pass the values.
+
+```ts
+const translation = useIntl();
+translation('myTranslationKey', {name: 'Arnaud'})
+```
+
 ### Testing strategy
 
 Run unit tests
