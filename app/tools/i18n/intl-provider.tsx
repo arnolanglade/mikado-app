@@ -1,7 +1,7 @@
 'use client';
 
 import React, {
-  ReactElement, ReactNode, useContext, useState,
+  ReactElement, ReactNode, useContext, useEffect, useState,
 } from 'react';
 import {
   FormattedMessage,
@@ -36,7 +36,12 @@ export const getLocale = (preferredLocale: string) => {
 export default function IntlProvider(
   { children, overriddenTranslations = {} }:{ children: ReactElement, overriddenTranslations?: Partial<Translations> },
 ) {
-  const [locale, setLocale] = useState<string>(getLocale(new Intl.Locale(navigator.language).language));
+  const [locale, setLocale] = useState<string>('en');
+
+  useEffect(() => {
+    setLocale(getLocale(new Intl.Locale(navigator.language).language));
+  }, []);
+
   const switchLanguage = (chosenLocale: string) => setLocale(chosenLocale);
 
   const translations : Record<string, Translations> = {
