@@ -4,6 +4,7 @@ const translationEn: Translations = {
   test: 'test en',
   add: 'Add',
   cancel: 'Cancel',
+  loading: 'Loading...',
   'mikado-graph.start': 'Start a task',
   'mikado-graph.done': 'Great! You have completed your task!',
   'mikado-graph.error.emptyGoal': 'The goal cannot be empty',

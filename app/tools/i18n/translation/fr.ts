@@ -4,6 +4,7 @@ const translationFr: Translations = {
   test: 'test fr',
   add: 'Ajouter',
   cancel: 'Annuler',
+  loading: 'Chargement...',
   'mikado-graph.start': 'Démarrer une tâche',
   'mikado-graph.done': 'Super ! Vous avez terminé votre tâche !',
   'mikado-graph.error.emptyGoal': 'L\'objectif ne peut pas être vide',
