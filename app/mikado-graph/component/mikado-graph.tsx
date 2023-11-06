@@ -25,7 +25,6 @@ export function AddNewPrerequisiteNode({
     <div className={styles.container}>
       <Handle type="target" position={Position.Top} />
       <AddPrerequisiteForm onSubmit={onPrerequisiteSubmit} />
-      <Handle type="source" position={Position.Bottom} />
     </div>
   );
 }
