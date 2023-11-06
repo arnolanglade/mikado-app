@@ -3,11 +3,11 @@ import Typography from '@/tools/design-system/typography';
 import styles from './form.module.css';
 
 export function Form(
-  { onSubmit, children }:
-  { onSubmit: (e: React.FormEvent<HTMLFormElement>) => void, children: ReactNode },
+  { onSubmit, children, className }:
+  { onSubmit: (e: React.FormEvent<HTMLFormElement>) => void, children: ReactNode, className?: string },
 ) {
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={className}>
       {children}
     </form>
   );

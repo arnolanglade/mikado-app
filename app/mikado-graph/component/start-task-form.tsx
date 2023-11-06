@@ -6,6 +6,7 @@ import {
   Form, FormError, SubmitButton, Textarea,
 } from '@/tools/design-system/form';
 import Typography from '@/tools/design-system/typography';
+import styles from './start-task-form.module.css';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
   const { translation } = useIntl();
@@ -23,7 +24,7 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
   };
 
   return (
-    <Form onSubmit={startTask}>
+    <Form onSubmit={startTask} className={styles.form}>
       <Typography variant="h1">
         <Translation id="mikado-graph.goal-and-objective" />
       </Typography>
