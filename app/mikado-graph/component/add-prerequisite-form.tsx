@@ -25,7 +25,7 @@ export default function AddPrerequisiteForm(
 
   return (
     <Form onSubmit={addPrerequisite}>
-      <Textarea name="label" />
+      <Textarea name="label" placeholder={translation('prerequisite.placeholder')} />
       <FormError error={error} />
       <ButtonGroup>
         {onCancel && (

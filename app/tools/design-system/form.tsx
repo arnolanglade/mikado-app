@@ -40,9 +40,9 @@ export function SubmitButton({ children }: { children: ReactNode }) {
   );
 }
 
-export function Textarea({ name }: { name: string }) {
+export function Textarea({ name, placeholder }: { name: string, placeholder: string }) {
   return (
-    <textarea className={`${styles.textarea} ${styles.formElement}`} name={name} />
+    <textarea className={`${styles.textarea} ${styles.formElement}`} name={name} placeholder={placeholder} />
   );
 }
 
