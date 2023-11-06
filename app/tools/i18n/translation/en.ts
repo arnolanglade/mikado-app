@@ -8,7 +8,7 @@ const translationEn: Translations = {
   'mikado-graph.start': 'Start',
   'mikado-graph.done': 'Great! You have completed your task!',
   'mikado-graph.error.emptyGoal': 'The goal cannot be empty',
-  'mikado-graph.goal-and-objective': 'What is your goal or objective?',
+  'mikado-graph.goal-and-objective': 'What is your objective?',
   'mikado-graph.your-goal': '<strong>Your goal</strong>: {goal}',
   'mikado-graph.notification.success.start': 'You are ready to start working on your task',
   'prerequisite.label': '<strong>Prerequisite</strong>: {label}',
