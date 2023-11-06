@@ -10,6 +10,7 @@ const translationEn: Translations = {
   'mikado-graph.error.emptyGoal': 'The goal cannot be empty',
   'mikado-graph.goal-and-objective': 'What is your objective?',
   'mikado-graph.your-goal': '<strong>Your goal</strong>: {goal}',
+  'mikado-graph.placeholder': 'Explain your goal. For example: "I want to upgrade the version of the framework"',
   'mikado-graph.notification.success.start': 'You are ready to start working on your task',
   'prerequisite.label': '<strong>Prerequisite</strong>: {label}',
   'prerequisite.placeholder': 'Explain what you need to do to. For example: "I need to rename this method"',

@@ -27,7 +27,7 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
       <Typography variant="h1">
         <Translation id="mikado-graph.goal-and-objective" />
       </Typography>
-      <Textarea name="goal" />
+      <Textarea name="goal" placeholder={translation('mikado-graph.placeholder')} />
       <FormError error={error} />
       <SubmitButton>
         <Translation id="mikado-graph.start" />

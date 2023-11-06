@@ -10,6 +10,7 @@ const translationFr: Translations = {
   'mikado-graph.error.emptyGoal': 'L\'objectif ne peut pas être vide',
   'mikado-graph.goal-and-objective': 'Quel est votre objectif ?',
   'mikado-graph.your-goal': '<strong>Votre objectif</strong> : {goal}',
+  'mikado-graph.placeholder': 'Expliquez votre objectif. Par exemple : "Je veux mettre à jour la version du framework"',
   'mikado-graph.notification.success.start': 'Vous êtes prêt à commencer à travailler sur votre tâche',
   'prerequisite.label': '<strong>Prérequis</strong> : {label}',
   'prerequisite.placeholder': 'Expliquez ce que vous devez faire. Par exemple : "Je dois renommer cette méthode"',
