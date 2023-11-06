@@ -1,41 +1,47 @@
 body {
-    background-color: rgb(243, 246, 249);
+    background-color: #F3F6F9FF;
     margin: 0;
     padding: 0;
 }
 
 .Toastify__toast-theme--colored.Toastify__toast--success {
-    background-color: rgb(237, 247, 237);
-    color: rgb(30, 70, 32);
+    background-color: #EDF7EDFF;
+    color: #1E4620FF;
 }
 
 .Toastify__toast-theme--colored.Toastify__toast--info {
-    background-color: rgb(229, 246, 253);
-    color: rgb(1, 67, 97);
+    background-color: #E5F6FDFF;
+    color: #014361FF;
 }
 
 .Toast-theme--colored--colored.Toastify__toast--warning {
-    background-color: rgb(255, 244, 229);
-    color: rgb(102, 60, 0);
+    background-color: #FFF4E5FF;
+    color: #663C00FF;
 }
 
 .Toastify__toast-theme--colored.Toastify__toast--error {
-    background-color: rgb(253, 237, 237);
-    color: rgb(95, 33, 32);
+    background-color: #FDEDEDFF;
+    color: #5F2120FF;
 }
 
 .Toastify__progress-bar-theme--colored.Toastify__progress-bar--info {
-    background-color: rgb(1, 67, 97);
+    background-color: #014361FF;
 }
 
 .Toastify__progress-bar-theme--colored.Toastify__progress-bar--success {
-    background-color: rgb(30, 70, 32);
+    background-color: #1E4620FF;
 }
 
 .Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning {
-    background-color: rgb(102, 60, 0);
+    background-color: #663C00FF;
 }
 
 .Toastify__progress-bar-theme--colored.Toastify__progress-bar--error {
-    background-color: rgb(95, 33, 32);
+    background-color: #5F2120FF;
+}
+
+.react-flow__minimap {
+    height: 150px;
+    border-radius: 4px;
+    border: 1px solid #e2e2e2;
 }
