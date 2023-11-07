@@ -4,7 +4,7 @@
 
 The Mikado Method is a structured approach for making significant changes to complex code while maintaining its stability. It involves setting clear goals, performing experiments, visualizing dependencies, and carefully undoing changes when necessary. By following this method, teams can improve their codebase iteratively and incrementally without disrupting the existing functionality.
 
-## The application
+## Getting Started
 
 This project is built on top of [NEXT.js](https://nextjs.org), which is a framework for React applications.
 It also uses [Supabase](https://supabase.com)  as a database, providing an open-source alternative to Firebase.
@@ -27,8 +27,6 @@ npx supabase start
 ```bash
 curl https://get.volta.sh | bash
 ```
-
-## Getting Started
 
 ### Run the app with the development env
 
