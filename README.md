@@ -1,11 +1,17 @@
 # Mikado App
 
+## What is the Mikado Method?
+
+The Mikado Method is a structured approach for making significant changes to complex code while maintaining its stability. It involves setting clear goals, performing experiments, visualizing dependencies, and carefully undoing changes when necessary. By following this method, teams can improve their codebase iteratively and incrementally without disrupting the existing functionality.
+
+## The application
+
 This project is built on top of [NEXT.js](https://nextjs.org), which is a framework for React applications.
 It also uses [Supabase](https://supabase.com)  as a database, providing an open-source alternative to Firebase.
 
 Here is the [online demo](https://mikado-method-teal.vercel.app/)
 
-## Requirements
+### Requirements
 
 Before installing the project, you need to install Supabase CLI:
 
