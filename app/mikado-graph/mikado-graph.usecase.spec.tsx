@@ -198,10 +198,7 @@ describe('useMikadoGraph', () => {
       const mikadoGraphId = uuidv4();
       const mikadoGraphView = aMikadoGraphView({ mikadoGraphId, prerequisites: [] });
       const { result } = renderHook(() => useMikadoGraph(mikadoGraphView), {
-        wrapper: createWrapper(
-          {},
-          { 'prerequisite.notification.add-prerequisite.success': 'The prerequisite has been added' },
-        ),
+        wrapper: createWrapper(),
       });
 
       await act(() => result.current.openPrerequisiteForm(mikadoGraphId));
@@ -216,6 +213,26 @@ describe('useMikadoGraph', () => {
         source: mikadoGraphId,
         target: 'new-prerequisite',
       });
+    });
+
+    test('The prerequisite form can only be opened once', async () => {
+      const parentId = uuidv4();
+      const mikadoGraphView = aMikadoGraphView({
+        mikadoGraphId: parentId,
+        prerequisites: [
+          { prerequisiteId: 'new-prerequisite', parentId: uuidv4() },
+        ],
+      });
+      const { result } = renderHook(() => useMikadoGraph(mikadoGraphView), {
+        wrapper: createWrapper(),
+      });
+
+      await act(() => result.current.openPrerequisiteForm(parentId));
+
+      expect(result.current.mikadoGraph.nodes[1]).toMatchObject({
+        id: 'new-prerequisite',
+        parentId,
+      }); // 0: Goal + 1: prerequisite
     });
   });
 

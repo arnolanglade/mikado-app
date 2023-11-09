@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StatusView } from '@/api/mikado-graph/mikado-graph';
 import AddPrerequisiteForm from '@/mikado-graph/component/add-prerequisite-form';
 import { Translation } from '@/tools/i18n/intl-provider';
 import {
-  Controls, Handle, MiniMap, Position, ReactFlow, useEdgesState, useNodesState,
+  Controls, Handle, MiniMap, Position, ReactFlow,
 } from 'reactflow';
 import {
   GaolData, MikadoGraph, NewPrerequisiteData, PrerequisiteData,

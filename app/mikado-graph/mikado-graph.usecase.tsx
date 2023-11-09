@@ -80,9 +80,11 @@ export default function useMikadoGraph(defaultMikadoGraphView: MikadoGraphView) 
   const nodeHeight = 350;
 
   const openPrerequisiteForm = (parentId: string) => {
+    const prerequisiteWithoutNodeForm = mikadoGraphView.prerequisites.filter((p) => p.prerequisiteId !== 'new-prerequisite');
+
     setMikadoGraphView({
       ...mikadoGraphView,
-      prerequisites: [...mikadoGraphView.prerequisites, {
+      prerequisites: [...prerequisiteWithoutNodeForm, {
         prerequisiteId: 'new-prerequisite',
         parentId,
         label: '',
