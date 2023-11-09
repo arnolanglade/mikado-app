@@ -39,13 +39,13 @@ export function GoalNode({
   const addPrerequisite = () => onAddPrerequisiteButtonClick(id);
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${done ? styles.done : styles.experimenting}`}>
       <Typography variant="p">
         <Translation id="mikado-graph.your-goal" values={{ goal }} />
       </Typography>
       {
         done ? (
-          <Alert severity="success">
+          <Alert severity="success" className={styles.notice}>
             <Translation id="mikado-graph.done" />
           </Alert>
         ) : (
@@ -77,7 +77,7 @@ export function PrerequisiteNode({
 
   return (
     <div
-      className={styles.container}
+      className={`${styles.container} ${styles[status]}`}
       key={id}
     >
       <Handle type="target" position={Position.Top} />
@@ -86,7 +86,7 @@ export function PrerequisiteNode({
       </Typography>
       {
         status === StatusView.DONE && (
-          <Alert severity="success">
+          <Alert severity="success" className={styles.notice}>
             <Translation id="prerequisite.done" />
           </Alert>
         )
