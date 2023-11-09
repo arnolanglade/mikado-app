@@ -98,7 +98,7 @@ export class Prerequisite {
     );
   }
 
-  childrenDone(): Prerequisite {
+  prerequisiteCanBeCommitted(): Prerequisite {
     return new Prerequisite(
       this.prerequisiteId,
       this.label,
@@ -109,7 +109,7 @@ export class Prerequisite {
     );
   }
 
-  resetChildrenDone(): Prerequisite {
+  prerequisiteCannotBeCommitted(): Prerequisite {
     return new Prerequisite(
       this.prerequisiteId,
       this.label,
@@ -257,7 +257,7 @@ export class MikadoGraph {
 
   addPrerequisite(prerequisiteId: string, label: string, parentId?: string): void {
     if (parentId) {
-      this.prerequisites = this.prerequisites.replace(parentId, (prerequisite) => prerequisite.resetChildrenDone());
+      this.prerequisites = this.prerequisites.replace(parentId, (prerequisite) => prerequisite.prerequisiteCannotBeCommitted());
     }
 
     this.prerequisites = this.prerequisites.add(Prerequisite.new(prerequisiteId, parentId ?? this.id.toString(), label));
@@ -277,7 +277,7 @@ export class MikadoGraph {
     const prerequisite = this.prerequisites.find((p) => p.identifyBy(prerequisiteId));
     const childrenPrerequisiteUnDone = this.prerequisites.find((p) => p.hasParent(prerequisite) && !p.hasStatus(Status.DONE));
     if (!childrenPrerequisiteUnDone) {
-      this.prerequisites = this.prerequisites.replaceParent(prerequisite, (p) => p.childrenDone());
+      this.prerequisites = this.prerequisites.replaceParent(prerequisite, (p) => p.prerequisiteCanBeCommitted());
     }
   }
 
