@@ -126,20 +126,10 @@ export default function Graph({
 }: {
   mikadoGraph: MikadoGraph,
 }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(mikadoGraph.nodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(mikadoGraph.edges);
-
-  useEffect(() => {
-    setEdges(mikadoGraph.edges);
-    setNodes(mikadoGraph.nodes);
-  }, [mikadoGraph]);
-
   return (
     <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
+      nodes={mikadoGraph.nodes}
+      edges={mikadoGraph.edges}
       nodeTypes={nodeTypes}
       fitView
       fitViewOptions={{ padding: 3 }}
