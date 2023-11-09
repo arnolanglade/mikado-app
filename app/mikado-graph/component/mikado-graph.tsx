@@ -23,7 +23,7 @@ export function AddNewPrerequisiteNode({
 }) {
   return (
     <div className={styles.container}>
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" isConnectable={false} position={Position.Top} />
       <AddPrerequisiteForm onSubmit={onPrerequisiteSubmit} />
     </div>
   );
@@ -54,7 +54,7 @@ export function GoalNode({
           </Button>
         )
       }
-      <Handle type="source" position={Position.Bottom} />
+      <Handle type="source" isConnectable={false} position={Position.Bottom} />
     </div>
   );
 }
@@ -80,7 +80,7 @@ export function PrerequisiteNode({
       className={`${styles.container} ${styles[status]}`}
       key={id}
     >
-      <Handle type="target" position={Position.Top} />
+      <Handle type="target" isConnectable={false} position={Position.Top} />
       <Typography variant="p">
         <Translation id="prerequisite.label" values={{ label }} />
       </Typography>
@@ -110,7 +110,7 @@ export function PrerequisiteNode({
         </ButtonGroup>
       )}
 
-      <Handle type="source" position={Position.Bottom} />
+      <Handle type="source" isConnectable={false} position={Position.Bottom} />
     </div>
   );
 }
