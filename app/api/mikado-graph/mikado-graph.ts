@@ -336,7 +336,6 @@ export type MikadoGraphState = {
   prerequisite: PrerequisiteState[]
 };
 
-// Todo: Export for the frontend, do we need to duplicate?
 export interface MikadoGraphs {
   get(id: string): Promise<MikadoGraph>
   add(mikadoGraph: MikadoGraph): Promise<void>
