@@ -124,7 +124,7 @@ export class Prerequisite {
     return this.prerequisiteId.equals(new PrerequisiteId(prerequisiteId));
   }
 
-  isParent(prerequisite: Prerequisite): boolean {
+  isParentOf(prerequisite: Prerequisite): boolean {
     return this.prerequisiteId.toString() === prerequisite.parentId.toString();
   }
 
@@ -197,7 +197,7 @@ export class PrerequisiteList {
   replaceParent(prerequisite: Prerequisite, callback: (prerequisite: Prerequisite) => Prerequisite): PrerequisiteList {
     return new PrerequisiteList(
       this.prerequisites
-        .map((currentPrerequisite) => (currentPrerequisite.isParent(prerequisite) ? callback(currentPrerequisite) : currentPrerequisite)),
+        .map((currentPrerequisite) => (currentPrerequisite.isParentOf(prerequisite) ? callback(currentPrerequisite) : currentPrerequisite)),
     );
   }
 
