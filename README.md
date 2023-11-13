@@ -2,14 +2,20 @@
 
 ## What is the Mikado Method?
 
-The Mikado Method is a structured approach for making significant changes to complex code while maintaining its stability. It involves setting clear goals, performing experiments, visualizing dependencies, and carefully undoing changes when necessary. By following this method, teams can improve their codebase iteratively and incrementally without disrupting the existing functionality.
+The Mikado method takes its name from the Mikado game, where the goal is to remove one stick without disturbing the others. The Mikado method has the same philosophy. It aims to make small incremental improvements to a project without breaking the existing codebase.
+
+## Try the MikadoApp
+
+Try the Mikado App online [here](https://mikado-method-teal.vercel.app) . For now, I am only using the Vercel free plan, meaning the application may be slow.
+
+## How to use the MikadoApp
+
+The functional documentation is available [here](hhttps://arnolanglade.github.io/mikado-app/).
 
 ## Getting Started
 
 This project is built on top of [NEXT.js](https://nextjs.org), which is a framework for React applications.
 It also uses [Supabase](https://supabase.com)  as a database, providing an open-source alternative to Firebase.
-
-Here is the [online demo](https://mikado-method-teal.vercel.app/)
 
 ### Requirements
 
