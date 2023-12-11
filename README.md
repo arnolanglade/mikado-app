@@ -10,7 +10,7 @@ Try the Mikado App online [here](https://mikado-method-teal.vercel.app) . For no
 
 ## How to use the MikadoApp
 
-The functional documentation is available [here](hhttps://arnolanglade.github.io/mikado-app/).
+The functional documentation is available [here](https://arnolanglade.github.io/mikado-app/).
 
 ## Getting Started
 
