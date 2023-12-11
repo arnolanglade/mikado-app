@@ -7,6 +7,7 @@ import IntlProvider from '@/tools/i18n/intl-provider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Metadata } from 'next';
+import GithubForkRibbons from '@/tools/design-system/gtihub';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <IntlProvider>
           <ServiceContainerProvider>
+            <GithubForkRibbons />
             {children}
             <ToastContainer
               position="bottom-right"
