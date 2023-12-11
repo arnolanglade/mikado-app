@@ -4,6 +4,8 @@
 
 The Mikado method takes its name from the Mikado game, where the goal is to remove one stick without disturbing the others. The Mikado method has the same philosophy. It aims to make small incremental improvements to a project without breaking the existing codebase.
 
+Have a look at my blog post about the [mikado method](https://arnolanglade.github.io/mikado-method.html)
+
 ## Try the MikadoApp
 
 Try the Mikado App online [here](https://mikado-method-teal.vercel.app) . For now, I am only using the Vercel free plan, meaning the application may be slow.
@@ -279,7 +281,7 @@ render(
 
 fireEvent.press(screen.getByText('Validate'));
 ```
-Note: Overriding a translation makes the test more resilient, even if you change the translation, the test will still pass (be green).
+Note: Overriding a translation makes the test more resilient, even if you change the translation, the test will still pass (be green). Learn how to prevent test suite breaks caused by translation changes in my [blog post](https://arnolanglade.github.io/test-strategy-i18n-react-application.html)
 
 ### Tests utilities
 
