@@ -5,6 +5,7 @@ const translationFr: Translations = {
   add: 'Ajouter',
   cancel: 'Annuler',
   loading: 'Chargement...',
+  'documentation-link': '📕 Apprenez à utiliser la MikadoApp',
   'mikado-graph.start': 'Démarrer',
   'mikado-graph.done': 'Super ! Vous avez terminé votre tâche !',
   'mikado-graph.error.emptyGoal': 'L\'objectif ne peut pas être vide',

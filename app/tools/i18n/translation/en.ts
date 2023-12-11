@@ -5,6 +5,7 @@ const translationEn: Translations = {
   add: 'Add',
   cancel: 'Cancel',
   loading: 'Loading...',
+  'documentation-link': '📕 Learn how to use the MikadoApp',
   'mikado-graph.start': 'Start',
   'mikado-graph.done': 'Great! You have completed your task!',
   'mikado-graph.error.emptyGoal': 'The goal cannot be empty',

@@ -6,6 +6,7 @@ import {
   Form, FormError, SubmitButton, Textarea,
 } from '@/tools/design-system/form';
 import Typography from '@/tools/design-system/typography';
+import Link from 'next/link';
 import styles from './start-task-form.module.css';
 
 export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) => void }) {
@@ -33,6 +34,13 @@ export default function StartTaskForm({ onSubmit }: { onSubmit: (goal: string) =
       <SubmitButton>
         <Translation id="mikado-graph.start" />
       </SubmitButton>
+      <Link
+        className={styles.docLink}
+        href="https://arnolanglade.github.io/mikado-app/"
+      >
+        <Translation id="documentation-link" />
+
+      </Link>
     </Form>
   );
 }

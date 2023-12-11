@@ -2,3 +2,10 @@
   min-width: 500px;
   text-align: center;
 }
+
+.docLink {
+  margin-top: 50px;
+  display: block;
+  color: #0f0f10;
+  text-decoration: none;
+}
