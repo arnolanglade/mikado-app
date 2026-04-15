@@ -6,10 +6,6 @@ The Mikado method takes its name from the Mikado game, where the goal is to remo
 
 Have a look at my blog post about the [mikado method](https://arnolanglade.github.io/mikado-method.html)
 
-## Try the MikadoApp
-
-Try the Mikado App online [here](https://mikado-method-teal.vercel.app) . For now, I am only using the Vercel free plan, meaning the application may be slow.
-
 ## How to use the MikadoApp
 
 The functional documentation is available [here](https://arnolanglade.github.io/mikado-app/).
