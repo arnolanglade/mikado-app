@@ -1,5 +1,7 @@
 # Mikado App
 
+**Caution:** This app was only a POC that allowed me to build something with Next.js and deploy it on Vercel. It was a good way to learn and have fun. I explained the choices I made in the next sections, but they are now outdated.   
+
 ## What is the Mikado Method?
 
 The Mikado method takes its name from the Mikado game, where the goal is to remove one stick without disturbing the others. The Mikado method has the same philosophy. It aims to make small incremental improvements to a project without breaking the existing codebase.
